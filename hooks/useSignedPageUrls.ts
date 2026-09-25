@@ -1,23 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import { pageImageUrl } from "../services/mockStore";
+import { getPageImageUrls } from "../services/questionSourceService";
 import { logger } from "../utils/logger";
 
 /**
- * 原本向 Supabase 批次簽 URL；現在頁圖存在記憶體，直接給 object URL。
+ * 原本在這裡向 Supabase 批次簽 URL；現在網址一律向 services 要，hook 不碰儲存層。
  * 還沒存好（或已刪除）的路徑不放進結果，呼叫端視為「尚未取得」。
- * `force` 保留給重試用，object URL 不會過期所以不影響結果。
+ * `force` 是圖片載入失敗後的重試，原樣交給 services。
  */
 export async function fetchSignedUrls(
   paths: readonly string[],
   force = false,
 ): Promise<Record<string, string>> {
-  void force;
-  const urls: Record<string, string> = {};
-  for (const path of paths) {
-    const url = pageImageUrl(path);
-    if (url) urls[path] = url;
-  }
-  return urls;
+  return getPageImageUrls(paths, force);
 }
 
 export function useSignedPageUrls(paths: readonly string[]) {
