@@ -3,7 +3,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("next/navigation", async () => (await import("../../testing/nextNavigation")).nextNavigationModule);
-import { resetNavigation } from "../../testing/nextNavigation";
+import { navigation, resetNavigation } from "../../testing/nextNavigation";
 
 const mocks = vi.hoisted(() => ({
   bank: {
@@ -74,6 +74,15 @@ describe("MyExamsPage", () => {
     renderPage();
     expect(container.querySelector('[role="alert"]')?.textContent).toContain("讀取題庫失敗");
     expect(container.textContent).not.toContain("題庫還是空的");
+  });
+
+  it("switches tabs with a history entry and without scrolling to the top", () => {
+    renderPage();
+    act(() => button("上傳紀錄").click());
+    expect(navigation.push).toHaveBeenLastCalledWith("/my-exams?tab=sources", { scroll: false });
+    act(() => button("題庫").click());
+    expect(navigation.push).toHaveBeenLastCalledWith("/my-exams", { scroll: false });
+    expect(navigation.replace).not.toHaveBeenCalled();
   });
 
   it("retries from the error", () => {

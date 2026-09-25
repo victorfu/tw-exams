@@ -57,7 +57,7 @@ export function QuestionCrop({
     setFailedPaths((previous) => new Set(previous).add(path));
 
   const retry = (event: MouseEvent<HTMLButtonElement>, path: string) => {
-    // 卡片外層可能是 <Link>，不要讓重試變成換頁
+    // 不要讓重試連帶觸發外層卡片的點擊（選取、換頁）
     event.preventDefault();
     event.stopPropagation();
     setFailedPaths((previous) => {
@@ -88,9 +88,10 @@ export function QuestionCrop({
             {failed ? (
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-base-200 text-xs text-base-content/70">
                 <span>圖片載入失敗</span>
+                {/* relative z-1：卡片可能用 ::after 撐滿點擊範圍（QuestionPicker、QuestionBankGrid），重試要疊在上面才按得到 */}
                 <button
                   type="button"
-                  className="btn btn-xs"
+                  className="btn btn-xs relative z-1"
                   onClick={(event) => retry(event, page.storagePath)}
                 >
                   重試

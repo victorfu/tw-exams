@@ -48,6 +48,7 @@ export default function MyExamsPage() {
         </div>
       </header>
 
+      {/* 每個分頁留一筆瀏覽紀錄，上一頁才回得到前一個分頁；只換 query，不必捲回頂端 */}
       <div role="tablist" className="tabs tabs-box w-fit">
         {TABS.map((item) => (
           <button
@@ -57,7 +58,7 @@ export default function MyExamsPage() {
             aria-selected={tab === item.id}
             className={`tab ${tab === item.id ? "tab-active" : ""}`}
             onClick={() =>
-              router.replace(item.id === "bank" ? "/my-exams" : `/my-exams?tab=${item.id}`)
+              router.push(item.id === "bank" ? "/my-exams" : `/my-exams?tab=${item.id}`, { scroll: false })
             }
           >
             {item.label}
@@ -81,7 +82,7 @@ export default function MyExamsPage() {
       ) : tab === "sources" ? (
         <SourceList sources={bank.sources} questions={bank.questions} onDeleted={bank.reload} />
       ) : (
-        <SheetList sheets={bank.sheets} onDeleted={bank.reload} />
+        <SheetList sheets={bank.sheets} questions={bank.questions} sources={bank.sources} onDeleted={bank.reload} />
       )}
 
       <SourceUploadDialog

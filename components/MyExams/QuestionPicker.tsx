@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { Check } from "lucide-react";
 import { useSignedPageUrls } from "../../hooks/useSignedPageUrls";
 import {
@@ -43,7 +43,10 @@ export function QuestionPicker({ isOpen, bank, sources, excludeIds, onAdd, onClo
       ),
     [bank, sources, excludeIds, sourceById],
   );
-  const visible = filter === "all" ? candidates : candidates.filter((question) => question.subject === filter);
+  const visible = useMemo(
+    () => (filter === "all" ? candidates : candidates.filter((question) => question.subject === filter)),
+    [candidates, filter],
+  );
   const paths = isOpen
     ? visible.flatMap((question) =>
         question.regions.flatMap((region) => {
@@ -54,13 +57,16 @@ export function QuestionPicker({ isOpen, bank, sources, excludeIds, onAdd, onClo
     : [];
   const { urls, refresh } = useSignedPageUrls(paths);
 
-  const toggle = (id: string) =>
-    setSelected((previous) => {
-      const next = new Set(previous);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+  const toggle = useCallback(
+    (id: string) =>
+      setSelected((previous) => {
+        const next = new Set(previous);
+        if (next.has(id)) next.delete(id);
+        else next.add(id);
+        return next;
+      }),
+    [],
+  );
 
   const close = () => {
     setSelected(new Set());
@@ -105,43 +111,14 @@ export function QuestionPicker({ isOpen, bank, sources, excludeIds, onAdd, onClo
         {visible.length === 0 ? (
           <p className="py-10 text-center text-sm text-base-content/60">沒有可以加入的題目。</p>
         ) : (
-          <ul className="mt-4 grid max-h-[60vh] grid-cols-2 gap-3 overflow-y-auto sm:grid-cols-3">
-            {visible.map((question) => {
-              const source = sourceById.get(question.sourceId);
-              if (!source) return null;
-              const checked = selected.has(question.id);
-              return (
-                <li key={question.id}>
-                  <button
-                    type="button"
-                    data-question-id={question.id}
-                    aria-pressed={checked}
-                    className={`relative flex h-full w-full flex-col items-center gap-2 rounded-lg border-2 bg-base-100 p-2 text-left ${
-                      checked ? "border-primary" : "border-base-300"
-                    }`}
-                    onClick={() => toggle(question.id)}
-                  >
-                    {checked && (
-                      <span className="absolute right-1 top-1 rounded-full bg-primary p-0.5 text-primary-content">
-                        <Check className="size-3" />
-                      </span>
-                    )}
-                    <QuestionCrop
-                      regions={question.regions}
-                      pages={source.pages}
-                      urls={urls}
-                      loading="lazy"
-                      layout={{ kind: "thumbnail", maxHeightPx: 120 }}
-                      onRetry={(path) => void refresh(path)}
-                    />
-                    <span className="w-full truncate text-xs text-base-content/60">
-                      {BANK_SUBJECT_LABELS[question.subject]}・{source.title}
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+          <PickerCards
+            questions={visible}
+            sourceById={sourceById}
+            selected={selected}
+            urls={urls}
+            onToggle={toggle}
+            onRetry={refresh}
+          />
         )}
 
         <div className="modal-action">
@@ -156,3 +133,70 @@ export function QuestionPicker({ isOpen, bank, sources, excludeIds, onAdd, onClo
     </dialog>
   );
 }
+
+interface PickerCardsProps {
+  questions: readonly BankQuestion[];
+  sourceById: ReadonlyMap<string, QuestionSource>;
+  selected: ReadonlySet<string>;
+  urls: Readonly<Record<string, string>>;
+  onToggle: (id: string) => void;
+  onRetry: (storagePath: string) => Promise<void>;
+}
+
+// 組卷頁每打一個字都會重新渲染挑題視窗（關著時也一樣），題庫可能有好幾百題：
+// memo 起來，題目、勾選或圖片網址沒變就不重畫卡片。
+// 關著時也不卸載卡片，否則關閉動畫還在播時對話框會先縮成只剩標題。
+const PickerCards = memo(function PickerCards({
+  questions,
+  sourceById,
+  selected,
+  urls,
+  onToggle,
+  onRetry,
+}: PickerCardsProps) {
+  return (
+    <ul className="mt-4 grid max-h-[60vh] grid-cols-2 gap-3 overflow-y-auto sm:grid-cols-3">
+      {questions.map((question) => {
+        const source = sourceById.get(question.sourceId);
+        if (!source) return null;
+        const checked = selected.has(question.id);
+        return (
+          <li key={question.id}>
+            {/* 圖片載入失敗時 QuestionCrop 會放「重試」按鈕，不能包在切換按鈕裡；
+                切換按鈕只包文字，再用 ::after 撐滿整張卡片當點擊範圍 */}
+            <div
+              className={`relative flex h-full w-full flex-col items-center gap-2 rounded-lg border-2 bg-base-100 p-2 ${
+                checked ? "border-primary" : "border-base-300"
+              }`}
+            >
+              {checked && (
+                <span className="absolute right-1 top-1 rounded-full bg-primary p-0.5 text-primary-content">
+                  <Check className="size-3" />
+                </span>
+              )}
+              <QuestionCrop
+                regions={question.regions}
+                pages={source.pages}
+                urls={urls}
+                loading="lazy"
+                layout={{ kind: "thumbnail", maxHeightPx: 120 }}
+                onRetry={(path) => void onRetry(path)}
+              />
+              <button
+                type="button"
+                data-question-id={question.id}
+                aria-pressed={checked}
+                className="w-full text-left text-xs text-base-content/60 after:absolute after:inset-0 after:rounded-md focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-primary"
+                onClick={() => onToggle(question.id)}
+              >
+                <span className="block truncate">
+                  {BANK_SUBJECT_LABELS[question.subject]}・{source.title}
+                </span>
+              </button>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  );
+});

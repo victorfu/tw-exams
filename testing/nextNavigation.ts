@@ -65,9 +65,12 @@ export function followHistory(): void {
   vi.spyOn(window.history, "state", "get").mockImplementation(() => historyEntries[historyEntries.length - 1].state);
 }
 
+/** 只轉送呼叫端真的有傳的參數，讓只給 href 的呼叫仍能用 toHaveBeenCalledWith(href) 比對。 */
+type NavigateArgs = [href: string, options?: { scroll?: boolean }];
+
 const router = {
-  push: (href: string) => navigation.push(href),
-  replace: (href: string) => navigation.replace(href),
+  push: (...args: NavigateArgs) => navigation.push(...args),
+  replace: (...args: NavigateArgs) => navigation.replace(...args),
   back: () => navigation.back(),
   forward: () => {},
   refresh: () => {},

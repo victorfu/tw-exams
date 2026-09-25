@@ -5,11 +5,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 vi.mock("next/navigation", async () => (await import("../../testing/nextNavigation")).nextNavigationModule);
 import { resetNavigation } from "../../testing/nextNavigation";
 
-vi.mock("../../hooks/useSignedPageUrls", () => ({
-  useSignedPageUrls: () => ({ urls: {}, failed: false, refresh: vi.fn() }),
-}));
+const mocks = vi.hoisted(() => ({ useSignedPageUrls: vi.fn() }));
+vi.mock("../../hooks/useSignedPageUrls", () => ({ useSignedPageUrls: mocks.useSignedPageUrls }));
 
-import { makeQuestion, makeSource } from "../../testing/questionBankFixtures";
+import { makePage, makeQuestion, makeSource } from "../../testing/questionBankFixtures";
 import { QuestionBankGrid } from "./QuestionBankGrid";
 
 let container: HTMLDivElement;
@@ -19,6 +18,7 @@ beforeEach(() => {
   resetNavigation();
   (globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean })
     .IS_REACT_ACT_ENVIRONMENT = true;
+  mocks.useSignedPageUrls.mockReturnValue({ urls: {}, failed: false, refresh: vi.fn() });
   container = document.createElement("div");
   document.body.appendChild(container);
   root = createRoot(container);
@@ -63,6 +63,27 @@ describe("QuestionBankGrid", () => {
   it("links each card to its question in the crop editor", () => {
     renderGrid([makeQuestion({ id: "m1" })]);
     expect(container.querySelector("a")?.getAttribute("href")).toBe("/my-exams/sources/source-1?q=m1");
+  });
+
+  it("keeps the image retry outside the card link", () => {
+    const refresh = vi.fn();
+    mocks.useSignedPageUrls.mockReturnValue({
+      urls: { [makePage().storagePath]: "blob:page-0" },
+      failed: false,
+      refresh,
+    });
+    renderGrid([makeQuestion({ id: "m1" })]);
+    act(() => {
+      container.querySelector("img")?.dispatchEvent(new Event("error"));
+    });
+
+    // <a> 裡不能放 <button>：重試要是連結的兄弟，而不是子孫
+    expect(container.querySelector("a button")).toBeNull();
+    expect(container.querySelector("a")?.textContent).toBe("數學四上數學月考");
+
+    const retry = [...container.querySelectorAll("button")].find((item) => item.textContent === "重試");
+    act(() => retry?.click());
+    expect(refresh).toHaveBeenCalledWith(makePage().storagePath);
   });
 
   it("shows an upload call to action when the bank is empty", () => {
