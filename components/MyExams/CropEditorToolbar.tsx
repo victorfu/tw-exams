@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import type { AutosaveStatus } from "../../hooks/autosaveQueue";
@@ -43,15 +43,19 @@ export function CropEditorToolbar({
   appendHint,
 }: CropEditorToolbarProps) {
   const [draft, setDraft] = useState(title);
+  // 開始編輯時的標題：欄位被清空時退回這個標題，不存空白標題。
+  const titleBeforeEditRef = useRef(title);
 
-  const commitTitle = () => {
-    const next = draft.trim();
-    if (next && next !== title) {
-      onRename(next);
-    } else {
-      setDraft(title);
-    }
+  // 每次輸入就改名（跟答案欄一樣交給自動儲存），不等 blur：焦點還在欄位上
+  // 就用瀏覽器「上一頁」離開時不會有 blur，只在 blur 時送出的話改名會遺失。
+  const changeTitle = (value: string) => {
+    setDraft(value);
+    const next = value.trim() || titleBeforeEditRef.current;
+    if (next !== title) onRename(next);
   };
+
+  // 離開欄位時顯示實際存下的標題（去掉前後空白、清空時退回原標題）。
+  const showSavedTitle = () => setDraft(title);
 
   return (
     <div className="space-y-2">
@@ -63,8 +67,11 @@ export function CropEditorToolbar({
           className="input input-sm min-w-0 flex-1 font-semibold"
           aria-label="來源標題"
           value={draft}
-          onChange={(event) => setDraft(event.target.value)}
-          onBlur={commitTitle}
+          onFocus={() => {
+            titleBeforeEditRef.current = title;
+          }}
+          onChange={(event) => changeTitle(event.target.value)}
+          onBlur={showSavedTitle}
           onKeyDown={(event) => {
             if (event.key === "Enter") event.currentTarget.blur();
           }}

@@ -257,9 +257,12 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
                 setSelectedKey(null);
                 setAppendTargetId(appendTargetId === question.id ? null : question.id);
               }}
-              onRemoveRegion={(regionIndex) =>
-                apply({ type: "removeRegion", questionId: question.id, regionIndex })
-              }
+              onRemoveRegion={(regionIndex) => {
+                apply({ type: "removeRegion", questionId: question.id, regionIndex });
+                // 選取記的是區塊索引，移除後後面的區塊會往前遞補：留著選取會讓
+                // Delete/Backspace 刪到另一個（可能在別頁、看不到的）區塊。
+                setSelectedKey(null);
+              }}
               onDelete={() => {
                 apply({ type: "deleteQuestion", questionId: question.id });
                 setSelectedKey(null);

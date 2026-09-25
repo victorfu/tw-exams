@@ -29,11 +29,30 @@ function renderCanvas(overrides: Partial<Props> = {}): Props {
   return props;
 }
 
-function pointer(type: string, target: Element, clientX: number, clientY: number): void {
+function pointer(type: string, target: Element, clientX: number, clientY: number, pointerId?: number): void {
   const EventType = (window.PointerEvent ?? window.MouseEvent) as typeof MouseEvent;
   act(() => {
-    target.dispatchEvent(new EventType(type, { bubbles: true, cancelable: true, clientX, clientY, button: 0 }));
+    const init = { bubbles: true, cancelable: true, clientX, clientY, button: 0, pointerId };
+    target.dispatchEvent(new EventType(type, init as MouseEventInit));
   });
+}
+
+function boxElement(key: string): HTMLElement {
+  const element = container.querySelector<HTMLElement>(`[data-box-key="${key}"]`);
+  if (!element) throw new Error(`box ${key} missing`);
+  return element;
+}
+
+function cornerHandle(key: string, corner: string): HTMLElement {
+  const element = container.querySelector<HTMLElement>(`[data-box-key="${key}"] [data-corner="${corner}"]`);
+  if (!element) throw new Error(`handle ${key} ${corner} missing`);
+  return element;
+}
+
+function rerender(props: Props, overrides: Partial<Props>): Props {
+  const next = { ...props, ...overrides };
+  act(() => root.render(<CropCanvas {...next} />));
+  return next;
 }
 
 function overlay(): HTMLElement {
@@ -126,6 +145,162 @@ describe("CropCanvas", () => {
     expect(box.x).toBeCloseTo(0.1);
     expect(box.w).toBeCloseTo(0.4);
     expect(box.h).toBeCloseTo(0.7);
+  });
+
+  it("does not resize when a corner handle is clicked away from its exact corner", () => {
+    // 把手的點擊範圍比角大（44px）：按下的位置不在角上，也不能讓角跳過去。
+    const props = renderCanvas({
+      mode: "mask",
+      maskBoxes: [{ key: "m:0", box: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 } }],
+      selectedKey: "m:0",
+    });
+    const handle = cornerHandle("m:0", "se"); // 角在 (60,30)
+
+    pointer("pointerdown", handle, 50, 25);
+    pointer("pointerup", overlay(), 50, 25);
+
+    expect(props.onChange).not.toHaveBeenCalled();
+  });
+
+  it("moves the corner by the pointer's movement, keeping the grab offset", () => {
+    const props = renderCanvas({
+      questionBoxes: [{ key: "q:a:0", box: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 } }],
+      selectedKey: "q:a:0",
+    });
+    const handle = cornerHandle("q:a:0", "se"); // 角在 (60,30)
+
+    pointer("pointerdown", handle, 50, 25);
+    pointer("pointermove", overlay(), 70, 35);
+    pointer("pointerup", overlay(), 70, 35);
+
+    const [key, box] = (props.onChange as ReturnType<typeof vi.fn>).mock.calls[0];
+    expect(key).toBe("q:a:0");
+    expect(box.x).toBeCloseTo(0.1);
+    expect(box.y).toBeCloseTo(0.1);
+    expect(box.w).toBeCloseTo(0.3); // 角 60 → 80
+    expect(box.h).toBeCloseTo(0.3); // 角 30 → 40
+  });
+
+  it("raises the selected box above the boxes drawn after it", () => {
+    renderCanvas({
+      questionBoxes: [
+        { key: "q:a:0", box: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 } },
+        { key: "q:b:0", box: { x: 0.2, y: 0.2, w: 0.2, h: 0.2 } },
+      ],
+      selectedKey: "q:a:0",
+    });
+    expect(boxElement("q:a:0").className).toContain("z-10");
+    expect(boxElement("q:b:0").className).not.toContain("z-10");
+  });
+
+  it("cancels a move when a second finger touches down, and ignores that finger", () => {
+    const props = renderCanvas({
+      questionBoxes: [{ key: "q:a:0", box: { x: 0.1, y: 0.1, w: 0.3, h: 0.3 } }],
+    });
+
+    pointer("pointerdown", boxElement("q:a:0"), 40, 20, 1);
+    pointer("pointerdown", overlay(), 150, 80, 2);
+    pointer("pointermove", overlay(), 20, 10, 1);
+    pointer("pointermove", overlay(), 190, 95, 2);
+    pointer("pointerup", overlay(), 20, 10, 1);
+    pointer("pointerup", overlay(), 190, 95, 2);
+
+    expect(props.onSelect).toHaveBeenCalledTimes(1);
+    expect(props.onSelect).toHaveBeenCalledWith("q:a:0");
+    expect(props.onChange).not.toHaveBeenCalled();
+    expect(props.onCreate).not.toHaveBeenCalled();
+  });
+
+  it("does not draw a box from a two-finger pinch that starts on empty space", () => {
+    const props = renderCanvas();
+
+    pointer("pointerdown", overlay(), 90, 50, 1);
+    pointer("pointerdown", overlay(), 110, 50, 2);
+    pointer("pointermove", overlay(), 150, 70, 2);
+    pointer("pointermove", overlay(), 40, 20, 1);
+    pointer("pointerup", overlay(), 40, 20, 1);
+    pointer("pointerup", overlay(), 150, 70, 2);
+
+    expect(props.onCreate).not.toHaveBeenCalled();
+  });
+
+  it("ignores moves, releases and cancels from other pointers during a drag", () => {
+    const props = renderCanvas();
+
+    pointer("pointerdown", overlay(), 20, 10, 1);
+    pointer("pointermove", overlay(), 180, 90, 7); // 懸停的觸控筆
+    pointer("pointerup", overlay(), 180, 90, 7);
+    act(() => {
+      overlay().dispatchEvent(new window.PointerEvent("pointercancel", { bubbles: true, pointerId: 9 }));
+    });
+    pointer("pointermove", overlay(), 120, 60, 1);
+    pointer("pointerup", overlay(), 120, 60, 1);
+
+    expect(props.onCreate).toHaveBeenCalledTimes(1);
+    const [box] = (props.onCreate as ReturnType<typeof vi.fn>).mock.calls[0];
+    expect(box.x).toBeCloseTo(0.1);
+    expect(box.y).toBeCloseTo(0.1);
+    expect(box.w).toBeCloseTo(0.5);
+    expect(box.h).toBeCloseTo(0.5);
+  });
+
+  it("drops a move whose box was deleted before the pointer was released", () => {
+    let props = renderCanvas({
+      questionBoxes: [{ key: "q:a:0", box: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 } }],
+    });
+
+    pointer("pointerdown", boxElement("q:a:0"), 40, 20);
+    pointer("pointermove", overlay(), 60, 30);
+    props = rerender(props, { questionBoxes: [], selectedKey: null }); // 按 Delete 刪掉
+    pointer("pointermove", overlay(), 80, 40);
+    pointer("pointerup", overlay(), 80, 40);
+
+    expect(props.onChange).not.toHaveBeenCalled();
+    expect(props.onCreate).not.toHaveBeenCalled();
+  });
+
+  it("drops a move whose mask index was taken over by the next mask", () => {
+    const maskB = { x: 0.6, y: 0.6, w: 0.2, h: 0.2 };
+    let props = renderCanvas({
+      mode: "mask",
+      maskBoxes: [
+        { key: "m:0", box: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 } },
+        { key: "m:1", box: maskB },
+      ],
+    });
+
+    pointer("pointerdown", boxElement("m:0"), 30, 20);
+    pointer("pointermove", overlay(), 40, 30);
+    // 刪掉 m:0 後，原本的 m:1 遞補成 m:0
+    props = rerender(props, { maskBoxes: [{ key: "m:0", box: maskB }], selectedKey: null });
+
+    // 遞補上來的遮蓋框留在原位，不會被畫成拖拉中的框
+    expect(boxElement("m:0").style.left).toBe("60%");
+    expect(boxElement("m:0").style.top).toBe("60%");
+
+    pointer("pointermove", overlay(), 50, 40);
+    pointer("pointerup", overlay(), 50, 40);
+    expect(props.onChange).not.toHaveBeenCalled();
+  });
+
+  it("keeps a corner resize going when the selection is cleared mid-drag", () => {
+    // Esc 會清掉選取；抓著指標的把手不能跟著消失，否則放開事件可能收不到。
+    let props = renderCanvas({
+      questionBoxes: [{ key: "q:a:0", box: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 } }],
+      selectedKey: "q:a:0",
+    });
+
+    pointer("pointerdown", cornerHandle("q:a:0", "se"), 60, 30);
+    pointer("pointermove", overlay(), 80, 40);
+    props = rerender(props, { selectedKey: null });
+    const handle = cornerHandle("q:a:0", "se");
+    pointer("pointermove", handle, 100, 50);
+    pointer("pointerup", handle, 100, 50);
+
+    const [key, box] = (props.onChange as ReturnType<typeof vi.fn>).mock.calls[0];
+    expect(key).toBe("q:a:0");
+    expect(box.w).toBeCloseTo(0.4);
+    expect(box.h).toBeCloseTo(0.4);
   });
 
   it("only lets the current mode's boxes be grabbed", () => {

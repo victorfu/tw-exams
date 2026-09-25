@@ -45,6 +45,16 @@ export function resizeBox(box: Box, corner: Corner, point: Point): Box {
   return boxFromPoints(fixed, point);
 }
 
+/**
+ * 把某個角移動 (dx, dy)；對角固定。拖拉把手用這個（位移而不是指標位置），
+ * 按在把手上但不在角上時，角才不會直接跳到指標那裡。
+ */
+export function resizeBoxBy(box: Box, corner: Corner, dx: number, dy: number): Box {
+  const x = corner === "nw" || corner === "sw" ? box.x : box.x + box.w;
+  const y = corner === "nw" || corner === "ne" ? box.y : box.y + box.h;
+  return resizeBox(box, corner, { x: x + dx, y: y + dy });
+}
+
 export function sameBox(a: Box, b: Box): boolean {
   return (
     Math.abs(a.x - b.x) < EPSILON &&

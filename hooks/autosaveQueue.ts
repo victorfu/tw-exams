@@ -37,6 +37,8 @@ export class AutosaveQueue {
   private inFlight: InFlight | null = null;
   private timer: ReturnType<typeof setTimeout> | null = null;
   private active = true;
+  /** 最近一次送出失敗、狀態還停在 "error"。 */
+  private failed = false;
 
   constructor(options: AutosaveQueueOptions) {
     this.commit = options.commit;
@@ -92,7 +94,15 @@ export class AutosaveQueue {
         // 失敗由原本那次 flush 處理
       }
     }
-    if (!this.hasPending()) return;
+    if (!this.hasPending()) {
+      // 失敗後剩下的變更都不用送了（例如沒存過的題目被刪掉）：清掉錯誤狀態，
+      // 否則「儲存失敗・重試」會一直留著，按了也沒反應。
+      if (this.failed) {
+        this.failed = false;
+        this.onStatusChange("saved");
+      }
+      return;
+    }
 
     const upserts = new Map(this.upserts);
     const deletes = new Set(this.deletes);
@@ -118,6 +128,7 @@ export class AutosaveQueue {
       }
       if (this.sourceVersion === sourceVersion) this.sourceVersion = null;
       this.inFlight = null;
+      this.failed = false;
       this.onStatusChange(this.hasPending() ? "saving" : "saved");
     } catch (error) {
       this.inFlight = null;
@@ -128,6 +139,7 @@ export class AutosaveQueue {
         if (!this.persisted.has(id)) this.deletes.delete(id);
       }
       logger.warn("[autosave] commit failed", error);
+      this.failed = true;
       this.onStatusChange("error");
     }
   };
