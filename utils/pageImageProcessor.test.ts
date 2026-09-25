@@ -1,17 +1,23 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const mocks = vi.hoisted(() => ({ getDocument: vi.fn() }));
+const mocks = vi.hoisted(() => {
+  const getDocument = vi.fn();
+  return {
+    getDocument,
+    // 真正的 pdfjs 在 jsdom 載入會失敗；pdfConfig 載入時會設定 worker。
+    pdfConfig: () => ({ pdfjs: { getDocument }, pdfDocumentOptions: {} }),
+  };
+});
 
-// 真正的 pdfjs 在 jsdom 載入會失敗；pdfConfig 載入時會設定 worker。
-vi.mock("./pdfConfig", () => ({
-  pdfjs: { getDocument: mocks.getDocument },
-  pdfDocumentOptions: {},
-}));
+vi.mock("./pdfConfig", mocks.pdfConfig);
 
+import { logger } from "./logger";
 import {
   expandFilesToPages,
   fitLongEdge,
   nextRotation,
+  PDF_ENGINE_FAILED_MESSAGE,
+  releasePdfFiles,
   rotatedSize,
   UNREADABLE_FILE_MESSAGE,
 } from "./pageImageProcessor";
@@ -25,6 +31,18 @@ function fileOf(name: string, type: string, size?: number): File {
     Object.defineProperty(file, "size", { value: size });
   }
   return file;
+}
+
+/** 模仿 pdfjs 的 PDFDocumentLoadingTask；在 getDocument 被呼叫時才建立。 */
+function loadingTask(promise: Promise<unknown>, destroy = vi.fn(async () => {})) {
+  return { promise, destroy };
+}
+
+/** pdf.js 讀到有密碼的 PDF 時丟的錯誤（pdfjs-dist 沒有匯出這個類別）。 */
+function passwordException(): Error {
+  const error = new Error("No password given");
+  error.name = "PasswordException";
+  return error;
 }
 
 describe("fitLongEdge", () => {
@@ -59,6 +77,11 @@ describe("nextRotation", () => {
 describe("expandFilesToPages", () => {
   beforeEach(() => {
     mocks.getDocument.mockReset();
+    vi.spyOn(logger, "warn").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("turns each photo into one upright page", async () => {
@@ -86,7 +109,7 @@ describe("expandFilesToPages", () => {
 
   it("reports unreadable and oversized files without dropping the others", async () => {
     // 呼叫時才建立 rejected promise，避免在被 await 之前觸發 unhandled rejection
-    mocks.getDocument.mockImplementation(() => ({ promise: Promise.reject(new Error("password")) }));
+    mocks.getDocument.mockImplementation(() => loadingTask(Promise.reject(new Error("password"))));
     const { pages, errors } = await expandFilesToPages([
       fileOf("notes.txt", "text/plain"),
       fileOf("big.jpg", "image/jpeg", 60 * 1024 * 1024),
@@ -99,5 +122,60 @@ describe("expandFilesToPages", () => {
       { fileName: "big.jpg", message: "檔案超過 50MB，請拆開上傳" },
       { fileName: "locked.pdf", message: UNREADABLE_FILE_MESSAGE },
     ]);
+  });
+
+  it("shuts down pdf.js for a PDF it could not open, and logs why", async () => {
+    const error = passwordException();
+    const destroy = vi.fn(async () => {});
+    mocks.getDocument.mockImplementation(() => loadingTask(Promise.reject(error), destroy));
+    const locked = fileOf("locked.pdf", "application/pdf");
+
+    const { errors } = await expandFilesToPages([locked]);
+
+    expect(errors).toEqual([{ fileName: "locked.pdf", message: UNREADABLE_FILE_MESSAGE }]);
+    // 開檔失敗時 pdf.js 不會自己關 worker；不 destroy 的話 worker 和整份檔案會一直留著
+    expect(destroy).toHaveBeenCalledTimes(1);
+    expect(logger.warn).toHaveBeenCalledWith(expect.any(String), "locked.pdf", error);
+    await expect(releasePdfFiles([locked])).resolves.toBeUndefined();
+  });
+
+  it("tries a failed PDF again instead of keeping the failure cached", async () => {
+    mocks.getDocument
+      .mockImplementationOnce(() => loadingTask(Promise.reject(new Error("network"))))
+      .mockImplementationOnce(() => loadingTask(Promise.resolve({ numPages: 2, destroy: vi.fn() })));
+    const exam = fileOf("exam.pdf", "application/pdf");
+
+    expect((await expandFilesToPages([exam])).errors).toHaveLength(1);
+    const retry = await expandFilesToPages([exam]);
+
+    expect(retry.errors).toEqual([]);
+    expect(retry.pages).toHaveLength(2);
+    expect(mocks.getDocument).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not blame the file when the PDF reader itself fails to load", async () => {
+    const chunkError = new Error("Loading chunk 123 failed.");
+    vi.resetModules();
+    vi.doMock("./pdfConfig", () => {
+      throw chunkError;
+    });
+    try {
+      const freshLogger = (await import("./logger")).logger;
+      const warn = vi.spyOn(freshLogger, "warn").mockImplementation(() => {});
+      const fresh = await import("./pageImageProcessor");
+      const { pages, errors } = await fresh.expandFilesToPages([fileOf("exam.pdf", "application/pdf")]);
+
+      expect(pages).toEqual([]);
+      expect(errors).toEqual([{ fileName: "exam.pdf", message: PDF_ENGINE_FAILED_MESSAGE }]);
+      expect(PDF_ENGINE_FAILED_MESSAGE).not.toBe(UNREADABLE_FILE_MESSAGE);
+      expect(warn).toHaveBeenCalledWith(
+        expect.any(String),
+        "exam.pdf",
+        expect.objectContaining({ name: "PdfEngineLoadError" }),
+      );
+    } finally {
+      vi.doMock("./pdfConfig", mocks.pdfConfig);
+      vi.resetModules();
+    }
   });
 });

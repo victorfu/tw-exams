@@ -3,6 +3,7 @@ import {
   MAX_UPLOAD_FILE_BYTES,
   PAGE_JPEG_QUALITY,
 } from "../constants/questionBank";
+import { logger } from "./logger";
 
 export type PageRotation = 0 | 90 | 180 | 270;
 
@@ -29,6 +30,8 @@ export interface FileReadError {
 }
 
 export const UNREADABLE_FILE_MESSAGE = "無法讀取，請轉成 JPG 或 PDF";
+/** PDF 讀取工具本身沒載入成功（例如改版後舊的程式碼檔不見了），跟檔案無關。 */
+export const PDF_ENGINE_FAILED_MESSAGE = "PDF 讀取工具載入失敗，請重新整理頁面後再試";
 
 const IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
@@ -67,16 +70,40 @@ function isPdf(file: File): boolean {
   return file.type === "application/pdf" || /\.pdf$/i.test(file.name);
 }
 
-function loadPdf(file: File): Promise<PdfDocument> {
-  let loading = pdfDocuments.get(file);
-  if (!loading) {
-    // pdfjs 只能在瀏覽器載入（伺服器端 render 時沒有 DOMMatrix 等 API），所以用到才載。
-    loading = Promise.all([file.arrayBuffer(), import("./pdfConfig")]).then(
-      ([data, { pdfjs, pdfDocumentOptions }]) =>
-        pdfjs.getDocument({ data, ...pdfDocumentOptions }).promise,
-    );
-    pdfDocuments.set(file, loading);
+class PdfEngineLoadError extends Error {
+  constructor(cause: unknown) {
+    super("pdf.js failed to load", { cause });
+    this.name = "PdfEngineLoadError";
   }
+}
+
+function loadPdfjs() {
+  // pdfjs 只能在瀏覽器載入（伺服器端 render 時沒有 DOMMatrix 等 API），所以用到才載。
+  return import("./pdfConfig").catch((error: unknown) => {
+    throw new PdfEngineLoadError(error);
+  });
+}
+
+function loadPdf(file: File): Promise<PdfDocument> {
+  const cached = pdfDocuments.get(file);
+  if (cached) return cached;
+  const loading = Promise.all([file.arrayBuffer(), loadPdfjs()]).then(
+    async ([data, { pdfjs, pdfDocumentOptions }]) => {
+      const task = pdfjs.getDocument({ data, ...pdfDocumentOptions });
+      try {
+        return await task.promise;
+      } catch (error) {
+        // 開檔失敗時 pdf.js 不會自己關掉 worker，要 destroy，否則 worker 和整份檔案會留到關分頁
+        await task.destroy().catch(() => {});
+        throw error;
+      }
+    },
+  );
+  pdfDocuments.set(file, loading);
+  // 失敗的結果不留在快取，再選一次同一個檔案會重新開
+  loading.catch(() => {
+    if (pdfDocuments.get(file) === loading) pdfDocuments.delete(file);
+  });
   return loading;
 }
 
@@ -103,8 +130,12 @@ export async function expandFilesToPages(
         for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
           pages.push({ key: nextKey(), file, kind: "pdf", pdfPageNumber: pageNumber, rotation: 0 });
         }
-      } catch {
-        errors.push({ fileName: file.name, message: UNREADABLE_FILE_MESSAGE });
+      } catch (error) {
+        logger.warn("[pageImageProcessor] PDF load failed", file.name, error);
+        errors.push({
+          fileName: file.name,
+          message: error instanceof PdfEngineLoadError ? PDF_ENGINE_FAILED_MESSAGE : UNREADABLE_FILE_MESSAGE,
+        });
       }
       continue;
     }

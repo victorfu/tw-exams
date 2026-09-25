@@ -53,6 +53,8 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
   const filesRef = useRef<File[]>([]);
   const thumbUrlsRef = useRef<string[]>([]);
   const sessionRef = useRef(0);
+  // handleFiles 等檔案展開時使用者還能刪頁，檢查頁數上限要看最新的清單
+  const pagesRef = useRef<PreviewPage[]>([]);
 
   const uploading = progress !== null;
 
@@ -62,6 +64,22 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
     if (isOpen && !dialog.open) dialog.showModal();
     if (!isOpen && dialog.open) dialog.close();
   }, [isOpen]);
+
+  useEffect(() => {
+    pagesRef.current = pages;
+  }, [pages]);
+
+  // 對話框開著時仍可能離開頁面（瀏覽器上一頁、iOS 滑動返回）：停掉縮圖與上傳，釋放縮圖網址與 PDF
+  useEffect(
+    () => () => {
+      sessionRef.current += 1;
+      thumbUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+      thumbUrlsRef.current = [];
+      void releasePdfFiles(filesRef.current);
+      filesRef.current = [];
+    },
+    [],
+  );
 
   const reset = () => {
     sessionRef.current += 1;
@@ -102,7 +120,9 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
 
       setFileErrors((previous) => [...previous, ...errors]);
 
-      if (pages.length + inputs.length > MAX_SOURCE_PAGES) {
+      // 讀不出來的頁不會上傳，不算進上限
+      const keptPages = pagesRef.current.filter((page) => !page.failed).length;
+      if (keptPages + inputs.length > MAX_SOURCE_PAGES) {
         setLimitError(`總頁數超過 ${MAX_SOURCE_PAGES} 頁，請拆開上傳`);
         void releasePdfFiles(files);
         return;
@@ -161,13 +181,21 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
 
   const uploadable = pages.filter((page) => !page.failed && page.thumbUrl !== null);
   const thumbnailsPending = pages.some((page) => !page.failed && page.thumbUrl === null);
+  // expanding：還有檔案在展開，這時上傳會漏掉它們
   const canUpload =
-    !uploading && title.trim() !== "" && subject !== "" && uploadable.length > 0 && !thumbnailsPending;
+    !uploading &&
+    !expanding &&
+    title.trim() !== "" &&
+    subject !== "" &&
+    uploadable.length > 0 &&
+    !thumbnailsPending;
 
   const handleUpload = async () => {
     if (!canUpload) return;
+    const session = sessionRef.current;
     const id = sourceId ?? newQuestionSourceId();
     const inputs = uploadable.map((page) => page.input);
+    let storedPages = 0;
     setSourceId(id);
     setUploadError(null);
     setProgress({ done: 0, total: inputs.length });
@@ -177,15 +205,30 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
         title: title.trim(),
         subject,
         pageCount: inputs.length,
-        renderPage: (index) => renderPage(inputs[index], PAGE_LONG_EDGE_PX),
-        onProgress: (done, total) => setProgress({ done, total }),
+        // 對話框卸載後就停：PDF 已經釋放，再 render 會重新開檔
+        renderPage: (index) =>
+          session === sessionRef.current
+            ? renderPage(inputs[index], PAGE_LONG_EDGE_PX)
+            : Promise.reject(new Error("upload dialog unmounted")),
+        onProgress: (done, total) => {
+          storedPages = done;
+          setProgress({ done, total });
+        },
       });
+      if (session !== sessionRef.current) return;
       reset();
       onUploaded(id);
     } catch (error) {
+      if (session !== sessionRef.current) return;
       logger.error("[SourceUploadDialog] upload failed", error);
       setProgress(null);
-      setUploadError("上傳失敗，請檢查網路後重試");
+      // 現在沒有網路步驟，會失敗的是在本機把某一頁轉成圖（解碼、canvas 記憶體不足）
+      const failedPage = uploadable[storedPages];
+      setUploadError(
+        failedPage
+          ? `第 ${pages.indexOf(failedPage) + 1} 頁處理失敗，請重試，或刪除這一頁再上傳`
+          : "上傳失敗，請重試",
+      );
     }
   };
 
@@ -196,6 +239,15 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
       aria-labelledby={headingId}
       onCancel={(event) => {
         event.preventDefault();
+        handleClose();
+      }}
+      onClose={() => {
+        // 連按兩次 Esc 或 Android 返回鍵時，瀏覽器可以不理 preventDefault 直接關掉對話框
+        if (!isOpen) return;
+        if (uploading) {
+          dialogRef.current?.showModal();
+          return;
+        }
         handleClose();
       }}
     >
@@ -238,9 +290,10 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
         <label className={`btn btn-outline btn-sm mt-4 ${uploading || expanding ? "btn-disabled" : ""}`}>
           <Upload className="size-4" />
           選擇照片或 PDF
+          {/* 不用 hidden（display:none），鍵盤才 Tab 得到；聚焦外框由 daisyUI 的 .btn:has(:focus-visible) 畫 */}
           <input
             type="file"
-            className="hidden"
+            className="sr-only"
             accept={ACCEPTED_UPLOAD_TYPES}
             multiple
             disabled={uploading || expanding}
