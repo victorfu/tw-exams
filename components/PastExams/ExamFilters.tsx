@@ -101,8 +101,10 @@ export function ExamFilters({ facets, academicYears, examType, city, query, coun
             value={text}
             onChange={(event) => {
               setText(event.target.value);
-              onChange({ query: event.target.value });
+              // 注音等輸入法還在組字時先不篩選，組完（compositionend）再寫進網址。
+              if (!(event.nativeEvent as Partial<InputEvent>).isComposing) onChange({ query: event.target.value });
             }}
+            onCompositionEnd={(event) => onChange({ query: event.currentTarget.value })}
           />
         </label>
         <div className="flex w-full items-center justify-between gap-3 text-sm text-base-content/70 lg:ml-auto lg:w-auto">

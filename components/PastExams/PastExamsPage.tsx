@@ -13,11 +13,24 @@ import { ExamPreview } from "./ExamPreview";
 
 const CLEARED_FILTERS = { academicYears: [], examType: null, city: null, query: "" } satisfies FilterPatch;
 
+/** 手機上打開全螢幕預覽時推進瀏覽紀錄的標記：返回鍵會關掉預覽，而不是離開頁面。 */
+const PREVIEW_ENTRY = "pastExamsPreview";
+
 function isTyping(target: EventTarget | null): boolean {
   return (
     target instanceof HTMLElement &&
     (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))
   );
+}
+
+/** 與 Tailwind 的 md 斷點一致：桌機是左右分割，不是全螢幕預覽層。 */
+function isDesktop(): boolean {
+  return typeof window.matchMedia !== "function" || window.matchMedia("(min-width: 48rem)").matches;
+}
+
+function isPreviewEntry(): boolean {
+  const state: unknown = window.history.state;
+  return typeof state === "object" && state !== null && (state as Record<string, unknown>)[PREVIEW_ENTRY] === true;
 }
 
 /** 考古題瀏覽：選擇列 → 篩選列 → 清單＋預覽。狀態全部放在網址（見 searchParams.ts）。 */
@@ -37,14 +50,22 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
   const selected = navigable.find((exam) => exam.id === url.examId) ?? null;
   const selectedIndex = selected ? navigable.indexOf(selected) : -1;
 
-  // replaceState 會同步到 useSearchParams，但不會向伺服器重新要頁面（連按 ← → 也不卡）。
-  function update(patch: Partial<PastExamsUrlState>) {
+  // pushState／replaceState 會同步到 useSearchParams，但不會向伺服器重新要頁面（連按 ← → 也不卡）。
+  function update(patch: Partial<PastExamsUrlState>, { push = false } = {}) {
     const query = writeUrlState({ ...url, collectionId: collection?.id ?? null, ...patch });
-    window.history.replaceState(null, "", query ? `${pathname}?${query}` : pathname);
+    const href = query ? `${pathname}?${query}` : pathname;
+    if (push) window.history.pushState({ [PREVIEW_ENTRY]: true }, "", href);
+    // 在預覽層裡換上一份／下一份時保留標記，關閉時才知道要返回。
+    else window.history.replaceState(isPreviewEntry() ? { [PREVIEW_ENTRY]: true } : null, "", href);
   }
 
   function select(exam: PastExam | null) {
-    update({ examId: exam?.id ?? null });
+    update({ examId: exam?.id ?? null }, { push: exam !== null && selected === null && !isDesktop() });
+  }
+
+  function closePreview() {
+    if (isPreviewEntry()) window.history.back();
+    else select(null);
   }
 
   function step(delta: 1 | -1) {
@@ -128,7 +149,7 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
             hasNext={selected !== null && selectedIndex < navigable.length - 1}
             onPrevious={() => step(-1)}
             onNext={() => step(1)}
-            onClose={() => select(null)}
+            onClose={closePreview}
           />
         </section>
       </div>

@@ -38,16 +38,31 @@ export function resetNavigation(): void {
   setLocation("/");
 }
 
+/** followHistory() 模擬的瀏覽紀錄（最後一筆是目前這頁）。 */
+export const historyEntries: { state: unknown; url: string }[] = [];
+
 /**
- * 像 App Router 一樣，讓 window.history.pushState／replaceState 更新
- * usePathname／useSearchParams。用 vi.restoreAllMocks() 還原。
+ * 像 App Router 一樣，讓 window.history 的 pushState／replaceState／back 更新
+ * usePathname／useSearchParams，並模擬 history.state 與瀏覽紀錄。用 vi.restoreAllMocks() 還原。
  */
 export function followHistory(): void {
-  for (const method of ["pushState", "replaceState"] as const) {
-    vi.spyOn(window.history, method).mockImplementation((_data, _unused, url) => {
-      if (url != null) setLocation(String(url), navigation.params);
-    });
-  }
+  historyEntries.splice(0, historyEntries.length, { state: null, url: navigation.url.href });
+  const go = (url: string | URL | null | undefined) => {
+    if (url != null) setLocation(String(url), navigation.params);
+    return navigation.url.href;
+  };
+  vi.spyOn(window.history, "pushState").mockImplementation((state, _unused, url) => {
+    historyEntries.push({ state, url: go(url) });
+  });
+  vi.spyOn(window.history, "replaceState").mockImplementation((state, _unused, url) => {
+    historyEntries[historyEntries.length - 1] = { state, url: go(url) };
+  });
+  vi.spyOn(window.history, "back").mockImplementation(() => {
+    if (historyEntries.length < 2) return;
+    historyEntries.pop();
+    go(historyEntries[historyEntries.length - 1].url);
+  });
+  vi.spyOn(window.history, "state", "get").mockImplementation(() => historyEntries[historyEntries.length - 1].state);
 }
 
 const router = {

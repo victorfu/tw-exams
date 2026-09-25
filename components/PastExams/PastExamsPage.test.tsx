@@ -3,7 +3,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("next/navigation", async () => (await import("../../testing/nextNavigation")).nextNavigationModule);
-import { followHistory, navigation, resetNavigation, setLocation } from "../../testing/nextNavigation";
+import { followHistory, historyEntries, navigation, resetNavigation, setLocation } from "../../testing/nextNavigation";
 import { makeCatalog, makeExam, MATH_5A } from "../../testing/pastExamsFixtures";
 import PastExamsPage from "./PastExamsPage";
 
@@ -18,6 +18,7 @@ let root: Root;
 
 function renderPage(path = "/past-exams") {
   setLocation(path);
+  followHistory();
   act(() => root.render(<PastExamsPage catalog={catalog} />));
 }
 
@@ -53,17 +54,25 @@ function press(key: string, target: EventTarget = window) {
   });
 }
 
-function typeInto(input: HTMLInputElement, value: string) {
+function typeInto(input: HTMLInputElement, value: string, { isComposing = false } = {}) {
   const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
   act(() => {
     setter?.call(input, value);
-    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.dispatchEvent(new InputEvent("input", { bubbles: true, isComposing }));
   });
+}
+
+function searchBox(): HTMLInputElement {
+  return container.querySelector<HTMLInputElement>('input[type="search"]')!;
+}
+
+/** 模擬手機寬度（< md）或桌機。 */
+function stubViewport(desktop: boolean) {
+  vi.stubGlobal("matchMedia", (query: string) => ({ matches: desktop, media: query }));
 }
 
 beforeEach(() => {
   resetNavigation();
-  followHistory();
   (globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
   container = document.createElement("div");
   document.body.appendChild(container);
@@ -74,6 +83,7 @@ afterEach(() => {
   act(() => root.unmount());
   container.remove();
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
 });
 
 describe("PastExamsPage", () => {
@@ -208,5 +218,77 @@ describe("PastExamsPage", () => {
 
     expect(currentParams().get("id")).toBeNull();
     expect(container.querySelector("iframe")).toBeNull();
+  });
+
+  it("waits for the input method to finish composing before searching", () => {
+    renderPage(`/past-exams?id=${encodeURIComponent(minquan.id)}`);
+    const input = searchBox();
+
+    act(() => {
+      input.dispatchEvent(new CompositionEvent("compositionstart", { bubbles: true }));
+    });
+    typeInto(input, "ㄇㄧㄣˊ", { isComposing: true });
+
+    expect(input.value).toBe("ㄇㄧㄣˊ");
+    expect(currentParams().get("q")).toBeNull();
+    expect(listedSchools()).toHaveLength(4);
+    expect(container.querySelector("iframe")).not.toBeNull();
+
+    typeInto(input, "民", { isComposing: true });
+    act(() => {
+      input.dispatchEvent(new CompositionEvent("compositionend", { bubbles: true, data: "民" }));
+    });
+
+    expect(currentParams().get("q")).toBe("民");
+    expect(listedSchools()).toEqual(["民權國小"]);
+  });
+
+  describe("on a phone", () => {
+    beforeEach(() => stubViewport(false));
+
+    it("opens the preview as a new history entry that Back closes", () => {
+      renderPage();
+
+      act(() => row("民權國小").click());
+      expect(historyEntries).toHaveLength(2);
+      expect(currentParams().get("id")).toBe(minquan.id);
+
+      act(() => window.history.back());
+      expect(currentParams().get("id")).toBeNull();
+      expect(container.querySelector("iframe")).toBeNull();
+    });
+
+    it("replaces the entry when moving between exams, and the close button goes back", () => {
+      renderPage();
+
+      act(() => row("民權國小").click());
+      act(() => button("下一份").click());
+      expect(historyEntries).toHaveLength(2);
+      expect(currentParams().get("id")).toBe(datong.id);
+
+      act(() => button("關閉預覽").click());
+      expect(historyEntries).toHaveLength(1);
+      expect(currentParams().get("id")).toBeNull();
+    });
+
+    it("closes a preview opened from a shared link without leaving the page", () => {
+      renderPage(`/past-exams?id=${encodeURIComponent(minquan.id)}`);
+
+      act(() => button("關閉預覽").click());
+
+      expect(historyEntries).toHaveLength(1);
+      expect(navigation.url.pathname).toBe("/past-exams");
+      expect(currentParams().get("id")).toBeNull();
+    });
+  });
+
+  it("keeps a single history entry on a desktop", () => {
+    stubViewport(true);
+    renderPage();
+
+    act(() => row("民權國小").click());
+
+    expect(historyEntries).toHaveLength(1);
+    expect(currentParams().get("id")).toBe(minquan.id);
   });
 });

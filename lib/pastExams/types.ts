@@ -36,7 +36,7 @@ export interface PastExam {
   bytes: number | null;
   /** 檔案已下載，可以預覽或下載。 */
   available: boolean;
-  /** cowork 已正規化過的搜尋字串（NFKC、小寫、台→臺、年級別名）。 */
+  /** cowork 已正規化過的搜尋字串（NFKC、小寫、臺→台、年級別名）。 */
   searchText: string;
 }
 
