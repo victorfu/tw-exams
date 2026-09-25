@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# past exams (synced from cowork output by `npm run sync:exams`)
+/public/exams/
