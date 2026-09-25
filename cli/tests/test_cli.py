@@ -147,17 +147,81 @@ class CLITests(unittest.TestCase):
         page = MagicMock()
         page.url = 'https://www.tcool.cc/'
         page.context.new_page.return_value.url = 'https://www.tcool.cc/v/example.pdf'
-        first, second = MagicMock(), MagicMock()
-        first.__enter__.return_value.value.failure.return_value = 'canceled'
+        page.context.new_page.return_value.is_closed.return_value = False
+        second = MagicMock()
         second.__enter__.return_value.value.failure.return_value = None
         second.__enter__.return_value.value.path.return_value = str(self.output / 'saved.pdf')
         (self.output / 'saved.pdf').write_bytes(pdf())
-        page.expect_download.side_effect = [first, second]
+        page.expect_download.return_value = second
         with patch('builtins.input', return_value=''):
             data = navigate_pdf(page, self.args, '/dl.php?t=fresh')
         self.assertEqual(pdf_pages(data), 1)
-        self.assertEqual(page.expect_download.call_count, 2)
+        self.assertEqual(page.expect_download.call_count, 1)
         page.context.new_page.return_value.close.assert_called_once()
+
+    def test_interactive_keeps_challenge_page_until_verified(self):
+        self.args.interactive = True
+        page = MagicMock()
+        page.url = 'https://www.tcool.cc/'
+        viewer = page.context.new_page.return_value
+        viewer.url = 'https://www.tcool.cc/dl.php?t=secret'
+        viewer.is_closed.return_value = False
+        events = {}
+        viewer.on.side_effect = lambda name, callback: events.update({name: callback})
+        response = MagicMock()
+        response.frame = viewer.main_frame
+        response.request.is_navigation_request.return_value = True
+        response.status = 403
+        response.headers = {'content-type': 'text/html', 'cf-mitigated': 'challenge'}
+        viewer.goto.side_effect = lambda *a, **kw: events['response'](response)
+        checks = []
+        def confirm(prompt):
+            viewer.close.assert_not_called()
+            page.expect_download.assert_not_called()
+            checks.append(prompt)
+            if len(checks) == 2:
+                # PDF need not have a .pdf extension.
+                response.status = 200
+                response.headers = {'content-type': 'application/pdf'}
+                events['response'](response)
+            return ''
+        saved = self.output / 'saved.pdf'
+        saved.write_bytes(pdf())
+        item = page.expect_download.return_value.__enter__.return_value.value
+        item.failure.return_value = None
+        item.path.return_value = str(saved)
+        log = io.StringIO()
+        with patch('builtins.input', side_effect=confirm), contextlib.redirect_stderr(log):
+            self.assertEqual(pdf_pages(navigate_pdf(page, self.args, '/dl.php?t=secret')), 1)
+        self.assertEqual(len(checks), 2)
+        viewer.goto.assert_called_once()
+        viewer.close.assert_called_once()
+        self.assertIn('HTTP 403', log.getvalue())
+        self.assertNotIn('secret', log.getvalue())
+
+    def test_interactive_navigation_download_event(self):
+        self.args.interactive = True
+        page = MagicMock()
+        page.url = 'https://www.tcool.cc/'
+        viewer = page.context.new_page.return_value
+        viewer.is_closed.return_value = False
+        events = {}
+        viewer.on.side_effect = lambda name, callback: events.update({name: callback})
+        saved = self.output / 'attachment.pdf'
+        saved.write_bytes(pdf())
+        item = MagicMock()
+        item.failure.return_value = None
+        item.path.return_value = str(saved)
+        def navigate(*args, **kwargs):
+            events['download'](item)
+            raise ValueError('navigation aborted /dl.php?t=secret')
+        viewer.goto.side_effect = navigate
+        log = io.StringIO()
+        with patch('builtins.input') as prompt, contextlib.redirect_stderr(log):
+            self.assertEqual(pdf_pages(navigate_pdf(page, self.args, '/dl.php?t=secret')), 1)
+        prompt.assert_not_called()
+        page.expect_download.assert_not_called()
+        self.assertNotIn('secret', log.getvalue())
 
     def test_reject_ambiguous_sources(self):
         with self.assertRaises(SystemExit) as e:
@@ -168,47 +232,6 @@ class CLITests(unittest.TestCase):
         with patch('tcool.cli.session') as browser, contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(main(['download', '--exam-id', '1', '--dry-run', '--output', str(self.output)]), 0)
         browser.assert_not_called()
-
-    def test_manual_import_without_browser_or_api(self):
-        source = self.output / '手動下載.pdf'
-        source.write_bytes(pdf())
-        with patch('tcool.cli.session') as browser, patch('tcool.cli.api') as api_call, \
-             patch('builtins.input', return_value=str(source)):
-            result = main(['download', '--exam-id', '123', '--manual', '--output', str(self.output)])
-        self.assertEqual(result, 0)
-        browser.assert_not_called()
-        api_call.assert_not_called()
-        self.assertEqual((self.output / 'pdf' / 'tcool_123_q.pdf').read_bytes(), source.read_bytes())
-        self.assertEqual(json.loads((self.output / 'downloads.jsonl').read_text())['exam_id'], 123)
-        # Resuming never asks for a completed file again.
-        with patch('builtins.input') as prompt:
-            self.assertEqual(main(['download', '--exam-id', '123', '--manual', '--output', str(self.output)]), 0)
-        prompt.assert_not_called()
-
-    def test_manual_rejects_html_and_can_stop(self):
-        source = self.output / 'blocked.pdf'
-        source.write_text('<html>Cloudflare</html>')
-        with patch('builtins.input', side_effect=[str(source), 'q']):
-            result = main(['download', '--exam-id', '123', '--manual', '--output', str(self.output)])
-        self.assertEqual(result, 130)
-        self.assertFalse((self.output / 'pdf' / 'tcool_123_q.pdf').exists())
-        self.assertFalse((self.output / 'downloads.jsonl').exists())
-
-    def test_interactive_failure_falls_back_to_file_import(self):
-        self.args.interactive = True
-        source = self.output / 'download.pdf'
-        source.write_bytes(pdf())
-        tasks = plan_downloads([{'exam_id': 1}], self.args)
-        with patch('tcool.cli.api', return_value={'download_url': '/dl.php?t=fresh'}), \
-             patch('tcool.cli.navigate_pdf', side_effect=ValueError('尚未進入 PDF 分頁')), \
-             patch('tcool.cli.time.sleep'), patch('builtins.input', return_value=str(source)):
-            download(None, self.args, tasks)
-        self.assertEqual(tasks[0][2].read_bytes(), source.read_bytes())
-
-    def test_manual_requires_direct_source(self):
-        with self.assertRaises(SystemExit) as error:
-            main(['download', '--grade', '5', '--subject', '數學', '--manual'])
-        self.assertEqual(error.exception.code, 2)
 
 
 @unittest.skipUnless(os.environ.get('TCOOL_BROWSER_TESTS') == '1', 'set TCOOL_BROWSER_TESTS=1')
@@ -264,6 +287,9 @@ class BrowserIntegration(unittest.TestCase):
                 self.assertEqual(len(list((Path(temp)/'pdf').glob('*.pdf'))), 2)
                 self.assertEqual([c['exam_id'] for c in calls], [20002871, 20002872])
                 self.assertEqual(plan_downloads(rows, args), [])
+                args.interactive = True
+                with patch('builtins.input', side_effect=AssertionError('PDF should be saved without a prompt')):
+                    self.assertEqual(pdf_pages(navigate_pdf(page, args, '/dl.php?t=fresh')), 1)
             finally:
                 browser.close()
 

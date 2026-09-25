@@ -47,7 +47,6 @@ def parser():
             sub.add_argument("--kind", choices=["q", "a", "both"], default="q")
             sub.add_argument("--limit", type=int, default=0, help="最多新下載檔數；預設 0=全部")
             sub.add_argument("--dry-run", action="store_true", help="搜尋並列出下載計畫，不取得 PDF")
-            sub.add_argument("--manual", action="store_true", help="由一般瀏覽器下載後匯入 PDF；搭配 --from-csv 或 --exam-id")
     return p
 
 
@@ -61,11 +60,6 @@ def validate_args(p, args):
     if getattr(args, "max_pages", 0) < 0 or getattr(args, "limit", 0) < 0:
         p.error("--max-pages 與 --limit 不可為負數")
     direct = args.command == "download" and (args.exam_id is not None or args.from_csv is not None)
-    if getattr(args, "manual", False):
-        if not direct:
-            p.error("--manual 需要 --from-csv 或 --exam-id")
-        if args.headless:
-            p.error("--manual 需要終端機人工輸入，不可搭配 --headless")
     if direct:
         if args.exam_id is not None and args.exam_id < 1:
             p.error("--exam-id 必須是正整數")
@@ -155,47 +149,20 @@ def plan_downloads(rows, args):
     return pending[:args.limit] if args.limit else pending
 
 
-def manual_pdf(exam_id, kind):
-    label = "題目卷" if kind == "q" else "PDF 答案"
-    print(f"請用平常的瀏覽器開啟 https://www.tcool.cc/，自行下載考卷 {exam_id} 的{label}。\n"
-          "若一般瀏覽器也無法通過驗證，請停止並稍後重試。工具不會自動完成網站驗證。",
-          file=sys.stderr)
-    while True:
-        raw = input(f"確認檔案是 {exam_id}/{kind} 後，貼上 PDF 完整路徑（q 停止）：").strip()
-        if raw.lower() == "q":
-            raise KeyboardInterrupt
-        if len(raw) >= 2 and raw[0] == raw[-1] and raw[0] in "\"'":
-            raw = raw[1:-1]
-        try:
-            data = Path(raw).expanduser().read_bytes()
-            pdf_pages(data)
-            return data
-        except Exception as exc:
-            print(f"無法匯入 PDF：{exc}；請重新輸入路徑，或輸入 q 停止。", file=sys.stderr)
-
-
 def download(page, args, tasks):
     manifest = args.output / "downloads.jsonl"
     for index, (exam_id, kind, path) in enumerate(tasks):
         # Also pace the first request after a catalog crawl.
-        if not args.manual:
-            time.sleep(args.delay)
+        time.sleep(args.delay)
         print(f"下載 {index + 1}/{len(tasks)}：{exam_id}/{kind}", file=sys.stderr, flush=True)
-        if args.manual:
-            data = manual_pdf(exam_id, kind)
-        else:
-            try:
-                payload = api(page, args, {"action": "download_url", "exam_id": exam_id, "kind": kind})
-                url = payload.get("download_url")
-                if not isinstance(url, str) or not url:
-                    raise ValueError("API 沒有回傳 download_url")
-                data = navigate_pdf(page, args, url)
-                pdf_pages(data)
-            except Exception as exc:
-                if not args.interactive:
-                    raise ValueError(f"PDF 下載失敗：{exc}；可用 --interactive 人工處理，或用 --manual 匯入手動下載的 PDF") from None
-                print(f"自動下載／驗證未完成：{exc}\n改由一般瀏覽器手動下載並匯入；也可輸入 q 停止。", file=sys.stderr)
-                data = manual_pdf(exam_id, kind)
+        payload = api(page, args, {"action": "download_url", "exam_id": exam_id, "kind": kind})
+        url = payload.get("download_url")
+        if not isinstance(url, str) or not url:
+            raise ValueError("API 沒有回傳 download_url")
+        try:
+            data = navigate_pdf(page, args, url)
+        except Exception as exc:
+            raise ValueError(f"PDF 讀取失敗（下載網址已取得）：{exc}") from None
         pages = pdf_pages(data)
         atomic_write(path, data)
         record = {"exam_id": exam_id, "kind": kind, "file": str(path),
@@ -217,9 +184,6 @@ def run(args):
             tasks = plan_downloads(direct_rows, args)
             if args.dry_run or not tasks:
                 print(json.dumps([{"exam_id": e, "kind": k, "file": str(p)} for e,k,p in tasks], ensure_ascii=False, indent=2))
-                return
-            if args.manual:
-                download(None, args, tasks)
                 return
     with session(args) as page:
         if args.command == "login":
@@ -256,5 +220,5 @@ def main(argv=None):
         print("已停止；已完成檔案保留，下次會略過。", file=sys.stderr)
         return 130
     except Exception as exc:
-        print(f"錯誤：{exc}\n已完成檔案保留。首頁登入不代表下載入口已通過驗證；若下載持續受阻，可用 download --from-csv <清單路徑> --manual 匯入手動下載的 PDF。", file=sys.stderr)
+        print(f"錯誤：{exc}\n已完成檔案保留。首頁登入或 API 成功不代表下載入口已通過驗證；若仍為 Cloudflare 驗證頁，自動下載尚未成功。", file=sys.stderr)
         return 1

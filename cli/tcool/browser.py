@@ -1,5 +1,6 @@
 from contextlib import contextmanager
 from pathlib import Path
+import sys
 from urllib.parse import urljoin, urlsplit
 
 from playwright.sync_api import sync_playwright
@@ -59,6 +60,13 @@ def navigate_pdf(page, args, url):
     target = urljoin(page.url, url)
     if (urlsplit(target).scheme, urlsplit(target).netloc) != (urlsplit(page.url).scheme, urlsplit(page.url).netloc):
         raise ValueError("下載網址跨網域，請人工確認")
+    def read_download(item):
+        failure = item.failure()
+        if failure:
+            detail = "canceled" if failure == "canceled" else "failed"
+            raise ValueError(f"瀏覽器保存失敗：{detail}")
+        return Path(item.path()).read_bytes()
+
     def save(address):
         with page.expect_download(timeout=args.timeout * 1000) as pending:
             page.evaluate("""url => {
@@ -66,28 +74,64 @@ def navigate_pdf(page, args, url):
               a.href = url; a.download = 'exam.pdf';
               document.body.appendChild(a); a.click(); a.remove();
             }""", address)
-        item = pending.value
-        failure = item.failure()
-        if failure:
-            raise ValueError(f"瀏覽器下載失敗：{failure}")
-        return Path(item.path()).read_bytes()
+        return read_download(pending.value)
 
+    if not args.interactive:
+        try:
+            return save(target)
+        except Exception as exc:
+            # Playwright exception strings can contain the signed download URL.
+            raise ValueError(f"原生保存未完成（{type(exc).__name__}）；可加 --interactive 在同一工作階段完成驗證") from None
+
+    # Navigate first: a challenge must be displayed as a page, not downloaded.
     try:
-        return save(target)
-    except Exception:
-        if not args.interactive:
-            raise
-        # A verification page can appear only on /dl.php, even when the home
-        # page and API work. Let the person operate that exact page themselves.
         viewer = page.context.new_page()
+    except Exception:
+        raise ValueError("無法開啟下載分頁：瀏覽器工作階段已關閉或無法使用") from None
+    downloads = []
+    state = {"status": None, "pdf": False, "challenge": False}
+
+    def observe(response):
+        if not response.request.is_navigation_request() or response.frame != viewer.main_frame:
+            return
+        content_type = response.headers.get("content-type", "").split(";", 1)[0].strip().lower()
+        state.update(status=response.status, pdf=content_type == "application/pdf",
+                     challenge=response.headers.get("cf-mitigated") == "challenge")
+        stage = "重新導向" if 300 <= response.status < 400 else "下載頁"
+        kind = "PDF" if state["pdf"] else "非 PDF"
+        verification = "；Cloudflare 要求驗證" if state["challenge"] else ""
+        print(f"{stage}：HTTP {response.status}，{kind}{verification}", file=sys.stderr, flush=True)
+
+    viewer.on("response", observe)
+    viewer.on("download", lambda item: downloads.append(item))
+    attempted_save = False
+    try:
         try:
             viewer.goto(target, referer=page.url, wait_until="domcontentloaded", timeout=args.timeout * 1000)
-            input("下載需人工確認：請在新分頁完成網站要求，直到看見 PDF，再按 Enter 重試保存一次：")
+        except Exception as exc:
+            # An attachment interrupts goto but emits a download event.
+            print(f"下載頁導航未正常結束（{type(exc).__name__}）；檢查下載事件與分頁狀態。", file=sys.stderr)
+        while True:
+            if viewer.is_closed():
+                raise ValueError("下載分頁或瀏覽器已關閉；未保存 PDF")
+            # Dispatch queued events after input() yielded control to the person.
+            viewer.wait_for_timeout(100)
+            if downloads:
+                return read_download(downloads.pop(0))
             resolved = viewer.url
-            if urlsplit(resolved).netloc != urlsplit(page.url).netloc:
+            if resolved != "about:blank" and (urlsplit(resolved).scheme, urlsplit(resolved).netloc) != (urlsplit(page.url).scheme, urlsplit(page.url).netloc):
                 raise ValueError("下載分頁不在原網站，已停止")
-            if not urlsplit(resolved).path.lower().endswith('.pdf'):
-                raise ValueError("尚未進入 PDF 分頁，請完成網站驗證後重新執行")
-            return save(resolved)
-        finally:
+            ready = not state["challenge"] and (state["status"] is None or state["status"] < 400) and (
+                state["pdf"] or urlsplit(resolved).path.lower().endswith('.pdf'))
+            if ready and not attempted_save:
+                attempted_save = True
+                try:
+                    return save(resolved)
+                except Exception as exc:
+                    print(f"PDF 分頁已開啟，但原生保存未完成（{type(exc).__name__}）。可在同一分頁按 PDF 下載按鈕，再按 Enter。", file=sys.stderr)
+            action = input("請在這個下載分頁完成驗證；看到 PDF／完成下載後按 Enter 檢查（q 停止；不要關閉瀏覽器）：")
+            if action.strip().lower() == "q":
+                raise KeyboardInterrupt
+    finally:
+        if not viewer.is_closed():
             viewer.close()
