@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 自製考卷
 
-## Getting Started
+上傳考卷或講義的照片、PDF，手動框出每一題存進題庫；已寫過的卷可以用白色遮蓋框蓋掉答案。再依科目隨機抽題組卷，印成 A4 考卷（可附答案頁）。
 
-First, run the development server:
+移植自 ollie-reader 的 `/my-exams` 功能，改成 Next.js 16（App Router）＋ Tailwind CSS v4 ＋ daisyUI 5。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 目前限制
+
+- **不需登入**，大家共用同一份資料。
+- **上傳與儲存都是 mock**：頁面圖與題庫只存在瀏覽器記憶體，重新整理頁面就會清空。資料層在 `services/`（`mockStore.ts`），之後接真正的後端只要換掉這幾個檔案的內部實作。
+
+## 開發
+
+```sh
+npm install
+npm run dev     # http://localhost:6789
+npm test        # vitest（jsdom）
+npm run lint
+npm run build
 ```
 
-Open [http://localhost:6789](http://localhost:6789) with your browser to see the result.
+## 頁面
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| 路徑 | 用途 |
+|---|---|
+| `/my-exams` | 題庫、上傳紀錄、考卷三個分頁 |
+| `/my-exams/sources/[id]` | 裁題：框題目、遮蓋、答案與作答留白（自動儲存） |
+| `/my-exams/sheets/new`、`/my-exams/sheets/[id]/edit` | 組卷：隨機抽題、換題、排序、加入指定題目 |
+| `/my-exams/sheets/[id]/print` | 列印版面（不含頂部列） |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 程式結構
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/`：路由與版面；`(app)` 群組有頂部列，`(print)` 群組是全螢幕列印頁。`globals.css` 是 daisyUI 主題（`ollielight`／`olliedark`）與設計 token。
+- `components/MyExams/`：功能元件與純函式（框的幾何、排序、抽題、列印設定）。
+- `services/`：來源、題目、考卷的資料存取（目前是記憶體 mock）。
+- `hooks/`：題庫載入、自動儲存、頁圖網址。
+- `utils/pageImageProcessor.ts`：照片與 PDF（pdf.js）轉成頁面 JPEG。
