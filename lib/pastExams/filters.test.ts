@@ -3,8 +3,8 @@ import { makeExam } from "../../testing/pastExamsFixtures";
 import { facetValues, filterExams, groupByAcademicYear, normalizeQuery, sortExams, UNKNOWN } from "./filters";
 
 describe("normalizeQuery", () => {
-  it("applies NFKC, lowercases, maps 台 to 臺 and splits on whitespace", () => {
-    expect(normalizeQuery("  台北　ＡＢＣ  １１４ ")).toEqual(["臺北", "abc", "114"]);
+  it("applies NFKC, lowercases, folds 臺 into 台 like cowork, and splits on whitespace", () => {
+    expect(normalizeQuery("  臺北　ＡＢＣ  １１４ 台中")).toEqual(["台北", "abc", "114", "台中"]);
   });
 
   it("returns no terms for a blank query", () => {
@@ -13,10 +13,11 @@ describe("normalizeQuery", () => {
 });
 
 describe("filterExams", () => {
-  const a = makeExam({ academicYear: 114, examType: "midterm", city: "臺北市", school: "民權國小", searchText: "114上|臺北市 民權國小" });
+  // cowork 的 search_text 把「臺」統一成「台」（見 output/catalog.jsonl）。
+  const a = makeExam({ academicYear: 114, examType: "midterm", city: "臺北市", school: "民權國小", searchText: "114上|台北市 民權國小" });
   const b = makeExam({ academicYear: 113, examType: "final", city: "新北市", school: "安和國小", searchText: "113上|新北市 安和國小" });
   const c = makeExam({ academicYear: 112, examType: "final", city: null, school: null, searchText: "112上" });
-  const other = makeExam({ datasetId: "english-grade-05-semester-1-nani", searchText: "114上|臺北市 民權國小" });
+  const other = makeExam({ datasetId: "english-grade-05-semester-1-nani", searchText: "114上|台北市 民權國小" });
   const exams = [a, b, c, other];
 
   it("keeps only the selected dataset", () => {
@@ -42,8 +43,14 @@ describe("filterExams", () => {
     expect(filterExams(exams, { datasetId: a.datasetId, city: UNKNOWN })).toEqual([c]);
   });
 
-  it("finds 臺北市 when searching 台北", () => {
+  it("finds 臺北市 when searching 台北 or 臺北", () => {
     expect(filterExams(exams, { datasetId: a.datasetId, query: "台北" })).toEqual([a]);
+    expect(filterExams(exams, { datasetId: a.datasetId, query: "臺北" })).toEqual([a]);
+  });
+
+  it("still matches if a search text spells 臺", () => {
+    const spelledTai = makeExam({ searchText: "114上|臺中市 忠孝國小" });
+    expect(filterExams([spelledTai], { query: "台中" })).toEqual([spelledTai]);
   });
 
   it("requires every search term to match", () => {

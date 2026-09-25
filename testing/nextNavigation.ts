@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from "react";
 import { vi } from "vitest";
 
 /**
@@ -15,12 +16,19 @@ export const navigation = {
 };
 
 let searchParams = new URLSearchParams();
+const listeners = new Set<() => void>();
 
-/** 設定目前網址（路徑、query）與動態路由參數。 */
+function subscribe(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+/** 設定目前網址（路徑、query，可相對於目前網址）與動態路由參數；已渲染的元件會跟著更新。 */
 export function setLocation(path: string, params: Record<string, string> = {}): void {
-  navigation.url = new URL(path, "http://localhost");
+  navigation.url = new URL(path, navigation.url);
   navigation.params = params;
   searchParams = new URLSearchParams(navigation.url.search);
+  listeners.forEach((listener) => listener());
 }
 
 export function resetNavigation(): void {
@@ -28,6 +36,18 @@ export function resetNavigation(): void {
   navigation.replace.mockReset();
   navigation.back.mockReset();
   setLocation("/");
+}
+
+/**
+ * 像 App Router 一樣，讓 window.history.pushState／replaceState 更新
+ * usePathname／useSearchParams。用 vi.restoreAllMocks() 還原。
+ */
+export function followHistory(): void {
+  for (const method of ["pushState", "replaceState"] as const) {
+    vi.spyOn(window.history, method).mockImplementation((_data, _unused, url) => {
+      if (url != null) setLocation(String(url), navigation.params);
+    });
+  }
 }
 
 const router = {
@@ -42,6 +62,6 @@ const router = {
 export const nextNavigationModule = {
   useRouter: () => router,
   useParams: () => navigation.params,
-  usePathname: () => navigation.url.pathname,
-  useSearchParams: () => searchParams,
+  usePathname: () => useSyncExternalStore(subscribe, () => navigation.url.pathname),
+  useSearchParams: () => useSyncExternalStore(subscribe, () => searchParams),
 };
