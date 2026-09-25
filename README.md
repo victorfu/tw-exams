@@ -27,6 +27,7 @@ npm run build
 | `/my-exams/sources/[id]` | 裁題：框題目、遮蓋、答案與作答留白（自動儲存） |
 | `/my-exams/sheets/new`、`/my-exams/sheets/[id]/edit` | 組卷：隨機抽題、換題、排序、加入指定題目 |
 | `/my-exams/sheets/[id]/print` | 列印版面（不含頂部列） |
+| `/past-exams` | 考古題：依年級、學期、科目瀏覽，篩選後預覽 |
 
 ## 程式結構
 
@@ -35,3 +36,30 @@ npm run build
 - `services/`：來源、題目、考卷的資料存取（目前是記憶體 mock）。
 - `hooks/`：題庫載入、自動儲存、頁圖網址。
 - `utils/pageImageProcessor.ts`：照片與 PDF（pdf.js）轉成頁面 JPEG。
+- `components/PastExams/`、`lib/pastExams/`：考古題頁面與純函式（篩選、排序、網址狀態）；`scripts/` 是同步腳本。
+
+## 考古題
+
+`/past-exams` 用來瀏覽 cowork 整理好的考古題。資料只來自 cowork `output/` 裡的 `catalog-info.json` 與 `catalog.jsonl`（格式見該目錄的 `metadata-format.md`）。分類、驗證、搜尋正規化都以 cowork 為準；這邊不讀 manifest，也不依賴目錄配置。
+
+### 同步
+
+```sh
+npm run sync:exams -- <cowork 的 output 目錄>
+```
+
+- 沒給目錄時讀環境變數 `EXAMS_SOURCE_DIR`，可以寫在 `.env.local`（例如 `EXAMS_SOURCE_DIR=C:\Users\me\Downloads\output`）；再沒有就用 `/Users/victor/Codebase/cowork/output`。
+- 來源只讀。以下情況會中止，不覆寫既有輸出：`schema_version` 不是 1、`record_count` 與行數不符、JSON 壞掉（會報行號）、`relative_path` 跳出根目錄、標示已下載的檔案找不到。
+- 產生 `data/pastExams.json`（進 git，每份考卷一行）。已下載的考卷照 `output/` 的相對路徑複製到 `public/exams/`（不進 git）：同樣大小的檔案跳過，不在 catalog 裡的舊檔刪掉。
+
+新增科目、年級，或 cowork 改成 `layout-plan.md` 的新分層時，先在 cowork 跑 `python3 scripts/exam_catalog.py build`，再回來重跑一次同步即可。
+
+### 上線
+
+`public/exams` 不進 git。上線前把整個 `public/exams/` 資料夾（保持目錄結構）上傳到物件儲存（例如 R2），build 時設定：
+
+```sh
+NEXT_PUBLIC_EXAMS_BASE_URL=https://<物件儲存網址>/exams
+```
+
+檔案網址是 `${NEXT_PUBLIC_EXAMS_BASE_URL}/<relative_path>`，沒設時是 `/exams/<relative_path>`。檔案放在別的網域時，瀏覽器會忽略 `download` 屬性，Word 檔要靠物件儲存回 `Content-Disposition: attachment` 才會直接下載。
