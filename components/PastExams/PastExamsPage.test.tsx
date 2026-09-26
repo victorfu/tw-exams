@@ -349,4 +349,13 @@ describe("PastExamsPage", () => {
     expect(tag.textContent).toBe("數學");
     expect(tag.style.backgroundColor).toBe("var(--subject-math-tint)");
   });
+
+  it("shows the empty state with npm run catalog instruction when no exams are available", () => {
+    setLocation("/past-exams");
+    followHistory();
+    act(() => root.render(<PastExamsPage catalog={makeCatalog([], [])} />));
+
+    expect(container.textContent).toContain("npm run catalog");
+    expect(container.textContent).not.toContain("sync:exams");
+  });
 });

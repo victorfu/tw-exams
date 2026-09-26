@@ -29,7 +29,7 @@ export interface PastExam {
   city: string | null;
   school: string | null;
   title: string;
-  /** 以 cowork 的 `output/` 為基準的相對路徑，也是 `public/exams/` 底下的路徑。 */
+  /** 以 cowork 的 `output/` 為基準的相對路徑，也是 `/exams/` 網址與私有 Blob 上 `exams/` 之後的路徑。 */
   file: string;
   format: PastExamFormat;
   pages: number | null;

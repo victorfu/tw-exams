@@ -97,7 +97,7 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
   if (!collection) {
     return (
       <div className="mx-auto max-w-3xl py-16 text-center text-base-content/60">
-        還沒有考古題資料。執行 <code>npm run sync:exams</code> 同步後再回來。
+        還沒有考古題資料。確認 <code>output/</code> 裡有 cowork 的 catalog，再執行 <code>npm run catalog</code>。
       </div>
     );
   }
