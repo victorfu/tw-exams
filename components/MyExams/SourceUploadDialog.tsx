@@ -30,6 +30,8 @@ interface PreviewPage {
   input: PageInput;
   thumbUrl: string | null;
   failed: boolean;
+  /** 預覽累計轉了幾度：只往上加，CSS 轉場才會一律順時針轉（從 270° 回到 0° 會倒轉一大圈）。 */
+  angle: number;
 }
 
 interface SourceUploadDialogProps {
@@ -131,7 +133,7 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
       filesRef.current.push(...files);
       setPages((previous) => [
         ...previous,
-        ...inputs.map((input) => ({ input, thumbUrl: null, failed: false })),
+        ...inputs.map((input) => ({ input, thumbUrl: null, failed: false, angle: 0 })),
       ]);
 
       // 縮圖一張一張產生，避免一次解碼大量照片
@@ -171,7 +173,11 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
     setPages((previous) =>
       previous.map((page) =>
         page.input.key === key
-          ? { ...page, input: { ...page.input, rotation: nextRotation(page.input.rotation) } }
+          ? {
+              ...page,
+              input: { ...page.input, rotation: nextRotation(page.input.rotation) },
+              angle: page.angle + 90,
+            }
           : page,
       ),
     );
@@ -330,11 +336,17 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
                   {page.failed ? (
                     <span className="p-2 text-center text-xs text-error">{UNREADABLE_FILE_MESSAGE}</span>
                   ) : page.thumbUrl ? (
+                    // transform 不改變排版大小：轉 90°／270° 時先把圖縮進橫放的框（寬＝框高、高＝框寬），
+                    // 轉完才放得進 3:4 的框，不會被裁掉兩端
                     <img
                       src={page.thumbUrl}
                       alt={`第 ${index + 1} 頁`}
-                      className="max-h-full max-w-full transition-transform"
-                      style={{ transform: `rotate(${page.input.rotation}deg)` }}
+                      className={`transition-[transform,max-width,max-height] ${
+                        page.input.rotation % 180 === 0
+                          ? "max-h-full max-w-full"
+                          : "max-h-[75%] max-w-[calc(100%*4/3)]"
+                      }`}
+                      style={{ transform: `rotate(${page.angle}deg)` }}
                     />
                   ) : (
                     <span className="loading loading-spinner loading-sm" aria-label="產生縮圖中" />

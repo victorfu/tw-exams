@@ -178,14 +178,38 @@ async function drawPdfPage(
   page.cleanup();
 }
 
+/** 照片依 EXIF 轉正後的尺寸。<img> 載入只會讀檔頭，不會解碼整張照片。 */
+function readImageSize(file: File): Promise<{ width: number; height: number }> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const image = new Image();
+    image.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve({ width: image.naturalWidth, height: image.naturalHeight });
+    };
+    image.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("image failed to load"));
+    };
+    image.src = url;
+  });
+}
+
 async function drawImageFile(
   canvas: HTMLCanvasElement,
   input: PageInput,
   maxLongEdge: number,
 ): Promise<void> {
-  const bitmap = await createImageBitmap(input.file, { imageOrientation: "from-image" });
+  const natural = await readImageSize(input.file);
+  const fitted = fitLongEdge(natural.width, natural.height, maxLongEdge);
+  // 點陣圖直接做成要畫的大小：沒給 resize 的話，連縮圖都會先配置一張原尺寸的點陣圖（2400 萬畫素約 98MB）。
+  // 不傳 imageOrientation：預設就會照 EXIF 轉正；Safari 17.1 以前不認得 "from-image"，傳了每張照片都會失敗。
+  const bitmap = await createImageBitmap(input.file, {
+    resizeWidth: fitted.width,
+    resizeHeight: fitted.height,
+    resizeQuality: "high",
+  });
   try {
-    const fitted = fitLongEdge(bitmap.width, bitmap.height, maxLongEdge);
     const size = rotatedSize(fitted.width, fitted.height, input.rotation);
     canvas.width = size.width;
     canvas.height = size.height;

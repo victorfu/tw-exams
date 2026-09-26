@@ -184,6 +184,17 @@ function fullSizeRenders(): number {
   return mocks.renderPage.mock.calls.filter(([, size]) => size === PAGE_LONG_EDGE_PX).length;
 }
 
+function preview(page: number): HTMLImageElement {
+  const found = container.querySelector(`img[alt="第 ${page} 頁"]`);
+  if (!(found instanceof HTMLImageElement)) throw new Error(`preview of page ${page} not found`);
+  return found;
+}
+
+function rotatePage(page: number) {
+  const button = container.querySelector(`[aria-label="旋轉第 ${page} 頁"]`) as HTMLButtonElement;
+  act(() => button.click());
+}
+
 describe("SourceUploadDialog", () => {
   it("stops making thumbnails and releases them and the PDFs when it unmounts", async () => {
     const thumbnails = [deferred<RenderedPage>(), deferred<RenderedPage>(), deferred<RenderedPage>()];
@@ -344,5 +355,52 @@ describe("SourceUploadDialog", () => {
     expect(logger.error).toHaveBeenCalled();
     expect(uploadButton().textContent).toBe("重試");
     expect(onUploaded).not.toHaveBeenCalled();
+  });
+
+  it("keeps turning a page clockwise when it comes back upright", async () => {
+    renderDialog();
+    await pick(photos("p", 1));
+    fillForm();
+
+    const angles: string[] = [];
+    for (let turn = 0; turn < 5; turn += 1) {
+      rotatePage(1);
+      angles.push(preview(1).style.transform);
+    }
+    act(() => uploadButton().click());
+    await settle();
+
+    // 270° 之後若回到 rotate(0deg)，CSS 轉場會倒轉一大圈
+    expect(angles).toEqual([
+      "rotate(90deg)",
+      "rotate(180deg)",
+      "rotate(270deg)",
+      "rotate(360deg)",
+      "rotate(450deg)",
+    ]);
+    const [input, size] = mocks.renderPage.mock.calls.at(-1) as [PageInput, number];
+    expect(size).toBe(PAGE_LONG_EDGE_PX);
+    expect(input.rotation).toBe(90);
+  });
+
+  it("shrinks a sideways preview to fit its box instead of cutting off both ends", async () => {
+    renderDialog();
+    await pick(photos("p", 1));
+    const upright = ["max-h-full", "max-w-full"];
+    // transform 不改變排版大小：轉 90° 時要先把圖縮進橫放的框（寬＝框高、高＝框寬），轉完才放得進 3:4 的框
+    const sideways = ["max-h-[75%]", "max-w-[calc(100%*4/3)]"];
+    const classes = () => [...preview(1).classList];
+
+    expect(classes()).toEqual(expect.arrayContaining(upright));
+
+    rotatePage(1);
+    expect(classes()).toEqual(expect.arrayContaining(sideways));
+    expect(classes()).not.toEqual(expect.arrayContaining(["max-h-full"]));
+
+    rotatePage(1);
+    expect(classes()).toEqual(expect.arrayContaining(upright));
+
+    rotatePage(1);
+    expect(classes()).toEqual(expect.arrayContaining(sideways));
   });
 });

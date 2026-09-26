@@ -18,8 +18,10 @@ import {
   nextRotation,
   PDF_ENGINE_FAILED_MESSAGE,
   releasePdfFiles,
+  renderPage,
   rotatedSize,
   UNREADABLE_FILE_MESSAGE,
+  type PageInput,
 } from "./pageImageProcessor";
 
 function fileOf(name: string, type: string, size?: number): File {
@@ -43,6 +45,53 @@ function passwordException(): Error {
   const error = new Error("No password given");
   error.name = "PasswordException";
   return error;
+}
+
+interface PhotoSize {
+  width: number;
+  height: number;
+}
+
+/** Safari 16.4–17.1 的 ImageOrientation 還沒有 "from-image"（WebKit 7617 才加）。 */
+const SAFARI_16_ORIENTATIONS = ["none", "flipY"];
+
+/**
+ * 模仿瀏覽器：照片的尺寸都是依 EXIF 轉正後的（<img> 的 naturalWidth 跟 createImageBitmap 一樣）。
+ * jsdom 不會解碼圖片，也沒有 createImageBitmap 和 canvas。
+ */
+function stubPhotoDecoding(
+  natural: PhotoSize,
+  { orientations = ["from-image", "none", "flipY"], loads = true } = {},
+) {
+  vi.spyOn(HTMLImageElement.prototype, "naturalWidth", "get").mockReturnValue(natural.width);
+  vi.spyOn(HTMLImageElement.prototype, "naturalHeight", "get").mockReturnValue(natural.height);
+  vi.spyOn(HTMLImageElement.prototype, "src", "set").mockImplementation(function (this: HTMLImageElement) {
+    setTimeout(() => this.dispatchEvent(new Event(loads ? "load" : "error")));
+  });
+  const createImageBitmap = vi.fn(async (_source: ImageBitmapSource, options: ImageBitmapOptions = {}) => {
+    // 跟 WebIDL 一樣：字典裡不認得的列舉值會丟 TypeError
+    if (options.imageOrientation !== undefined && !orientations.includes(options.imageOrientation)) {
+      throw new TypeError(
+        `The provided value '${options.imageOrientation}' is not a valid enum value of type ImageOrientation.`,
+      );
+    }
+    return {
+      width: options.resizeWidth ?? natural.width,
+      height: options.resizeHeight ?? natural.height,
+      close: vi.fn(),
+    };
+  });
+  vi.stubGlobal("createImageBitmap", createImageBitmap);
+  const context = { fillStyle: "", fillRect: vi.fn(), translate: vi.fn(), rotate: vi.fn(), drawImage: vi.fn() };
+  vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(context as never);
+  vi.spyOn(HTMLCanvasElement.prototype, "toBlob").mockImplementation((callback) =>
+    callback(new Blob(["jpeg"], { type: "image/jpeg" })),
+  );
+  return { createImageBitmap, context };
+}
+
+function photoPage(rotation: PageInput["rotation"] = 0): PageInput {
+  return { key: "photo", file: fileOf("photo.jpg", "image/jpeg"), kind: "image", rotation };
 }
 
 describe("fitLongEdge", () => {
@@ -177,5 +226,70 @@ describe("expandFilesToPages", () => {
       vi.doMock("./pdfConfig", mocks.pdfConfig);
       vi.resetModules();
     }
+  });
+});
+
+describe("renderPage for photos", () => {
+  beforeEach(() => {
+    URL.createObjectURL = vi.fn(() => "blob:photo");
+    URL.revokeObjectURL = vi.fn();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  it("works on Safari 16.4–17.1, whose createImageBitmap does not know 'from-image'", async () => {
+    stubPhotoDecoding({ width: 4032, height: 3024 }, { orientations: SAFARI_16_ORIENTATIONS });
+
+    await expect(renderPage(photoPage(), 240)).resolves.toMatchObject({ width: 240, height: 180 });
+  });
+
+  it("decodes a photo straight at the output size instead of at full resolution", async () => {
+    const { createImageBitmap } = stubPhotoDecoding({ width: 5712, height: 4284 });
+    const page = photoPage();
+
+    expect(await renderPage(page, 240)).toMatchObject({ width: 240, height: 180 });
+    expect(await renderPage(page, 2400)).toMatchObject({ width: 2400, height: 1800 });
+
+    expect(createImageBitmap.mock.calls).toEqual([
+      [page.file, { resizeWidth: 240, resizeHeight: 180, resizeQuality: "high" }],
+      [page.file, { resizeWidth: 2400, resizeHeight: 1800, resizeQuality: "high" }],
+    ]);
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(2);
+  });
+
+  it("turns the upright photo by the user's rotation", async () => {
+    // 直拍的 iPhone 照片：像素是橫的，EXIF 說要轉 90°；瀏覽器回報的是轉正後的直式尺寸
+    const { createImageBitmap, context } = stubPhotoDecoding({ width: 4284, height: 5712 });
+
+    const result = await renderPage(photoPage(90), 2400);
+
+    expect(createImageBitmap).toHaveBeenCalledWith(
+      expect.any(File),
+      expect.objectContaining({ resizeWidth: 1800, resizeHeight: 2400 }),
+    );
+    expect(result).toMatchObject({ width: 2400, height: 1800 });
+    expect(context.rotate).toHaveBeenCalledWith(Math.PI / 2);
+    expect(context.drawImage).toHaveBeenCalledWith(expect.anything(), -900, -1200, 1800, 2400);
+  });
+
+  it("never enlarges a small photo", async () => {
+    const { createImageBitmap } = stubPhotoDecoding({ width: 800, height: 600 });
+
+    expect(await renderPage(photoPage(), 2400)).toMatchObject({ width: 800, height: 600 });
+    expect(createImageBitmap).toHaveBeenCalledWith(
+      expect.any(File),
+      expect.objectContaining({ resizeWidth: 800, resizeHeight: 600 }),
+    );
+  });
+
+  it("fails without decoding when the browser cannot read the photo", async () => {
+    const { createImageBitmap } = stubPhotoDecoding({ width: 0, height: 0 }, { loads: false });
+
+    await expect(renderPage(photoPage(), 240)).rejects.toThrow();
+    expect(createImageBitmap).not.toHaveBeenCalled();
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:photo");
   });
 });
