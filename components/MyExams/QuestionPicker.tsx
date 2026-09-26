@@ -10,7 +10,7 @@ import {
   type BankSubject,
   type QuestionSource,
 } from "../../types/questionBank";
-import { orderBankQuestions } from "./questionOrdering";
+import { orderBankQuestions, sortQuestionsInSource } from "./questionOrdering";
 import { QuestionCrop } from "./QuestionCrop";
 
 interface QuestionPickerProps {
@@ -43,6 +43,20 @@ export function QuestionPicker({ isOpen, bank, sources, excludeIds, onAdd, onClo
       ),
     [bank, sources, excludeIds, sourceById],
   );
+  // 題號與框選頁的「第 N 題」一致：來源內依框選順序，含已在考卷上的題目
+  const numberById = useMemo(() => {
+    const bySource = new Map<string, BankQuestion[]>();
+    for (const question of bank) {
+      const group = bySource.get(question.sourceId);
+      if (group) group.push(question);
+      else bySource.set(question.sourceId, [question]);
+    }
+    const numbers = new Map<string, number>();
+    for (const group of bySource.values()) {
+      sortQuestionsInSource(group).forEach((question, index) => numbers.set(question.id, index + 1));
+    }
+    return numbers;
+  }, [bank]);
   const visible = useMemo(
     () => (filter === "all" ? candidates : candidates.filter((question) => question.subject === filter)),
     [candidates, filter],
@@ -114,6 +128,7 @@ export function QuestionPicker({ isOpen, bank, sources, excludeIds, onAdd, onClo
           <PickerCards
             questions={visible}
             sourceById={sourceById}
+            numberById={numberById}
             selected={selected}
             urls={urls}
             onToggle={toggle}
@@ -137,6 +152,7 @@ export function QuestionPicker({ isOpen, bank, sources, excludeIds, onAdd, onClo
 interface PickerCardsProps {
   questions: readonly BankQuestion[];
   sourceById: ReadonlyMap<string, QuestionSource>;
+  numberById: ReadonlyMap<string, number>;
   selected: ReadonlySet<string>;
   urls: Readonly<Record<string, string>>;
   onToggle: (id: string) => void;
@@ -149,6 +165,7 @@ interface PickerCardsProps {
 const PickerCards = memo(function PickerCards({
   questions,
   sourceById,
+  numberById,
   selected,
   urls,
   onToggle,
@@ -192,6 +209,8 @@ const PickerCards = memo(function PickerCards({
                 <span className="block truncate">
                   {BANK_SUBJECT_LABELS[question.subject]}・{source.title}
                 </span>
+                {/* 同一份上傳、同科目的卡片文字都一樣，補上題號讓報讀出來的名稱可以區分 */}
+                <span className="sr-only">・第 {numberById.get(question.id)} 題</span>
               </button>
             </div>
           </li>

@@ -96,6 +96,26 @@ describe("QuestionPicker", () => {
     expect(QuestionCrop).toHaveBeenCalled();
   });
 
+  it("gives every card a unique accessible name with its question number", () => {
+    render(vi.fn(), new Set());
+    // 題號沿用框選頁的順序（來源內依框選先後），同科目同來源的卡片才分得出來
+    expect(cards().map((card) => card.textContent)).toEqual([
+      "數學・四上數學月考・第 1 題",
+      "數學・四上數學月考・第 2 題",
+      "國語・四上數學月考・第 3 題",
+    ]);
+    // 可見文字要在名稱的開頭（WCAG 2.5.3 Label in Name）
+    expect(cards()[0].querySelector(".sr-only")?.previousElementSibling?.textContent).toBe("數學・四上數學月考");
+  });
+
+  it("keeps question numbers when earlier questions are already on the sheet", () => {
+    render(vi.fn(), new Set(["m1"]));
+    expect(cards().map((card) => card.textContent)).toEqual([
+      "數學・四上數學月考・第 2 題",
+      "國語・四上數學月考・第 3 題",
+    ]);
+  });
+
   it("filters by subject", () => {
     render();
     act(() => button("國語").click());
@@ -129,7 +149,7 @@ describe("QuestionPicker", () => {
 
     // <button> 裡不能再放 <button>：重試要是切換按鈕的兄弟，而不是子孫
     expect(container.querySelector("button[data-question-id] button")).toBeNull();
-    expect(cards()[0].textContent).toBe("數學・四上數學月考");
+    expect(cards()[0].textContent).toBe("數學・四上數學月考・第 1 題");
 
     act(() => button("重試").click());
     expect(refresh).toHaveBeenCalledWith(makePage().storagePath);

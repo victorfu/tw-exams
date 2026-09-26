@@ -45,6 +45,7 @@ export default function SheetPrintView() {
         ? [
             {
               key: `${question.id}:${regionIndex}`,
+              questionId: question.id,
               path: page.storagePath,
               box: region.box,
               aspectRatio: regionAspectRatio(region.box, page),
@@ -58,11 +59,14 @@ export default function SheetPrintView() {
   const { urls, refresh } = useSignedPageUrls(paths);
   const loadedCount = regionKeys.filter((key) => loadedKeys.has(key)).length;
   const failedCount = regionKeys.filter((key) => failedKeys.has(key) && !loadedKeys.has(key)).length;
-  const largeScaleCapped = !printScaleEnlargesAny(
-    printRegions,
-    PRINT_SCALE_FACTORS.normal,
-    PRINT_SCALE_FACTORS.large,
-  );
+  // 沒有可列印的區塊時不算「撐滿」，免得空白考卷也跳出「大」的提示
+  const largeScaleCapped =
+    printRegions.length > 0 &&
+    !printScaleEnlargesAny(
+      printRegions,
+      PRINT_SCALE_FACTORS.normal,
+      PRINT_SCALE_FACTORS.large,
+    );
   const hasAnswers = items.some(({ question }) => Boolean(question.answer));
 
   const updatePreferences = (next: PrintPreferences) => {
@@ -76,9 +80,15 @@ export default function SheetPrintView() {
   const markFailed = (key: string) =>
     setFailedKeys((previous) => (previous.has(key) ? previous : new Set(previous).add(key)));
 
-  const retryImage = (path: string) => {
-    // 重試時這張圖回到「載入中」，重新等它 onLoad / onError
-    const retried = new Set(printRegions.filter((region) => region.path === path).map((region) => region.key));
+  const retryImage = (questionId: string, path: string) => {
+    // 重試時這題在這一頁的區塊回到「載入中」，重新等它 onLoad / onError。
+    // 只清這一題的：同一頁的其他題目仍顯示失敗（沒有 <img>，不會再觸發事件），
+    // 若一起清掉，按鈕會永遠卡在「圖片載入中」
+    const retried = new Set(
+      printRegions
+        .filter((region) => region.questionId === questionId && region.path === path)
+        .map((region) => region.key),
+    );
     setFailedKeys((previous) => new Set([...previous].filter((key) => !retried.has(key))));
     void refresh(path);
   };

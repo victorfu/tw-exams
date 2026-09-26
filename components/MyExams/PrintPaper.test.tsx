@@ -120,6 +120,6 @@ describe("PrintPaper", () => {
     );
     if (!(retryButton instanceof HTMLButtonElement)) throw new Error("retry button not found");
     act(() => retryButton.click());
-    expect(onRetryImage).toHaveBeenCalledWith("p0.jpg");
+    expect(onRetryImage).toHaveBeenCalledWith("q2", "p0.jpg");
   });
 });
