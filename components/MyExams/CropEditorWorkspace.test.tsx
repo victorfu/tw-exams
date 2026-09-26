@@ -337,4 +337,31 @@ describe("CropEditorWorkspace", () => {
     const [commit] = mocks.commitEditorChanges.mock.calls.at(-1) ?? [];
     expect(commit.source.title).toBe("期末考");
   });
+
+  it.each([
+    ["macOS Chrome/Edge", { isComposing: true }],
+    ["Safari", { isComposing: false }],
+  ])(
+    "does not delete the selected question on Backspace after an IME Enter in the title field (%s)",
+    async (_browser, init) => {
+      renderWorkspace("/my-exams/sources/source-1?q=q1");
+      const title = titleInput();
+      act(() => title.focus());
+      typeInto(title, "四上");
+      // 按 Enter 確認注音選字
+      act(() => {
+        title.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "Enter", keyCode: 229, bubbles: true, cancelable: true, ...init }),
+        );
+      });
+      // 使用者以為打錯字接著按 Backspace：鍵盤事件送到目前有焦點的元素
+      pressKey("Backspace", document.activeElement ?? document.body);
+      await flushAutosave();
+
+      expect(container.querySelector('[data-box-key="q:q1:0"]')).not.toBeNull();
+      for (const [commit] of mocks.commitEditorChanges.mock.calls) {
+        expect(commit.deleteIds).toEqual([]);
+      }
+    },
+  );
 });

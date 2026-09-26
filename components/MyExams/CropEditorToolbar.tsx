@@ -73,7 +73,12 @@ export function CropEditorToolbar({
           onChange={(event) => changeTitle(event.target.value)}
           onBlur={showSavedTitle}
           onKeyDown={(event) => {
-            if (event.key === "Enter") event.currentTarget.blur();
+            if (event.key !== "Enter") return;
+            // IME（注音等）選字／確認組字的 Enter 不離開欄位，否則焦點掉到 <body>，
+            // 接著按 Backspace 會刪掉選取中的題目。macOS Chrome/Edge 會帶 isComposing；
+            // Safari 先送 compositionend 再送 keydown（isComposing 已是 false），只能看 keyCode 229。
+            if (event.nativeEvent.isComposing || event.keyCode === 229) return;
+            event.currentTarget.blur();
           }}
         />
         <div className="join">
