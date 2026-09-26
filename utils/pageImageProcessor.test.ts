@@ -61,7 +61,7 @@ const SAFARI_16_ORIENTATIONS = ["none", "flipY"];
  */
 function stubPhotoDecoding(
   natural: PhotoSize,
-  { orientations = ["from-image", "none", "flipY"], loads = true } = {},
+  { orientations = ["from-image", "none", "flipY"], loads = true, rawAxes = false } = {},
 ) {
   vi.spyOn(HTMLImageElement.prototype, "naturalWidth", "get").mockReturnValue(natural.width);
   vi.spyOn(HTMLImageElement.prototype, "naturalHeight", "get").mockReturnValue(natural.height);
@@ -75,11 +75,10 @@ function stubPhotoDecoding(
         `The provided value '${options.imageOrientation}' is not a valid enum value of type ImageOrientation.`,
       );
     }
-    return {
-      width: options.resizeWidth ?? natural.width,
-      height: options.resizeHeight ?? natural.height,
-      close: vi.fn(),
-    };
+    const width = options.resizeWidth ?? natural.width;
+    const height = options.resizeHeight ?? natural.height;
+    // rawAxes：Chromium 131 以前把 resize 套在 EXIF 轉正前的像素軸上，回報的寬高也是那個方向
+    return rawAxes ? { width: height, height: width, close: vi.fn() } : { width, height, close: vi.fn() };
   });
   vi.stubGlobal("createImageBitmap", createImageBitmap);
   const context = { fillStyle: "", fillRect: vi.fn(), translate: vi.fn(), rotate: vi.fn(), drawImage: vi.fn() };
@@ -272,6 +271,19 @@ describe("renderPage for photos", () => {
     );
     expect(result).toMatchObject({ width: 2400, height: 1800 });
     expect(context.rotate).toHaveBeenCalledWith(Math.PI / 2);
+    expect(context.drawImage).toHaveBeenCalledWith(expect.anything(), -900, -1200, 1800, 2400);
+  });
+
+  it("resizes along the raw pixel axes on Chromium before 132", async () => {
+    // 直拍照片（EXIF 90°）：舊版 Chromium 會把 1800×2400 套到橫的原始像素上，縱向只剩 75% 的取樣
+    const { createImageBitmap, context } = stubPhotoDecoding({ width: 4284, height: 5712 }, { rawAxes: true });
+
+    await renderPage(photoPage(), 2400);
+
+    expect(createImageBitmap.mock.calls.map(([, options]) => [options?.resizeWidth, options?.resizeHeight])).toEqual([
+      [1800, 2400],
+      [2400, 1800],
+    ]);
     expect(context.drawImage).toHaveBeenCalledWith(expect.anything(), -900, -1200, 1800, 2400);
   });
 

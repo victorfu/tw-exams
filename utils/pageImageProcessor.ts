@@ -204,11 +204,15 @@ async function drawImageFile(
   const fitted = fitLongEdge(natural.width, natural.height, maxLongEdge);
   // 點陣圖直接做成要畫的大小：沒給 resize 的話，連縮圖都會先配置一張原尺寸的點陣圖（2400 萬畫素約 98MB）。
   // 不傳 imageOrientation：預設就會照 EXIF 轉正；Safari 17.1 以前不認得 "from-image"，傳了每張照片都會失敗。
-  const bitmap = await createImageBitmap(input.file, {
-    resizeWidth: fitted.width,
-    resizeHeight: fitted.height,
-    resizeQuality: "high",
-  });
+  const decode = (width: number, height: number) =>
+    createImageBitmap(input.file, { resizeWidth: width, resizeHeight: height, resizeQuality: "high" });
+  let bitmap = await decode(fitted.width, fitted.height);
+  // Chromium 131 以前把 resize 套在 EXIF 轉正前的像素軸上（回報的寬高是反的）：
+  // 畫面仍是正的，但長邊只剩部分取樣。反過來再解一次，套到原始軸上就是正確大小。
+  if (fitted.width !== fitted.height && bitmap.width === fitted.height && bitmap.height === fitted.width) {
+    bitmap.close();
+    bitmap = await decode(fitted.height, fitted.width);
+  }
   try {
     const size = rotatedSize(fitted.width, fitted.height, input.rotation);
     canvas.width = size.width;
