@@ -227,4 +227,48 @@ describe("PdfViewer", () => {
 
     expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1);
   });
+
+  it("redraws a page after a slow render is cancelled before it can update the last-rendered width", async () => {
+    render("/exams/a.pdf");
+    const cancel = vi.fn();
+    const pdf: LoadedPdf = {
+      pageSizes: [{ width: 600, height: 800 }],
+      renderPage: vi.fn((_pageNumber: number, _canvas: HTMLCanvasElement, cssWidth: number) => ({
+        // 600 的渲染會完成；750 的渲染永遠不會完成（模擬被取消前卡住）。
+        promise: cssWidth === 600 ? Promise.resolve() : new Promise<void>(() => {}),
+        cancel,
+      })),
+      destroy: vi.fn(),
+    };
+    await resolveLoad(0, pdf);
+    setWidth(600);
+    await act(async () => {}); // 讓 600 那次渲染的 .then 真的跑完，把 lastRenderedWidthRef 設成 600。
+
+    expect(pdf.renderPage).toHaveBeenCalledTimes(1);
+
+    act(() => button("放大").click());
+    expect(pdf.renderPage).toHaveBeenCalledTimes(2);
+    expect(pdf.renderPage).toHaveBeenLastCalledWith(1, canvases()[0], 750, 1);
+
+    act(() => fitButton().click());
+
+    expect(pdf.renderPage).toHaveBeenCalledTimes(3);
+    expect(pdf.renderPage).toHaveBeenLastCalledWith(1, canvases()[0], 600, 1);
+  });
+
+  it("uses the newest intersection entry when a callback reports several for the same page", async () => {
+    render("/exams/a.pdf");
+    const pdf = fakePdf(2);
+    await resolveLoad(0, pdf);
+    setWidth(600);
+
+    act(() => setIntersecting(canvases()[1], false));
+    act(() => button("放大").click());
+    expect(pdf.renderPage).not.toHaveBeenCalledWith(2, canvases()[1], 750, 1);
+
+    // 同一次 callback 回報「先離開又進入」：真正的最新狀態是最後一筆（進入畫面）。
+    act(() => setIntersecting(canvases()[1], false, true));
+
+    expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 750, 1);
+  });
 });

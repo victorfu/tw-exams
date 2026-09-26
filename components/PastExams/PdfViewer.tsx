@@ -169,7 +169,8 @@ function PdfPage({ pdf, pageNumber, display, root }: PdfPageProps) {
     if (!canvas || !hasWidth) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        setIntersecting(entries[0]?.isIntersecting ?? false);
+        // 一次 callback 可能夾帶好幾筆（例如快速滑動時先離開又進入）；最新狀態看最後一筆。
+        setIntersecting(entries[entries.length - 1]?.isIntersecting ?? false);
       },
       { root, rootMargin: "100% 0px" },
     );
@@ -182,6 +183,9 @@ function PdfPage({ pdf, pageNumber, display, root }: PdfPageProps) {
     const canvas = canvasRef.current;
     if (!canvas || !intersecting || display.width === 0) return;
     if (lastRenderedWidthRef.current === display.width) return;
+    // 開始畫之前先清掉：pdf.js 會在 render() 裡先把 canvas resize（連帶清空畫面），
+    // 如果這次被取消，不能讓 ref 停留在舊寬度，害之後切回舊寬度時誤判成「畫過了」而跳過重畫。
+    lastRenderedWidthRef.current = null;
     const handle = pdf.renderPage(pageNumber, canvas, display.width, renderPixelRatio(window.devicePixelRatio));
     handle.promise.then(
       () => {

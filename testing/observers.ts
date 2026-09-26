@@ -79,9 +79,12 @@ export function resizeObservedElements(width: number): void {
   }
 }
 
-/** 模擬某個被觀察的元素的可視狀態改變（進入／離開畫面）。 */
-export function setIntersecting(target: Element, isIntersecting: boolean): void {
+/**
+ * 模擬某個被觀察的元素的可視狀態改變（進入／離開畫面）。
+ * 傳多個值可以模擬同一次 callback 夾帶好幾筆紀錄（例如快速滑動時先離開又進入）。
+ */
+export function setIntersecting(target: Element, ...states: boolean[]): void {
   for (const { callback, targets } of intersectionObservers) {
-    if (targets.has(target)) callback([{ isIntersecting, target }]);
+    if (targets.has(target)) callback(states.map((isIntersecting) => ({ isIntersecting, target })));
   }
 }
