@@ -128,7 +128,7 @@ describe("handleExamFileRequest with private Blob", () => {
     expect(response.status).toBe(200);
     expect(await response.text()).toBe("%PDF-blob");
     expect(response.headers.get("etag")).toBe('"e1"');
-    expect(response.headers.get("content-length")).toBe("9");
+    expect(response.headers.get("content-length")).toBeNull();
     expect(response.headers.get("cache-control")).toBe("private, no-cache");
   });
 

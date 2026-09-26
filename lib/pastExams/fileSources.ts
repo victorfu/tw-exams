@@ -49,7 +49,9 @@ export function blobExamFileSource(getBlob: GetPrivateBlob): ExamFileSource {
       });
       if (!result) return { status: 404 };
       if (result.statusCode === 304) return { status: 304, etag: result.blob.etag };
-      return { status: 200, body: result.stream, size: result.blob.size, etag: result.blob.etag };
+      // 不轉發 size 當 Content-Length：SDK 在上游沒有 Content-Length 時回 0，
+      // 而 undici 解壓 gzip/br body 時不會跟著改上游的 Content-Length，size 可能只是壓縮後的長度。
+      return { status: 200, body: result.stream, size: null, etag: result.blob.etag };
     },
   };
 }
