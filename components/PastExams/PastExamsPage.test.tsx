@@ -112,6 +112,29 @@ describe("PastExamsPage", () => {
     expect(button("數學").getAttribute("aria-pressed")).toBe("true");
   });
 
+  it("opens on 數學 when the catalog lists another subject first", () => {
+    const chinese = {
+      ...MATH_5A,
+      id: "chinese-grade-05-semester-1-hanlin",
+      subject: "chinese",
+      subjectLabel: "國語",
+      publisher: "hanlin",
+      publisherLabel: "翰林",
+    };
+    setLocation("/past-exams");
+    followHistory();
+    act(() =>
+      root.render(
+        <PastExamsPage
+          catalog={makeCatalog([minquan, makeExam({ datasetId: chinese.id, school: "國語國小" })], [chinese, MATH_5A])}
+        />,
+      ),
+    );
+
+    expect(button("數學").getAttribute("aria-pressed")).toBe("true");
+    expect(listedSchools()).toEqual(["民權國小"]);
+  });
+
   it("writes filters to the URL", () => {
     renderPage();
 

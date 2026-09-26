@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { MATH_5A } from "../../testing/pastExamsFixtures";
-import { collectionOptions, pickCollection } from "./collections";
+import { collectionOptions, defaultCollection, pickCollection } from "./collections";
 import type { PastExamCollection } from "./types";
 
 function dataset(overrides: Partial<PastExamCollection>): PastExamCollection {
@@ -53,5 +53,28 @@ describe("pickCollection", () => {
 
   it("returns null when nothing matches the change", () => {
     expect(pickCollection(all, math5a, { grade: 3 })).toBeNull();
+  });
+});
+
+describe("defaultCollection", () => {
+  const chinese5a = dataset({ subject: "chinese", subjectLabel: "國語", publisher: "hanlin", publisherLabel: "翰林" });
+  const science5a = dataset({ subject: "science", subjectLabel: "自然", publisher: "kang-hsuan", publisherLabel: "康軒" });
+
+  it("starts on 數學 even when the catalog lists another subject first", () => {
+    expect(defaultCollection([chinese5a, science5a, math5a])).toBe(math5a);
+  });
+
+  it("follows the fixed subject order when there is no 數學", () => {
+    expect(defaultCollection([science5a, chinese5a])).toBe(chinese5a);
+  });
+
+  it("keeps catalog order within a subject and puts unknown subjects last", () => {
+    const music = dataset({ subject: "music", subjectLabel: "音樂" });
+    expect(defaultCollection([music, math5aKang, math5a])).toBe(math5aKang);
+    expect(defaultCollection([music])).toBe(music);
+  });
+
+  it("is null for an empty catalog", () => {
+    expect(defaultCollection([])).toBeNull();
   });
 });

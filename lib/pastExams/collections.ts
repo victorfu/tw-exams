@@ -1,3 +1,4 @@
+import { SUBJECTS } from "./labels";
 import type { PastExamCollection } from "./types";
 
 type CollectionKey = "grade" | "semester" | "subject" | "publisher";
@@ -50,6 +51,22 @@ export function pickCollection(
   for (const dataset of datasets) {
     if (!KEYS.every((key) => change[key] === undefined || dataset[key] === change[key])) continue;
     if (best === null || distance(dataset) < distance(best)) best = dataset;
+  }
+  return best;
+}
+
+/**
+ * 網址沒指定資料集時要打開哪一個：數學優先，其餘照科目固定清單的順序（不認得的科目排最後），
+ * 同一科目照目錄順序。不受 cowork 寫 catalog 的順序影響。
+ */
+export function defaultCollection(datasets: readonly PastExamCollection[]): PastExamCollection | null {
+  const rank = (subject: string) => {
+    const index = SUBJECTS.findIndex((item) => item.id === subject);
+    return index === -1 ? SUBJECTS.length : index;
+  };
+  let best: PastExamCollection | null = null;
+  for (const dataset of datasets) {
+    if (best === null || rank(dataset.subject) < rank(best.subject)) best = dataset;
   }
   return best;
 }

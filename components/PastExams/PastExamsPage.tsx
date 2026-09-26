@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { isEditableTarget } from "../MyExams/editorKeyboard";
+import { defaultCollection } from "../../lib/pastExams/collections";
 import { facetValues, filterExams, groupByAcademicYear, sortExams } from "../../lib/pastExams/filters";
 import { subjectLabel, termLabel } from "../../lib/pastExams/labels";
 import { readUrlState, writeUrlState, type PastExamsUrlState } from "../../lib/pastExams/searchParams";
@@ -30,7 +31,7 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
   const searchParams = useSearchParams();
   const urlState = readUrlState(searchParams);
   const collection =
-    catalog.datasets.find((dataset) => dataset.id === urlState.collectionId) ?? catalog.datasets[0] ?? null;
+    catalog.datasets.find((dataset) => dataset.id === urlState.collectionId) ?? defaultCollection(catalog.datasets);
 
   const collectionExams = useMemo(
     () => sortExams(catalog.exams.filter((exam) => exam.datasetId === collection?.id)),
