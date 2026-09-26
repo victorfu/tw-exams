@@ -80,12 +80,12 @@ npm run build
 | `/my-exams` | 題庫、上傳紀錄、考卷三個分頁 |
 | `/my-exams/sources/[id]` | 框題：框題目、遮蓋、答案與作答留白（自動儲存） |
 | `/my-exams/sheets/new`、`/my-exams/sheets/[id]/edit` | 組卷：隨機抽題、換題、排序、加入指定題目 |
-| `/my-exams/sheets/[id]/print` | 列印版面（不含頂部列） |
+| `/my-exams/sheets/[id]/print` | 列印版面（不含導覽列） |
 
 ### 程式結構
 
-- `app/`：路由與版面。`(app)` 群組有頂部導覽，`(print)` 群組是全螢幕列印頁；`error.tsx`／`global-error.tsx` 是不重新載入整頁的錯誤畫面。`globals.css` 是 daisyUI 主題（`paopaolight`／`paopaodark`）與設計 token。
-- `components/common/`：頂部導覽、logo、主題切換、確認對話框。
+- `app/`：路由與版面。`(app)` 群組有導覽（桌機是左側導覽欄、手機是頂部列），`(print)` 群組是全螢幕列印頁；`error.tsx`／`global-error.tsx` 是不重新載入整頁的錯誤畫面。`globals.css` 是 daisyUI 主題（`paopaolight`／`paopaodark`）與設計 token。
+- `components/common/`：主要導覽、logo、主題切換、確認對話框。
 - `components/PastExams/`、`lib/pastExams/`：考古題頁面、pdf.js 預覽器，以及篩選、排序、網址狀態、檔案存取等純函式。
 - `components/MyExams/`：自製考卷的元件與純函式（框的幾何、排序、抽題、列印設定）。
 - `services/`：來源、題目、考卷的資料存取。元件與 hooks 只呼叫 `questionSourceService`、`bankQuestionService`、`examSheetService`；記憶體儲存集中在 `mockStore.ts`，之後接後端只要換掉這三個檔案的內部實作。頁圖網址由 `getPageImageUrls(paths, force)` 提供，改用會過期的 signed URL 時，快取與重簽都做在這裡。

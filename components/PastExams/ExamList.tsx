@@ -45,7 +45,7 @@ export function ExamList({ groups, selectedId, onSelect }: ExamListProps) {
                     aria-current={selected ? "true" : undefined}
                     disabled={!exam.available}
                     onClick={() => onSelect(exam)}
-                    className={`flex w-full scroll-mt-20 items-center gap-2 px-3 py-2.5 text-left transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-45 ${
+                    className={`flex w-full scroll-mt-14 items-center gap-2 px-3 py-2.5 text-left transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-45 ${
                       selected ? "bg-accent-tint" : "enabled:hover:bg-base-200"
                     }`}
                   >

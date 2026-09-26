@@ -116,62 +116,66 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
   const colors = subjectColors(collection.subject);
 
   return (
-    <div className="mx-auto max-w-7xl space-y-4">
-      <header>
-        <h1 className="text-3xl font-semibold tracking-tight">考古題</h1>
-        <p className="flex flex-wrap items-center gap-1.5 text-sm text-base-content/60">
-          <span>{termLabel(collection.grade, collection.semester)}</span>
-          <span
-            data-subject-tag
-            className="rounded-full px-2 py-0.5 text-xs font-medium"
-            style={{ backgroundColor: colors.tint, color: colors.ink }}
-          >
-            {subjectLabel(collection.subject, catalog.datasets)}
-          </span>
-          <span>（{collection.publisherLabel}），共 {collectionExams.length} 份</span>
-        </p>
-      </header>
+    // 桌機：左欄放篩選與清單、整欄一起捲動（矮螢幕上清單才不會被擠扁），右欄的預覽吃滿整個視窗高度；
+    // 高度扣掉 (app)/layout.tsx 內容區上下的 md:py-4。手機：一般的上下排列。
+    <div className="mx-auto max-w-screen-2xl space-y-4 md:grid md:h-[calc(100dvh-2rem)] md:grid-cols-[20rem_minmax(0,1fr)] md:gap-4 md:space-y-0 xl:grid-cols-[24rem_minmax(0,1fr)]">
+      {/* 左右各留 1 的內距，卡片陰影與焦點框才不會被捲動框切掉。 */}
+      <div className="space-y-3 md:-mx-1 md:min-h-0 md:overflow-y-auto md:px-1 md:pb-1">
+        <header>
+          <h1 className="text-2xl font-semibold tracking-tight">考古題</h1>
+          <p className="flex flex-wrap items-center gap-1.5 text-sm text-base-content/60">
+            <span>{termLabel(collection.grade, collection.semester)}</span>
+            <span
+              data-subject-tag
+              className="rounded-full px-2 py-0.5 text-xs font-medium"
+              style={{ backgroundColor: colors.tint, color: colors.ink }}
+            >
+              {subjectLabel(collection.subject, catalog.datasets)}
+            </span>
+            <span>（{collection.publisherLabel}），共 {collectionExams.length} 份</span>
+          </p>
+        </header>
 
-      <CollectionPicker
-        datasets={catalog.datasets}
-        current={collection}
-        onSelect={(collectionId) => update({ collectionId, ...CLEARED_FILTERS, examId: null })}
-      />
+        <CollectionPicker
+          datasets={catalog.datasets}
+          current={collection}
+          onSelect={(collectionId) => update({ collectionId, ...CLEARED_FILTERS, examId: null })}
+        />
 
-      <ExamFilters
-        key={collection.id}
-        facets={facets}
-        academicYears={url.academicYears}
-        examType={url.examType}
-        city={url.city}
-        query={url.query}
-        counts={counts}
-        onChange={update}
-        onClear={() => update(CLEARED_FILTERS)}
-      />
+        <ExamFilters
+          key={collection.id}
+          facets={facets}
+          academicYears={url.academicYears}
+          examType={url.examType}
+          city={url.city}
+          query={url.query}
+          counts={counts}
+          onChange={update}
+          onClear={() => update(CLEARED_FILTERS)}
+        />
 
-      <div className="md:grid md:grid-cols-[minmax(17rem,24rem)_minmax(0,1fr)] md:items-start md:gap-4">
         <ExamList groups={groupByAcademicYear(exams)} selectedId={selected?.id ?? null} onSelect={select} />
-        {/* 桌機：右側固定的預覽欄。手機：選了考卷才出現的全螢幕預覽層。 */}
-        <section
-          aria-label="預覽"
-          className={`${
-            selected ? "fixed inset-0 z-40 flex bg-background" : "hidden"
-          } flex-col md:sticky md:top-18 md:z-auto md:flex md:h-[calc(100dvh-6rem)] md:bg-transparent`}
-        >
-          <ExamPreview
-            exam={selected}
-            view={showAnswer ? "answer" : "question"}
-            onViewChange={(view) => update({ showAnswer: view === "answer" })}
-            collection={collection}
-            hasPrevious={selectedIndex > 0}
-            hasNext={selected !== null && selectedIndex < navigable.length - 1}
-            onPrevious={() => step(-1)}
-            onNext={() => step(1)}
-            onClose={closePreview}
-          />
-        </section>
       </div>
+
+      {/* 桌機：右側的預覽欄。手機：選了考卷才出現的全螢幕預覽層。 */}
+      <section
+        aria-label="預覽"
+        className={`${
+          selected ? "fixed inset-0 z-40 flex bg-background" : "hidden"
+        } flex-col md:static md:z-auto md:flex md:min-h-0 md:bg-transparent`}
+      >
+        <ExamPreview
+          exam={selected}
+          view={showAnswer ? "answer" : "question"}
+          onViewChange={(view) => update({ showAnswer: view === "answer" })}
+          collection={collection}
+          hasPrevious={selectedIndex > 0}
+          hasNext={selected !== null && selectedIndex < navigable.length - 1}
+          onPrevious={() => step(-1)}
+          onNext={() => step(1)}
+          onClose={closePreview}
+        />
+      </section>
     </div>
   );
 }

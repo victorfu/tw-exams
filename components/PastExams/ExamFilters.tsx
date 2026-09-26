@@ -23,7 +23,7 @@ interface ExamFiltersProps {
   city: string | null;
   /**
    * 網址上的搜尋字。輸入框有自己的狀態（中文輸入法組字時不能被外部值打斷），
-   * 網址的 q 被別處改掉（例如點頂部的「考古題」）時才跟著換；換資料集時用 key 重建。
+   * 網址的 q 被別處改掉（例如點導覽的「考古題」）時才跟著換；換資料集時用 key 重建。
    */
   query: string;
   counts: ExamCounts;
@@ -99,7 +99,7 @@ export function ExamFilters({ facets, academicYears, examType, city, query, coun
             </option>
           ))}
         </select>
-        <label className="input input-sm w-full sm:w-64">
+        <label className="input input-sm w-full sm:w-64 md:w-full">
           <Search className="size-4 opacity-50" aria-hidden="true" />
           <input
             type="search"
@@ -118,7 +118,7 @@ export function ExamFilters({ facets, academicYears, examType, city, query, coun
             }}
           />
         </label>
-        <div className="flex w-full items-center justify-between gap-3 text-sm text-base-content/70 lg:ml-auto lg:w-auto">
+        <div className="flex w-full items-center justify-between gap-3 text-sm text-base-content/70">
           <span>
             共 {counts.total} 份（PDF {counts.pdf}、Word {counts.word}
             {counts.unavailable > 0 && `、未下載 ${counts.unavailable}`}）

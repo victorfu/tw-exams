@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("next/navigation", async () => (await import("../../testing/nextNavigation")).nextNavigationModule);
 import { resetNavigation, setLocation } from "../../testing/nextNavigation";
-import { TopNav } from "./TopNav";
+import { MainNav } from "./MainNav";
 
 let container: HTMLDivElement;
 let root: Root;
@@ -28,10 +28,10 @@ afterEach(() => {
   container.remove();
 });
 
-describe("TopNav", () => {
+describe("MainNav", () => {
   it("links to both sections and marks the current one", () => {
     setLocation("/past-exams");
-    act(() => root.render(<TopNav />));
+    act(() => root.render(<MainNav variant="rail" />));
 
     expect(link("考古題").getAttribute("href")).toBe("/past-exams");
     expect(link("考古題").getAttribute("aria-current")).toBe("page");
@@ -40,14 +40,22 @@ describe("TopNav", () => {
   });
 
   it("lists 考古題 first", () => {
-    act(() => root.render(<TopNav />));
+    act(() => root.render(<MainNav variant="rail" />));
 
     expect([...container.querySelectorAll("a")].map((item) => item.textContent)).toEqual(["考古題", "自製考卷"]);
   });
 
+  it("marks the current section in the mobile bar too", () => {
+    setLocation("/my-exams");
+    act(() => root.render(<MainNav variant="bar" />));
+
+    expect(link("自製考卷").getAttribute("aria-current")).toBe("page");
+    expect(link("考古題").hasAttribute("aria-current")).toBe(false);
+  });
+
   it("treats nested pages as part of their section", () => {
     setLocation("/my-exams/sheets/new");
-    act(() => root.render(<TopNav />));
+    act(() => root.render(<MainNav variant="rail" />));
 
     expect(link("自製考卷").getAttribute("aria-current")).toBe("page");
     expect(link("考古題").hasAttribute("aria-current")).toBe(false);
