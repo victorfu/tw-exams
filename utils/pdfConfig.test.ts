@@ -6,9 +6,9 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 const PDFJS_ROOT = fileURLToPath(new URL("../node_modules/pdfjs-dist/", import.meta.url));
 
-/** 把 unpkg 上的網址對應到 node_modules 裡同一個檔案。 */
+/** 把 public/pdfjs/<版本>/ 的網址對應到 node_modules 裡同一個檔案（複製來源）。 */
 function localPath(url: string, version: string): string {
-  const base = `https://unpkg.com/pdfjs-dist@${version}/`;
+  const base = `/pdfjs/${version}/`;
   expect(url.startsWith(base), url).toBe(true);
   return `${PDFJS_ROOT}${url.slice(base.length)}`;
 }
@@ -38,7 +38,7 @@ afterAll(() => {
 describe("pdfConfig", () => {
   it("opens PDFs on browsers without Promise.withResolvers (Safari before 17.4)", async () => {
     const { pdfjs } = await import("./pdfConfig");
-    // 用設定裡的同一支 worker，但在同一個執行緒跑，測試不必連 unpkg。
+    // 用設定裡的同一支 worker，但在同一個執行緒跑，測試不必先複製檔案。
     const workerPath = localPath(pdfjs.GlobalWorkerOptions.workerSrc, pdfjs.version);
     (globalThis as typeof globalThis & { pdfjsWorker?: unknown }).pdfjsWorker = await import(
       /* @vite-ignore */ pathToFileURL(workerPath).href
@@ -53,7 +53,7 @@ describe("pdfConfig", () => {
     const installed = JSON.parse(readFileSync(`${PDFJS_ROOT}package.json`, "utf8")) as { version: string };
     expect(pdfjs.version).toBe(installed.version);
 
-    const base = `https://unpkg.com/pdfjs-dist@${installed.version}/`;
+    const base = `/pdfjs/${installed.version}/`;
     const assetUrls = {
       workerSrc: pdfjs.GlobalWorkerOptions.workerSrc,
       cMapUrl: pdfDocumentOptions.cMapUrl,

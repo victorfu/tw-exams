@@ -12,10 +12,11 @@
     "lint": "eslint",
     "test": "vitest run",
     "catalog": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-exam-catalog.ts",
-    "predev": "npm run catalog",
-    "prebuild": "npm run catalog",
+    "predev": "npm run catalog && npm run pdfjs-assets",
+    "prebuild": "npm run catalog && npm run pdfjs-assets",
     "icons": "node scripts/generate-icons.mjs",
-    "upload:exams": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file-if-exists=.env.local scripts/upload-exams.ts"
+    "upload:exams": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file-if-exists=.env.local scripts/upload-exams.ts",
+    "pdfjs-assets": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/copy-pdfjs-assets.ts"
   },
   "dependencies": {
     "@vercel/blob": "^2.8.0",

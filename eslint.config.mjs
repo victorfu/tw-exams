@@ -19,6 +19,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Python CLI (its .venv bundles third-party JS).
     "cli/**",
+    // pdf.js runtime files copied from node_modules by `npm run pdfjs-assets`.
+    "public/pdfjs/**",
   ]),
 ]);
 

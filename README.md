@@ -48,6 +48,7 @@ npm run build
 - `output/` 只有 meta（`*.json`、`*.jsonl`、`*.md`）進 git；PDF、Word 等考卷檔只在本機（見 `.gitignore`）。
 - `npm run dev`／`npm run build` 前會自動執行 `npm run catalog`，從 `output/` 產生 `data/pastExams.json`（不進 git）。catalog 有問題（`schema_version` 不是 1、`record_count` 不符、`record_id` 重複、JSON 壞掉、`relative_path` 跳出根目錄）就失敗，dev／build 跟著停。
 - 剛 clone 下來先跑一次 `npm run catalog`，型別檢查才找得到 `data/pastExams.json`。
+- `npm run dev`／`npm run build` 前也會執行 `npm run pdfjs-assets`，把 pdf.js 的 worker、cMaps、字型、wasm 從 `node_modules/pdfjs-dist` 複製到 `public/pdfjs/<版本>/`（不進 git）。PDF 上傳與考古題預覽都從同源載入，不連 unpkg。
 
 ### 考卷檔怎麼送到瀏覽器
 
