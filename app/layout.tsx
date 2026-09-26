@@ -10,6 +10,10 @@ const huninn = Huninn({
   variable: "--font-huninn",
   preload: false,
   display: "swap",
+  // Next 沒有 Huninn 的字型度量，產生不了替代字型，每次編譯都會警告。Turbopack 只有在
+  // 明確給 fallback 時才跳過查表，所以給空陣列；後備字由 globals.css 的 --font-display 決定。
+  fallback: [],
+  adjustFontFallback: false,
 });
 const notoSansTC = Noto_Sans_TC({
   variable: "--font-noto-tc",
