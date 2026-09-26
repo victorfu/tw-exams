@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 import type { FacetValues } from "../../lib/pastExams/filters";
 import type { PastExamsUrlState } from "../../lib/pastExams/searchParams";
 import type { PastExamType } from "../../lib/pastExams/types";
+import { ScrollRow } from "./ScrollRow";
 import { SegmentButton } from "./SegmentButton";
 
 export type FilterPatch = Partial<Pick<PastExamsUrlState, "academicYears" | "examType" | "city" | "query">>;
@@ -57,22 +58,27 @@ export function ExamFilters({ facets, academicYears, examType, city, query, coun
 
   return (
     <section aria-label="篩選" className="surface-card space-y-3 rounded-xl px-3 py-3 sm:px-4">
-      <div role="group" aria-label="學年度" className="flex flex-wrap items-center gap-1.5">
-        <span className="mr-1 text-sm text-base-content/60">學年度</span>
-        {facets.academicYears.map((year) => {
-          const pressed = academicYears.includes(year.value);
-          return (
-            <button
-              key={year.value}
-              type="button"
-              aria-pressed={pressed}
-              className={`btn btn-xs rounded-full px-2.5 sm:btn-sm ${pressed ? "btn-primary" : "btn-ghost bg-base-200"}`}
-              onClick={() => toggleYear(year.value)}
-            >
-              {year.label}
-            </button>
-          );
-        })}
+      {/* 學年度只佔一列：放不下就左右捲，按鈕只寫年度數字（學期已在標題上）。 */}
+      <div className="flex items-center gap-2">
+        <span className="shrink-0 text-sm text-base-content/60">學年度</span>
+        <ScrollRow aria-label="學年度" className="gap-1">
+          {facets.academicYears.map((year) => {
+            const pressed = academicYears.includes(year.value);
+            return (
+              <button
+                key={year.value}
+                type="button"
+                aria-pressed={pressed}
+                aria-label={year.label}
+                title={year.label}
+                className={`btn btn-xs shrink-0 rounded-full px-2 ${pressed ? "btn-primary" : "btn-ghost bg-base-200"}`}
+                onClick={() => toggleYear(year.value)}
+              >
+                {year.value}
+              </button>
+            );
+          })}
+        </ScrollRow>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">

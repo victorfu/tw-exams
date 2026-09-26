@@ -8,6 +8,7 @@ vi.mock("./PdfViewer", () => ({
 
 vi.mock("next/navigation", async () => (await import("../../testing/nextNavigation")).nextNavigationModule);
 import { followHistory, historyEntries, navigation, resetNavigation, setLocation } from "../../testing/nextNavigation";
+import { installObserverStubs } from "../../testing/observers";
 import { makeCatalog, makeExam, MATH_5A } from "../../testing/pastExamsFixtures";
 import PastExamsPage from "./PastExamsPage";
 
@@ -81,6 +82,7 @@ function stubViewport(desktop: boolean) {
 
 beforeEach(() => {
   resetNavigation();
+  installObserverStubs();
   (globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
   container = document.createElement("div");
   document.body.appendChild(container);
@@ -271,6 +273,14 @@ describe("PastExamsPage", () => {
     act(() => button("上一份").click());
     expect(currentParams().get("id")).toBe(minquan.id);
     expect(button("上一份").disabled).toBe(true);
+  });
+
+  it("labels year chips with the number only, keeping the full name for screen readers", () => {
+    renderPage();
+
+    const chip = button("114上");
+    expect(chip.textContent).toBe("114");
+    expect(chip.closest('[role="group"]')?.getAttribute("aria-label")).toBe("學年度");
   });
 
   it("restores filters and the selected exam from the URL", () => {
