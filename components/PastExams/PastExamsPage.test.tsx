@@ -189,6 +189,17 @@ describe("PastExamsPage", () => {
     expect(viewer()?.getAttribute("data-pdf-viewer")).toBe(`/exams/${minquan.file}`);
   });
 
+  it("keeps the new-tab link same-origin friendly (no noreferrer)", () => {
+    renderPage();
+
+    act(() => row("民權國小").click());
+
+    // 不能帶 noreferrer：同源檢查在較舊的瀏覽器（無 Sec-Fetch-Site）靠 Referer 判斷同源，
+    // noreferrer 會讓 Referer 消失，害這個連結一律被判成跨站而 403。
+    const link = container.querySelector<HTMLAnchorElement>('a[aria-label="在新分頁開啟"]')!;
+    expect(link.getAttribute("rel")?.split(/\s+/)).not.toContain("noreferrer");
+  });
+
   it("offers a download instead of a preview for Word files", () => {
     renderPage();
 

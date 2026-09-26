@@ -64,6 +64,7 @@ npm run build
 1. 在 Vercel 建一個 **Private** 的 Blob store，連到專案的 Production、Preview、Development（使用 OIDC，不用加 read-write token）。
 2. 本機執行 `npx vercel link` 與 `npx vercel env pull .env.local`（`.env.local` 不進 git；OIDC 憑證過期時重新執行 env pull）。
 3. Node 版本由 `package.json` 的 `engines`（24.x）決定。在 Vercel 上 build 時，如果 `EXAMS_FILE_SOURCE` 不是 `blob` 或 store 沒有連到專案，build 會失敗。
+4. Vercel 的 Build Command 要保持預設值（`npm run build`）；改成 `next build` 會跳過 `prebuild`，導致缺少 `data/pastExams.json` 而 build 失敗。
 
 新增或更新考卷：
 

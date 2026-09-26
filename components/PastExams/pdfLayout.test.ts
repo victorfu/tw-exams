@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { pageDisplaySize, renderPixelRatio, stepZoom, zoomLabel } from "./pdfLayout";
+import { MAX_CANVAS_PIXELS, pageDisplaySize, renderPixelRatio, stepZoom, zoomLabel } from "./pdfLayout";
 
 describe("pageDisplaySize", () => {
   it("fits the page to the container width, keeping its aspect ratio", () => {
@@ -23,6 +23,18 @@ describe("renderPixelRatio", () => {
     [0.5, 1],
   ])("devicePixelRatio %s → %s", (ratio, expected) => {
     expect(renderPixelRatio(ratio)).toBe(expected);
+  });
+
+  it("caps the ratio so a large display's canvas area stays within MAX_CANVAS_PIXELS", () => {
+    const display = { width: 2000, height: 2828 };
+    const ratio = renderPixelRatio(2, display);
+    expect(ratio).toBeLessThan(2);
+    expect(display.width * ratio * (display.height * ratio)).toBeLessThanOrEqual(MAX_CANVAS_PIXELS);
+  });
+
+  it("keeps the plain ratio when the display is small enough", () => {
+    const display = { width: 400, height: 566 };
+    expect(renderPixelRatio(2, display)).toBe(2);
   });
 });
 

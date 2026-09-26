@@ -108,6 +108,17 @@ describe("PdfViewer", () => {
     expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 600, 1);
   });
 
+  it("applies the first reported width immediately, without waiting for the resize debounce", async () => {
+    render("/exams/a.pdf");
+    const pdf = fakePdf(1);
+    await resolveLoad(0, pdf);
+
+    act(() => resizeObservedElements(600));
+
+    expect(canvases()[0].style.width).toBe("600px");
+    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1);
+  });
+
   it("does not render while the viewer has no width", async () => {
     render("/exams/a.pdf");
     const pdf = fakePdf(2);
@@ -129,6 +140,9 @@ describe("PdfViewer", () => {
     expect(container.querySelector('[role="alert"]')?.textContent).toContain(message);
     const open = [...container.querySelectorAll("a")].find((link) => link.textContent?.trim() === "在新分頁開啟");
     expect(open?.getAttribute("href")).toBe("/exams/a.pdf");
+    // 不能帶 noreferrer：同源檢查在較舊的瀏覽器（無 Sec-Fetch-Site）靠 Referer 判斷同源，
+    // noreferrer 會讓 Referer 消失，害這個連結一律被判成跨站而 403。
+    expect(open?.getAttribute("rel")?.split(/\s+/)).not.toContain("noreferrer");
 
     act(() => button("重試").click());
     expect(mocks.loads).toHaveLength(2);
@@ -254,6 +268,23 @@ describe("PdfViewer", () => {
 
     expect(pdf.renderPage).toHaveBeenCalledTimes(3);
     expect(pdf.renderPage).toHaveBeenLastCalledWith(1, canvases()[0], 600, 1);
+  });
+
+  it("keeps the zoom level when the exam changes", async () => {
+    render("/exams/a.pdf");
+    const a = fakePdf(1);
+    await resolveLoad(0, a);
+    setWidth(600);
+    act(() => button("放大").click());
+    expect(fitButton().textContent).toBe("125%");
+
+    render("/exams/b.pdf");
+    const b = fakePdf(1);
+    await resolveLoad(1, b);
+
+    expect(fitButton().textContent).toBe("125%");
+    expect(canvases()[0].style.width).toBe("750px");
+    expect(b.renderPage).toHaveBeenCalledWith(1, canvases()[0], 750, 1);
   });
 
   it("uses the newest intersection entry when a callback reports several for the same page", async () => {

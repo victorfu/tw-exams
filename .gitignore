@@ -50,3 +50,4 @@ next-env.d.ts
 
 # npm run catalog 從 output/ 產生
 /data/pastExams.json
+/data/pastExams.json.tmp

@@ -13,9 +13,18 @@ export function pageDisplaySize(page: Size, containerWidth: number, zoom: number
   return { width, height: page.width > 0 ? Math.round((width * page.height) / page.width) : 0 };
 }
 
-/** canvas 的像素密度：跟著螢幕，但最多 2 倍，免得高解析手機吃太多記憶體。 */
-export function renderPixelRatio(devicePixelRatio: number | undefined): number {
-  return Math.min(Math.max(devicePixelRatio || 1, 1), 2);
+/** iOS/iPadOS Safari 無法配置超過此像素數的 canvas（實測約 16.7M），留一點餘裕。 */
+export const MAX_CANVAS_PIXELS = 16_000_000;
+
+/**
+ * canvas 的像素密度：跟著螢幕，但最多 2 倍，免得高解析手機吃太多記憶體；
+ * 有給顯示尺寸時再依 MAX_CANVAS_PIXELS 進一步限制，避免 canvas 面積超過瀏覽器上限而整頁空白。
+ */
+export function renderPixelRatio(devicePixelRatio: number | undefined, display?: Size): number {
+  const ratio = Math.min(Math.max(devicePixelRatio || 1, 1), 2);
+  if (!display || display.width <= 0 || display.height <= 0) return ratio;
+  const areaCap = Math.sqrt(MAX_CANVAS_PIXELS / (display.width * display.height));
+  return Math.min(ratio, areaCap);
 }
 
 /** 上一級／下一級縮放，限制在 50%～300%。 */

@@ -56,7 +56,7 @@ export function ExamPreview({ exam, hasPrevious, hasNext, onPrevious, onNext, on
             <ChevronRight className="size-5" aria-hidden="true" />
           </button>
           {exam.format === "pdf" && (
-            <a href={url} target="_blank" rel="noopener noreferrer" className={iconButton} aria-label="在新分頁開啟" title="在新分頁開啟">
+            <a href={url} target="_blank" rel="noopener" className={iconButton} aria-label="在新分頁開啟" title="在新分頁開啟">
               <ExternalLink className="size-4" aria-hidden="true" />
             </a>
           )}

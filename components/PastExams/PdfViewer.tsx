@@ -62,12 +62,18 @@ export function PdfViewer({ url, title }: { url: string; title: string }) {
     scroller?.scrollTo?.({ top: 0, left: 0 });
   }, [url, scroller]);
 
-  // 內容區寬度（不含 padding）；拖拉視窗時等一下才重畫。
+  // 內容區寬度（不含 padding）：第一次回報立刻套用，之後才在拖拉視窗時等一下再重畫。
   useEffect(() => {
     if (!scroller) return;
     let timer: ReturnType<typeof setTimeout> | undefined;
+    let first = true;
     const observer = new ResizeObserver((entries) => {
       const width = Math.floor(entries[0]?.contentRect.width ?? 0);
+      if (first) {
+        first = false;
+        setContainerWidth(width);
+        return;
+      }
       clearTimeout(timer);
       timer = setTimeout(() => setContainerWidth(width), RESIZE_DEBOUNCE_MS);
     });
@@ -82,7 +88,12 @@ export function PdfViewer({ url, title }: { url: string; title: string }) {
 
   return (
     <div className="relative h-full">
-      <div ref={setScroller} role="document" aria-label={title} className="h-full overflow-auto p-3">
+      <div
+        ref={setScroller}
+        role="document"
+        aria-label={title}
+        className="h-full overflow-auto p-3 [scrollbar-gutter:stable]"
+      >
         {current === null ? (
           <div className="flex h-full items-center justify-center">
             <span className="loading loading-spinner loading-lg" aria-label="載入 PDF" />
@@ -95,14 +106,14 @@ export function PdfViewer({ url, title }: { url: string; title: string }) {
                 <RotateCw className="size-4" aria-hidden="true" />
                 重試
               </button>
-              <a href={url} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">
+              <a href={url} target="_blank" rel="noopener" className="btn btn-primary btn-sm">
                 <ExternalLink className="size-4" aria-hidden="true" />
                 在新分頁開啟
               </a>
             </div>
           </div>
         ) : (
-          <div className="flex w-max min-w-full flex-col items-center gap-3">
+          <div className="flex w-max min-w-full flex-col items-center gap-3 pb-16">
             {current.pdf.pageSizes.map((size, index) => (
               <PdfPage
                 key={index}
@@ -186,7 +197,8 @@ function PdfPage({ pdf, pageNumber, display, root }: PdfPageProps) {
     // 開始畫之前先清掉：pdf.js 會在 render() 裡先把 canvas resize（連帶清空畫面），
     // 如果這次被取消，不能讓 ref 停留在舊寬度，害之後切回舊寬度時誤判成「畫過了」而跳過重畫。
     lastRenderedWidthRef.current = null;
-    const handle = pdf.renderPage(pageNumber, canvas, display.width, renderPixelRatio(window.devicePixelRatio));
+    const pixelRatio = renderPixelRatio(window.devicePixelRatio, { width: display.width, height: display.height });
+    const handle = pdf.renderPage(pageNumber, canvas, display.width, pixelRatio);
     handle.promise.then(
       () => {
         lastRenderedWidthRef.current = display.width;
@@ -198,7 +210,7 @@ function PdfPage({ pdf, pageNumber, display, root }: PdfPageProps) {
       },
     );
     return () => handle.cancel();
-  }, [pdf, pageNumber, intersecting, display.width]);
+  }, [pdf, pageNumber, intersecting, display.width, display.height]);
 
   return (
     <canvas
