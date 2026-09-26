@@ -336,13 +336,19 @@
 }
 
 /* 自製考卷列印（spec §12.2）：A4、12mm 邊界。
-   即使使用者勾選「背景圖形」，深色主題的頁面背景也不會印出來。 */
+   即使使用者勾選「背景圖形」，深色主題的頁面背景也不會印出來。
+   color-scheme 也要改回 light：Chrome 用根元素的 color-scheme 畫 @page 邊界，
+   深色會在每頁四周印出 12mm 的黑框（設 html 背景蓋不到邊界）。 */
 @page {
   size: A4;
   margin: 12mm;
 }
 
 @media print {
+  :root {
+    color-scheme: light !important;
+  }
+
   html,
   body {
     background: #fff !important;

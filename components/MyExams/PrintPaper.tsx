@@ -17,6 +17,7 @@ interface PrintPaperProps {
   enhance: boolean;
   includeAnswers: boolean;
   onImageLoad: (key: string) => void;
+  onImageError: (key: string) => void;
   onRetryImage: (storagePath: string) => void;
 }
 
@@ -32,6 +33,7 @@ export function PrintPaper({
   enhance,
   includeAnswers,
   onImageLoad,
+  onImageError,
   onRetryImage,
 }: PrintPaperProps) {
   return (
@@ -60,6 +62,7 @@ export function PrintPaper({
                   layout={{ kind: "print", scale }}
                   enhance={enhance}
                   onImageLoad={(regionIndex) => onImageLoad(`${question.id}:${regionIndex}`)}
+                  onImageError={(regionIndex) => onImageError(`${question.id}:${regionIndex}`)}
                   onRetry={onRetryImage}
                 />
                 {spaceCm > 0 && (

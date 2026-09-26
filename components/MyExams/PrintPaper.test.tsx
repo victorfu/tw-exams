@@ -25,6 +25,7 @@ function render(overrides: Partial<ComponentProps<typeof PrintPaper>> = {}) {
         enhance={false}
         includeAnswers
         onImageLoad={vi.fn()}
+        onImageError={vi.fn()}
         onRetryImage={vi.fn()}
         {...overrides}
       />,
@@ -97,6 +98,15 @@ describe("PrintPaper", () => {
       container.querySelectorAll("img")[1].dispatchEvent(new Event("load"));
     });
     expect(onImageLoad).toHaveBeenCalledWith("q2:0");
+  });
+
+  it("reports image failures with question and region keys", () => {
+    const onImageError = vi.fn();
+    render({ onImageError });
+    act(() => {
+      container.querySelectorAll("img")[1].dispatchEvent(new Event("error"));
+    });
+    expect(onImageError).toHaveBeenCalledWith("q2:0");
   });
 
   it("retries a failed page image via onRetryImage", () => {

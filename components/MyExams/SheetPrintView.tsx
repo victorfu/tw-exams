@@ -6,6 +6,7 @@ import { useQuestionBank } from "../../hooks/useQuestionBank";
 import { useSignedPageUrls } from "../../hooks/useSignedPageUrls";
 import { PrintPaper, type PrintItem } from "./PrintPaper";
 import { PrintToolbar } from "./PrintToolbar";
+import { printScaleEnlargesAny, regionAspectRatio } from "./cropStyle";
 import {
   PRINT_SCALE_FACTORS,
   readPrintPreferences,
@@ -20,6 +21,7 @@ export default function SheetPrintView() {
   const bank = useQuestionBank();
   const [preferences, setPreferences] = useState<PrintPreferences>(readPrintPreferences);
   const [loadedKeys, setLoadedKeys] = useState<ReadonlySet<string>>(() => new Set());
+  const [failedKeys, setFailedKeys] = useState<ReadonlySet<string>>(() => new Set());
 
   const sheet = bank.sheets.find((item) => item.id === id);
   const sourceById = useMemo(() => new Map(bank.sources.map((source) => [source.id, source])), [bank.sources]);
@@ -36,19 +38,31 @@ export default function SheetPrintView() {
     };
   }, [sheet, bank.questions, sourceById]);
 
-  const regionKeys = items.flatMap(({ question, pages }) =>
-    question.regions.flatMap((region, regionIndex) =>
-      pages[region.pageIndex] ? [`${question.id}:${regionIndex}`] : [],
-    ),
-  );
-  const paths = items.flatMap(({ question, pages }) =>
-    question.regions.flatMap((region) => {
+  const printRegions = items.flatMap(({ question, pages }) =>
+    question.regions.flatMap((region, regionIndex) => {
       const page = pages[region.pageIndex];
-      return page ? [page.storagePath] : [];
+      return page
+        ? [
+            {
+              key: `${question.id}:${regionIndex}`,
+              path: page.storagePath,
+              box: region.box,
+              aspectRatio: regionAspectRatio(region.box, page),
+            },
+          ]
+        : [];
     }),
   );
+  const regionKeys = printRegions.map((region) => region.key);
+  const paths = printRegions.map((region) => region.path);
   const { urls, refresh } = useSignedPageUrls(paths);
   const loadedCount = regionKeys.filter((key) => loadedKeys.has(key)).length;
+  const failedCount = regionKeys.filter((key) => failedKeys.has(key) && !loadedKeys.has(key)).length;
+  const largeScaleCapped = !printScaleEnlargesAny(
+    printRegions,
+    PRINT_SCALE_FACTORS.normal,
+    PRINT_SCALE_FACTORS.large,
+  );
   const hasAnswers = items.some(({ question }) => Boolean(question.answer));
 
   const updatePreferences = (next: PrintPreferences) => {
@@ -58,6 +72,16 @@ export default function SheetPrintView() {
 
   const markLoaded = (key: string) =>
     setLoadedKeys((previous) => (previous.has(key) ? previous : new Set(previous).add(key)));
+
+  const markFailed = (key: string) =>
+    setFailedKeys((previous) => (previous.has(key) ? previous : new Set(previous).add(key)));
+
+  const retryImage = (path: string) => {
+    // 重試時這張圖回到「載入中」，重新等它 onLoad / onError
+    const retried = new Set(printRegions.filter((region) => region.path === path).map((region) => region.key));
+    setFailedKeys((previous) => new Set([...previous].filter((key) => !retried.has(key))));
+    void refresh(path);
+  };
 
   const back = () => router.push("/my-exams?tab=sheets");
 
@@ -86,11 +110,13 @@ export default function SheetPrintView() {
         onBack={back}
         onPrint={() => window.print()}
         loadedCount={loadedCount}
+        failedCount={failedCount}
         totalCount={regionKeys.length}
         preferences={preferences}
         onChange={updatePreferences}
         hasAnswers={hasAnswers}
         missingCount={missingCount}
+        largeScaleCapped={largeScaleCapped}
       />
       <div className="mx-auto w-fit max-w-full bg-white px-4 py-6 shadow-lg print:w-full print:p-0 print:shadow-none">
         <PrintPaper
@@ -101,7 +127,8 @@ export default function SheetPrintView() {
           enhance={preferences.enhance}
           includeAnswers={hasAnswers && preferences.includeAnswers}
           onImageLoad={markLoaded}
-          onRetryImage={(path) => void refresh(path)}
+          onImageError={markFailed}
+          onRetryImage={retryImage}
         />
       </div>
     </div>
