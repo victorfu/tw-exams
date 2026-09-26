@@ -2,6 +2,10 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+vi.mock("./PdfViewer", () => ({
+  PdfViewer: ({ url, title }: { url: string; title: string }) => <div data-pdf-viewer={url} aria-label={title} />,
+}));
+
 vi.mock("next/navigation", async () => (await import("../../testing/nextNavigation")).nextNavigationModule);
 import { followHistory, historyEntries, navigation, resetNavigation, setLocation } from "../../testing/nextNavigation";
 import { makeCatalog, makeExam, MATH_5A } from "../../testing/pastExamsFixtures";
@@ -36,6 +40,10 @@ function row(school: string): HTMLButtonElement {
   );
   if (!found) throw new Error(`row not found: ${school}`);
   return found;
+}
+
+function viewer(): Element | null {
+  return container.querySelector("[data-pdf-viewer]");
 }
 
 function listedSchools(): string[] {
@@ -178,8 +186,7 @@ describe("PastExamsPage", () => {
 
     expect(currentParams().get("id")).toBe(minquan.id);
     expect(row("民權國小").getAttribute("aria-current")).toBe("true");
-    const iframe = container.querySelector("iframe");
-    expect(iframe?.getAttribute("src")).toBe(`/exams/${minquan.file}#view=FitH`);
+    expect(viewer()?.getAttribute("data-pdf-viewer")).toBe(`/exams/${minquan.file}`);
   });
 
   it("offers a download instead of a preview for Word files", () => {
@@ -187,10 +194,10 @@ describe("PastExamsPage", () => {
 
     act(() => row("大同國小").click());
 
-    expect(container.querySelector("iframe")).toBeNull();
+    expect(viewer()).toBeNull();
     expect(container.textContent).toContain("Word 檔無法在頁面內預覽");
     const download = container.querySelector<HTMLAnchorElement>("a[download]");
-    expect(download?.getAttribute("href")).toBe(`/exams/${datong.file}`);
+    expect(download?.getAttribute("href")).toBe(`/exams/${datong.file}?download=1`);
   });
 
   it("does not let an undownloaded exam be selected", () => {
@@ -246,7 +253,7 @@ describe("PastExamsPage", () => {
     act(() => button("關閉預覽").click());
 
     expect(currentParams().get("id")).toBeNull();
-    expect(container.querySelector("iframe")).toBeNull();
+    expect(viewer()).toBeNull();
   });
 
   it("waits for the input method to finish composing before searching", () => {
@@ -261,7 +268,7 @@ describe("PastExamsPage", () => {
     expect(input.value).toBe("ㄇㄧㄣˊ");
     expect(currentParams().get("q")).toBeNull();
     expect(listedSchools()).toHaveLength(4);
-    expect(container.querySelector("iframe")).not.toBeNull();
+    expect(viewer()).not.toBeNull();
 
     typeInto(input, "民", { isComposing: true });
     act(() => {
@@ -284,19 +291,15 @@ describe("PastExamsPage", () => {
 
       act(() => window.history.back());
       expect(currentParams().get("id")).toBeNull();
-      expect(container.querySelector("iframe")).toBeNull();
+      expect(viewer()).toBeNull();
     });
 
-    it("opens PDFs in a new tab instead of embedding them", () => {
+    it("shows the PDF viewer on phones too", () => {
       renderPage();
 
       act(() => row("民權國小").click());
 
-      expect(container.querySelector("iframe")).toBeNull();
-      const open = [...container.querySelectorAll<HTMLAnchorElement>('a[target="_blank"]')].find(
-        (link) => link.textContent?.trim() === "開啟 PDF",
-      );
-      expect(open?.getAttribute("href")).toBe(`/exams/${minquan.file}`);
+      expect(viewer()?.getAttribute("data-pdf-viewer")).toBe(`/exams/${minquan.file}`);
     });
 
     it("replaces the entry when moving between exams, and the close button goes back", () => {
