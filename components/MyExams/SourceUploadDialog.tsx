@@ -25,6 +25,7 @@ import {
 } from "../../utils/pageImageProcessor";
 import { createSource, newQuestionSourceId } from "../../services/questionSourceService";
 import { logger } from "../../utils/logger";
+import { carriesFiles } from "./FileDropGuard";
 
 interface PreviewPage {
   input: PageInput;
@@ -59,6 +60,8 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
   const pagesRef = useRef<PreviewPage[]>([]);
 
   const uploading = progress !== null;
+  // 讀檔中再加檔案會跟上一批搶著檢查頁數上限；上傳中加的檔案不會被上傳
+  const acceptsFiles = !uploading && !expanding;
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -243,6 +246,18 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
       ref={dialogRef}
       className="modal modal-bottom sm:modal-middle"
       aria-labelledby={headingId}
+      // 拖進對話框的檔案跟用「選擇照片或 PDF」挑的一樣處理；選檔按鈕停用時（讀檔中、上傳中）不收。
+      // 不管收不收都要取消預設行為，不然瀏覽器會在分頁裡打開檔案，記憶體裡的資料就全沒了
+      onDragOver={(event) => {
+        if (!carriesFiles(event)) return;
+        event.preventDefault();
+        event.dataTransfer.dropEffect = acceptsFiles ? "copy" : "none";
+      }}
+      onDrop={(event) => {
+        if (!carriesFiles(event)) return;
+        event.preventDefault();
+        if (acceptsFiles) void handleFiles(event.dataTransfer.files);
+      }}
       onCancel={(event) => {
         event.preventDefault();
         handleClose();
@@ -302,7 +317,7 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
             className="sr-only"
             accept={ACCEPTED_UPLOAD_TYPES}
             multiple
-            disabled={uploading || expanding}
+            disabled={!acceptsFiles}
             onChange={(event) => {
               void handleFiles(event.target.files);
               event.target.value = "";
@@ -310,7 +325,7 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
           />
         </label>
         <p className="mt-2 text-xs text-base-content/60">
-          建議用手機內建的「掃描文件」拍，會自動拉正、去陰影。一次最多 {MAX_SOURCE_PAGES} 頁。
+          也可以把檔案直接拖進來。建議用手機內建的「掃描文件」拍，會自動拉正、去陰影。一次最多 {MAX_SOURCE_PAGES} 頁。
         </p>
 
         {limitError && (

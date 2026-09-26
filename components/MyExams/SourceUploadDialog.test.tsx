@@ -190,6 +190,24 @@ function preview(page: number): HTMLImageElement {
   return found;
 }
 
+/** jsdom 沒有 DragEvent／DataTransfer：用可取消的 Event 帶上 dataTransfer。 */
+function dragEvent(type: "dragover" | "drop", files: File[], types = ["Files"]) {
+  const event = new Event(type, { bubbles: true, cancelable: true });
+  Object.defineProperty(event, "dataTransfer", { value: { types, files, dropEffect: "copy" } });
+  return event;
+}
+
+async function drop(files: File[], target: Element = dialog()) {
+  const over = dragEvent("dragover", files);
+  const dropped = dragEvent("drop", files);
+  await act(async () => {
+    target.dispatchEvent(over);
+    target.dispatchEvent(dropped);
+  });
+  await settle();
+  return { over, dropped };
+}
+
 function rotatePage(page: number) {
   const button = container.querySelector(`[aria-label="旋轉第 ${page} 頁"]`) as HTMLButtonElement;
   act(() => button.click());
@@ -300,6 +318,67 @@ describe("SourceUploadDialog", () => {
     // display:none（Tailwind 的 hidden）會讓 input 無法用 Tab 聚焦
     expect(fileInput().classList.contains("hidden")).toBe(false);
     expect(fileInput().classList.contains("sr-only")).toBe(true);
+  });
+
+  it("adds files dropped on it like the file picker does", async () => {
+    renderDialog();
+    const files = photos("d", 2);
+    const heading = container.querySelector("h3") ?? dialog();
+    const { over, dropped } = await drop(files, heading);
+
+    // 不取消的話瀏覽器會直接在分頁裡打開檔案，記憶體裡的資料就全沒了
+    expect(over.defaultPrevented).toBe(true);
+    expect(dropped.defaultPrevented).toBe(true);
+    expect(mocks.expandFilesToPages).toHaveBeenCalledWith(files);
+    expect(tileCount()).toBe(2);
+  });
+
+  it("ignores files dropped while another batch is still being read", async () => {
+    renderDialog();
+    const firstBatch = deferred<ReturnType<typeof pagesOf>>();
+    mocks.expandFilesToPages.mockImplementationOnce(() => firstBatch.promise);
+    const first = photos("a", 1);
+    await pick(first);
+
+    const { dropped } = await drop(photos("b", 1));
+    expect(dropped.defaultPrevented).toBe(true);
+    expect(mocks.expandFilesToPages).toHaveBeenCalledTimes(1);
+
+    firstBatch.resolve(pagesOf(first));
+    await settle();
+    expect(tileCount()).toBe(1);
+  });
+
+  it("ignores files dropped during an upload", async () => {
+    renderDialog();
+    await pick(photos("p", 1));
+    fillForm();
+    const firstPage = deferred<RenderedPage>();
+    mocks.renderPage.mockImplementation((_input: PageInput, size: number) =>
+      size === PAGE_LONG_EDGE_PX ? firstPage.promise : Promise.resolve(rendered(size)),
+    );
+    act(() => uploadButton().click());
+
+    const { dropped } = await drop(photos("late", 1));
+    expect(dropped.defaultPrevented).toBe(true);
+    expect(mocks.expandFilesToPages).toHaveBeenCalledTimes(1);
+
+    firstPage.resolve(rendered(PAGE_LONG_EDGE_PX));
+    await settle();
+  });
+
+  it("leaves drags without files to the browser", async () => {
+    renderDialog();
+    const over = dragEvent("dragover", [], ["text/plain"]);
+    const dropped = dragEvent("drop", [], ["text/plain"]);
+    await act(async () => {
+      dialog().dispatchEvent(over);
+      dialog().dispatchEvent(dropped);
+    });
+
+    expect(over.defaultPrevented).toBe(false);
+    expect(dropped.defaultPrevented).toBe(false);
+    expect(mocks.expandFilesToPages).not.toHaveBeenCalled();
   });
 
   it("does not count pages that failed to load against the page limit", async () => {
