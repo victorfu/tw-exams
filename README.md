@@ -36,31 +36,46 @@ npm run build
 - `services/`：來源、題目、考卷的資料存取（目前是記憶體 mock）。
 - `hooks/`：題庫載入、自動儲存、頁圖網址。
 - `utils/pageImageProcessor.ts`：照片與 PDF（pdf.js）轉成頁面 JPEG。
-- `components/PastExams/`、`lib/pastExams/`：考古題頁面與純函式（篩選、排序、網址狀態）；`scripts/` 是同步腳本。
+- `components/PastExams/`、`lib/pastExams/`：考古題頁面、pdf.js 預覽器與純函式（篩選、排序、網址狀態、檔案存取）；`app/exams/[...path]/route.ts` 提供考卷檔；`scripts/` 是產生目錄與上傳的腳本。
 
 ## 考古題
 
-`/past-exams` 用來瀏覽 cowork 整理好的考古題。資料只來自 cowork `output/` 裡的 `catalog-info.json` 與 `catalog.jsonl`（格式見該目錄的 `metadata-format.md`）。分類、驗證、搜尋正規化都以 cowork 為準；這邊不讀 manifest，也不依賴目錄配置。
+`/past-exams` 用來瀏覽 cowork 整理好的考古題。cowork 直接把資料寫進這個 repo 的 `output/`；分類、驗證、搜尋正規化都以 cowork 的 `catalog-info.json` 與 `catalog.jsonl` 為準（格式見 `output/metadata-format.md`）。這邊只讀 `output/`，不修改它。
 
-### 同步
+### 資料
+
+- `output/` 只有 meta（`*.json`、`*.jsonl`、`*.md`）進 git；PDF、Word 等考卷檔只在本機（見 `.gitignore`）。
+- `npm run dev`／`npm run build` 前會自動執行 `npm run catalog`，從 `output/` 產生 `data/pastExams.json`（不進 git）。catalog 有問題（`schema_version` 不是 1、`record_count` 不符、`record_id` 重複、JSON 壞掉、`relative_path` 跳出根目錄）就失敗，dev／build 跟著停。
+- 剛 clone 下來先跑一次 `npm run catalog`，型別檢查才找得到 `data/pastExams.json`。
+
+### 考卷檔怎麼送到瀏覽器
+
+所有考卷檔都經過本站的 `/exams/<relative_path>`：
+
+- 只提供 catalog 裡已下載的考卷。
+- 只接受本站頁面發出的請求（`Sec-Fetch-Site: same-origin`，較舊的瀏覽器看 `Referer`）；直接輸入網址、貼到聊天軟體、其他網站的連結或嵌入都會得到 403。
+- 來源由 `EXAMS_FILE_SOURCE` 決定：`.env.development` 是 `local`（讀 `output/`），`.env.production` 是 `blob`（讀私有 Vercel Blob 的 `exams/<relative_path>`）。
+- 預覽用 pdf.js 畫在頁面上；Word 只能下載。
+
+### 上線（Vercel＋私有 Blob）
+
+一次性設定：
+
+1. 在 Vercel 建一個 **Private** 的 Blob store，連到專案的 Production、Preview、Development（使用 OIDC，不用加 read-write token）。
+2. 本機執行 `npx vercel link` 與 `npx vercel env pull .env.local`（`.env.local` 不進 git；OIDC 憑證過期時重新執行 env pull）。
+3. Node 版本由 `package.json` 的 `engines`（24.x）決定。在 Vercel 上 build 時，如果 `EXAMS_FILE_SOURCE` 不是 `blob` 或 store 沒有連到專案，build 會失敗。
+
+新增或更新考卷：
 
 ```sh
-npm run sync:exams -- <cowork 的 output 目錄>
+npm run upload:exams -- --dry-run   # 先看會上傳哪些檔案、預估用掉多少次操作
+npm run upload:exams                # 只上傳新的或大小不同的檔案
+git add output && git commit        # 只會加入 meta
+git push                            # Vercel 自動 build
 ```
 
-- 沒給目錄時讀環境變數 `EXAMS_SOURCE_DIR`，可以寫在 `.env.local`（例如 `EXAMS_SOURCE_DIR=C:\Users\me\Downloads\output`）；兩個都沒有就提示用法後結束。
-- 來源只讀。以下情況會中止，不覆寫既有輸出：`schema_version` 不是 1、`record_count` 與行數不符、`record_id` 重複、JSON 壞掉（會報行號）、`relative_path` 跳出根目錄、標示已下載的檔案找不到。
-- 已下載的考卷照 `output/` 的相對路徑複製到 `public/exams/`（不進 git）：先刪掉不在 catalog 裡的舊檔（路徑只改大小寫也算舊檔，會重新複製），大小與修改時間都相同的檔案跳過。
-- 檔案都複製完才寫 `data/pastExams.json`（進 git，每份考卷一行），所以同步中途失敗時它維持原樣。
+- 一定要先上傳再 push，否則線上會出現打不開的考卷。
+- Blob 上已經不在 catalog 裡的舊檔，等新版部署上線後用 `npm run upload:exams -- --prune` 刪除。
+- 想在本機測 Blob 模式：在 `.env.development.local` 寫 `EXAMS_FILE_SOURCE=blob`，重開 `npm run dev`；測完刪掉這行。
 
-新增科目、年級，或 cowork 改成 `layout-plan.md` 的新分層時，先在 cowork 跑 `python3 scripts/exam_catalog.py build`，再回來重跑一次同步即可。
-
-### 上線
-
-`public/exams` 不進 git。上線前把整個 `public/exams/` 資料夾（保持目錄結構）上傳到物件儲存（例如 R2），build 時設定：
-
-```sh
-NEXT_PUBLIC_EXAMS_BASE_URL=https://<物件儲存網址>/exams
-```
-
-檔案網址是 `${NEXT_PUBLIC_EXAMS_BASE_URL}/<relative_path>`，沒設時是 `/exams/<relative_path>`。檔案放在別的網域時，瀏覽器會忽略 `download` 屬性，Word 檔要靠物件儲存回 `Content-Disposition: attachment` 才會直接下載。
+免費方案（Hobby）的限制：Blob 儲存 1 GB、每月 2,000 次進階操作（每上傳一個檔案算一次，在後台瀏覽 store 也算）、每次開考卷經過函式轉送，吃 Blob 與 Fast Origin Transfer 各 10 GB／月。超過 Blob 額度時 store 會停用最多 30 天。Hobby 只能用在非商業用途。
