@@ -1,44 +1,18 @@
 **考卷資料目錄**
 
-目前已收錄五年級數學、南一、上學期的期中與期末考卷，涵蓋 108–114 學年度，共 192 份：172 份 PDF、16 份 DOC、4 份 DOCX。
+以資料夾及索引交付，保留 PDF／Word 原始格式，不產生 ZIP。
 
-- [exam-index.md](exam-index.md)：目前全部考卷的索引。
-- [PDF 考卷與說明](pdf/math-grade-05-semester-1-nani/README.md)。
-- [Word 考卷](doc/math-grade-05-semester-1-nani/)：與 PDF 使用相同的資料集名稱。
-- [layout-plan.md](layout-plan.md)：未來多科目、年級、學期的目錄規劃。
-- [catalog.jsonl](catalog.jsonl)：192 筆正規化搜尋 metadata。
-- [catalog-info.json](catalog-info.json)：數量、資料集與 metadata 驗證摘要。
-- [metadata-format.md](metadata-format.md)：欄位定義、來源可信度及本機搜尋指令。
+| 資料集 | 清單份數 | 已驗證 | 剩餘 |
+|---|---:|---:|---:|
+| [5年級國語・翰林・第1學期](pdf/chinese-grade-05-semester-1-hanlin/README.md) | 73 | 73 | 0 |
+| [5年級數學・南一・第1學期](pdf/math-grade-05-semester-1-nani/README.md) | 192 | 192 | 0 |
+| [5年級自然・康軒・第1學期](pdf/science-grade-05-semester-1-kang-hsuan/README.md) | 153 | 153 | 0 |
+| [5年級社會・翰林・第1學期](pdf/social-studies-grade-05-semester-1-hanlin/README.md) | 103 | 103 | 0 |
 
-目錄與中介資料檔名採英文；文件內容可使用繁體中文。交付以資料夾及索引為主，不產生 ZIP。
+- [exam-index.md](exam-index.md)：全部資料集的考卷索引。
+- [catalog.jsonl](catalog.jsonl)：統一搜尋 metadata。
+- [catalog-info.json](catalog-info.json)：數量與驗證結果。
+- [metadata-format.md](metadata-format.md)：欄位規格及查詢指令。
+- [layout-plan.md](layout-plan.md)：後續擴充規劃。
 
-目前的實際配置：
-
-```text
-output/
-├── README.md
-├── layout-plan.md
-├── exam-index.md
-├── catalog.jsonl
-├── catalog-info.json
-├── metadata-format.md
-├── pdf/
-│   └── math-grade-05-semester-1-nani/
-│       ├── README.md
-│       ├── exam-index.md
-│       ├── manifest.json
-│       └── <original-filename>.pdf
-└── doc/
-    └── math-grade-05-semester-1-nani/
-        └── <original-filename>.doc / .docx
-```
-
-`layout-plan.md` 的分層是後續擴充方案，與上面這份現況分開記錄。
-
-可先用 metadata 搜尋，例如在工作區根目錄執行：
-
-```bash
-python3 scripts/exam_catalog.py search --grade 5 --semester 1 --subject math --publisher nani --year 114 --exam-type midterm
-```
-
-更新或搬遷資料後執行 `python3 scripts/exam_catalog.py build`，由所有資料集 manifest 重建 catalog。分類依據為來源 API；目前尚未逐份人工核對卷面分類，這項狀態已記在每筆 metadata 的 `quality` 欄位。
+目前各資料集使用 `pdf/<dataset-id>/` 與 `doc/<dataset-id>/`；分類根據來源 API，卷面核對狀態保存在 metadata。

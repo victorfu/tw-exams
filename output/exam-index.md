@@ -1,200 +1,525 @@
-**五年級數學・南一・上學期・期中／期末考卷**
+**考卷索引**
 
-清單共 192 份；已下載並驗證 192 份，尚有 0 份未完成。
-
-保留網站提供的 PDF／Word 原始格式。本索引依 API 考卷 ID 對應，僅包含題目檔案。PDF 與 Word 分別存放於 output/pdf/math-grade-05-semester-1-nani 與 output/doc/math-grade-05-semester-1-nani。
-
-| ID | 學年度 | 類型 | 學校 | 狀態／檔案 |
-|---|---|---|---|---|
-| 20003712 | 114上 | 期末2 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20003712b51457529e8c.pdf) |
-| 20003448 | 114上 | 期末2 | 高雄市 崇德國小 | [下載](pdf/math-grade-05-semester-1-nani/20003448b5145ceb95f6.pdf) |
-| 20003146 | 114上 | 期末2 | 桃園市 普仁國小 | [下載](pdf/math-grade-05-semester-1-nani/20003146b51419c51519.pdf) |
-| 20002871 | 114上 | 期末2 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20002871b5148af7683e.pdf) |
-| 20003690 | 114上 | 期中1 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20003690b5113ed8c6f0.pdf) |
-| 20003424 | 114上 | 期中1 | 高雄市 崇德國小 | [下載](pdf/math-grade-05-semester-1-nani/20003424b5116f85b408.pdf) |
-| 20003118 | 114上 | 期中1 | 桃園市 普仁國小 | [下載](pdf/math-grade-05-semester-1-nani/20003118b511c38c167b.pdf) |
-| 20002848 | 114上 | 期中1 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20002848b5111a643e75.pdf) |
-| 20002215 | 113上 | 期末2 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20002215b51143ba1dc2.pdf) |
-| 20000962 | 113上 | 期末2 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20000962b5143d2b7387.pdf) |
-| 20000221 | 113上 | 期末2 | 高雄市 永安國小 | [下載](pdf/math-grade-05-semester-1-nani/20000221b51425071e2c.pdf) |
-| 20002214 | 113上 | 期中1 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20002214b52409da3a51.pdf) |
-| 20000940 | 113上 | 期中1 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20000940b5111eb0990b.pdf) |
-| 20000208 | 113上 | 期中1 | 高雄市 永安國小 | [下載](pdf/math-grade-05-semester-1-nani/20000208b5116b983bf4.pdf) |
-| 18826 | 113上 | 期中1 | 彰化縣 大莊國小 | [下載](pdf/math-grade-05-semester-1-nani/10029916732fbbe37311.pdf) |
-| 18812 | 113上 | 期中1 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/10029986732dfd814df5.pdf) |
-| 18808 | 113上 | 期中1 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298967319cd09b2bc.pdf) |
-| 18742 | 113上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/1002958672c554f579a9.pdf) |
-| 20002700 | 112上 | 期末2 | 新北市 桃子腳國小 | [下載](pdf/math-grade-05-semester-1-nani/20002700b5111c018009.pdf) |
-| 20002430 | 112上 | 期末2 | 高雄市 忠孝國小 | [下載](pdf/math-grade-05-semester-1-nani/20002430b51165a2459e.pdf) |
-| 17537 | 112上 | 期末2 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/100299565c2e402d56e7.pdf) |
-| 17516 | 112上 | 期末2 | 彰化縣 田中國小 | [下載](pdf/math-grade-05-semester-1-nani/100295565c047e607193.pdf) |
-| 17148 | 112上 | 期末2 | 彰化縣 文德國小 | [下載](pdf/math-grade-05-semester-1-nani/100287665a78e82b21f4.pdf) |
-| 17133 | 112上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/100295865a5fabc647d8.pdf) |
-| 17085 | 112上 | 期末2 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/1002998659fc64d1f86b.pdf) |
-| 17210 | 112上 | 期末3 | 彰化縣 大莊國小 | [下載](pdf/math-grade-05-semester-1-nani/100299165aa3178d8420.pdf) |
-| 17178 | 112上 | 期末3 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298965a954a196c60.pdf) |
-| 16956 | 112上 | 期中2 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/1002989657475bc28502.pdf) |
-| 20002699 | 112上 | 期中1 | 新北市 桃子腳國小 | [下載](pdf/math-grade-05-semester-1-nani/20002699b5245d498813.pdf) |
-| 20002429 | 112上 | 期中1 | 高雄市 忠孝國小 | [下載](pdf/math-grade-05-semester-1-nani/20002429b5244899a894.pdf) |
-| 20000503 | 112上 | 期中1 | 臺中市 大墩國小 | [下載](pdf/math-grade-05-semester-1-nani/20000503b5112bbc18b7.pdf) |
-| 17149 | 112上 | 期中1 | 彰化縣 文德國小 | [下載](pdf/math-grade-05-semester-1-nani/100287665a88b6c57615.pdf) |
-| 17078 | 112上 | 期中1 | 彰化縣 大莊國小 | [下載](pdf/math-grade-05-semester-1-nani/1002991659f3db1579e2.pdf) |
-| 16850 | 112上 | 期中1 | 彰化縣 田中國小 | [下載](pdf/math-grade-05-semester-1-nani/1002955656044f52aed8.pdf) |
-| 16830 | 112上 | 期中1 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/1002998655c23be5e0da.pdf) |
-| 16696 | 112上 | 期中1 | 臺北市 太平國小 | [下載](pdf/math-grade-05-semester-1-nani/1005165654c2073a9324.pdf) |
-| 16645 | 112上 | 期中1 | 臺北市 舊莊國小 | [下載](pdf/math-grade-05-semester-1-nani/10052436549f786469f8.pdf) |
-| 16610 | 112上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/10029586549b60929b88.pdf) |
-| 16598 | 112上 | 期中1 | 彰化縣 聯興國小 | [下載](pdf/math-grade-05-semester-1-nani/1002866654889432a0b9.pdf) |
-| 16467 | 112上 | 期中1 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/1002989653f64de42c4e.pdf) |
-| 20002040 | 111上 | 期末2 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20002040b511110420d8.pdf) |
-| 20001808 | 111上 | 期末2 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20001808b5113edc380b.pdf) |
-| 14978 | 111上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/100295863e4556388ead.pdf) |
-| 14826 | 111上 | 期末2 | 彰化縣 草港國小 | [下載](pdf/math-grade-05-semester-1-nani/100290163d87a1f17166.pdf) |
-| 14787 | 111上 | 期末2 | 彰化縣 三條國小 | [下載](pdf/math-grade-05-semester-1-nani/100298663d769d0e2780.pdf) |
-| 14776 | 111上 | 期末2 | 彰化縣 三民國小 | [下載](pdf/math-grade-05-semester-1-nani/100286563d76007c3812.pdf) |
-| 14751 | 111上 | 期末2 | 臺中市 大里國小 | [下載](pdf/math-grade-05-semester-1-nani/100273063d70f1c15c0e.pdf) |
-| 14698 | 111上 | 期末2 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/100299563c762a7a4b4b.pdf) |
-| 14675 | 111上 | 期末2 | 彰化縣 伸仁國小 | [下載](pdf/math-grade-05-semester-1-nani/100289463c73f93a82e4.pdf) |
-| 14662 | 111上 | 期末2 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/100299863c6b9401c181.pdf) |
-| 14657 | 111上 | 期末2 | 彰化縣 文德國小 | [下載](pdf/math-grade-05-semester-1-nani/100287663c614e2cc1a4.pdf) |
-| 14655 | 111上 | 期末2 | 彰化縣 國聖國小 | [下載](pdf/math-grade-05-semester-1-nani/100286863c619286c0c7.pdf) |
-| 14610 | 111上 | 期末2 | 彰化縣 田中國小 | [下載](pdf/math-grade-05-semester-1-nani/100295563c4f9cb5825c.pdf) |
-| 15004 | 111上 | 期末3 | 彰化縣 大莊國小 | [下載](pdf/math-grade-05-semester-1-nani/100299163e602218c77c.pdf) |
-| 14746 | 111上 | 期末3 | 彰化縣 舊館國小 | [下載](pdf/math-grade-05-semester-1-nani/100293263cca46cc4921.pdf) |
-| 14729 | 111上 | 期末3 | 彰化縣 茄荖國小 | [下載](pdf/math-grade-05-semester-1-nani/100287763c797a797371.pdf) |
-| 14623 | 111上 | 期末3 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298963c5e871ee997.pdf) |
-| 14327 | 111上 | 期中2 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/1002989638e9ca498844.pdf) |
-| 20002039 | 111上 | 期中1 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20002039b524203aa3c2.pdf) |
-| 20001807 | 111上 | 期中1 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20001807b524697c5a69.pdf) |
-| 14792 | 111上 | 期中1 | 彰化縣 草港國小 | [下載](pdf/math-grade-05-semester-1-nani/100290163d877b8d70f2.pdf) |
-| 14525 | 111上 | 期中1 | 彰化縣 田中國小 | [下載](pdf/math-grade-05-semester-1-nani/100295563b4ef2179038.pdf) |
-| 14254 | 111上 | 期中1 | 臺中市 大里國小 | [下載](pdf/math-grade-05-semester-1-nani/10027306376cc6e56f5b.pdf) |
-| 14244 | 111上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/10029586375dae7e98c8.pdf) |
-| 14206 | 111上 | 期中1 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/1002995637443eb95d1d.pdf) |
-| 14154 | 111上 | 期中1 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/1002998636e2861607d7.pdf) |
-| 14105 | 111上 | 期中1 | 彰化縣 伸仁國小 | [下載](pdf/math-grade-05-semester-1-nani/1002894636c444a4f780.pdf) |
-| 14080 | 111上 | 期中1 | 彰化縣 三民國小 | [下載](pdf/math-grade-05-semester-1-nani/1002865636b17f9f0737.pdf) |
-| 14074 | 111上 | 期中1 | 彰化縣 三條國小 | [下載](pdf/math-grade-05-semester-1-nani/10029866368c877d0acd.pdf) |
-| 14068 | 111上 | 期中1 | 彰化縣 舊館國小 | [下載](pdf/math-grade-05-semester-1-nani/10029326369fe9916642.pdf) |
-| 14051 | 111上 | 期中1 | 彰化縣 國聖國小 | [下載](pdf/math-grade-05-semester-1-nani/100286863635de9bed71.pdf) |
-| 13896 | 111上 | 期中1 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/1002989634f8621aeaf4.pdf) |
-| 20002518 | 110上 | 期末2 | 新北市 桃子腳國小 | [下載](pdf/math-grade-05-semester-1-nani/20002518b51148cbef35.pdf) |
-| 20002280 | 110上 | 期末2 | 高雄市 忠孝國小 | [下載](pdf/math-grade-05-semester-1-nani/20002280b51161b8c507.pdf) |
-| 20001959 | 110上 | 期末2 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20001959b5111adafc1e.pdf) |
-| 20001717 | 110上 | 期末2 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20001717b51155c862db.pdf) |
-| 14876 | 110上 | 期末2 | 臺中市 文心國小 | [下載](pdf/math-grade-05-semester-1-nani/100488063e1ac43550b3.pdf) |
-| 13524 | 110上 | 期末2 | 臺東縣 新生國小 | [下載](pdf/math-grade-05-semester-1-nani/100434962df65d4cf710.pdf) |
-| 11787 | 110上 | 期末2 | 臺北市 延平國小 | [下載](pdf/math-grade-05-semester-1-nani/10051706204b93fc3e66.pdf) |
-| 11449 | 110上 | 期末2 | 臺南市 海佃國小 | [下載](pdf/math-grade-05-semester-1-nani/100503061eb6b008d96d.pdf) |
-| 11330 | 110上 | 期末2 | 彰化縣 田中國小 | [下載](pdf/math-grade-05-semester-1-nani/100295561e9112c06f7c.pdf) |
-| 11249 | 110上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/100295861e78a72eacb1.pdf) |
-| 11225 | 110上 | 期末2 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/100299561e76c8126aeb.pdf) |
-| 11211 | 110上 | 期末2 | 彰化縣 伸仁國小 | [下載](pdf/math-grade-05-semester-1-nani/100289461e648de09b14.pdf) |
-| 11106 | 110上 | 期末2 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/100299861defa3560f0e.pdf) |
-| 11143 | 110上 | 期末3 | 彰化縣 大莊國小 | [下載](pdf/math-grade-05-semester-1-nani/100299161e0e50620efe.pdf) |
-| 10951 | 110上 | 期中2 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298961aea638178ee.pdf) |
-| 20002517 | 110上 | 期中1 | 新北市 桃子腳國小 | [下載](pdf/math-grade-05-semester-1-nani/20002517b5243865d44f.pdf) |
-| 20002279 | 110上 | 期中1 | 高雄市 忠孝國小 | [下載](pdf/math-grade-05-semester-1-nani/20002279b5146ebca129.pdf) |
-| 20001958 | 110上 | 期中1 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20001958b5241f120a97.pdf) |
-| 20001716 | 110上 | 期中1 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20001716b5240a6faac4.pdf) |
-| 14860 | 110上 | 期中1 | 臺中市 文心國小 | [下載](pdf/math-grade-05-semester-1-nani/100488063e1a9bca5366.pdf) |
-| 13488 | 110上 | 期中1 | 臺東縣 新生國小 | [下載](pdf/math-grade-05-semester-1-nani/100434962de622991db2.pdf) |
-| 12506 | 110上 | 期中1 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298962466e68a38ec.pdf) |
-| 11429 | 110上 | 期中1 | 臺南市 海佃國小 | [下載](pdf/math-grade-05-semester-1-nani/100503061eb6872dc2b8.pdf) |
-| 10861 | 110上 | 期中1 | 彰化縣 田中國小 | [下載](pdf/math-grade-05-semester-1-nani/1002955619ef0007cc54.pdf) |
-| 10827 | 110上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/10029586195c9ee01451.pdf) |
-| 10825 | 110上 | 期中1 | 彰化縣 三民國小 | [下載](pdf/math-grade-05-semester-1-nani/10028656195f0e1bd126.pdf) |
-| 10817 | 110上 | 期中1 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/10029956194bd17c4802.pdf) |
-| 10779 | 110上 | 期中1 | 彰化縣 三條國小 | [下載](pdf/math-grade-05-semester-1-nani/1002986618d0b0fc2927.pdf) |
-| 10585 | 110上 | 期中1 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/10029986187c81a15fe3.pdf) |
-| 10361 | 110上 | 期中1 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298961710798c0567.pdf) |
-| 13441 | 109上 | 期末2 | 臺東縣 新生國小 | [下載](pdf/math-grade-05-semester-1-nani/100434962de50a04b0f8.pdf) |
-| 9654 | 109上 | 期末2 | 臺北市 延平國小 | [下載](pdf/math-grade-05-semester-1-nani/100517060ee4d94a18e6.pdf) |
-| 8476 | 109上 | 期末2 | 南投縣 潭南國小 | [下載](pdf/math-grade-05-semester-1-nani/10032036017739331dad.pdf) |
-| 8196 | 109上 | 期末2 | 臺南市 海佃國小 | [下載](pdf/math-grade-05-semester-1-nani/1005030600e6dffb2421.pdf) |
-| 8144 | 109上 | 期末2 | 彰化縣 三潭國小 | [下載](pdf/math-grade-05-semester-1-nani/1002956600e3b4da918a.pdf) |
-| 8073 | 109上 | 期末2 | 彰化縣 僑愛國小 | [下載](pdf/math-grade-05-semester-1-nani/1002881601a68f4baa0a.pdf) |
-| 7968 | 109上 | 期末2 | 彰化縣 湳雅國小 | [下載](pdf/math-grade-05-semester-1-nani/10029656007c9d489098.pdf) |
-| 7903 | 109上 | 期末2 | 彰化縣 三條國小 | [下載](pdf/math-grade-05-semester-1-nani/10029866006809e3239d.pdf) |
-| 7773 | 109上 | 期末2 | 彰化縣 伸仁國小 | [下載](pdf/math-grade-05-semester-1-nani/1002894600126cd220b5.pdf) |
-| 7746 | 109上 | 期末2 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/100299860004964e90c0.pdf) |
-| 7744 | 109上 | 期末2 | 彰化縣 伸東國小 | [下載](pdf/math-grade-05-semester-1-nani/10028936000e4091f361.pdf) |
-| 7668 | 109上 | 期末2 | 彰化縣 國聖國小 | [下載](pdf/math-grade-05-semester-1-nani/10028685ffe60da718c5.pdf) |
-| 7906 | 109上 | 期末3 | 彰化縣 長安國小 | [下載](pdf/math-grade-05-semester-1-nani/100301360064f6bb52d6.pdf) |
-| 7877 | 109上 | 期末3 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298960053bfaddd58.pdf) |
-| 8356 | 109上 | 期中2 | 彰化縣 寶山國小 | [下載](pdf/math-grade-05-semester-1-nani/100287460122b5372d0a.pdf) |
-| 7909 | 109上 | 期中2 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/1002995600697660f98a.pdf) |
-| 7413 | 109上 | 期中2 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/10029895fc8548ba1956.pdf) |
-| 7383 | 109上 | 期中2 | 彰化縣 長安國小 | [下載](pdf/math-grade-05-semester-1-nani/10030135fc4748b8d1e1.pdf) |
-| 13424 | 109上 | 期中1 | 臺東縣 新生國小 | [下載](pdf/math-grade-05-semester-1-nani/100434962de31e6247e8.pdf) |
-| 9635 | 109上 | 期中1 | 臺北市 延平國小 | [下載](pdf/math-grade-05-semester-1-nani/100517060ed0be3704fe.pdf) |
-| 9348 | 109上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/1002958609e14a8d8bec.pdf) |
-| 9081 | 109上 | 期中1 | 彰化縣 三潭國小 | [下載](pdf/math-grade-05-semester-1-nani/1002956608283e0ef1d6.pdf) |
-| 8338 | 109上 | 期中1 | 彰化縣 寶山國小 | [下載](pdf/math-grade-05-semester-1-nani/100287460122895607b7.pdf) |
-| 8224 | 109上 | 期中1 | 彰化縣 草港國小 | [下載](pdf/math-grade-05-semester-1-nani/1002901600fa1bf4cf5a.pdf) |
-| 8177 | 109上 | 期中1 | 臺南市 海佃國小 | [下載](pdf/math-grade-05-semester-1-nani/1005030600e67dcf2221.pdf) |
-| 7348 | 109上 | 期中1 | 彰化縣 伸仁國小 | [下載](pdf/math-grade-05-semester-1-nani/10028945fbb5b3ced411.pdf) |
-| 7322 | 109上 | 期中1 | 南投縣 潭南國小 | [下載](pdf/math-grade-05-semester-1-nani/10032035fb5cd9898296.pdf) |
-| 7249 | 109上 | 期中1 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/10029955fb338c5e71ac.pdf) |
-| 7109 | 109上 | 期中1 | 彰化縣 三潭國小 | [下載](pdf/math-grade-05-semester-1-nani/10029565fab8ce823be3.pdf) |
-| 7094 | 109上 | 期中1 | 桃園市 壽山國小 | [下載](pdf/math-grade-05-semester-1-nani/10020865fab53503f39d.pdf) |
-| 7037 | 109上 | 期中1 | 彰化縣 伸東國小 | [下載](pdf/math-grade-05-semester-1-nani/10028935fa8da4b8f669.pdf) |
-| 6995 | 109上 | 期中1 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/10029985fa3c3901547d.pdf) |
-| 6990 | 109上 | 期中1 | 彰化縣 湳雅國小 | [下載](pdf/math-grade-05-semester-1-nani/10029655fa4c858ba048.pdf) |
-| 6928 | 109上 | 期中1 | 彰化縣 國聖國小 | [下載](pdf/math-grade-05-semester-1-nani/10028685fa384b3ee233.pdf) |
-| 6759 | 109上 | 期中1 | 彰化縣 螺青國小 | [下載](pdf/math-grade-05-semester-1-nani/10029715f961d59ca5f4.pdf) |
-| 6669 | 109上 | 期中1 | 彰化縣 員林國小 | [下載](pdf/math-grade-05-semester-1-nani/10029375f8d1b4ee45eb.pdf) |
-| 6667 | 109上 | 期中1 | 彰化縣 長安國小 | [下載](pdf/math-grade-05-semester-1-nani/10030135f8d359299a5b.pdf) |
-| 6518 | 108上 | 期末2 | 彰化縣 後寮國小 | [下載](pdf/math-grade-05-semester-1-nani/10030165f89352fbc5df.pdf) |
-| 3563 | 108上 | 期末2 | 臺北市 成德國小 | [下載](pdf/math-grade-05-semester-1-nani/10052455e71e576d76fb.pdf) |
-| 3546 | 108上 | 期末2 | 臺中市 文心國小 | [下載](doc/math-grade-05-semester-1-nani/10048805e716fce70db9.docx) |
-| 3218 | 108上 | 期末2 | 南投縣 潭南國小 | [下載](pdf/math-grade-05-semester-1-nani/10032035e535e98d1d17.pdf) |
-| 3081 | 108上 | 期末2 | 臺東縣 新生國小 | [下載](pdf/math-grade-05-semester-1-nani/10043495e44bfc96e017.pdf) |
-| 2878 | 108上 | 期末2 | 彰化縣 大同國小 | [下載](pdf/math-grade-05-semester-1-nani/10028955e3cc13e17cd7.pdf) |
-| 2645 | 108上 | 期末2 | 彰化縣 中正國小 | [下載](doc/math-grade-05-semester-1-nani/10029955e37987aea849.docx) |
-| 2514 | 108上 | 期末2 | 彰化縣 新港國小 | [下載](pdf/math-grade-05-semester-1-nani/10028925e33853e7354b.pdf) |
-| 2387 | 108上 | 期末2 | 彰化縣 田中國小 | [下載](doc/math-grade-05-semester-1-nani/10029555e27fefe10900.doc) |
-| 2232 | 108上 | 期末2 | 彰化縣 三民國小 | [下載](pdf/math-grade-05-semester-1-nani/10028655e26a2026623b.pdf) |
-| 1971 | 108上 | 期末2 | 臺中市 益民國小 | [下載](pdf/math-grade-05-semester-1-nani/10027635e201ebcc61d1.pdf) |
-| 1930 | 108上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/10029585e1ffb80709f2.pdf) |
-| 1927 | 108上 | 期末2 | 彰化縣 伸東國小 | [下載](pdf/math-grade-05-semester-1-nani/10028935e2004e633fc0.pdf) |
-| 1845 | 108上 | 期末2 | 彰化縣 伸仁國小 | [下載](doc/math-grade-05-semester-1-nani/10028945e1e7d9f548f2.doc) |
-| 2912 | 108上 | 期末3 | 屏東縣 鶴聲國小 | [下載](pdf/math-grade-05-semester-1-nani/10041475e3cc30c07716.pdf) |
-| 2487 | 108上 | 期末3 | 彰化縣 青山國小 | [下載](pdf/math-grade-05-semester-1-nani/10029445e32879691fd2.pdf) |
-| 2419 | 108上 | 期末3 | 彰化縣 員林國小 | [下載](doc/math-grade-05-semester-1-nani/10029375e318e26031af.doc) |
-| 2107 | 108上 | 期末3 | 彰化縣 寶山國小 | [下載](pdf/math-grade-05-semester-1-nani/10028745e25436fb9388.pdf) |
-| 1840 | 108上 | 期末3 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/10029895e1e779d0a0d1.pdf) |
-| 1754 | 108上 | 期末3 | 彰化縣 大莊國小 | [下載](doc/math-grade-05-semester-1-nani/10029915e1c1d83e76ba.doc) |
-| 2108 | 108上 | 期中2 | 彰化縣 寶山國小 | [下載](pdf/math-grade-05-semester-1-nani/10028745e25436fb526f.pdf) |
-| 1694 | 108上 | 期中2 | 屏東縣 鶴聲國小 | [下載](pdf/math-grade-05-semester-1-nani/10041475e1548e0cfc34.pdf) |
-| 1596 | 108上 | 期中2 | 彰化縣 潮洋國小 | [下載](doc/math-grade-05-semester-1-nani/10029885e0018d571015.doc) |
-| 1383 | 108上 | 期中2 | 嘉義縣 龍港國小 | [下載](doc/math-grade-05-semester-1-nani/10035305df6fffcbdde8.doc) |
-| 1230 | 108上 | 期中2 | 彰化縣 青山國小 | [下載](pdf/math-grade-05-semester-1-nani/10029445de751896038c.pdf) |
-| 1192 | 108上 | 期中2 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/10029895de7402ec63a2.pdf) |
-| 6520 | 108上 | 期中1 | 彰化縣 後寮國小 | [下載](pdf/math-grade-05-semester-1-nani/10030165f893b09f2aba.pdf) |
-| 5895 | 108上 | 期中1 | 臺南市 海佃國小 | [下載](pdf/math-grade-05-semester-1-nani/10050305f19457da5a34.pdf) |
-| 3767 | 108上 | 期中1 | 彰化縣 永光國小 | [下載](pdf/math-grade-05-semester-1-nani/10030055e9820367347c.pdf) |
-| 3619 | 108上 | 期中1 | 臺北市 碧湖國小 | [下載](doc/math-grade-05-semester-1-nani/10052675e8d42de8f6f6.doc) |
-| 3509 | 108上 | 期中1 | 臺中市 文心國小 | [下載](doc/math-grade-05-semester-1-nani/10048805e7167a0840f3.doc) |
-| 3491 | 108上 | 期中1 | 臺北市 成德國小 | [下載](pdf/math-grade-05-semester-1-nani/10052455e7079bdde5b8.pdf) |
-| 3066 | 108上 | 期中1 | 臺東縣 新生國小 | [下載](pdf/math-grade-05-semester-1-nani/10043495e43b3caa014c.pdf) |
-| 2879 | 108上 | 期中1 | 彰化縣 大同國小 | [下載](pdf/math-grade-05-semester-1-nani/10028955e3cc13e1755f.pdf) |
-| 2465 | 108上 | 期中1 | 彰化縣 和美國小 | [下載](doc/math-grade-05-semester-1-nani/10028845e3279d07c725.doc) |
-| 1946 | 108上 | 期中1 | 臺中市 益民國小 | [下載](pdf/math-grade-05-semester-1-nani/10027635e201d428b470.pdf) |
-| 1658 | 108上 | 期中1 | 彰化縣 聯興國小 | [下載](pdf/math-grade-05-semester-1-nani/10028665e0422e7713fa.pdf) |
-| 1510 | 108上 | 期中1 | 彰化縣 田中國小 | [下載](doc/math-grade-05-semester-1-nani/10029555df9dfe91004f.doc) |
-| 1047 | 108上 | 期中1 | 南投縣 潭南國小 | [下載](doc/math-grade-05-semester-1-nani/10032035dddd7483b006.docx) |
-| 882 | 108上 | 期中1 | 屏東縣 鶴聲國小 | [下載](pdf/math-grade-05-semester-1-nani/10041475dce5827cae8b.pdf) |
-| 852 | 108上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/10029585dccee16aa182.pdf) |
-| 820 | 108上 | 期中1 | 彰化縣 伸仁國小 | [下載](doc/math-grade-05-semester-1-nani/10028945dca3a3aa1e73.doc) |
-| 809 | 108上 | 期中1 | 彰化縣 僑愛國小 | [下載](doc/math-grade-05-semester-1-nani/10028815dca1c5e20a70.docx) |
-| 745 | 108上 | 期中1 | 彰化縣 潮洋國小 | [下載](doc/math-grade-05-semester-1-nani/10029885dc62a6ac4a1d.doc) |
-| 702 | 108上 | 期中1 | 臺北市 舊莊國小 | [下載](pdf/math-grade-05-semester-1-nani/10052435dc38f4ce680e.pdf) |
-| 565 | 108上 | 期中1 | 彰化縣 青山國小 | [下載](pdf/math-grade-05-semester-1-nani/10029445dc22fb13e779.pdf) |
-| 475 | 108上 | 期中1 | 彰化縣 中正國小 | [下載](doc/math-grade-05-semester-1-nani/10029955dc0d9c9969f6.doc) |
-| 455 | 108上 | 期中1 | 臺北市 麗湖國小 | [下載](pdf/math-grade-05-semester-1-nani/10055875dc0cfcd3c1f0.pdf) |
-| 418 | 108上 | 期中1 | 彰化縣 湳雅國小 | [下載](pdf/math-grade-05-semester-1-nani/10029655dbfbcc4ce798.pdf) |
-| 276 | 108上 | 期中1 | 彰化縣 芬園國小 | [下載](doc/math-grade-05-semester-1-nani/10028725db8ec59ea447.doc) |
-| 216 | 108上 | 期中1 | 彰化縣 三民國小 | [下載](pdf/math-grade-05-semester-1-nani/10028655db6a4cf7136c.pdf) |
-| 130 | 108上 | 期中1 | 嘉義縣 龍港國小 | [下載](doc/math-grade-05-semester-1-nani/10035305dad24edc3175.doc) |
-| 78 | 108上 | 期中1 | 彰化縣 萬興國小 | [下載](doc/math-grade-05-semester-1-nani/10029995da92bee29f30.doc) |
+| 科目 | 年級 | 學期 | 出版社 | ID | 學年度 | 類型 | 學校 | 檔案 |
+|---|---|---|---|---|---|---|---|---|
+| 國語 | 5 | 1 | 翰林 | 20003318 | 114上 | 期末2 | 臺南市 和順國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20003318b51484b25849.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20003220 | 114上 | 期末2 | 臺中市 大墩國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20003220b514a113a2bc.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20002960 | 114上 | 期末2 | 新北市 桃子腳國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20002960b514987d6bd0.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20002769 | 114上 | 期末2 | 基隆市 東光國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20002769b5141eb7a727.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20003295 | 114上 | 期中1 | 臺南市 和順國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20003295b5111903edf1.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20003193 | 114上 | 期中1 | 臺中市 大墩國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20003193b511308dedbd.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20002936 | 114上 | 期中1 | 新北市 桃子腳國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20002936b51184eed498.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20002741 | 114上 | 期中1 | 基隆市 東光國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20002741b511a02be8a6.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20002211 | 113上 | 期末2 | 新北市 安和國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20002211b5117b6179ad.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20001060 | 113上 | 期末2 | 基隆市 東光國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20001060b5145409bb93.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20000878 | 113上 | 期末2 | 花蓮縣 明義國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20000878b5140399358c.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20000603 | 113上 | 期末2 | 臺中市 大墩國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20000603b51457219e25.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20002210 | 113上 | 期中1 | 新北市 安和國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20002210b4244ace9055.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20001032 | 113上 | 期中1 | 基隆市 東光國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20001032b5117a4a4f23.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20000857 | 113上 | 期中1 | 花蓮縣 明義國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20000857b51129cdd545.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20000580 | 113上 | 期中1 | 臺中市 大墩國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20000580b511605c65f5.pdf) |
+| 國語 | 5 | 1 | 翰林 | 18813 | 113上 | 期中1 | 彰化縣 廣興國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10029986732dfd7c5fdd.pdf) |
+| 國語 | 5 | 1 | 翰林 | 18743 | 113上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/1002958672c554f371e3.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20000688 | 112上 | 期末2 | 臺南市 和順國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20000688b5145be20faa.pdf) |
+| 國語 | 5 | 1 | 翰林 | 17517 | 112上 | 期末2 | 彰化縣 田中國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/100295565c047e60549b.pdf) |
+| 國語 | 5 | 1 | 翰林 | 17469 | 112上 | 期末2 | 臺中市 四維國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/100488165c09458e5f8c.pdf) |
+| 國語 | 5 | 1 | 翰林 | 17134 | 112上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/100295865a5fabc617e8.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20000664 | 112上 | 期中1 | 臺南市 和順國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20000664b5116150ee5b.pdf) |
+| 國語 | 5 | 1 | 翰林 | 17501 | 112上 | 期中1 | 臺中市 四維國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/100488165c1d06177fc2.pdf) |
+| 國語 | 5 | 1 | 翰林 | 16874 | 112上 | 期中1 | 臺北市 河堤國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/100514565644c091bcf8.pdf) |
+| 國語 | 5 | 1 | 翰林 | 16851 | 112上 | 期中1 | 彰化縣 田中國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/1002955656044f529f72.pdf) |
+| 國語 | 5 | 1 | 翰林 | 16608 | 112上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10029586549b60965ea4.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20001459 | 111上 | 期末2 | 桃園市 大華國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20001459b511544c5e01.pdf) |
+| 國語 | 5 | 1 | 翰林 | 14979 | 111上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/100295863e4556388201.pdf) |
+| 國語 | 5 | 1 | 翰林 | 14713 | 111上 | 期末2 | 彰化縣 田中國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/100295563c8deb846572.pdf) |
+| 國語 | 5 | 1 | 翰林 | 14699 | 111上 | 期末2 | 彰化縣 中正國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/100299563c762a7a4348.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20001458 | 111上 | 期中1 | 桃園市 大華國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20001458b42101ff9bf0.pdf) |
+| 國語 | 5 | 1 | 翰林 | 14526 | 111上 | 期中1 | 彰化縣 田中國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/100295563b67f62a4236.pdf) |
+| 國語 | 5 | 1 | 翰林 | 14245 | 111上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10029586375dae7e7bf6.pdf) |
+| 國語 | 5 | 1 | 翰林 | 14214 | 111上 | 期中1 | 彰化縣 中正國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10029956374427ab7286.pdf) |
+| 國語 | 5 | 1 | 翰林 | 14029 | 111上 | 期中1 | 彰化縣 中山國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10028586360c0897fe1b.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20002514 | 110上 | 期末2 | 新北市 桃子腳國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20002514b5112cb3ece9.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20002278 | 110上 | 期末2 | 高雄市 忠孝國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20002278b5115ed303e6.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20001713 | 110上 | 期末2 | 臺北市 民權國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20001713b51178d04583.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20001388 | 110上 | 期末2 | 桃園市 大華國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20001388b5111e8e0594.pdf) |
+| 國語 | 5 | 1 | 翰林 | 11329 | 110上 | 期末2 | 彰化縣 田中國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/100295561e9112c0736c.pdf) |
+| 國語 | 5 | 1 | 翰林 | 11250 | 110上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/100295861e78a72ea822.pdf) |
+| 國語 | 5 | 1 | 翰林 | 11170 | 110上 | 期末2 | 彰化縣 鹿東國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/100302661e4dfe5201d8.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20002513 | 110上 | 期中1 | 新北市 桃子腳國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20002513b4244db00a08.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20002277 | 110上 | 期中1 | 高雄市 忠孝國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20002277b41447593674.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20001712 | 110上 | 期中1 | 臺北市 民權國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20001712b4246476451a.pdf) |
+| 國語 | 5 | 1 | 翰林 | 20001387 | 110上 | 期中1 | 桃園市 大華國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/20001387b4244bdae3ca.pdf) |
+| 國語 | 5 | 1 | 翰林 | 10863 | 110上 | 期中1 | 彰化縣 田中國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/1002955619ef0007bea4.pdf) |
+| 國語 | 5 | 1 | 翰林 | 10828 | 110上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10029586195c9ee00bcb.pdf) |
+| 國語 | 5 | 1 | 翰林 | 8477 | 109上 | 期末2 | 南投縣 潭南國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/100320360177393319f8.pdf) |
+| 國語 | 5 | 1 | 翰林 | 8072 | 109上 | 期末2 | 彰化縣 僑愛國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/1002881601a68973a1a9.pdf) |
+| 國語 | 5 | 1 | 翰林 | 7303 | 109上 | 期中1 | 南投縣 潭南國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10032035fb5cd9894fa5.pdf) |
+| 國語 | 5 | 1 | 翰林 | 7089 | 109上 | 期中1 | 彰化縣 中山國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/1002858636084f25ac4c.pdf) |
+| 國語 | 5 | 1 | 翰林 | 3630 | 108上 | 期末2 | 彰化縣 三民國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10028655e8e92de686df.pdf) |
+| 國語 | 5 | 1 | 翰林 | 3028 | 108上 | 期末2 | 臺東縣 德高國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10043895e4371d13a67f.pdf) |
+| 國語 | 5 | 1 | 翰林 | 2987 | 108上 | 期末2 | 南投縣 國姓國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10031795e40d06b03acc.pdf) |
+| 國語 | 5 | 1 | 翰林 | 2880 | 108上 | 期末2 | 彰化縣 大同國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10028955e3cc13e16933.pdf) |
+| 國語 | 5 | 1 | 翰林 | 2388 | 108上 | 期末2 | 彰化縣 田中國小 | [下載](doc/chinese-grade-05-semester-1-hanlin/10029555e27fefe0ff55.docx) |
+| 國語 | 5 | 1 | 翰林 | 1931 | 108上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10029585e1ffb806a22c.pdf) |
+| 國語 | 5 | 1 | 翰林 | 1735 | 108上 | 期末2 | 桃園市 壽山國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10020865e167637108d0.pdf) |
+| 國語 | 5 | 1 | 翰林 | 2488 | 108上 | 期末3 | 彰化縣 青山國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10029445e32879691d37.pdf) |
+| 國語 | 5 | 1 | 翰林 | 1231 | 108上 | 期中2 | 彰化縣 青山國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10029445de751895ff59.pdf) |
+| 國語 | 5 | 1 | 翰林 | 3011 | 108上 | 期中1 | 臺東縣 德高國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10043895e410aed650a0.pdf) |
+| 國語 | 5 | 1 | 翰林 | 2988 | 108上 | 期中1 | 南投縣 國姓國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10031795e40d06b03642.pdf) |
+| 國語 | 5 | 1 | 翰林 | 2881 | 108上 | 期中1 | 彰化縣 大同國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10028955e3cc13e151be.pdf) |
+| 國語 | 5 | 1 | 翰林 | 1511 | 108上 | 期中1 | 彰化縣 田中國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10029555df9dfe90b4c3.pdf) |
+| 國語 | 5 | 1 | 翰林 | 833 | 108上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10029585dccee16a95bd.pdf) |
+| 國語 | 5 | 1 | 翰林 | 810 | 108上 | 期中1 | 彰化縣 僑愛國小 | [下載](doc/chinese-grade-05-semester-1-hanlin/10028815dca1c5e15dd8.doc) |
+| 國語 | 5 | 1 | 翰林 | 566 | 108上 | 期中1 | 彰化縣 青山國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10029445dc22fb13e43a.pdf) |
+| 國語 | 5 | 1 | 翰林 | 504 | 108上 | 期中1 | 臺北市 實踐國小 | [下載](doc/chinese-grade-05-semester-1-hanlin/10052265dc0fc1741ab7.doc) |
+| 國語 | 5 | 1 | 翰林 | 435 | 108上 | 期中1 | 桃園市 壽山國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10020865dc0c3978f551.pdf) |
+| 國語 | 5 | 1 | 翰林 | 217 | 108上 | 期中1 | 彰化縣 三民國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10028655db6a4cf708b6.pdf) |
+| 國語 | 5 | 1 | 翰林 | 1 | 108上 | 期中1 | 彰化縣 永豐國小 | [下載](pdf/chinese-grade-05-semester-1-hanlin/10029085f8d4060837d3.pdf) |
+| 數學 | 5 | 1 | 南一 | 20003712 | 114上 | 期末2 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20003712b51457529e8c.pdf) |
+| 數學 | 5 | 1 | 南一 | 20003448 | 114上 | 期末2 | 高雄市 崇德國小 | [下載](pdf/math-grade-05-semester-1-nani/20003448b5145ceb95f6.pdf) |
+| 數學 | 5 | 1 | 南一 | 20003146 | 114上 | 期末2 | 桃園市 普仁國小 | [下載](pdf/math-grade-05-semester-1-nani/20003146b51419c51519.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002871 | 114上 | 期末2 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20002871b5148af7683e.pdf) |
+| 數學 | 5 | 1 | 南一 | 20003690 | 114上 | 期中1 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20003690b5113ed8c6f0.pdf) |
+| 數學 | 5 | 1 | 南一 | 20003424 | 114上 | 期中1 | 高雄市 崇德國小 | [下載](pdf/math-grade-05-semester-1-nani/20003424b5116f85b408.pdf) |
+| 數學 | 5 | 1 | 南一 | 20003118 | 114上 | 期中1 | 桃園市 普仁國小 | [下載](pdf/math-grade-05-semester-1-nani/20003118b511c38c167b.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002848 | 114上 | 期中1 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20002848b5111a643e75.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002215 | 113上 | 期末2 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20002215b51143ba1dc2.pdf) |
+| 數學 | 5 | 1 | 南一 | 20000962 | 113上 | 期末2 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20000962b5143d2b7387.pdf) |
+| 數學 | 5 | 1 | 南一 | 20000221 | 113上 | 期末2 | 高雄市 永安國小 | [下載](pdf/math-grade-05-semester-1-nani/20000221b51425071e2c.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002214 | 113上 | 期中1 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20002214b52409da3a51.pdf) |
+| 數學 | 5 | 1 | 南一 | 20000940 | 113上 | 期中1 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20000940b5111eb0990b.pdf) |
+| 數學 | 5 | 1 | 南一 | 20000208 | 113上 | 期中1 | 高雄市 永安國小 | [下載](pdf/math-grade-05-semester-1-nani/20000208b5116b983bf4.pdf) |
+| 數學 | 5 | 1 | 南一 | 18826 | 113上 | 期中1 | 彰化縣 大莊國小 | [下載](pdf/math-grade-05-semester-1-nani/10029916732fbbe37311.pdf) |
+| 數學 | 5 | 1 | 南一 | 18812 | 113上 | 期中1 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/10029986732dfd814df5.pdf) |
+| 數學 | 5 | 1 | 南一 | 18808 | 113上 | 期中1 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298967319cd09b2bc.pdf) |
+| 數學 | 5 | 1 | 南一 | 18742 | 113上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/1002958672c554f579a9.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002700 | 112上 | 期末2 | 新北市 桃子腳國小 | [下載](pdf/math-grade-05-semester-1-nani/20002700b5111c018009.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002430 | 112上 | 期末2 | 高雄市 忠孝國小 | [下載](pdf/math-grade-05-semester-1-nani/20002430b51165a2459e.pdf) |
+| 數學 | 5 | 1 | 南一 | 17537 | 112上 | 期末2 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/100299565c2e402d56e7.pdf) |
+| 數學 | 5 | 1 | 南一 | 17516 | 112上 | 期末2 | 彰化縣 田中國小 | [下載](pdf/math-grade-05-semester-1-nani/100295565c047e607193.pdf) |
+| 數學 | 5 | 1 | 南一 | 17148 | 112上 | 期末2 | 彰化縣 文德國小 | [下載](pdf/math-grade-05-semester-1-nani/100287665a78e82b21f4.pdf) |
+| 數學 | 5 | 1 | 南一 | 17133 | 112上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/100295865a5fabc647d8.pdf) |
+| 數學 | 5 | 1 | 南一 | 17085 | 112上 | 期末2 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/1002998659fc64d1f86b.pdf) |
+| 數學 | 5 | 1 | 南一 | 17210 | 112上 | 期末3 | 彰化縣 大莊國小 | [下載](pdf/math-grade-05-semester-1-nani/100299165aa3178d8420.pdf) |
+| 數學 | 5 | 1 | 南一 | 17178 | 112上 | 期末3 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298965a954a196c60.pdf) |
+| 數學 | 5 | 1 | 南一 | 16956 | 112上 | 期中2 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/1002989657475bc28502.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002699 | 112上 | 期中1 | 新北市 桃子腳國小 | [下載](pdf/math-grade-05-semester-1-nani/20002699b5245d498813.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002429 | 112上 | 期中1 | 高雄市 忠孝國小 | [下載](pdf/math-grade-05-semester-1-nani/20002429b5244899a894.pdf) |
+| 數學 | 5 | 1 | 南一 | 20000503 | 112上 | 期中1 | 臺中市 大墩國小 | [下載](pdf/math-grade-05-semester-1-nani/20000503b5112bbc18b7.pdf) |
+| 數學 | 5 | 1 | 南一 | 17149 | 112上 | 期中1 | 彰化縣 文德國小 | [下載](pdf/math-grade-05-semester-1-nani/100287665a88b6c57615.pdf) |
+| 數學 | 5 | 1 | 南一 | 17078 | 112上 | 期中1 | 彰化縣 大莊國小 | [下載](pdf/math-grade-05-semester-1-nani/1002991659f3db1579e2.pdf) |
+| 數學 | 5 | 1 | 南一 | 16850 | 112上 | 期中1 | 彰化縣 田中國小 | [下載](pdf/math-grade-05-semester-1-nani/1002955656044f52aed8.pdf) |
+| 數學 | 5 | 1 | 南一 | 16830 | 112上 | 期中1 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/1002998655c23be5e0da.pdf) |
+| 數學 | 5 | 1 | 南一 | 16696 | 112上 | 期中1 | 臺北市 太平國小 | [下載](pdf/math-grade-05-semester-1-nani/1005165654c2073a9324.pdf) |
+| 數學 | 5 | 1 | 南一 | 16645 | 112上 | 期中1 | 臺北市 舊莊國小 | [下載](pdf/math-grade-05-semester-1-nani/10052436549f786469f8.pdf) |
+| 數學 | 5 | 1 | 南一 | 16610 | 112上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/10029586549b60929b88.pdf) |
+| 數學 | 5 | 1 | 南一 | 16598 | 112上 | 期中1 | 彰化縣 聯興國小 | [下載](pdf/math-grade-05-semester-1-nani/1002866654889432a0b9.pdf) |
+| 數學 | 5 | 1 | 南一 | 16467 | 112上 | 期中1 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/1002989653f64de42c4e.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002040 | 111上 | 期末2 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20002040b511110420d8.pdf) |
+| 數學 | 5 | 1 | 南一 | 20001808 | 111上 | 期末2 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20001808b5113edc380b.pdf) |
+| 數學 | 5 | 1 | 南一 | 14978 | 111上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/100295863e4556388ead.pdf) |
+| 數學 | 5 | 1 | 南一 | 14826 | 111上 | 期末2 | 彰化縣 草港國小 | [下載](pdf/math-grade-05-semester-1-nani/100290163d87a1f17166.pdf) |
+| 數學 | 5 | 1 | 南一 | 14787 | 111上 | 期末2 | 彰化縣 三條國小 | [下載](pdf/math-grade-05-semester-1-nani/100298663d769d0e2780.pdf) |
+| 數學 | 5 | 1 | 南一 | 14776 | 111上 | 期末2 | 彰化縣 三民國小 | [下載](pdf/math-grade-05-semester-1-nani/100286563d76007c3812.pdf) |
+| 數學 | 5 | 1 | 南一 | 14751 | 111上 | 期末2 | 臺中市 大里國小 | [下載](pdf/math-grade-05-semester-1-nani/100273063d70f1c15c0e.pdf) |
+| 數學 | 5 | 1 | 南一 | 14698 | 111上 | 期末2 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/100299563c762a7a4b4b.pdf) |
+| 數學 | 5 | 1 | 南一 | 14675 | 111上 | 期末2 | 彰化縣 伸仁國小 | [下載](pdf/math-grade-05-semester-1-nani/100289463c73f93a82e4.pdf) |
+| 數學 | 5 | 1 | 南一 | 14662 | 111上 | 期末2 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/100299863c6b9401c181.pdf) |
+| 數學 | 5 | 1 | 南一 | 14657 | 111上 | 期末2 | 彰化縣 文德國小 | [下載](pdf/math-grade-05-semester-1-nani/100287663c614e2cc1a4.pdf) |
+| 數學 | 5 | 1 | 南一 | 14655 | 111上 | 期末2 | 彰化縣 國聖國小 | [下載](pdf/math-grade-05-semester-1-nani/100286863c619286c0c7.pdf) |
+| 數學 | 5 | 1 | 南一 | 14610 | 111上 | 期末2 | 彰化縣 田中國小 | [下載](pdf/math-grade-05-semester-1-nani/100295563c4f9cb5825c.pdf) |
+| 數學 | 5 | 1 | 南一 | 15004 | 111上 | 期末3 | 彰化縣 大莊國小 | [下載](pdf/math-grade-05-semester-1-nani/100299163e602218c77c.pdf) |
+| 數學 | 5 | 1 | 南一 | 14746 | 111上 | 期末3 | 彰化縣 舊館國小 | [下載](pdf/math-grade-05-semester-1-nani/100293263cca46cc4921.pdf) |
+| 數學 | 5 | 1 | 南一 | 14729 | 111上 | 期末3 | 彰化縣 茄荖國小 | [下載](pdf/math-grade-05-semester-1-nani/100287763c797a797371.pdf) |
+| 數學 | 5 | 1 | 南一 | 14623 | 111上 | 期末3 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298963c5e871ee997.pdf) |
+| 數學 | 5 | 1 | 南一 | 14327 | 111上 | 期中2 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/1002989638e9ca498844.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002039 | 111上 | 期中1 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20002039b524203aa3c2.pdf) |
+| 數學 | 5 | 1 | 南一 | 20001807 | 111上 | 期中1 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20001807b524697c5a69.pdf) |
+| 數學 | 5 | 1 | 南一 | 14792 | 111上 | 期中1 | 彰化縣 草港國小 | [下載](pdf/math-grade-05-semester-1-nani/100290163d877b8d70f2.pdf) |
+| 數學 | 5 | 1 | 南一 | 14525 | 111上 | 期中1 | 彰化縣 田中國小 | [下載](pdf/math-grade-05-semester-1-nani/100295563b4ef2179038.pdf) |
+| 數學 | 5 | 1 | 南一 | 14254 | 111上 | 期中1 | 臺中市 大里國小 | [下載](pdf/math-grade-05-semester-1-nani/10027306376cc6e56f5b.pdf) |
+| 數學 | 5 | 1 | 南一 | 14244 | 111上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/10029586375dae7e98c8.pdf) |
+| 數學 | 5 | 1 | 南一 | 14206 | 111上 | 期中1 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/1002995637443eb95d1d.pdf) |
+| 數學 | 5 | 1 | 南一 | 14154 | 111上 | 期中1 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/1002998636e2861607d7.pdf) |
+| 數學 | 5 | 1 | 南一 | 14105 | 111上 | 期中1 | 彰化縣 伸仁國小 | [下載](pdf/math-grade-05-semester-1-nani/1002894636c444a4f780.pdf) |
+| 數學 | 5 | 1 | 南一 | 14080 | 111上 | 期中1 | 彰化縣 三民國小 | [下載](pdf/math-grade-05-semester-1-nani/1002865636b17f9f0737.pdf) |
+| 數學 | 5 | 1 | 南一 | 14074 | 111上 | 期中1 | 彰化縣 三條國小 | [下載](pdf/math-grade-05-semester-1-nani/10029866368c877d0acd.pdf) |
+| 數學 | 5 | 1 | 南一 | 14068 | 111上 | 期中1 | 彰化縣 舊館國小 | [下載](pdf/math-grade-05-semester-1-nani/10029326369fe9916642.pdf) |
+| 數學 | 5 | 1 | 南一 | 14051 | 111上 | 期中1 | 彰化縣 國聖國小 | [下載](pdf/math-grade-05-semester-1-nani/100286863635de9bed71.pdf) |
+| 數學 | 5 | 1 | 南一 | 13896 | 111上 | 期中1 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/1002989634f8621aeaf4.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002518 | 110上 | 期末2 | 新北市 桃子腳國小 | [下載](pdf/math-grade-05-semester-1-nani/20002518b51148cbef35.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002280 | 110上 | 期末2 | 高雄市 忠孝國小 | [下載](pdf/math-grade-05-semester-1-nani/20002280b51161b8c507.pdf) |
+| 數學 | 5 | 1 | 南一 | 20001959 | 110上 | 期末2 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20001959b5111adafc1e.pdf) |
+| 數學 | 5 | 1 | 南一 | 20001717 | 110上 | 期末2 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20001717b51155c862db.pdf) |
+| 數學 | 5 | 1 | 南一 | 14876 | 110上 | 期末2 | 臺中市 文心國小 | [下載](pdf/math-grade-05-semester-1-nani/100488063e1ac43550b3.pdf) |
+| 數學 | 5 | 1 | 南一 | 13524 | 110上 | 期末2 | 臺東縣 新生國小 | [下載](pdf/math-grade-05-semester-1-nani/100434962df65d4cf710.pdf) |
+| 數學 | 5 | 1 | 南一 | 11787 | 110上 | 期末2 | 臺北市 延平國小 | [下載](pdf/math-grade-05-semester-1-nani/10051706204b93fc3e66.pdf) |
+| 數學 | 5 | 1 | 南一 | 11449 | 110上 | 期末2 | 臺南市 海佃國小 | [下載](pdf/math-grade-05-semester-1-nani/100503061eb6b008d96d.pdf) |
+| 數學 | 5 | 1 | 南一 | 11330 | 110上 | 期末2 | 彰化縣 田中國小 | [下載](pdf/math-grade-05-semester-1-nani/100295561e9112c06f7c.pdf) |
+| 數學 | 5 | 1 | 南一 | 11249 | 110上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/100295861e78a72eacb1.pdf) |
+| 數學 | 5 | 1 | 南一 | 11225 | 110上 | 期末2 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/100299561e76c8126aeb.pdf) |
+| 數學 | 5 | 1 | 南一 | 11211 | 110上 | 期末2 | 彰化縣 伸仁國小 | [下載](pdf/math-grade-05-semester-1-nani/100289461e648de09b14.pdf) |
+| 數學 | 5 | 1 | 南一 | 11106 | 110上 | 期末2 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/100299861defa3560f0e.pdf) |
+| 數學 | 5 | 1 | 南一 | 11143 | 110上 | 期末3 | 彰化縣 大莊國小 | [下載](pdf/math-grade-05-semester-1-nani/100299161e0e50620efe.pdf) |
+| 數學 | 5 | 1 | 南一 | 10951 | 110上 | 期中2 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298961aea638178ee.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002517 | 110上 | 期中1 | 新北市 桃子腳國小 | [下載](pdf/math-grade-05-semester-1-nani/20002517b5243865d44f.pdf) |
+| 數學 | 5 | 1 | 南一 | 20002279 | 110上 | 期中1 | 高雄市 忠孝國小 | [下載](pdf/math-grade-05-semester-1-nani/20002279b5146ebca129.pdf) |
+| 數學 | 5 | 1 | 南一 | 20001958 | 110上 | 期中1 | 新北市 安和國小 | [下載](pdf/math-grade-05-semester-1-nani/20001958b5241f120a97.pdf) |
+| 數學 | 5 | 1 | 南一 | 20001716 | 110上 | 期中1 | 臺北市 民權國小 | [下載](pdf/math-grade-05-semester-1-nani/20001716b5240a6faac4.pdf) |
+| 數學 | 5 | 1 | 南一 | 14860 | 110上 | 期中1 | 臺中市 文心國小 | [下載](pdf/math-grade-05-semester-1-nani/100488063e1a9bca5366.pdf) |
+| 數學 | 5 | 1 | 南一 | 13488 | 110上 | 期中1 | 臺東縣 新生國小 | [下載](pdf/math-grade-05-semester-1-nani/100434962de622991db2.pdf) |
+| 數學 | 5 | 1 | 南一 | 12506 | 110上 | 期中1 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298962466e68a38ec.pdf) |
+| 數學 | 5 | 1 | 南一 | 11429 | 110上 | 期中1 | 臺南市 海佃國小 | [下載](pdf/math-grade-05-semester-1-nani/100503061eb6872dc2b8.pdf) |
+| 數學 | 5 | 1 | 南一 | 10861 | 110上 | 期中1 | 彰化縣 田中國小 | [下載](pdf/math-grade-05-semester-1-nani/1002955619ef0007cc54.pdf) |
+| 數學 | 5 | 1 | 南一 | 10827 | 110上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/10029586195c9ee01451.pdf) |
+| 數學 | 5 | 1 | 南一 | 10825 | 110上 | 期中1 | 彰化縣 三民國小 | [下載](pdf/math-grade-05-semester-1-nani/10028656195f0e1bd126.pdf) |
+| 數學 | 5 | 1 | 南一 | 10817 | 110上 | 期中1 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/10029956194bd17c4802.pdf) |
+| 數學 | 5 | 1 | 南一 | 10779 | 110上 | 期中1 | 彰化縣 三條國小 | [下載](pdf/math-grade-05-semester-1-nani/1002986618d0b0fc2927.pdf) |
+| 數學 | 5 | 1 | 南一 | 10585 | 110上 | 期中1 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/10029986187c81a15fe3.pdf) |
+| 數學 | 5 | 1 | 南一 | 10361 | 110上 | 期中1 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298961710798c0567.pdf) |
+| 數學 | 5 | 1 | 南一 | 13441 | 109上 | 期末2 | 臺東縣 新生國小 | [下載](pdf/math-grade-05-semester-1-nani/100434962de50a04b0f8.pdf) |
+| 數學 | 5 | 1 | 南一 | 9654 | 109上 | 期末2 | 臺北市 延平國小 | [下載](pdf/math-grade-05-semester-1-nani/100517060ee4d94a18e6.pdf) |
+| 數學 | 5 | 1 | 南一 | 8476 | 109上 | 期末2 | 南投縣 潭南國小 | [下載](pdf/math-grade-05-semester-1-nani/10032036017739331dad.pdf) |
+| 數學 | 5 | 1 | 南一 | 8196 | 109上 | 期末2 | 臺南市 海佃國小 | [下載](pdf/math-grade-05-semester-1-nani/1005030600e6dffb2421.pdf) |
+| 數學 | 5 | 1 | 南一 | 8144 | 109上 | 期末2 | 彰化縣 三潭國小 | [下載](pdf/math-grade-05-semester-1-nani/1002956600e3b4da918a.pdf) |
+| 數學 | 5 | 1 | 南一 | 8073 | 109上 | 期末2 | 彰化縣 僑愛國小 | [下載](pdf/math-grade-05-semester-1-nani/1002881601a68f4baa0a.pdf) |
+| 數學 | 5 | 1 | 南一 | 7968 | 109上 | 期末2 | 彰化縣 湳雅國小 | [下載](pdf/math-grade-05-semester-1-nani/10029656007c9d489098.pdf) |
+| 數學 | 5 | 1 | 南一 | 7903 | 109上 | 期末2 | 彰化縣 三條國小 | [下載](pdf/math-grade-05-semester-1-nani/10029866006809e3239d.pdf) |
+| 數學 | 5 | 1 | 南一 | 7773 | 109上 | 期末2 | 彰化縣 伸仁國小 | [下載](pdf/math-grade-05-semester-1-nani/1002894600126cd220b5.pdf) |
+| 數學 | 5 | 1 | 南一 | 7746 | 109上 | 期末2 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/100299860004964e90c0.pdf) |
+| 數學 | 5 | 1 | 南一 | 7744 | 109上 | 期末2 | 彰化縣 伸東國小 | [下載](pdf/math-grade-05-semester-1-nani/10028936000e4091f361.pdf) |
+| 數學 | 5 | 1 | 南一 | 7668 | 109上 | 期末2 | 彰化縣 國聖國小 | [下載](pdf/math-grade-05-semester-1-nani/10028685ffe60da718c5.pdf) |
+| 數學 | 5 | 1 | 南一 | 7906 | 109上 | 期末3 | 彰化縣 長安國小 | [下載](pdf/math-grade-05-semester-1-nani/100301360064f6bb52d6.pdf) |
+| 數學 | 5 | 1 | 南一 | 7877 | 109上 | 期末3 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/100298960053bfaddd58.pdf) |
+| 數學 | 5 | 1 | 南一 | 8356 | 109上 | 期中2 | 彰化縣 寶山國小 | [下載](pdf/math-grade-05-semester-1-nani/100287460122b5372d0a.pdf) |
+| 數學 | 5 | 1 | 南一 | 7909 | 109上 | 期中2 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/1002995600697660f98a.pdf) |
+| 數學 | 5 | 1 | 南一 | 7413 | 109上 | 期中2 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/10029895fc8548ba1956.pdf) |
+| 數學 | 5 | 1 | 南一 | 7383 | 109上 | 期中2 | 彰化縣 長安國小 | [下載](pdf/math-grade-05-semester-1-nani/10030135fc4748b8d1e1.pdf) |
+| 數學 | 5 | 1 | 南一 | 13424 | 109上 | 期中1 | 臺東縣 新生國小 | [下載](pdf/math-grade-05-semester-1-nani/100434962de31e6247e8.pdf) |
+| 數學 | 5 | 1 | 南一 | 9635 | 109上 | 期中1 | 臺北市 延平國小 | [下載](pdf/math-grade-05-semester-1-nani/100517060ed0be3704fe.pdf) |
+| 數學 | 5 | 1 | 南一 | 9348 | 109上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/1002958609e14a8d8bec.pdf) |
+| 數學 | 5 | 1 | 南一 | 9081 | 109上 | 期中1 | 彰化縣 三潭國小 | [下載](pdf/math-grade-05-semester-1-nani/1002956608283e0ef1d6.pdf) |
+| 數學 | 5 | 1 | 南一 | 8338 | 109上 | 期中1 | 彰化縣 寶山國小 | [下載](pdf/math-grade-05-semester-1-nani/100287460122895607b7.pdf) |
+| 數學 | 5 | 1 | 南一 | 8224 | 109上 | 期中1 | 彰化縣 草港國小 | [下載](pdf/math-grade-05-semester-1-nani/1002901600fa1bf4cf5a.pdf) |
+| 數學 | 5 | 1 | 南一 | 8177 | 109上 | 期中1 | 臺南市 海佃國小 | [下載](pdf/math-grade-05-semester-1-nani/1005030600e67dcf2221.pdf) |
+| 數學 | 5 | 1 | 南一 | 7348 | 109上 | 期中1 | 彰化縣 伸仁國小 | [下載](pdf/math-grade-05-semester-1-nani/10028945fbb5b3ced411.pdf) |
+| 數學 | 5 | 1 | 南一 | 7322 | 109上 | 期中1 | 南投縣 潭南國小 | [下載](pdf/math-grade-05-semester-1-nani/10032035fb5cd9898296.pdf) |
+| 數學 | 5 | 1 | 南一 | 7249 | 109上 | 期中1 | 彰化縣 中正國小 | [下載](pdf/math-grade-05-semester-1-nani/10029955fb338c5e71ac.pdf) |
+| 數學 | 5 | 1 | 南一 | 7109 | 109上 | 期中1 | 彰化縣 三潭國小 | [下載](pdf/math-grade-05-semester-1-nani/10029565fab8ce823be3.pdf) |
+| 數學 | 5 | 1 | 南一 | 7094 | 109上 | 期中1 | 桃園市 壽山國小 | [下載](pdf/math-grade-05-semester-1-nani/10020865fab53503f39d.pdf) |
+| 數學 | 5 | 1 | 南一 | 7037 | 109上 | 期中1 | 彰化縣 伸東國小 | [下載](pdf/math-grade-05-semester-1-nani/10028935fa8da4b8f669.pdf) |
+| 數學 | 5 | 1 | 南一 | 6995 | 109上 | 期中1 | 彰化縣 廣興國小 | [下載](pdf/math-grade-05-semester-1-nani/10029985fa3c3901547d.pdf) |
+| 數學 | 5 | 1 | 南一 | 6990 | 109上 | 期中1 | 彰化縣 湳雅國小 | [下載](pdf/math-grade-05-semester-1-nani/10029655fa4c858ba048.pdf) |
+| 數學 | 5 | 1 | 南一 | 6928 | 109上 | 期中1 | 彰化縣 國聖國小 | [下載](pdf/math-grade-05-semester-1-nani/10028685fa384b3ee233.pdf) |
+| 數學 | 5 | 1 | 南一 | 6759 | 109上 | 期中1 | 彰化縣 螺青國小 | [下載](pdf/math-grade-05-semester-1-nani/10029715f961d59ca5f4.pdf) |
+| 數學 | 5 | 1 | 南一 | 6669 | 109上 | 期中1 | 彰化縣 員林國小 | [下載](pdf/math-grade-05-semester-1-nani/10029375f8d1b4ee45eb.pdf) |
+| 數學 | 5 | 1 | 南一 | 6667 | 109上 | 期中1 | 彰化縣 長安國小 | [下載](pdf/math-grade-05-semester-1-nani/10030135f8d359299a5b.pdf) |
+| 數學 | 5 | 1 | 南一 | 6518 | 108上 | 期末2 | 彰化縣 後寮國小 | [下載](pdf/math-grade-05-semester-1-nani/10030165f89352fbc5df.pdf) |
+| 數學 | 5 | 1 | 南一 | 3563 | 108上 | 期末2 | 臺北市 成德國小 | [下載](pdf/math-grade-05-semester-1-nani/10052455e71e576d76fb.pdf) |
+| 數學 | 5 | 1 | 南一 | 3546 | 108上 | 期末2 | 臺中市 文心國小 | [下載](doc/math-grade-05-semester-1-nani/10048805e716fce70db9.docx) |
+| 數學 | 5 | 1 | 南一 | 3218 | 108上 | 期末2 | 南投縣 潭南國小 | [下載](pdf/math-grade-05-semester-1-nani/10032035e535e98d1d17.pdf) |
+| 數學 | 5 | 1 | 南一 | 3081 | 108上 | 期末2 | 臺東縣 新生國小 | [下載](pdf/math-grade-05-semester-1-nani/10043495e44bfc96e017.pdf) |
+| 數學 | 5 | 1 | 南一 | 2878 | 108上 | 期末2 | 彰化縣 大同國小 | [下載](pdf/math-grade-05-semester-1-nani/10028955e3cc13e17cd7.pdf) |
+| 數學 | 5 | 1 | 南一 | 2645 | 108上 | 期末2 | 彰化縣 中正國小 | [下載](doc/math-grade-05-semester-1-nani/10029955e37987aea849.docx) |
+| 數學 | 5 | 1 | 南一 | 2514 | 108上 | 期末2 | 彰化縣 新港國小 | [下載](pdf/math-grade-05-semester-1-nani/10028925e33853e7354b.pdf) |
+| 數學 | 5 | 1 | 南一 | 2387 | 108上 | 期末2 | 彰化縣 田中國小 | [下載](doc/math-grade-05-semester-1-nani/10029555e27fefe10900.doc) |
+| 數學 | 5 | 1 | 南一 | 2232 | 108上 | 期末2 | 彰化縣 三民國小 | [下載](pdf/math-grade-05-semester-1-nani/10028655e26a2026623b.pdf) |
+| 數學 | 5 | 1 | 南一 | 1971 | 108上 | 期末2 | 臺中市 益民國小 | [下載](pdf/math-grade-05-semester-1-nani/10027635e201ebcc61d1.pdf) |
+| 數學 | 5 | 1 | 南一 | 1930 | 108上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/10029585e1ffb80709f2.pdf) |
+| 數學 | 5 | 1 | 南一 | 1927 | 108上 | 期末2 | 彰化縣 伸東國小 | [下載](pdf/math-grade-05-semester-1-nani/10028935e2004e633fc0.pdf) |
+| 數學 | 5 | 1 | 南一 | 1845 | 108上 | 期末2 | 彰化縣 伸仁國小 | [下載](doc/math-grade-05-semester-1-nani/10028945e1e7d9f548f2.doc) |
+| 數學 | 5 | 1 | 南一 | 2912 | 108上 | 期末3 | 屏東縣 鶴聲國小 | [下載](pdf/math-grade-05-semester-1-nani/10041475e3cc30c07716.pdf) |
+| 數學 | 5 | 1 | 南一 | 2487 | 108上 | 期末3 | 彰化縣 青山國小 | [下載](pdf/math-grade-05-semester-1-nani/10029445e32879691fd2.pdf) |
+| 數學 | 5 | 1 | 南一 | 2419 | 108上 | 期末3 | 彰化縣 員林國小 | [下載](doc/math-grade-05-semester-1-nani/10029375e318e26031af.doc) |
+| 數學 | 5 | 1 | 南一 | 2107 | 108上 | 期末3 | 彰化縣 寶山國小 | [下載](pdf/math-grade-05-semester-1-nani/10028745e25436fb9388.pdf) |
+| 數學 | 5 | 1 | 南一 | 1840 | 108上 | 期末3 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/10029895e1e779d0a0d1.pdf) |
+| 數學 | 5 | 1 | 南一 | 1754 | 108上 | 期末3 | 彰化縣 大莊國小 | [下載](doc/math-grade-05-semester-1-nani/10029915e1c1d83e76ba.doc) |
+| 數學 | 5 | 1 | 南一 | 2108 | 108上 | 期中2 | 彰化縣 寶山國小 | [下載](pdf/math-grade-05-semester-1-nani/10028745e25436fb526f.pdf) |
+| 數學 | 5 | 1 | 南一 | 1694 | 108上 | 期中2 | 屏東縣 鶴聲國小 | [下載](pdf/math-grade-05-semester-1-nani/10041475e1548e0cfc34.pdf) |
+| 數學 | 5 | 1 | 南一 | 1596 | 108上 | 期中2 | 彰化縣 潮洋國小 | [下載](doc/math-grade-05-semester-1-nani/10029885e0018d571015.doc) |
+| 數學 | 5 | 1 | 南一 | 1383 | 108上 | 期中2 | 嘉義縣 龍港國小 | [下載](doc/math-grade-05-semester-1-nani/10035305df6fffcbdde8.doc) |
+| 數學 | 5 | 1 | 南一 | 1230 | 108上 | 期中2 | 彰化縣 青山國小 | [下載](pdf/math-grade-05-semester-1-nani/10029445de751896038c.pdf) |
+| 數學 | 5 | 1 | 南一 | 1192 | 108上 | 期中2 | 彰化縣 成功國小 | [下載](pdf/math-grade-05-semester-1-nani/10029895de7402ec63a2.pdf) |
+| 數學 | 5 | 1 | 南一 | 6520 | 108上 | 期中1 | 彰化縣 後寮國小 | [下載](pdf/math-grade-05-semester-1-nani/10030165f893b09f2aba.pdf) |
+| 數學 | 5 | 1 | 南一 | 5895 | 108上 | 期中1 | 臺南市 海佃國小 | [下載](pdf/math-grade-05-semester-1-nani/10050305f19457da5a34.pdf) |
+| 數學 | 5 | 1 | 南一 | 3767 | 108上 | 期中1 | 彰化縣 永光國小 | [下載](pdf/math-grade-05-semester-1-nani/10030055e9820367347c.pdf) |
+| 數學 | 5 | 1 | 南一 | 3619 | 108上 | 期中1 | 臺北市 碧湖國小 | [下載](doc/math-grade-05-semester-1-nani/10052675e8d42de8f6f6.doc) |
+| 數學 | 5 | 1 | 南一 | 3509 | 108上 | 期中1 | 臺中市 文心國小 | [下載](doc/math-grade-05-semester-1-nani/10048805e7167a0840f3.doc) |
+| 數學 | 5 | 1 | 南一 | 3491 | 108上 | 期中1 | 臺北市 成德國小 | [下載](pdf/math-grade-05-semester-1-nani/10052455e7079bdde5b8.pdf) |
+| 數學 | 5 | 1 | 南一 | 3066 | 108上 | 期中1 | 臺東縣 新生國小 | [下載](pdf/math-grade-05-semester-1-nani/10043495e43b3caa014c.pdf) |
+| 數學 | 5 | 1 | 南一 | 2879 | 108上 | 期中1 | 彰化縣 大同國小 | [下載](pdf/math-grade-05-semester-1-nani/10028955e3cc13e1755f.pdf) |
+| 數學 | 5 | 1 | 南一 | 2465 | 108上 | 期中1 | 彰化縣 和美國小 | [下載](doc/math-grade-05-semester-1-nani/10028845e3279d07c725.doc) |
+| 數學 | 5 | 1 | 南一 | 1946 | 108上 | 期中1 | 臺中市 益民國小 | [下載](pdf/math-grade-05-semester-1-nani/10027635e201d428b470.pdf) |
+| 數學 | 5 | 1 | 南一 | 1658 | 108上 | 期中1 | 彰化縣 聯興國小 | [下載](pdf/math-grade-05-semester-1-nani/10028665e0422e7713fa.pdf) |
+| 數學 | 5 | 1 | 南一 | 1510 | 108上 | 期中1 | 彰化縣 田中國小 | [下載](doc/math-grade-05-semester-1-nani/10029555df9dfe91004f.doc) |
+| 數學 | 5 | 1 | 南一 | 1047 | 108上 | 期中1 | 南投縣 潭南國小 | [下載](doc/math-grade-05-semester-1-nani/10032035dddd7483b006.docx) |
+| 數學 | 5 | 1 | 南一 | 882 | 108上 | 期中1 | 屏東縣 鶴聲國小 | [下載](pdf/math-grade-05-semester-1-nani/10041475dce5827cae8b.pdf) |
+| 數學 | 5 | 1 | 南一 | 852 | 108上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/math-grade-05-semester-1-nani/10029585dccee16aa182.pdf) |
+| 數學 | 5 | 1 | 南一 | 820 | 108上 | 期中1 | 彰化縣 伸仁國小 | [下載](doc/math-grade-05-semester-1-nani/10028945dca3a3aa1e73.doc) |
+| 數學 | 5 | 1 | 南一 | 809 | 108上 | 期中1 | 彰化縣 僑愛國小 | [下載](doc/math-grade-05-semester-1-nani/10028815dca1c5e20a70.docx) |
+| 數學 | 5 | 1 | 南一 | 745 | 108上 | 期中1 | 彰化縣 潮洋國小 | [下載](doc/math-grade-05-semester-1-nani/10029885dc62a6ac4a1d.doc) |
+| 數學 | 5 | 1 | 南一 | 702 | 108上 | 期中1 | 臺北市 舊莊國小 | [下載](pdf/math-grade-05-semester-1-nani/10052435dc38f4ce680e.pdf) |
+| 數學 | 5 | 1 | 南一 | 565 | 108上 | 期中1 | 彰化縣 青山國小 | [下載](pdf/math-grade-05-semester-1-nani/10029445dc22fb13e779.pdf) |
+| 數學 | 5 | 1 | 南一 | 475 | 108上 | 期中1 | 彰化縣 中正國小 | [下載](doc/math-grade-05-semester-1-nani/10029955dc0d9c9969f6.doc) |
+| 數學 | 5 | 1 | 南一 | 455 | 108上 | 期中1 | 臺北市 麗湖國小 | [下載](pdf/math-grade-05-semester-1-nani/10055875dc0cfcd3c1f0.pdf) |
+| 數學 | 5 | 1 | 南一 | 418 | 108上 | 期中1 | 彰化縣 湳雅國小 | [下載](pdf/math-grade-05-semester-1-nani/10029655dbfbcc4ce798.pdf) |
+| 數學 | 5 | 1 | 南一 | 276 | 108上 | 期中1 | 彰化縣 芬園國小 | [下載](doc/math-grade-05-semester-1-nani/10028725db8ec59ea447.doc) |
+| 數學 | 5 | 1 | 南一 | 216 | 108上 | 期中1 | 彰化縣 三民國小 | [下載](pdf/math-grade-05-semester-1-nani/10028655db6a4cf7136c.pdf) |
+| 數學 | 5 | 1 | 南一 | 130 | 108上 | 期中1 | 嘉義縣 龍港國小 | [下載](doc/math-grade-05-semester-1-nani/10035305dad24edc3175.doc) |
+| 數學 | 5 | 1 | 南一 | 78 | 108上 | 期中1 | 彰化縣 萬興國小 | [下載](doc/math-grade-05-semester-1-nani/10029995da92bee29f30.doc) |
+| 自然 | 5 | 1 | 康軒 | 20003714 | 114上 | 期末2 | 臺北市 民權國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20003714b514eefa74ad.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20003223 | 114上 | 期末2 | 臺中市 大墩國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20003223b514c270c7d9.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20003148 | 114上 | 期末2 | 桃園市 普仁國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20003148b514d50d7e44.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20003083 | 114上 | 期末2 | 桃園市 建德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20003083b5146796a36d.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20003692 | 114上 | 期中1 | 臺北市 民權國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20003692b511251e0d7c.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20003364 | 114上 | 期中1 | 花蓮縣 明義國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20003364b5112ec3c1f9.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20003196 | 114上 | 期中1 | 臺中市 大墩國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20003196b5111299ffaa.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20003120 | 114上 | 期中1 | 桃園市 普仁國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20003120b51159fd5e23.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20003072 | 114上 | 期中1 | 桃園市 建德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20003072b51191470034.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000958 | 113上 | 期末2 | 臺北市 民權國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000958b414725a18cb.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000338 | 113上 | 期末2 | 臺北市 內湖國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000338b5144d93de7c.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000296 | 113上 | 期末2 | 高雄市 獅湖國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000296b514313710e6.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000170 | 113上 | 期末2 | 高雄市 忠孝國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000170b5147bfbcea4.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000032 | 113上 | 期末2 | 新北市 桃子腳國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000032b5144961ce1b.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000936 | 113上 | 期中1 | 臺北市 民權國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000936b41147f1fae8.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000854 | 113上 | 期中1 | 花蓮縣 明義國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000854b5116c549a4f.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000578 | 113上 | 期中1 | 臺中市 大墩國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000578b51140bfc179.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000318 | 113上 | 期中1 | 臺北市 內湖國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000318b5110a149cd4.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000270 | 113上 | 期中1 | 高雄市 獅湖國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000270b51119833033.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000146 | 113上 | 期中1 | 高雄市 忠孝國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000146b51113a19f41.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000008 | 113上 | 期中1 | 新北市 桃子腳國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000008b51161c21b67.pdf) |
+| 自然 | 5 | 1 | 康軒 | 18770 | 113上 | 期中1 | 彰化縣 大莊國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1002991672db3669cf8d.pdf) |
+| 自然 | 5 | 1 | 康軒 | 18751 | 113上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1002958672af860a2297.pdf) |
+| 自然 | 5 | 1 | 康軒 | 18703 | 113上 | 期中1 | 彰化縣 文德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100287667237833ec537.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000427 | 112上 | 期末2 | 臺北市 內湖國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000427b5141f14fb19.pdf) |
+| 自然 | 5 | 1 | 康軒 | 17603 | 112上 | 期末2 | 臺中市 文心國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100488065cdb77090776.pdf) |
+| 自然 | 5 | 1 | 康軒 | 17298 | 112上 | 期末2 | 彰化縣 草港國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100290165af2a36314f7.pdf) |
+| 自然 | 5 | 1 | 康軒 | 17138 | 112上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100295865a7279e1e0f2.pdf) |
+| 自然 | 5 | 1 | 康軒 | 17124 | 112上 | 期末2 | 彰化縣 文德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100287665a4d544ca584.pdf) |
+| 自然 | 5 | 1 | 康軒 | 17098 | 112上 | 期末2 | 彰化縣 中山國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100285865a0c53687bc9.pdf) |
+| 自然 | 5 | 1 | 康軒 | 17202 | 112上 | 期末3 | 彰化縣 大莊國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100299165aa141a38036.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20001890 | 112上 | 期中1 | 臺北市 民權國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20001890b52440aec95f.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000499 | 112上 | 期中1 | 臺中市 大墩國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000499b511677b3c32.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20000405 | 112上 | 期中1 | 臺北市 內湖國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20000405b5116fcd1105.pdf) |
+| 自然 | 5 | 1 | 康軒 | 17587 | 112上 | 期中1 | 臺中市 文心國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100488065cdb4e9235c3.pdf) |
+| 自然 | 5 | 1 | 康軒 | 17284 | 112上 | 期中1 | 彰化縣 草港國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100290165af26e975471.pdf) |
+| 自然 | 5 | 1 | 康軒 | 17159 | 112上 | 期中1 | 彰化縣 中山國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100285865a89d4b651f4.pdf) |
+| 自然 | 5 | 1 | 康軒 | 16871 | 112上 | 期中1 | 臺北市 河堤國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100514565644caa048e2.pdf) |
+| 自然 | 5 | 1 | 康軒 | 16664 | 112上 | 期中1 | 臺北市 舊莊國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10052436549f78646e6d.pdf) |
+| 自然 | 5 | 1 | 康軒 | 16596 | 112上 | 期中1 | 彰化縣 聯興國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1002866654889432a8b7.pdf) |
+| 自然 | 5 | 1 | 康軒 | 16494 | 112上 | 期中1 | 彰化縣 文德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10028766541f53d0220a.pdf) |
+| 自然 | 5 | 1 | 康軒 | 16422 | 112上 | 期中1 | 彰化縣 大園國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029246531df53a41d9.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20002358 | 111上 | 期末2 | 高雄市 忠孝國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20002358b5111c38a942.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20001816 | 111上 | 期末2 | 臺北市 民權國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20001816b5115079a261.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20001637 | 111上 | 期末2 | 臺北市 內湖國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20001637b51178db7ebd.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14944 | 111上 | 期末2 | 臺中市 文心國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100488063e1b8bd0c439.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14824 | 111上 | 期末2 | 彰化縣 草港國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100290163d87a1f198e4.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14769 | 111上 | 期末2 | 臺中市 大里國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100273063d70f1c1640f.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14706 | 111上 | 期末2 | 彰化縣 文德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100287663c780867eebb.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14700 | 111上 | 期末2 | 彰化縣 中正國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100299563c762a7a3dcd.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20002357 | 111上 | 期中1 | 高雄市 忠孝國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20002357b52405bc77c1.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20001815 | 111上 | 期中1 | 臺北市 民權國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20001815b52409d2d407.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20001636 | 111上 | 期中1 | 臺北市 內湖國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20001636b5245a0f343d.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14928 | 111上 | 期中1 | 臺中市 文心國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100488063e1b7b6105ae.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14810 | 111上 | 期中1 | 彰化縣 草港國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100290163d877b8da471.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14249 | 111上 | 期中1 | 臺中市 大里國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10027306376cd0fc4f3d.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14207 | 111上 | 期中1 | 彰化縣 中正國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1002995637443eb9547c.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14176 | 111上 | 期中1 | 南投縣 社寮國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10031296372fe771e73c.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14078 | 111上 | 期中1 | 彰化縣 三民國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1002865636b17f9f1599.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14032 | 111上 | 期中1 | 彰化縣 文德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10028766360bb35c25da.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20002284 | 110上 | 期末2 | 高雄市 忠孝國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20002284b5114390a74d.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20001725 | 110上 | 期末2 | 臺北市 民權國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20001725b51127a7191e.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14874 | 110上 | 期末2 | 臺中市 文心國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100488063e1ac435584b.pdf) |
+| 自然 | 5 | 1 | 康軒 | 12753 | 110上 | 期末2 | 臺東縣 美和國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1004375626640f6f228a.pdf) |
+| 自然 | 5 | 1 | 康軒 | 11827 | 110上 | 期末2 | 彰化縣 草港國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029016205cb30570d7.pdf) |
+| 自然 | 5 | 1 | 康軒 | 11786 | 110上 | 期末2 | 臺北市 延平國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10051706204b93fc4281.pdf) |
+| 自然 | 5 | 1 | 康軒 | 11448 | 110上 | 期末2 | 臺南市 海佃國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100503061eb6b008dfec.pdf) |
+| 自然 | 5 | 1 | 康軒 | 11332 | 110上 | 期末2 | 彰化縣 田中國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100295561e9112c06393.pdf) |
+| 自然 | 5 | 1 | 康軒 | 11104 | 110上 | 期末2 | 彰化縣 國聖國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100286861dd85c99234a.pdf) |
+| 自然 | 5 | 1 | 康軒 | 11096 | 110上 | 期末2 | 彰化縣 文德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100287661de519a574de.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20002283 | 110上 | 期中1 | 高雄市 忠孝國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20002283b5140af49f36.pdf) |
+| 自然 | 5 | 1 | 康軒 | 20001724 | 110上 | 期中1 | 臺北市 民權國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/20001724b5245f9576b0.pdf) |
+| 自然 | 5 | 1 | 康軒 | 14858 | 110上 | 期中1 | 臺中市 文心國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100488063e1a9bca5acc.pdf) |
+| 自然 | 5 | 1 | 康軒 | 12750 | 110上 | 期中1 | 臺東縣 美和國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100437562663f5b7fadd.pdf) |
+| 自然 | 5 | 1 | 康軒 | 11793 | 110上 | 期中1 | 彰化縣 草港國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029016205c7ee51d64.pdf) |
+| 自然 | 5 | 1 | 康軒 | 11428 | 110上 | 期中1 | 臺南市 海佃國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100503061eb6872dc7de.pdf) |
+| 自然 | 5 | 1 | 康軒 | 10846 | 110上 | 期中1 | 臺北市 成德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100524561970957064eb.pdf) |
+| 自然 | 5 | 1 | 康軒 | 10796 | 110上 | 期中1 | 彰化縣 國聖國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1002868619380f4043b8.pdf) |
+| 自然 | 5 | 1 | 康軒 | 10784 | 110上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029586191fa81dd5b0.pdf) |
+| 自然 | 5 | 1 | 康軒 | 10608 | 110上 | 期中1 | 臺北市 延平國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1005170618872b157f38.pdf) |
+| 自然 | 5 | 1 | 康軒 | 10536 | 110上 | 期中1 | 彰化縣 文德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10028766180e05dd02be.pdf) |
+| 自然 | 5 | 1 | 康軒 | 9650 | 109上 | 期末2 | 臺北市 延平國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100517060ee4d94a2910.pdf) |
+| 自然 | 5 | 1 | 康軒 | 8869 | 109上 | 期末2 | 臺北市 成德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100524560657fad13c2d.pdf) |
+| 自然 | 5 | 1 | 康軒 | 8515 | 109上 | 期末2 | 新北市 興南國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1001651601a09691733a.pdf) |
+| 自然 | 5 | 1 | 康軒 | 8474 | 109上 | 期末2 | 南投縣 潭南國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10032036017739332640.pdf) |
+| 自然 | 5 | 1 | 康軒 | 8405 | 109上 | 期末2 | 南投縣 社寮國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100312960122fc992eb2.pdf) |
+| 自然 | 5 | 1 | 康軒 | 8156 | 109上 | 期末2 | 彰化縣 三潭國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1002956600e3c4ccafe1.pdf) |
+| 自然 | 5 | 1 | 康軒 | 7959 | 109上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029586007a1f5ab482.pdf) |
+| 自然 | 5 | 1 | 康軒 | 7826 | 109上 | 期末2 | 彰化縣 國聖國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100286860045661a0734.pdf) |
+| 自然 | 5 | 1 | 康軒 | 8354 | 109上 | 期中2 | 彰化縣 寶山國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100287460122b53742f9.pdf) |
+| 自然 | 5 | 1 | 康軒 | 7910 | 109上 | 期中2 | 彰化縣 中正國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1002995600696d221a9e.pdf) |
+| 自然 | 5 | 1 | 康軒 | 10504 | 109上 | 期中1 | 新北市 興南國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1001651617fd2ac251b5.pdf) |
+| 自然 | 5 | 1 | 康軒 | 9765 | 109上 | 期中1 | 桃園市 大湖國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100223560f7c9c5936de.pdf) |
+| 自然 | 5 | 1 | 康軒 | 9619 | 109上 | 期中1 | 臺北市 延平國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100517060ed0be36f3e9.pdf) |
+| 自然 | 5 | 1 | 康軒 | 8836 | 109上 | 期中1 | 臺北市 成德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10052456065777906645.pdf) |
+| 自然 | 5 | 1 | 康軒 | 8371 | 109上 | 期中1 | 南投縣 社寮國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/100312960122d6caa939.pdf) |
+| 自然 | 5 | 1 | 康軒 | 8336 | 109上 | 期中1 | 彰化縣 寶山國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10028746012289561a1c.pdf) |
+| 自然 | 5 | 1 | 康軒 | 8222 | 109上 | 期中1 | 彰化縣 草港國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1002901600fa1bf4eefb.pdf) |
+| 自然 | 5 | 1 | 康軒 | 8176 | 109上 | 期中1 | 臺南市 海佃國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/1005030600e67dcf2a90.pdf) |
+| 自然 | 5 | 1 | 康軒 | 7351 | 109上 | 期中1 | 彰化縣 國聖國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10028685fb78abee2de7.pdf) |
+| 自然 | 5 | 1 | 康軒 | 7319 | 109上 | 期中1 | 南投縣 潭南國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10032035fb5cd989915c.pdf) |
+| 自然 | 5 | 1 | 康軒 | 7251 | 109上 | 期中1 | 彰化縣 中正國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029955fbb24faa7a05.pdf) |
+| 自然 | 5 | 1 | 康軒 | 7231 | 109上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029585fae268d56c8d.pdf) |
+| 自然 | 5 | 1 | 康軒 | 7137 | 109上 | 期中1 | 彰化縣 三潭國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029565fab90c160370.pdf) |
+| 自然 | 5 | 1 | 康軒 | 7003 | 109上 | 期中1 | 彰化縣 文德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10028765fa4dab5a0650.pdf) |
+| 自然 | 5 | 1 | 康軒 | 6442 | 108上 | 期末2 | 新北市 興南國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10016515f31005c8797b.pdf) |
+| 自然 | 5 | 1 | 康軒 | 4312 | 108上 | 期末2 | 臺中市 四維國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10048815eb4a8766faef.doc) |
+| 自然 | 5 | 1 | 康軒 | 3593 | 108上 | 期末2 | 臺北市 延平國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10051705e81a0c3d6804.pdf) |
+| 自然 | 5 | 1 | 康軒 | 3561 | 108上 | 期末2 | 臺北市 成德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10052455e71e576d88ad.pdf) |
+| 自然 | 5 | 1 | 康軒 | 3123 | 108上 | 期末2 | 臺北市 懷生國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10051315e464713ad6ca.pdf) |
+| 自然 | 5 | 1 | 康軒 | 3045 | 108上 | 期末2 | 臺東縣 德高國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10043895e4371d13b092.pdf) |
+| 自然 | 5 | 1 | 康軒 | 2669 | 108上 | 期末2 | 南投縣 潭南國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10032035e3a282406a2d.pdf) |
+| 自然 | 5 | 1 | 康軒 | 2591 | 108上 | 期末2 | 南投縣 國姓國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10031795e339ce2b0236.pdf) |
+| 自然 | 5 | 1 | 康軒 | 2578 | 108上 | 期末2 | 彰化縣 曉陽國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10028915e3391f968b13.doc) |
+| 自然 | 5 | 1 | 康軒 | 2531 | 108上 | 期末2 | 彰化縣 新港國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10028925e33853e743b9.pdf) |
+| 自然 | 5 | 1 | 康軒 | 2455 | 108上 | 期末2 | 彰化縣 草港國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029015e3270493ff91.pdf) |
+| 自然 | 5 | 1 | 康軒 | 2386 | 108上 | 期末2 | 彰化縣 田中國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029555e27fefe11052.pdf) |
+| 自然 | 5 | 1 | 康軒 | 2251 | 108上 | 期末2 | 彰化縣 三民國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10028655e26a20266697.pdf) |
+| 自然 | 5 | 1 | 康軒 | 2147 | 108上 | 期末2 | 桃園市 草漯國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10021685e264929da48d.doc) |
+| 自然 | 5 | 1 | 康軒 | 1798 | 108上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029585e1d6b5b80467.pdf) |
+| 自然 | 5 | 1 | 康軒 | 1750 | 108上 | 期末2 | 彰化縣 文德國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10028765e17f42d1c506.doc) |
+| 自然 | 5 | 1 | 康軒 | 6137 | 108上 | 期末3 | 彰化縣 舊館國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029325f20e846a8710.pdf) |
+| 自然 | 5 | 1 | 康軒 | 2908 | 108上 | 期末3 | 屏東縣 鶴聲國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10041475e3cc30c0965e.pdf) |
+| 自然 | 5 | 1 | 康軒 | 1753 | 108上 | 期末3 | 彰化縣 大莊國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10029915e1c1e8c4df95.doc) |
+| 自然 | 5 | 1 | 康軒 | 6124 | 108上 | 期中2 | 彰化縣 舊館國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029325f20e495b8bc7.pdf) |
+| 自然 | 5 | 1 | 康軒 | 1710 | 108上 | 期中2 | 屏東縣 鶴聲國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10041475e1548e0dbffb.pdf) |
+| 自然 | 5 | 1 | 康軒 | 1400 | 108上 | 期中2 | 嘉義縣 龍港國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10035305df6fffcc5507.docx) |
+| 自然 | 5 | 1 | 康軒 | 6425 | 108上 | 期中1 | 新北市 興南國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10016515f30f97f77011.pdf) |
+| 自然 | 5 | 1 | 康軒 | 6119 | 108上 | 期中1 | 彰化縣 舊館國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029325f20de8914375.pdf) |
+| 自然 | 5 | 1 | 康軒 | 5913 | 108上 | 期中1 | 臺南市 海佃國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10050305f8d520b7d894.pdf) |
+| 自然 | 5 | 1 | 康軒 | 3507 | 108上 | 期中1 | 臺中市 文心國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10048805e7167a085ab4.doc) |
+| 自然 | 5 | 1 | 康軒 | 3489 | 108上 | 期中1 | 臺北市 成德國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10052455e7079bddfdf7.pdf) |
+| 自然 | 5 | 1 | 康軒 | 3124 | 108上 | 期中1 | 臺北市 懷生國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10051315e464713ad1a0.pdf) |
+| 自然 | 5 | 1 | 康軒 | 3008 | 108上 | 期中1 | 臺東縣 德高國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10043895e410aed664c9.pdf) |
+| 自然 | 5 | 1 | 康軒 | 2638 | 108上 | 期中1 | 彰化縣 中正國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10029955e37c42b7b8cf.doc) |
+| 自然 | 5 | 1 | 康軒 | 2546 | 108上 | 期中1 | 彰化縣 新港國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10028925e338d1457a0b.pdf) |
+| 自然 | 5 | 1 | 康軒 | 2408 | 108上 | 期中1 | 南投縣 國姓國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10031795e2d4983cfff1.pdf) |
+| 自然 | 5 | 1 | 康軒 | 2162 | 108上 | 期中1 | 桃園市 草漯國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10021685e264a15a94df.doc) |
+| 自然 | 5 | 1 | 康軒 | 1661 | 108上 | 期中1 | 彰化縣 聯興國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10028665e04229b40cae.doc) |
+| 自然 | 5 | 1 | 康軒 | 1632 | 108上 | 期中1 | 臺北市 延平國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10051705e031b001033b.pdf) |
+| 自然 | 5 | 1 | 康軒 | 1509 | 108上 | 期中1 | 彰化縣 田中國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029555df9dfe910cff.pdf) |
+| 自然 | 5 | 1 | 康軒 | 1427 | 108上 | 期中1 | 臺東縣 美和國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10043755df739b1939d7.doc) |
+| 自然 | 5 | 1 | 康軒 | 1045 | 108上 | 期中1 | 南投縣 潭南國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10032035dddd7483b5c5.doc) |
+| 自然 | 5 | 1 | 康軒 | 1010 | 108上 | 期中1 | 彰化縣 草港國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029015dd74a0ca8eba.pdf) |
+| 自然 | 5 | 1 | 康軒 | 973 | 108上 | 期中1 | 彰化縣 草港國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029015dd747f149326.pdf) |
+| 自然 | 5 | 1 | 康軒 | 912 | 108上 | 期中1 | 彰化縣 曉陽國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10028915dce7b75ea18b.doc) |
+| 自然 | 5 | 1 | 康軒 | 878 | 108上 | 期中1 | 屏東縣 鶴聲國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10041475dce593191087.pdf) |
+| 自然 | 5 | 1 | 康軒 | 763 | 108上 | 期中1 | 臺中市 四維國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10048815dc8c303363ba.pdf) |
+| 自然 | 5 | 1 | 康軒 | 601 | 108上 | 期中1 | 彰化縣 文德國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10028765dc2434fa9b0b.doc) |
+| 自然 | 5 | 1 | 康軒 | 592 | 108上 | 期中1 | 臺北市 碧湖國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10052675dc23bf5eb097.docx) |
+| 自然 | 5 | 1 | 康軒 | 552 | 108上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/science-grade-05-semester-1-kang-hsuan/10029585dc2171a401ae.pdf) |
+| 自然 | 5 | 1 | 康軒 | 129 | 108上 | 期中1 | 嘉義縣 龍港國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10035305dad24edc35a8.doc) |
+| 自然 | 5 | 1 | 康軒 | 107 | 108上 | 期中1 | 彰化縣 大莊國小 | [下載](doc/science-grade-05-semester-1-kang-hsuan/10029915dad05dc52202.doc) |
+| 社會 | 5 | 1 | 翰林 | 50000172 | 114上 | 期末2 | 新北市 積穗國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/50000172b514196af8b7.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20003378 | 114上 | 期末2 | 花蓮縣 明義國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20003378b51489e5397f.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20003320 | 114上 | 期末2 | 臺南市 和順國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20003320b514932e0da2.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20003222 | 114上 | 期末2 | 臺中市 大墩國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20003222b5144b5e0f46.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002771 | 114上 | 期末2 | 基隆市 東光國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002771b51491c0ca15.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20003297 | 114上 | 期中1 | 臺南市 和順國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20003297b51128fe4ebf.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20003195 | 114上 | 期中1 | 臺中市 大墩國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20003195b511e86591c0.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20003071 | 114上 | 期中1 | 桃園市 建德國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20003071b511bafb22b8.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002743 | 114上 | 期中1 | 基隆市 東光國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002743b511376203f1.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002218 | 113上 | 期末2 | 新北市 安和國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002218b51140eaf351.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20000959 | 113上 | 期末2 | 臺北市 民權國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20000959b5140a8995d9.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20000600 | 113上 | 期末2 | 臺中市 大墩國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20000600b5147e801925.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20000033 | 113上 | 期末2 | 新北市 桃子腳國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20000033b51450fe612e.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002217 | 113上 | 期中1 | 新北市 安和國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002217b521697180b3.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20000937 | 113上 | 期中1 | 臺北市 民權國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20000937b511646df193.pdf) |
+| 社會 | 5 | 1 | 翰林 | 18807 | 113上 | 期中1 | 彰化縣 成功國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100298967319cd09b84d.pdf) |
+| 社會 | 5 | 1 | 翰林 | 18760 | 113上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/1002958672c554f57fb1.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002434 | 112上 | 期末2 | 高雄市 忠孝國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002434b51162a12b6c.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20001543 | 112上 | 期末2 | 桃園市 大華國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20001543b51147298ce7.pdf) |
+| 社會 | 5 | 1 | 翰林 | 17523 | 112上 | 期末2 | 彰化縣 中正國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100299565c1f2409367a.pdf) |
+| 社會 | 5 | 1 | 翰林 | 17514 | 112上 | 期末2 | 彰化縣 田中國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100295565c047e607d95.pdf) |
+| 社會 | 5 | 1 | 翰林 | 17465 | 112上 | 期末2 | 臺中市 四維國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100488165c09d8886faa.pdf) |
+| 社會 | 5 | 1 | 翰林 | 17436 | 112上 | 期末2 | 南投縣 社寮國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100312965b7578480583.pdf) |
+| 社會 | 5 | 1 | 翰林 | 17299 | 112上 | 期末2 | 彰化縣 草港國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100290165af2a362fde6.pdf) |
+| 社會 | 5 | 1 | 翰林 | 17249 | 112上 | 期末2 | 臺北市 太平國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/1005165672b3cf0e5c4c.pdf) |
+| 社會 | 5 | 1 | 翰林 | 17177 | 112上 | 期末3 | 彰化縣 成功國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100298965a954a19728a.pdf) |
+| 社會 | 5 | 1 | 翰林 | 16955 | 112上 | 期中2 | 彰化縣 成功國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/1002989657475bc28a03.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002433 | 112上 | 期中1 | 高雄市 忠孝國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002433b5244c99530a.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20001887 | 112上 | 期中1 | 臺北市 民權國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20001887b5246fec0383.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20001542 | 112上 | 期中1 | 桃園市 大華國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20001542b5246050fd2b.pdf) |
+| 社會 | 5 | 1 | 翰林 | 17265 | 112上 | 期中1 | 彰化縣 草港國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100290165af26e974055.pdf) |
+| 社會 | 5 | 1 | 翰林 | 16976 | 112上 | 期中1 | 臺北市 中山國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/1001777657487c2453fa.pdf) |
+| 社會 | 5 | 1 | 翰林 | 16826 | 112上 | 期中1 | 彰化縣 中正國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/1002995655c1fed3e8f3.pdf) |
+| 社會 | 5 | 1 | 翰林 | 16809 | 112上 | 期中1 | 南投縣 社寮國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10031296551dc21ce8c3.pdf) |
+| 社會 | 5 | 1 | 翰林 | 16677 | 112上 | 期中1 | 臺北市 太平國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/1005165654ae48cd1217.pdf) |
+| 社會 | 5 | 1 | 翰林 | 16663 | 112上 | 期中1 | 臺北市 舊莊國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10052436549f7864761a.pdf) |
+| 社會 | 5 | 1 | 翰林 | 16597 | 112上 | 期中1 | 彰化縣 聯興國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/1002866654889432a471.pdf) |
+| 社會 | 5 | 1 | 翰林 | 16466 | 112上 | 期中1 | 彰化縣 成功國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/1002989653f64de43805.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002618 | 111上 | 期末2 | 新北市 桃子腳國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002618b511382b51c5.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002354 | 111上 | 期末2 | 高雄市 忠孝國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002354b5116c93ef93.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002044 | 111上 | 期末2 | 新北市 安和國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002044b51177945a95.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20001812 | 111上 | 期末2 | 臺北市 民權國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20001812b5117eaed95b.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20001464 | 111上 | 期末2 | 桃園市 大華國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20001464b5113a734dd9.pdf) |
+| 社會 | 5 | 1 | 翰林 | 14712 | 111上 | 期末2 | 彰化縣 田中國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100295563c792993f9bf.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002617 | 111上 | 期中1 | 新北市 桃子腳國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002617b524698b4085.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002353 | 111上 | 期中1 | 高雄市 忠孝國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002353b5242aa4e81e.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002043 | 111上 | 期中1 | 新北市 安和國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002043b524436eb4c0.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20001811 | 111上 | 期中1 | 臺北市 民權國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20001811b5244780c109.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20001463 | 111上 | 期中1 | 桃園市 大華國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20001463b521505183f8.pdf) |
+| 社會 | 5 | 1 | 翰林 | 14523 | 111上 | 期中1 | 彰化縣 田中國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100295563b4ef217a565.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002522 | 110上 | 期末2 | 新北市 桃子腳國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002522b51153cb9440.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002282 | 110上 | 期末2 | 高雄市 忠孝國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002282b5114e908de6.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20001963 | 110上 | 期末2 | 新北市 安和國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20001963b5115e646908.pdf) |
+| 社會 | 5 | 1 | 翰林 | 14875 | 110上 | 期末2 | 臺中市 文心國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100488063e1ac4355444.pdf) |
+| 社會 | 5 | 1 | 翰林 | 11447 | 110上 | 期末2 | 臺南市 海佃國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100503061eb6b008efae.pdf) |
+| 社會 | 5 | 1 | 翰林 | 11248 | 110上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100295861e78a72eb1da.pdf) |
+| 社會 | 5 | 1 | 翰林 | 11227 | 110上 | 期末2 | 彰化縣 中正國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100299561e76c81260aa.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002521 | 110上 | 期中1 | 新北市 桃子腳國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002521b5242c0e9806.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20002281 | 110上 | 期中1 | 高雄市 忠孝國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20002281b51446e7c2dd.pdf) |
+| 社會 | 5 | 1 | 翰林 | 20001962 | 110上 | 期中1 | 新北市 安和國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/20001962b5240dbcdc74.pdf) |
+| 社會 | 5 | 1 | 翰林 | 14859 | 110上 | 期中1 | 臺中市 文心國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100488063e1a9bca5771.pdf) |
+| 社會 | 5 | 1 | 翰林 | 11748 | 110上 | 期中1 | 彰化縣 聯興國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10028666201da90ea287.pdf) |
+| 社會 | 5 | 1 | 翰林 | 11427 | 110上 | 期中1 | 臺南市 海佃國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/100503061eb6872dcdd3.pdf) |
+| 社會 | 5 | 1 | 翰林 | 10826 | 110上 | 期中1 | 彰化縣 內安國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10029586195c9ee01c2b.pdf) |
+| 社會 | 5 | 1 | 翰林 | 10819 | 110上 | 期中1 | 彰化縣 中正國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10029956194bd17c1d37.pdf) |
+| 社會 | 5 | 1 | 翰林 | 15276 | 109上 | 期末2 | 彰化縣 中山國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10028586422212083d5d.pdf) |
+| 社會 | 5 | 1 | 翰林 | 11767 | 109上 | 期末2 | 宜蘭縣 武淵國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10019216201e5120e20c.pdf) |
+| 社會 | 5 | 1 | 翰林 | 8295 | 109上 | 期末2 | 桃園市 田心國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/1002211601105bbe4c23.pdf) |
+| 社會 | 5 | 1 | 翰林 | 7801 | 109上 | 期末3 | 彰化縣 大園國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/1002924600159dbe0b84.pdf) |
+| 社會 | 5 | 1 | 翰林 | 7721 | 109上 | 期末3 | 彰化縣 永豐國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10029085fffde4d65f98.pdf) |
+| 社會 | 5 | 1 | 翰林 | 11721 | 109上 | 期中1 | 宜蘭縣 武淵國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10019216201d03d29e5f.pdf) |
+| 社會 | 5 | 1 | 翰林 | 7467 | 109上 | 期中1 | 臺中市 四維國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10048815fc9ec437f197.pdf) |
+| 社會 | 5 | 1 | 翰林 | 7334 | 109上 | 期中1 | 桃園市 田心國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10022115fb77394a9286.pdf) |
+| 社會 | 5 | 1 | 翰林 | 7139 | 109上 | 期中1 | 臺東縣 馬蘭國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10043525fab973639e79.pdf) |
+| 社會 | 5 | 1 | 翰林 | 4313 | 108上 | 期末2 | 臺中市 四維國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10048815eb4a8766f691.pdf) |
+| 社會 | 5 | 1 | 翰林 | 3314 | 108上 | 期末2 | 新北市 安和國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10017855e6214cba8670.pdf) |
+| 社會 | 5 | 1 | 翰林 | 2512 | 108上 | 期末2 | 彰化縣 新港國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10028925e33853e73ff0.pdf) |
+| 社會 | 5 | 1 | 翰林 | 2385 | 108上 | 期末2 | 彰化縣 田中國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10029555e27fefe119a2.doc) |
+| 社會 | 5 | 1 | 翰林 | 2302 | 108上 | 期末2 | 宜蘭縣 武淵國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10019215e27aca8ea17b.doc) |
+| 社會 | 5 | 1 | 翰林 | 1970 | 108上 | 期末2 | 臺中市 益民國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10027635e201ebcc6708.pdf) |
+| 社會 | 5 | 1 | 翰林 | 1929 | 108上 | 期末2 | 彰化縣 內安國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10029585e1ffb8072e6b.pdf) |
+| 社會 | 5 | 1 | 翰林 | 1767 | 108上 | 期末2 | 彰化縣 文德國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10028765e1d07e4433be.doc) |
+| 社會 | 5 | 1 | 翰林 | 1731 | 108上 | 期末2 | 桃園市 壽山國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10020865e16763711390.pdf) |
+| 社會 | 5 | 1 | 翰林 | 3215 | 108上 | 期末3 | 基隆市 八斗國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10046675e49e3cb17fb1.doc) |
+| 社會 | 5 | 1 | 翰林 | 2118 | 108上 | 期末3 | 彰化縣 員林國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10029375e255388b6485.doc) |
+| 社會 | 5 | 1 | 翰林 | 1241 | 108上 | 期中2 | 彰化縣 永豐國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10029085de84a9db01f2.doc) |
+| 社會 | 5 | 1 | 翰林 | 1143 | 108上 | 期中2 | 彰化縣 寶山國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10028745de5ea7caa082.doc) |
+| 社會 | 5 | 1 | 翰林 | 5914 | 108上 | 期中1 | 臺南市 海佃國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10050305f19457da5f3f.pdf) |
+| 社會 | 5 | 1 | 翰林 | 3508 | 108上 | 期中1 | 臺中市 文心國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10048805e7167a0856f2.doc) |
+| 社會 | 5 | 1 | 翰林 | 3186 | 108上 | 期中1 | 基隆市 八斗國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10046675e49e0f0420ee.docx) |
+| 社會 | 5 | 1 | 翰林 | 2298 | 108上 | 期中1 | 宜蘭縣 武淵國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10019215e27ab8782fbd.doc) |
+| 社會 | 5 | 1 | 翰林 | 1945 | 108上 | 期中1 | 臺中市 益民國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10027635e201d428bc11.pdf) |
+| 社會 | 5 | 1 | 翰林 | 1642 | 108上 | 期中1 | 彰化縣 聯興國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10028665e04229b409e7.pdf) |
+| 社會 | 5 | 1 | 翰林 | 1508 | 108上 | 期中1 | 彰化縣 田中國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10029555df9dfe911d44.doc) |
+| 社會 | 5 | 1 | 翰林 | 1264 | 108上 | 期中1 | 新北市 安和國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10017855ded9cc725ccf.pdf) |
+| 社會 | 5 | 1 | 翰林 | 968 | 108上 | 期中1 | 臺中市 長安國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10048945dd4db428a66f.doc) |
+| 社會 | 5 | 1 | 翰林 | 851 | 108上 | 期中1 | 彰化縣 內安國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10029585dccee16aed53.doc) |
+| 社會 | 5 | 1 | 翰林 | 782 | 108上 | 期中1 | 臺中市 四維國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10048815dc8c303368b7.pdf) |
+| 社會 | 5 | 1 | 翰林 | 530 | 108上 | 期中1 | 彰化縣 文德國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10028765dc20c7933b22.doc) |
+| 社會 | 5 | 1 | 翰林 | 451 | 108上 | 期中1 | 桃園市 壽山國小 | [下載](pdf/social-studies-grade-05-semester-1-hanlin/10020865dc0c3978fdd1.pdf) |
+| 社會 | 5 | 1 | 翰林 | 204 | 108上 | 期中1 | 彰化縣 員林國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10029375db69b5151dc7.doc) |
+| 社會 | 5 | 1 | 翰林 | 60 | 108上 | 期中1 | 彰化縣 寶山國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10028745da90a7cd8e39.doc) |
+| 社會 | 5 | 1 | 翰林 | 21 | 108上 | 期中1 | 彰化縣 永豐國小 | [下載](doc/social-studies-grade-05-semester-1-hanlin/10029085da7af14ca7e0.doc) |

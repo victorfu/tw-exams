@@ -1,19 +1,19 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-25T21:28:57.830696+08:00",
-  "record_count": 192,
-  "dataset_count": 1,
-  "downloaded_question_count": 192,
-  "answer_available_from_source_count": 95,
+  "generated_at": "2026-09-26T12:55:33.770994+08:00",
+  "record_count": 521,
+  "dataset_count": 4,
+  "downloaded_question_count": 521,
+  "answer_available_from_source_count": 253,
   "downloaded_answer_count": 0,
   "exam_type_counts": {
-    "final": 81,
-    "midterm": 111
+    "final": 222,
+    "midterm": 299
   },
   "format_counts": {
-    "pdf": 172,
-    "docx": 4,
-    "doc": 16
+    "pdf": 464,
+    "docx": 8,
+    "doc": 49
   },
   "records_with_warnings": 0,
   "document_classification_reviewed_count": 0,
@@ -24,6 +24,26 @@
     "file_hashes_and_sizes": true
   },
   "datasets": [
+    {
+      "id": "chinese-grade-05-semester-1-hanlin",
+      "subject": "chinese",
+      "subject_label": "國語",
+      "grade": 5,
+      "semester": 1,
+      "publisher": "hanlin",
+      "publisher_label": "翰林",
+      "source": {
+        "provider": "tcool",
+        "endpoint": "https://www.tcool.cc/api-exam.php",
+        "filters": {
+          "grade": "5",
+          "subject": "國語",
+          "semester": "1",
+          "publisher": "翰林"
+        },
+        "collected_at": "2026-09-26T10:25:49.561807+08:00"
+      }
+    },
     {
       "id": "math-grade-05-semester-1-nani",
       "subject": "math",
@@ -42,6 +62,46 @@
           "publisher": "南一"
         },
         "collected_at": "2026-09-25T19:05:08.286054+08:00"
+      }
+    },
+    {
+      "id": "science-grade-05-semester-1-kang-hsuan",
+      "subject": "science",
+      "subject_label": "自然",
+      "grade": 5,
+      "semester": 1,
+      "publisher": "kang-hsuan",
+      "publisher_label": "康軒",
+      "source": {
+        "provider": "tcool",
+        "endpoint": "https://www.tcool.cc/api-exam.php",
+        "filters": {
+          "grade": "5",
+          "subject": "自然",
+          "semester": "1",
+          "publisher": "康軒"
+        },
+        "collected_at": "2026-09-26T12:10:30.905963+08:00"
+      }
+    },
+    {
+      "id": "social-studies-grade-05-semester-1-hanlin",
+      "subject": "social-studies",
+      "subject_label": "社會",
+      "grade": 5,
+      "semester": 1,
+      "publisher": "hanlin",
+      "publisher_label": "翰林",
+      "source": {
+        "provider": "tcool",
+        "endpoint": "https://www.tcool.cc/api-exam.php",
+        "filters": {
+          "grade": "5",
+          "subject": "社會",
+          "semester": "1",
+          "publisher": "翰林"
+        },
+        "collected_at": "2026-09-26T11:29:13.568842+08:00"
       }
     }
   ]
