@@ -2,13 +2,16 @@
   "name": "tw-exams",
   "version": "0.1.0",
   "private": true,
+  "engines": { "node": "24.x" },
   "scripts": {
     "dev": "next dev -p 6789",
     "build": "next build",
     "start": "next start -p 6789",
     "lint": "eslint",
     "test": "vitest run",
-    "sync:exams": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file-if-exists=.env.local scripts/sync-exams.ts",
+    "catalog": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-exam-catalog.ts",
+    "predev": "npm run catalog",
+    "prebuild": "npm run catalog",
     "icons": "node scripts/generate-icons.mjs"
   },
   "dependencies": {
