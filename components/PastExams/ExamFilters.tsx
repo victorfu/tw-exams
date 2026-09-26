@@ -70,7 +70,6 @@ export function ExamFilters({ facets, academicYears, examType, city, query, coun
                 type="button"
                 aria-pressed={pressed}
                 aria-label={year.label}
-                title={year.label}
                 className={`btn btn-xs shrink-0 rounded-full px-2 ${pressed ? "btn-primary" : "btn-ghost bg-base-200"}`}
                 onClick={() => toggleYear(year.value)}
               >

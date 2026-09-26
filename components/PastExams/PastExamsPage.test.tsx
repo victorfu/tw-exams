@@ -280,6 +280,8 @@ describe("PastExamsPage", () => {
 
     const chip = button("114上");
     expect(chip.textContent).toBe("114");
+    // 按鈕上已經寫了年度，不另外跳出 hover 提示
+    expect(chip.hasAttribute("title")).toBe(false);
     expect(chip.closest('[role="group"]')?.getAttribute("aria-label")).toBe("學年度");
   });
 
