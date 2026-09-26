@@ -8,6 +8,7 @@ export const MATH_5A: PastExamCollection = {
   semester: 1,
   publisher: "nani",
   publisherLabel: "南一",
+  examCount: 192,
 };
 
 let sequence = 0;

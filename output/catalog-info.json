@@ -1,19 +1,19 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-26T14:45:32.715153+08:00",
-  "record_count": 521,
-  "dataset_count": 4,
-  "downloaded_question_count": 521,
-  "answer_available_from_source_count": 253,
-  "downloaded_answer_count": 253,
+  "generated_at": "2026-09-26T18:30:27.211257+08:00",
+  "record_count": 852,
+  "dataset_count": 8,
+  "downloaded_question_count": 852,
+  "answer_available_from_source_count": 387,
+  "downloaded_answer_count": 387,
   "exam_type_counts": {
-    "final": 222,
-    "midterm": 299
+    "final": 359,
+    "midterm": 493
   },
   "format_counts": {
-    "pdf": 464,
-    "docx": 8,
-    "doc": 49
+    "pdf": 755,
+    "docx": 15,
+    "doc": 82
   },
   "records_with_warnings": 0,
   "document_classification_reviewed_count": 0,
@@ -42,6 +42,86 @@
           "publisher": "翰林"
         },
         "collected_at": "2026-09-26T10:25:49.561807+08:00"
+      }
+    },
+    {
+      "id": "english-grade-05-semester-1-hanlin",
+      "subject": "english",
+      "subject_label": "英語",
+      "grade": 5,
+      "semester": 1,
+      "publisher": "hanlin",
+      "publisher_label": "翰林",
+      "source": {
+        "provider": "tcool",
+        "endpoint": "https://www.tcool.cc/api-exam.php",
+        "filters": {
+          "grade": "5",
+          "subject": "英語",
+          "semester": "1",
+          "publisher": "翰林"
+        },
+        "collected_at": "2026-09-26T15:58:55.322530+08:00"
+      }
+    },
+    {
+      "id": "english-grade-05-semester-1-hess",
+      "subject": "english",
+      "subject_label": "英語",
+      "grade": 5,
+      "semester": 1,
+      "publisher": "hess",
+      "publisher_label": "何嘉仁",
+      "source": {
+        "provider": "tcool",
+        "endpoint": "https://www.tcool.cc/api-exam.php",
+        "filters": {
+          "grade": "5",
+          "subject": "英語",
+          "semester": "1",
+          "publisher": "何嘉仁"
+        },
+        "collected_at": "2026-09-26T15:58:55.322530+08:00"
+      }
+    },
+    {
+      "id": "english-grade-05-semester-1-kang-hsuan",
+      "subject": "english",
+      "subject_label": "英語",
+      "grade": 5,
+      "semester": 1,
+      "publisher": "kang-hsuan",
+      "publisher_label": "康軒",
+      "source": {
+        "provider": "tcool",
+        "endpoint": "https://www.tcool.cc/api-exam.php",
+        "filters": {
+          "grade": "5",
+          "subject": "英語",
+          "semester": "1",
+          "publisher": "康軒"
+        },
+        "collected_at": "2026-09-26T15:58:55.322530+08:00"
+      }
+    },
+    {
+      "id": "english-grade-05-semester-1-nani",
+      "subject": "english",
+      "subject_label": "英語",
+      "grade": 5,
+      "semester": 1,
+      "publisher": "nani",
+      "publisher_label": "南一",
+      "source": {
+        "provider": "tcool",
+        "endpoint": "https://www.tcool.cc/api-exam.php",
+        "filters": {
+          "grade": "5",
+          "subject": "英語",
+          "semester": "1",
+          "publisher": "南一"
+        },
+        "collected_at": "2026-09-26T15:58:55.322530+08:00"
       }
     },
     {

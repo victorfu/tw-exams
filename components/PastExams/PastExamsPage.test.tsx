@@ -476,6 +476,67 @@ describe("PastExamsPage", () => {
     });
   });
 
+  describe("publishers", () => {
+    const english = (publisher: string, publisherLabel: string, examCount: number) => ({
+      ...MATH_5A,
+      id: `english-grade-05-semester-1-${publisher}`,
+      subject: "english",
+      subjectLabel: "英文",
+      publisher,
+      publisherLabel,
+      examCount,
+    });
+    const hanlin = english("hanlin", "翰林", 96);
+    const kangHsuan = english("kang-hsuan", "康軒", 147);
+    const nani = english("nani", "南一", 1);
+    const publisherCatalog = makeCatalog(
+      [
+        minquan,
+        makeExam({ datasetId: hanlin.id, school: "翰林國小" }),
+        makeExam({ datasetId: kangHsuan.id, school: "康軒國小" }),
+        makeExam({ datasetId: nani.id, school: "南一國小" }),
+      ],
+      [MATH_5A, nani, hanlin, kangHsuan],
+    );
+
+    function renderPublishers(path = "/past-exams") {
+      setLocation(path);
+      followHistory();
+      act(() => root.render(<PastExamsPage catalog={publisherCatalog} />));
+    }
+
+    function publisherButtons(): string[] {
+      const group = container.querySelector('[role="group"][aria-label="版本"]');
+      return [...(group?.querySelectorAll("button") ?? [])].map((item) => item.textContent ?? "");
+    }
+
+    it("hides the publisher row when the subject has a single publisher", () => {
+      renderPublishers();
+      expect(container.querySelector('[aria-label="版本"]')).toBeNull();
+    });
+
+    it("opens the English publisher with the most exams, and lists publishers by exam count", () => {
+      renderPublishers();
+
+      act(() => button("英文").click());
+
+      expect(currentParams().get("c")).toBe(kangHsuan.id);
+      expect(listedSchools()).toEqual(["康軒國小"]);
+      expect(publisherButtons()).toEqual(["康軒 147", "翰林 96", "南一 1"]);
+      expect(button("康軒（147 份）").getAttribute("aria-pressed")).toBe("true");
+    });
+
+    it("switches to the publisher that is clicked", () => {
+      renderPublishers(`/past-exams?c=${kangHsuan.id}`);
+
+      act(() => button("南一（1 份）").click());
+
+      expect(currentParams().get("c")).toBe(nani.id);
+      expect(listedSchools()).toEqual(["南一國小"]);
+      expect(button("南一（1 份）").getAttribute("aria-pressed")).toBe("true");
+    });
+  });
+
   it("shows the empty state with npm run catalog instruction when no exams are available", () => {
     setLocation("/past-exams");
     followHistory();

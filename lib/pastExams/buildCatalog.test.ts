@@ -84,6 +84,7 @@ describe("buildCatalog", () => {
           semester: 1,
           publisher: "nani",
           publisherLabel: "南一",
+          examCount: 1,
         },
       ],
       exams: [
@@ -182,6 +183,25 @@ describe("parseCatalogJsonl", () => {
   it("reports the line number of a broken JSON line", () => {
     const text = `${JSON.stringify(makeRecord())}\n{"record_id": \n`;
     expect(() => parseCatalogJsonl(text)).toThrow(/第 2 行/);
+  });
+});
+
+describe("buildCatalog exam counts", () => {
+  it("counts each dataset's exams, including datasets with none", () => {
+    const english = { ...DATASET, id: "english-grade-05-semester-1-hess", subject: "english", publisher: "hess" };
+    const records = [
+      makeRecord({ record_id: "a" }),
+      makeRecord({ record_id: "b", dataset_id: english.id }),
+      makeRecord({ record_id: "c", dataset_id: english.id }),
+    ];
+
+    const catalog = buildCatalog(makeInfo({ record_count: 3, datasets: [DATASET, english, { ...english, id: "empty" }] }), records);
+
+    expect(catalog.datasets.map((dataset) => [dataset.id, dataset.examCount])).toEqual([
+      [DATASET.id, 1],
+      [english.id, 2],
+      ["empty", 0],
+    ]);
   });
 });
 

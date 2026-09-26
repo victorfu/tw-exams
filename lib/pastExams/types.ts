@@ -24,6 +24,8 @@ export interface PastExamCollection {
   semester: number;
   publisher: string;
   publisherLabel: string;
+  /** 這個資料集收錄幾份考卷；版本按鈕顯示它，也用來決定預設版本。 */
+  examCount: number;
 }
 
 export interface PastExam {

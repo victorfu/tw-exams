@@ -113,6 +113,8 @@ export function buildCatalog(info: CatalogInfo, records: readonly CatalogRecord[
     );
   }
 
+  const examCounts = new Map<string, number>();
+  for (const record of records) examCounts.set(record.dataset_id, (examCounts.get(record.dataset_id) ?? 0) + 1);
   const datasets: PastExamCollection[] = info.datasets.map((dataset) => ({
     id: dataset.id,
     subject: dataset.subject,
@@ -121,6 +123,7 @@ export function buildCatalog(info: CatalogInfo, records: readonly CatalogRecord[
     semester: dataset.semester,
     publisher: dataset.publisher,
     publisherLabel: dataset.publisher_label,
+    examCount: examCounts.get(dataset.id) ?? 0,
   }));
   const datasetIds = new Set(datasets.map((dataset) => dataset.id));
   const recordIds = new Set<string>();

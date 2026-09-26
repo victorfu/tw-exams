@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "dataset": {
+    "id": "english-grade-05-semester-1-nani",
+    "subject": "english",
+    "subject_label": "英語",
+    "grade": 5,
+    "semester": 1,
+    "publisher": "nani",
+    "publisher_label": "南一",
+    "source": {
+      "provider": "tcool",
+      "endpoint": "https://www.tcool.cc/api-exam.php",
+      "filters": {
+        "grade": "5",
+        "subject": "英語",
+        "semester": "1",
+        "publisher": "南一"
+      },
+      "collected_at": "2026-09-26T15:58:55.322530+08:00"
+    }
+  },
+  "summary": {
+    "expected": 1,
+    "verified": 1,
+    "remaining": 0,
+    "formats": {
+      ".doc": 1
+    },
+    "missing_filenames": []
+  },
+  "exams": [
+    {
+      "id": "2334",
+      "school": "永光國小",
+      "city": "彰化縣",
+      "subject": "英語",
+      "grade": "5",
+      "year-c": "108上",
+      "year": "108",
+      "semester": "1",
+      "period-c": "期中1",
+      "period": "1",
+      "publisher": "南一",
+      "question": "10030055e27ea84c9283.doc",
+      "answer": "10030055e27ea84c94da.doc",
+      "is_display": "1",
+      "aianswer": "0",
+      "merged_id": null,
+      "mock": 0,
+      "downloaded": true,
+      "relative_path": "doc/english-grade-05-semester-1-nani/10030055e27ea84c9283.doc",
+      "provenance": {
+        "provider": "tcool",
+        "endpoint": "https://www.tcool.cc/api-exam.php",
+        "collected_at": "2026-09-26T15:58:55.322530+08:00"
+      },
+      "bytes": 516608,
+      "sha256": "f2babd8f0217be40e6175599fca863305fa5b40a0cc8f37b1d955a2f08e4bf0f",
+      "answer_file": {
+        "relative_path": "doc/english-grade-05-semester-1-nani/answers/10030055e27ea84c94da.doc",
+        "downloaded": true,
+        "bytes": 163328,
+        "sha256": "2dcb8e072f70428ce5f5c495277bea96e25399d068cff95a8fdc6b50780abb00"
+      }
+    }
+  ],
+  "answer_summary": {
+    "dataset": "english-grade-05-semester-1-nani",
+    "expected": 1,
+    "verified": 1,
+    "remaining": 0,
+    "skipped_no_source": 0,
+    "formats": {
+      ".doc": 1
+    },
+    "missing_filenames": [],
+    "issues": []
+  }
+}

@@ -5,6 +5,10 @@
 | 資料集 | 清單份數 | 已驗證 | 剩餘 |
 |---|---:|---:|---:|
 | [5年級國語・翰林・第1學期](pdf/chinese-grade-05-semester-1-hanlin/README.md) | 73 | 73 | 0 |
+| [5年級英語・翰林・第1學期](pdf/english-grade-05-semester-1-hanlin/README.md) | 96 | 96 | 0 |
+| [5年級英語・何嘉仁・第1學期](pdf/english-grade-05-semester-1-hess/README.md) | 87 | 87 | 0 |
+| [5年級英語・康軒・第1學期](pdf/english-grade-05-semester-1-kang-hsuan/README.md) | 147 | 147 | 0 |
+| [5年級英語・南一・第1學期](pdf/english-grade-05-semester-1-nani/README.md) | 1 | 1 | 0 |
 | [5年級數學・南一・第1學期](pdf/math-grade-05-semester-1-nani/README.md) | 192 | 192 | 0 |
 | [5年級自然・康軒・第1學期](pdf/science-grade-05-semester-1-kang-hsuan/README.md) | 153 | 153 | 0 |
 | [5年級社會・翰林・第1學期](pdf/social-studies-grade-05-semester-1-hanlin/README.md) | 103 | 103 | 0 |
@@ -26,3 +30,7 @@
 | [國語・翰林](pdf/chinese-grade-05-semester-1-hanlin/exam-index.md) | 38 | 38 | 0 |
 | [社會・翰林](pdf/social-studies-grade-05-semester-1-hanlin/exam-index.md) | 51 | 51 | 0 |
 | [自然・康軒](pdf/science-grade-05-semester-1-kang-hsuan/exam-index.md) | 69 | 69 | 0 |
+| [英語・何嘉仁](pdf/english-grade-05-semester-1-hess/exam-index.md) | 53 | 53 | 0 |
+| [英語・康軒](pdf/english-grade-05-semester-1-kang-hsuan/exam-index.md) | 37 | 37 | 0 |
+| [英語・南一](pdf/english-grade-05-semester-1-nani/exam-index.md) | 1 | 1 | 0 |
+| [英語・翰林](pdf/english-grade-05-semester-1-hanlin/exam-index.md) | 43 | 43 | 0 |

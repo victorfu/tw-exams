@@ -13,7 +13,7 @@ interface CollectionPickerProps {
   onSelect: (collectionId: string) => void;
 }
 
-/** 年級、學期、科目的分段按鈕；沒有資料的組合不能按。同一組合有多個版本時才出現版本選單。 */
+/** 年級、學期、科目的分段按鈕；沒有資料的組合不能按。同一組合有多個版本時才出現版本按鈕（附份數）。 */
 export function CollectionPicker({ datasets, current, onSelect }: CollectionPickerProps) {
   const options = collectionOptions(datasets, current);
   const fixedSubjects: readonly string[] = SUBJECTS.map((subject) => subject.id);
@@ -69,20 +69,18 @@ export function CollectionPicker({ datasets, current, onSelect }: CollectionPick
         ))}
       </Segment>
       {current && options.publishers.length > 1 && (
-        <label className="flex items-center gap-2 text-sm">
-          <span className="text-base-content/60">版本</span>
-          <select
-            className="select select-sm w-auto"
-            value={current.publisher}
-            onChange={(event) => choose({ publisher: event.target.value })}
-          >
-            {options.publishers.map((dataset) => (
-              <option key={dataset.id} value={dataset.publisher}>
-                {dataset.publisherLabel}
-              </option>
-            ))}
-          </select>
-        </label>
+        <Segment label="版本">
+          {options.publishers.map((dataset) => (
+            <SegmentButton
+              key={dataset.id}
+              label={`${dataset.publisherLabel} ${dataset.examCount}`}
+              ariaLabel={`${dataset.publisherLabel}（${dataset.examCount} 份）`}
+              pressed={current.id === dataset.id}
+              colors={subjectColors(current.subject)}
+              onClick={() => choose({ publisher: dataset.publisher })}
+            />
+          ))}
+        </Segment>
       )}
       <p className="text-xs text-base-content/50">灰色的選項{NOT_COLLECTED}</p>
     </section>
