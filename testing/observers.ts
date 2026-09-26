@@ -6,15 +6,24 @@ interface ObservedResize {
   targets: Set<Element>;
 }
 
+type IntersectionCallback = (entries: { isIntersecting: boolean; target: Element }[]) => void;
+interface ObservedIntersection {
+  callback: IntersectionCallback;
+  targets: Set<Element>;
+}
+
 const resizeObservers = new Set<ObservedResize>();
+const intersectionObservers = new Set<ObservedIntersection>();
 
 /**
  * jsdom 沒有 ResizeObserver／IntersectionObserver：換成可控制的替身。
- * IntersectionObserver 一律回報「在畫面內」；ResizeObserver 由 resizeObservedElements 觸發。
+ * IntersectionObserver 觀察時預設回報「在畫面內」，之後可用 setIntersecting 改變；
+ * ResizeObserver 由 resizeObservedElements 觸發。
  * 用 vi.unstubAllGlobals() 還原。
  */
 export function installObserverStubs(): void {
   resizeObservers.clear();
+  intersectionObservers.clear();
 
   class ResizeObserverStub {
     private readonly observed: ObservedResize;
@@ -38,19 +47,25 @@ export function installObserverStubs(): void {
   }
 
   class IntersectionObserverStub {
-    private readonly callback: (entries: { isIntersecting: boolean; target: Element }[]) => void;
+    private readonly observed: ObservedIntersection;
 
-    constructor(callback: (entries: { isIntersecting: boolean; target: Element }[]) => void) {
-      this.callback = callback;
+    constructor(callback: IntersectionCallback) {
+      this.observed = { callback, targets: new Set() };
+      intersectionObservers.add(this.observed);
     }
 
     observe(target: Element) {
-      this.callback([{ isIntersecting: true, target }]);
+      this.observed.targets.add(target);
+      this.observed.callback([{ isIntersecting: true, target }]);
     }
 
-    unobserve() {}
+    unobserve(target: Element) {
+      this.observed.targets.delete(target);
+    }
 
-    disconnect() {}
+    disconnect() {
+      intersectionObservers.delete(this.observed);
+    }
   }
 
   vi.stubGlobal("ResizeObserver", ResizeObserverStub);
@@ -61,5 +76,12 @@ export function installObserverStubs(): void {
 export function resizeObservedElements(width: number): void {
   for (const { callback, targets } of resizeObservers) {
     if (targets.size > 0) callback([...targets].map(() => ({ contentRect: { width } })));
+  }
+}
+
+/** 模擬某個被觀察的元素的可視狀態改變（進入／離開畫面）。 */
+export function setIntersecting(target: Element, isIntersecting: boolean): void {
+  for (const { callback, targets } of intersectionObservers) {
+    if (targets.has(target)) callback([{ isIntersecting, target }]);
   }
 }

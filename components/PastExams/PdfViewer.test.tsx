@@ -1,7 +1,7 @@
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { installObserverStubs, resizeObservedElements } from "../../testing/observers";
+import { installObserverStubs, resizeObservedElements, setIntersecting } from "../../testing/observers";
 import type { LoadedPdf } from "./pdfDocument";
 
 const mocks = vi.hoisted(() => ({
@@ -179,5 +179,52 @@ describe("PdfViewer", () => {
     act(() => button("縮小").click());
     expect(fitButton().textContent).toBe("50%");
     expect(button("縮小").disabled).toBe(true);
+  });
+
+  it("shows the spinner instead of a stale, destroyed document when navigating back to a still-loading exam", async () => {
+    render("/exams/a.pdf");
+    const a = fakePdf(1);
+    await resolveLoad(0, a);
+    setWidth(600);
+    const callsAfterFirstRender = a.renderPage.mock.calls.length;
+
+    render("/exams/b.pdf");
+    render("/exams/a.pdf");
+
+    expect(container.querySelector('[aria-label="載入 PDF"]')).not.toBeNull();
+    expect(a.renderPage).toHaveBeenCalledTimes(callsAfterFirstRender);
+  });
+
+  it("redraws only the pages currently in view when zooming", async () => {
+    render("/exams/a.pdf");
+    const pdf = fakePdf(2);
+    await resolveLoad(0, pdf);
+    setWidth(600);
+
+    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1);
+    expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 600, 1);
+
+    act(() => setIntersecting(canvases()[1], false));
+    act(() => button("放大").click());
+
+    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 750, 1);
+    expect(pdf.renderPage).not.toHaveBeenCalledWith(2, canvases()[1], 750, 1);
+
+    act(() => setIntersecting(canvases()[1], true));
+
+    expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 750, 1);
+  });
+
+  it("does not observe or render pages before the container width is known", async () => {
+    render("/exams/a.pdf");
+    const pdf = fakePdf(1);
+    await resolveLoad(0, pdf);
+
+    expect(canvases()).toHaveLength(1);
+    expect(pdf.renderPage).not.toHaveBeenCalled();
+
+    setWidth(600);
+
+    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1);
   });
 });

@@ -52,6 +52,8 @@ export function PdfViewer({ url, title }: { url: string; title: string }) {
     return () => {
       controller.abort();
       pdf?.destroy();
+      // 離開這個網址／這次嘗試時清掉結果，避免切回來時先閃出舊的（可能已被 destroy 的）文件。
+      setResult(null);
     };
   }, [url, attempt]);
 
@@ -157,33 +159,42 @@ interface PdfPageProps {
 
 function PdfPage({ pdf, pageNumber, display, root }: PdfPageProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [visible, setVisible] = useState(false);
+  const lastRenderedWidthRef = useRef<number | null>(null);
+  const [intersecting, setIntersecting] = useState(false);
+  const hasWidth = display.width > 0;
 
-  // 快捲進畫面（前後一個畫面高）才畫；畫過就一直保留。
+  // 寬度確定後才開始觀察是否進出畫面（前後一個畫面高）；離開畫面仍持續觀察，回來時可能要重畫。
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || visible) return;
+    if (!canvas || !hasWidth) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) setVisible(true);
+        setIntersecting(entries[0]?.isIntersecting ?? false);
       },
       { root, rootMargin: "100% 0px" },
     );
     observer.observe(canvas);
     return () => observer.disconnect();
-  }, [root, visible]);
+  }, [root, hasWidth]);
 
+  // 進入畫面、且寬度（縮放）跟上次畫的不一樣時才重畫；離開畫面保留舊畫面，不清除。
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !visible || display.width === 0) return;
+    if (!canvas || !intersecting || display.width === 0) return;
+    if (lastRenderedWidthRef.current === display.width) return;
     const handle = pdf.renderPage(pageNumber, canvas, display.width, renderPixelRatio(window.devicePixelRatio));
-    handle.promise.catch((error: unknown) => {
-      if (!(error instanceof Error && error.name === "RenderingCancelledException")) {
-        logger.warn("[PdfViewer] render failed", error);
-      }
-    });
+    handle.promise.then(
+      () => {
+        lastRenderedWidthRef.current = display.width;
+      },
+      (error: unknown) => {
+        if (!(error instanceof Error && error.name === "RenderingCancelledException")) {
+          logger.warn("[PdfViewer] render failed", error);
+        }
+      },
+    );
     return () => handle.cancel();
-  }, [pdf, pageNumber, visible, display.width]);
+  }, [pdf, pageNumber, intersecting, display.width]);
 
   return (
     <canvas
