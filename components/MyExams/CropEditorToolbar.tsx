@@ -53,8 +53,7 @@ export function CropEditorToolbar({
 
   // 每次輸入就改名（跟答案欄一樣交給自動儲存），不等 blur：焦點還在欄位上
   // 就用瀏覽器「上一頁」離開時不會有 blur，只在 blur 時送出的話改名會遺失。
-  const changeTitle = (value: string) => {
-    setDraft(value);
+  const renameTo = (value: string) => {
     const next = value.trim() || titleBeforeEditRef.current;
     if (next !== title) onRename(next);
   };
@@ -75,7 +74,12 @@ export function CropEditorToolbar({
           onFocus={() => {
             titleBeforeEditRef.current = title;
           }}
-          onChange={(event) => changeTitle(event.target.value)}
+          onChange={(event) => {
+            setDraft(event.target.value);
+            // 注音組字中（「數學ㄙˋ」）先不改名，組好字才存；Safari 組好字後的 input 已不在組字中。
+            if (!(event.nativeEvent as InputEvent).isComposing) renameTo(event.target.value);
+          }}
+          onCompositionEnd={(event) => renameTo(event.currentTarget.value)}
           onBlur={showSavedTitle}
           onKeyDown={(event) => {
             if (event.key !== "Enter") return;

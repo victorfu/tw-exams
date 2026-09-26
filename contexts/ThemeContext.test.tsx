@@ -138,6 +138,22 @@ describe("ThemeProvider", () => {
       toggle();
       expect(dataTheme()).toBe("paopaodark");
     });
+
+    it("keeps an unsaved choice when another tab changes an unrelated key", async () => {
+      mockSystemTheme(false);
+      localStorage.setItem("ollie-theme", "light");
+      vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
+        throw new DOMException("full", "QuotaExceededError");
+      });
+      await renderToggle();
+      toggle();
+      expect(dataTheme()).toBe("paopaodark");
+
+      act(() => {
+        window.dispatchEvent(new StorageEvent("storage", { key: "other-key", newValue: "x" }));
+      });
+      expect(dataTheme()).toBe("paopaodark");
+    });
   });
 
   describe("following the OS theme", () => {

@@ -37,6 +37,14 @@ function keyDown(target: EventTarget, init: KeyboardEventInit): void {
   });
 }
 
+/** 模擬 React 受控 input 的輸入：用原生 setter 改值再送 input 事件。 */
+function typeInto(input: HTMLInputElement, value: string, isComposing = false): void {
+  act(() => {
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set?.call(input, value);
+    input.dispatchEvent(new InputEvent("input", { bubbles: true, isComposing }));
+  });
+}
+
 beforeEach(() => {
   (globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean })
     .IS_REACT_ACT_ENVIRONMENT = true;
@@ -74,5 +82,26 @@ describe("CropEditorToolbar", () => {
 
     keyDown(title, { key: "Enter", keyCode: 229, ...init });
     expect(document.activeElement).toBe(title);
+  });
+
+  it("waits for the IME to finish composing before renaming", () => {
+    const props = render();
+    const title = titleInput();
+    act(() => title.focus());
+
+    typeInto(title, "數學ㄙˋ", true);
+    expect(props.onRename).not.toHaveBeenCalled();
+
+    act(() => {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set?.call(title, "數學四");
+      title.dispatchEvent(new CompositionEvent("compositionend", { bubbles: true, data: "四" }));
+    });
+    expect(props.onRename).toHaveBeenLastCalledWith("數學四");
+  });
+
+  it("renames as plain text is typed", () => {
+    const props = render();
+    typeInto(titleInput(), "數學 2");
+    expect(props.onRename).toHaveBeenCalledWith("數學 2");
   });
 });
