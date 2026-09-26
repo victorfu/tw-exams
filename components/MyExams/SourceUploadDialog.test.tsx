@@ -213,7 +213,29 @@ function rotatePage(page: number) {
   act(() => button.click());
 }
 
+function pastExamsLink(): HTMLAnchorElement | null {
+  return [...container.querySelectorAll("a")].find((item) => item.textContent?.includes("從考古題匯入")) ?? null;
+}
+
 describe("SourceUploadDialog", () => {
+  it("links to 考古題 for importing, but not during an upload", async () => {
+    renderDialog();
+    expect(pastExamsLink()?.getAttribute("href")).toBe("/past-exams");
+
+    await pick(photos("p", 1));
+    fillForm();
+    const firstPage = deferred<RenderedPage>();
+    mocks.renderPage.mockImplementation((_input: PageInput, size: number) =>
+      size === PAGE_LONG_EDGE_PX ? firstPage.promise : Promise.resolve(rendered(size)),
+    );
+    act(() => uploadButton().click());
+    expect(pastExamsLink()).toBeNull();
+
+    firstPage.resolve(rendered(PAGE_LONG_EDGE_PX));
+    await settle();
+    expect(pastExamsLink()).not.toBeNull();
+  });
+
   it("stops making thumbnails and releases them and the PDFs when it unmounts", async () => {
     const thumbnails = [deferred<RenderedPage>(), deferred<RenderedPage>(), deferred<RenderedPage>()];
     mocks.renderPage.mockImplementation(() => thumbnails[mocks.renderPage.mock.calls.length - 1].promise);

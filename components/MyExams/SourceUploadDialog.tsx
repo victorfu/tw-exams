@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import Link from "next/link";
 import { RotateCw, Trash2, Upload } from "lucide-react";
 import {
   ACCEPTED_UPLOAD_TYPES,
@@ -326,6 +327,17 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
         </label>
         <p className="mt-2 text-xs text-base-content/60">
           也可以把檔案直接拖進來。建議用手機內建的「掃描文件」拍，會自動拉正、去陰影。一次最多 {MAX_SOURCE_PAGES} 頁。
+          {/* 站內換頁（不整頁重新載入），題庫才不會被清空；離開時對話框卸載，會自己釋放檔案。上傳中不給離開 */}
+          {!uploading && (
+            <>
+              {" "}
+              考古題的 PDF 可以
+              <Link href="/past-exams" className="link link-primary">
+                從考古題匯入
+              </Link>
+              。
+            </>
+          )}
         </p>
 
         {limitError && (
