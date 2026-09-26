@@ -4,8 +4,8 @@ import { ThemeProvider, THEME_INIT_SCRIPT } from "@/contexts/ThemeContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "自製考卷",
-  description: "上傳考卷照片或 PDF，框出題目存進題庫，再隨機組卷印出來。",
+  title: { default: "泡泡考卷", template: "%s｜泡泡考卷" },
+  description: "瀏覽國小考古題，或上傳考卷照片、PDF 框出題目，隨機組卷印出來。",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

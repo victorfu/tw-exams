@@ -39,6 +39,12 @@ describe("TopNav", () => {
     expect(link("自製考卷").hasAttribute("aria-current")).toBe(false);
   });
 
+  it("lists 考古題 first", () => {
+    act(() => root.render(<TopNav />));
+
+    expect([...container.querySelectorAll("a")].map((item) => item.textContent)).toEqual(["考古題", "自製考卷"]);
+  });
+
   it("treats nested pages as part of their section", () => {
     setLocation("/my-exams/sheets/new");
     act(() => root.render(<TopNav />));

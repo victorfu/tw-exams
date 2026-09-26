@@ -2,11 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const LINKS = [
-  { href: "/my-exams", label: "自製考卷" },
-  { href: "/past-exams", label: "考古題" },
-] as const;
+import { SECTIONS } from "./sections";
 
 /** 頂部列的主要導覽；目前所在的區塊（含子頁面）會標示出來。 */
 export function TopNav() {
@@ -14,7 +10,7 @@ export function TopNav() {
 
   return (
     <nav aria-label="主要導覽" className="flex items-center gap-1">
-      {LINKS.map((link) => {
+      {SECTIONS.map((link) => {
         const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
         return (
           <Link
