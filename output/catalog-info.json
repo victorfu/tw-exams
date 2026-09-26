@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-25T21:28:57.830696+08:00",
+  "record_count": 192,
+  "dataset_count": 1,
+  "downloaded_question_count": 192,
+  "answer_available_from_source_count": 95,
+  "downloaded_answer_count": 0,
+  "exam_type_counts": {
+    "final": 81,
+    "midterm": 111
+  },
+  "format_counts": {
+    "pdf": 172,
+    "docx": 4,
+    "doc": 16
+  },
+  "records_with_warnings": 0,
+  "document_classification_reviewed_count": 0,
+  "validation": {
+    "unique_record_ids": true,
+    "unique_paths": true,
+    "source_field_consistency": true,
+    "file_hashes_and_sizes": true
+  },
+  "datasets": [
+    {
+      "id": "math-grade-05-semester-1-nani",
+      "subject": "math",
+      "subject_label": "數學",
+      "grade": 5,
+      "semester": 1,
+      "publisher": "nani",
+      "publisher_label": "南一",
+      "source": {
+        "provider": "tcool",
+        "endpoint": "https://www.tcool.cc/api-exam.php",
+        "filters": {
+          "grade": "5",
+          "subject": "數學",
+          "semester": "1",
+          "publisher": "南一"
+        },
+        "collected_at": "2026-09-25T19:05:08.286054+08:00"
+      }
+    }
+  ]
+}

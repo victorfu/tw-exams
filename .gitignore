@@ -30,8 +30,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env：預設值檔（.env.development、.env.production）進 git；機密與個人設定不進
+/.env
+.env*.local
 
 # vercel
 .vercel
@@ -40,5 +41,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# past exams (synced from cowork output by `npm run sync:exams`)
-/public/exams/
+# cowork 的考卷資料：只追蹤 meta（.json／.jsonl／.md），考卷檔不進 git
+/output/**
+!/output/**/
+!/output/**/*.json
+!/output/**/*.jsonl
+!/output/**/*.md
