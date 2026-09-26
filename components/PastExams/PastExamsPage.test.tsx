@@ -141,6 +141,35 @@ describe("PastExamsPage", () => {
     expect(listedSchools()).toHaveLength(4);
   });
 
+  it("follows the URL when the search is changed from elsewhere", () => {
+    renderPage("/past-exams?q=民權");
+    expect(searchBox().value).toBe("民權");
+    expect(listedSchools()).toEqual(["民權國小"]);
+
+    act(() => setLocation("/past-exams"));
+
+    expect(searchBox().value).toBe("");
+    expect(listedSchools()).toHaveLength(4);
+    expect(button("清除篩選").disabled).toBe(true);
+  });
+
+  it("ignores a year or city from the URL that this collection does not have", () => {
+    renderPage("/past-exams?year=110&city=臺東縣");
+
+    expect(listedSchools()).toHaveLength(4);
+    expect(container.querySelector<HTMLSelectElement>('select[aria-label="縣市"]')!.value).toBe("");
+    expect(button("清除篩選").disabled).toBe(true);
+  });
+
+  it("names downloads after the title, taking the extension from the file name only", () => {
+    const noExtension = makeExam({ file: "pdf/v1.2/20002871" });
+    setLocation(`/past-exams?id=${encodeURIComponent(noExtension.id)}`);
+    followHistory();
+    act(() => root.render(<PastExamsPage catalog={makeCatalog([noExtension])} />));
+
+    expect(container.querySelector("a[download]")?.getAttribute("download")).toBe(`${noExtension.title}.pdf`);
+  });
+
   it("previews a PDF when its row is clicked", () => {
     renderPage();
     expect(container.textContent).toContain("點左邊的考卷開始瀏覽");
@@ -256,6 +285,18 @@ describe("PastExamsPage", () => {
       act(() => window.history.back());
       expect(currentParams().get("id")).toBeNull();
       expect(container.querySelector("iframe")).toBeNull();
+    });
+
+    it("opens PDFs in a new tab instead of embedding them", () => {
+      renderPage();
+
+      act(() => row("民權國小").click());
+
+      expect(container.querySelector("iframe")).toBeNull();
+      const open = [...container.querySelectorAll<HTMLAnchorElement>('a[target="_blank"]')].find(
+        (link) => link.textContent?.trim() === "開啟 PDF",
+      );
+      expect(open?.getAttribute("href")).toBe(`/exams/${minquan.file}`);
     });
 
     it("replaces the entry when moving between exams, and the close button goes back", () => {

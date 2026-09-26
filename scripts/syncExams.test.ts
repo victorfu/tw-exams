@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { mkdtemp, mkdir, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, readdir, rm, stat, utimes, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
@@ -122,6 +122,27 @@ describe("syncExams", () => {
 
     expect(await run()).toMatchObject({ copied: 1, skipped: 0 });
     expect(await readFile(join(publicExamsDir, "pdf/ds/a.pdf"), "utf8")).toBe("content of a");
+  });
+
+  it("copies again when the source changed but kept its size", async () => {
+    await writeSource([{ id: "a", path: "pdf/ds/a.pdf", content: "old content" }]);
+    await run();
+    const source = join(sourceDir, "pdf/ds/a.pdf");
+    await writeFile(source, "new content");
+    const later = new Date(Date.now() + 60_000);
+    await utimes(source, later, later);
+
+    expect(await run()).toMatchObject({ copied: 1, skipped: 0 });
+    expect(await readFile(join(publicExamsDir, "pdf/ds/a.pdf"), "utf8")).toBe("new content");
+  });
+
+  it("recreates a file whose path only changed in letter case", async () => {
+    await writeSource([{ id: "a", path: "PDF/ds/a.pdf" }]);
+    await run();
+    await writeSource([{ id: "a", path: "pdf/ds/a.pdf" }]);
+
+    await run();
+    expect(await listFiles(publicExamsDir)).toEqual(["pdf/ds/a.pdf"]);
   });
 
   it("removes files and empty folders that are no longer in the catalog", async () => {

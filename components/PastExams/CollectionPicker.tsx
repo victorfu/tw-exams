@@ -4,8 +4,7 @@ import type { ReactNode } from "react";
 import { collectionOptions, pickCollection, type CollectionChoice } from "../../lib/pastExams/collections";
 import { GRADES, gradeLabel, gradeNumeral, SEMESTERS, semesterLabel, SUBJECTS, subjectLabel } from "../../lib/pastExams/labels";
 import type { PastExamCollection } from "../../lib/pastExams/types";
-
-const NOT_COLLECTED = "尚未收錄";
+import { NOT_COLLECTED, SegmentButton } from "./SegmentButton";
 
 interface CollectionPickerProps {
   datasets: readonly PastExamCollection[];
@@ -94,29 +93,5 @@ function Segment({ label, children }: { label: string; children: ReactNode }) {
       <span className="text-sm text-base-content/60">{label}</span>
       <div className="join">{children}</div>
     </div>
-  );
-}
-
-interface SegmentButtonProps {
-  label: string;
-  ariaLabel?: string;
-  pressed: boolean;
-  enabled: boolean;
-  onClick: () => void;
-}
-
-function SegmentButton({ label, ariaLabel, pressed, enabled, onClick }: SegmentButtonProps) {
-  return (
-    <button
-      type="button"
-      className={`btn join-item btn-sm px-3 ${pressed ? "btn-primary" : ""}`}
-      aria-label={ariaLabel}
-      aria-pressed={pressed}
-      title={enabled ? undefined : NOT_COLLECTED}
-      disabled={!enabled}
-      onClick={onClick}
-    >
-      {label}
-    </button>
   );
 }

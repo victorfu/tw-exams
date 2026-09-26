@@ -48,9 +48,10 @@ npm run build
 npm run sync:exams -- <cowork 的 output 目錄>
 ```
 
-- 沒給目錄時讀環境變數 `EXAMS_SOURCE_DIR`，可以寫在 `.env.local`（例如 `EXAMS_SOURCE_DIR=C:\Users\me\Downloads\output`）；再沒有就用 `/Users/victor/Codebase/cowork/output`。
-- 來源只讀。以下情況會中止，不覆寫既有輸出：`schema_version` 不是 1、`record_count` 與行數不符、JSON 壞掉（會報行號）、`relative_path` 跳出根目錄、標示已下載的檔案找不到。
-- 產生 `data/pastExams.json`（進 git，每份考卷一行）。已下載的考卷照 `output/` 的相對路徑複製到 `public/exams/`（不進 git）：同樣大小的檔案跳過，不在 catalog 裡的舊檔刪掉。
+- 沒給目錄時讀環境變數 `EXAMS_SOURCE_DIR`，可以寫在 `.env.local`（例如 `EXAMS_SOURCE_DIR=C:\Users\me\Downloads\output`）；兩個都沒有就提示用法後結束。
+- 來源只讀。以下情況會中止，不覆寫既有輸出：`schema_version` 不是 1、`record_count` 與行數不符、`record_id` 重複、JSON 壞掉（會報行號）、`relative_path` 跳出根目錄、標示已下載的檔案找不到。
+- 已下載的考卷照 `output/` 的相對路徑複製到 `public/exams/`（不進 git）：先刪掉不在 catalog 裡的舊檔（路徑只改大小寫也算舊檔，會重新複製），大小與修改時間都相同的檔案跳過。
+- 檔案都複製完才寫 `data/pastExams.json`（進 git，每份考卷一行），所以同步中途失敗時它維持原樣。
 
 新增科目、年級，或 cowork 改成 `layout-plan.md` 的新分層時，先在 cowork 跑 `python3 scripts/exam_catalog.py build`，再回來重跑一次同步即可。
 

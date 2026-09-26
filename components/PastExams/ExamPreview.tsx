@@ -1,9 +1,11 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { ChevronLeft, ChevronRight, Download, ExternalLink, FileText, X } from "lucide-react";
 import { examFileUrl } from "../../lib/pastExams/fileUrl";
 import { UNKNOWN } from "../../lib/pastExams/filters";
 import type { PastExam } from "../../lib/pastExams/types";
+import { useIsDesktop } from "./viewport";
 
 interface ExamPreviewProps {
   exam: PastExam | null;
@@ -15,11 +17,18 @@ interface ExamPreviewProps {
 }
 
 function downloadName(exam: PastExam): string {
-  return `${exam.title}.${exam.file.split(".").pop()}`;
+  // 副檔名只看檔名本身（不看資料夾名稱）；沒有副檔名時依格式補上。
+  const extension = /\.([^./]+)$/.exec(exam.file)?.[1] ?? (exam.format === "pdf" ? "pdf" : "doc");
+  return `${exam.title}.${extension}`;
 }
 
-/** PDF 交給瀏覽器內建的檢視器；Word 只能下載。 */
+/**
+ * 桌機的 PDF 交給瀏覽器內建的檢視器；手機瀏覽器多半無法在 iframe 裡顯示 PDF，
+ * 改成在新分頁開啟。Word 只能下載。
+ */
 export function ExamPreview({ exam, hasPrevious, hasNext, onPrevious, onNext, onClose }: ExamPreviewProps) {
+  const desktop = useIsDesktop();
+
   if (!exam) {
     return (
       <div className="surface-card flex h-full flex-col items-center justify-center gap-3 rounded-xl p-6 text-center text-sm text-base-content/60">
@@ -68,18 +77,37 @@ export function ExamPreview({ exam, hasPrevious, hasNext, onPrevious, onNext, on
       </header>
       <div className="min-h-0 flex-1 bg-base-200">
         {exam.format === "pdf" ? (
-          <iframe key={exam.id} src={`${url}#view=FitH`} title={exam.title} className="h-full w-full border-0" />
+          <>
+            {/* 伺服器輸出時還不知道寬度：iframe 先用 CSS 藏在手機上，hydration 後手機就不再載入它。 */}
+            {desktop && (
+              <iframe key={exam.id} src={`${url}#view=FitH`} title={exam.title} className="hidden h-full w-full border-0 md:block" />
+            )}
+            <FileNotice className="md:hidden" message="手機無法在頁面內預覽 PDF，請在新分頁開啟。">
+              <a href={url} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">
+                <ExternalLink className="size-4" aria-hidden="true" />
+                開啟 PDF
+              </a>
+            </FileNotice>
+          </>
         ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-4 p-6 text-center">
-            <FileText className="size-12 text-base-content/40" strokeWidth={1.5} aria-hidden="true" />
-            <p className="text-sm text-base-content/70">Word 檔無法在頁面內預覽，請下載後開啟。</p>
+          <FileNotice message="Word 檔無法在頁面內預覽，請下載後開啟。">
             <a href={url} download={downloadName(exam)} className="btn btn-primary btn-sm">
               <Download className="size-4" aria-hidden="true" />
               下載 Word 檔
             </a>
-          </div>
+          </FileNotice>
         )}
       </div>
+    </div>
+  );
+}
+
+function FileNotice({ message, className = "", children }: { message: string; className?: string; children: ReactNode }) {
+  return (
+    <div className={`flex h-full flex-col items-center justify-center gap-4 p-6 text-center ${className}`}>
+      <FileText className="size-12 text-base-content/40" strokeWidth={1.5} aria-hidden="true" />
+      <p className="text-sm text-base-content/70">{message}</p>
+      {children}
     </div>
   );
 }

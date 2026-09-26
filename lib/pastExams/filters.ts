@@ -25,12 +25,12 @@ export interface FacetValues {
 const collator = new Intl.Collator("zh-Hant");
 const EXAM_TYPE_ORDER: Record<PastExamType, number> = { midterm: 0, final: 1 };
 
-/** cowork 的 search_text 把「臺」統一成「台」；兩邊都這樣折疊，哪種寫法都找得到。 */
-const foldTai = (text: string) => text.replaceAll("臺", "台");
-
-/** 與 cowork 的 search_text 相同的正規化：NFKC、小寫、臺→台，再以空白切詞。 */
+/**
+ * 與 cowork 的 search_text 相同的正規化：NFKC、小寫、臺→台，再以空白切詞。
+ * searchText 的「臺」在同步時（buildCatalog）已經折疊成「台」，所以哪種寫法都找得到。
+ */
 export function normalizeQuery(query: string): string[] {
-  return foldTai(query.normalize("NFKC").toLowerCase()).split(/\s+/).filter(Boolean);
+  return query.normalize("NFKC").toLowerCase().replaceAll("臺", "台").split(/\s+/).filter(Boolean);
 }
 
 /** 篩選值為空（null、空陣列、空字串）代表不限；搜尋詞全部都要出現在 searchText。 */
@@ -43,7 +43,7 @@ export function filterExams(exams: readonly PastExam[], filters: ExamFilters): P
       (years.length === 0 || years.includes(exam.academicYear)) &&
       (!filters.examType || exam.examType === filters.examType) &&
       (!filters.city || (exam.city ?? UNKNOWN) === filters.city) &&
-      terms.every((term) => foldTai(exam.searchText).includes(term)),
+      terms.every((term) => exam.searchText.includes(term)),
   );
 }
 

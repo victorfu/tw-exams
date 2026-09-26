@@ -48,11 +48,6 @@ describe("filterExams", () => {
     expect(filterExams(exams, { datasetId: a.datasetId, query: "臺北" })).toEqual([a]);
   });
 
-  it("still matches if a search text spells 臺", () => {
-    const spelledTai = makeExam({ searchText: "114上|臺中市 忠孝國小" });
-    expect(filterExams([spelledTai], { query: "台中" })).toEqual([spelledTai]);
-  });
-
   it("requires every search term to match", () => {
     expect(filterExams(exams, { datasetId: a.datasetId, query: "台北 民權" })).toEqual([a]);
     expect(filterExams(exams, { datasetId: a.datasetId, query: "台北 安和" })).toEqual([]);

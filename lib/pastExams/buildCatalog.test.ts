@@ -159,6 +159,17 @@ describe("buildCatalog", () => {
       /english-grade-05-semester-1-nani/,
     );
   });
+
+  it("rejects a record_id that appears twice", () => {
+    expect(() => buildCatalog(makeInfo({ record_count: 2 }), [makeRecord(), makeRecord()])).toThrow(
+      /第 2 筆.*record_id/,
+    );
+  });
+
+  it("folds 臺 into 台 in the search text, in case cowork ever spells it", () => {
+    const catalog = buildCatalog(makeInfo(), [makeRecord({ search_text: "114上|臺中市 忠孝國小" })]);
+    expect(catalog.exams[0].searchText).toBe("114上|台中市 忠孝國小");
+  });
 });
 
 describe("parseCatalogJsonl", () => {

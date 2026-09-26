@@ -100,12 +100,18 @@ export function buildCatalog(info: CatalogInfo, records: readonly CatalogRecord[
     publisherLabel: dataset.publisher_label,
   }));
   const datasetIds = new Set(datasets.map((dataset) => dataset.id));
+  const recordIds = new Set<string>();
 
   const exams = records.map((record, index): PastExam => {
     const where = `第 ${index + 1} 筆（${record.record_id}）`;
     if (record.schema_version !== SUPPORTED_SCHEMA_VERSION) {
       throw new CatalogError(`${where} 的 schema_version 是 ${record.schema_version}，只支援 ${SUPPORTED_SCHEMA_VERSION}`);
     }
+    // 頁面用 id 當清單的 key 與選取狀態，重複會選錯份。
+    if (recordIds.has(record.record_id)) {
+      throw new CatalogError(`${where} 的 record_id 與前面的紀錄重複`);
+    }
+    recordIds.add(record.record_id);
     if (!datasetIds.has(record.dataset_id)) {
       throw new CatalogError(`${where} 的資料集 ${record.dataset_id} 不在 catalog-info.json 裡`);
     }
@@ -138,7 +144,8 @@ export function buildCatalog(info: CatalogInfo, records: readonly CatalogRecord[
       pages: file.page_count,
       bytes: file.bytes,
       available: file.downloaded,
-      searchText: record.search_text,
+      // cowork 已經把「臺」寫成「台」；這裡再折疊一次，頁面搜尋就不必每次重做。
+      searchText: record.search_text.replaceAll("臺", "台"),
     };
   });
 

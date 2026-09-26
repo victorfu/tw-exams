@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 import type { FacetValues } from "../../lib/pastExams/filters";
 import type { PastExamsUrlState } from "../../lib/pastExams/searchParams";
 import type { PastExamType } from "../../lib/pastExams/types";
+import { SegmentButton } from "./SegmentButton";
 
 export type FilterPatch = Partial<Pick<PastExamsUrlState, "academicYears" | "examType" | "city" | "query">>;
 
@@ -20,7 +21,10 @@ interface ExamFiltersProps {
   academicYears: readonly number[];
   examType: PastExamType | null;
   city: string | null;
-  /** 只當初始值；之後輸入框自己管（中文輸入法組字時不能被外部值打斷）。換資料集時用 key 重建。 */
+  /**
+   * 網址上的搜尋字。輸入框有自己的狀態（中文輸入法組字時不能被外部值打斷），
+   * 網址的 q 被別處改掉（例如點頂部的「考古題」）時才跟著換；換資料集時用 key 重建。
+   */
   query: string;
   counts: ExamCounts;
   onChange: (patch: FilterPatch) => void;
@@ -35,6 +39,12 @@ const EXAM_TYPES: readonly { value: PastExamType | null; label: string }[] = [
 
 export function ExamFilters({ facets, academicYears, examType, city, query, counts, onChange, onClear }: ExamFiltersProps) {
   const [text, setText] = useState(query);
+  const [composing, setComposing] = useState(false);
+  const [lastQuery, setLastQuery] = useState(query);
+  if (query !== lastQuery) {
+    setLastQuery(query);
+    if (!composing) setText(query);
+  }
   const hasFilters = academicYears.length > 0 || examType !== null || city !== null || text !== "";
 
   function toggleYear(year: number) {
@@ -68,15 +78,12 @@ export function ExamFilters({ facets, academicYears, examType, city, query, coun
       <div className="flex flex-wrap items-center gap-2">
         <div role="group" aria-label="考試別" className="join">
           {EXAM_TYPES.map((item) => (
-            <button
+            <SegmentButton
               key={item.label}
-              type="button"
-              aria-pressed={examType === item.value}
-              className={`btn join-item btn-sm ${examType === item.value ? "btn-primary" : ""}`}
+              label={item.label}
+              pressed={examType === item.value}
               onClick={() => onChange({ examType: item.value })}
-            >
-              {item.label}
-            </button>
+            />
           ))}
         </div>
         <select
@@ -104,7 +111,11 @@ export function ExamFilters({ facets, academicYears, examType, city, query, coun
               // 注音等輸入法還在組字時先不篩選，組完（compositionend）再寫進網址。
               if (!(event.nativeEvent as Partial<InputEvent>).isComposing) onChange({ query: event.target.value });
             }}
-            onCompositionEnd={(event) => onChange({ query: event.currentTarget.value })}
+            onCompositionStart={() => setComposing(true)}
+            onCompositionEnd={(event) => {
+              setComposing(false);
+              onChange({ query: event.currentTarget.value });
+            }}
           />
         </label>
         <div className="flex w-full items-center justify-between gap-3 text-sm text-base-content/70 lg:ml-auto lg:w-auto">

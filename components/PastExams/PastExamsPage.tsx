@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { isEditableTarget } from "../MyExams/editorKeyboard";
 import { facetValues, filterExams, groupByAcademicYear, sortExams } from "../../lib/pastExams/filters";
 import { subjectLabel, termLabel } from "../../lib/pastExams/labels";
 import { readUrlState, writeUrlState, type PastExamsUrlState } from "../../lib/pastExams/searchParams";
@@ -10,23 +11,12 @@ import { CollectionPicker } from "./CollectionPicker";
 import { ExamFilters, type FilterPatch } from "./ExamFilters";
 import { ExamList } from "./ExamList";
 import { ExamPreview } from "./ExamPreview";
+import { isDesktop } from "./viewport";
 
 const CLEARED_FILTERS = { academicYears: [], examType: null, city: null, query: "" } satisfies FilterPatch;
 
 /** 手機上打開全螢幕預覽時推進瀏覽紀錄的標記：返回鍵會關掉預覽，而不是離開頁面。 */
 const PREVIEW_ENTRY = "pastExamsPreview";
-
-function isTyping(target: EventTarget | null): boolean {
-  return (
-    target instanceof HTMLElement &&
-    (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))
-  );
-}
-
-/** 與 Tailwind 的 md 斷點一致：桌機是左右分割，不是全螢幕預覽層。 */
-function isDesktop(): boolean {
-  return typeof window.matchMedia !== "function" || window.matchMedia("(min-width: 48rem)").matches;
-}
 
 function isPreviewEntry(): boolean {
   const state: unknown = window.history.state;
@@ -37,14 +27,21 @@ function isPreviewEntry(): boolean {
 export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const url = readUrlState(searchParams);
-  const collection = catalog.datasets.find((dataset) => dataset.id === url.collectionId) ?? catalog.datasets[0] ?? null;
+  const urlState = readUrlState(searchParams);
+  const collection =
+    catalog.datasets.find((dataset) => dataset.id === urlState.collectionId) ?? catalog.datasets[0] ?? null;
 
   const collectionExams = useMemo(
     () => sortExams(catalog.exams.filter((exam) => exam.datasetId === collection?.id)),
     [catalog, collection],
   );
   const facets = useMemo(() => facetValues(collectionExams), [collectionExams]);
+  // 網址上的學年度、縣市不在選項裡（舊連結、重新同步後）就當成沒選，免得清單被看不到的條件篩空。
+  const url: PastExamsUrlState = {
+    ...urlState,
+    academicYears: urlState.academicYears.filter((year) => facets.academicYears.some((option) => option.value === year)),
+    city: urlState.city !== null && facets.cities.includes(urlState.city) ? urlState.city : null,
+  };
   const exams = filterExams(collectionExams, url);
   const navigable = exams.filter((exam) => exam.available);
   const selected = navigable.find((exam) => exam.id === url.examId) ?? null;
@@ -78,18 +75,23 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
     if (next) select(next);
   }
 
+  // 鍵盤處理用「最新函式」ref：只訂閱一次 keydown，卻總是看到最新狀態（同 CropEditorWorkspace）。
+  const keyHandlerRef = useRef<(event: KeyboardEvent) => void>(() => {});
   useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
+    keyHandlerRef.current = (event: KeyboardEvent) => {
       if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
-      if (isTyping(event.target)) return;
+      if (isEditableTarget(event.target)) return;
       const delta = event.key === "ArrowRight" || event.key === "j" ? 1 : event.key === "ArrowLeft" || event.key === "k" ? -1 : 0;
       if (delta === 0) return;
       event.preventDefault();
       step(delta);
-    }
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    };
   });
+  useEffect(() => {
+    const listener = (event: KeyboardEvent) => keyHandlerRef.current(event);
+    window.addEventListener("keydown", listener);
+    return () => window.removeEventListener("keydown", listener);
+  }, []);
 
   if (!collection) {
     return (

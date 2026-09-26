@@ -1,6 +1,7 @@
 // 從 cowork 的 output/ 同步考古題：catalog 精簡成 data/pastExams.json，考卷檔鏡像複製到
 // public/exams/。來源只讀。Node 直接跑 TS，所以相對 import 要寫 .ts 副檔名。
-import { copyFile, mkdir, readFile, readdir, rename, rmdir, stat, unlink, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, readdir, rename, rmdir, stat, unlink, utimes, writeFile } from "node:fs/promises";
+import type { Stats } from "node:fs";
 import { dirname, join, relative, sep } from "node:path";
 import { buildCatalog, CatalogError, parseCatalogJsonl, type CatalogInfo } from "../lib/pastExams/buildCatalog.ts";
 import type { PastExamCatalog } from "../lib/pastExams/types.ts";
@@ -25,36 +26,42 @@ export async function syncExams({ sourceDir, dataFile, publicExamsDir }: SyncExa
   const catalog = buildCatalog(info, records);
 
   const files = catalog.exams.filter((exam) => exam.available).map((exam) => exam.file);
-  const sourceSizes = new Map<string, number>();
+  const sources = new Map<string, Stats>();
   for (const file of files) {
-    const size = await fileSize(join(sourceDir, ...file.split("/")));
-    if (size === null) throw new CatalogError(`catalog 標示已下載，但來源沒有這個檔案：${file}`);
-    sourceSizes.set(file, size);
+    const source = await fileStat(join(sourceDir, ...file.split("/")));
+    if (source === null) throw new CatalogError(`catalog 標示已下載，但來源沒有這個檔案：${file}`);
+    sources.set(file, source);
   }
 
-  await writeFileAtomic(dataFile, formatCatalogJson(catalog));
+  // 先刪舊檔再複製：大小寫不分的檔案系統上，只改了大小寫的路徑才會照新的寫法重建。
+  const removed = await pruneStaleFiles(publicExamsDir, new Set(files));
 
   let copied = 0;
   let skipped = 0;
   for (const file of files) {
+    const source = sources.get(file)!;
     const destination = join(publicExamsDir, ...file.split("/"));
-    if ((await fileSize(destination)) === sourceSizes.get(file)) {
+    const current = await fileStat(destination);
+    // 大小與修改時間都一樣才跳過（複製後會把修改時間設成來源的）。
+    if (current && current.size === source.size && Math.abs(current.mtimeMs - source.mtimeMs) < 1) {
       skipped += 1;
       continue;
     }
     await mkdir(dirname(destination), { recursive: true });
     await copyFile(join(sourceDir, ...file.split("/")), destination);
+    await utimes(destination, source.atimeMs / 1000, source.mtimeMs / 1000);
     copied += 1;
   }
 
-  const removed = await pruneStaleFiles(publicExamsDir, new Set(files));
+  // 檔案都到位了才寫 catalog：任何一步失敗，data/pastExams.json 都維持原樣。
+  await writeFileAtomic(dataFile, formatCatalogJson(catalog));
   return { exams: catalog.exams.length, copied, skipped, removed };
 }
 
-async function fileSize(path: string): Promise<number | null> {
+async function fileStat(path: string): Promise<Stats | null> {
   try {
     const info = await stat(path);
-    return info.isFile() ? info.size : null;
+    return info.isFile() ? info : null;
   } catch {
     return null;
   }
@@ -88,7 +95,8 @@ async function pruneStaleFiles(publicExamsDir: string, keep: ReadonlySet<string>
     try {
       entries = await readdir(dir, { withFileTypes: true });
     } catch {
-      return true;
+      // 不存在或讀不到：當成非空，上一層就不會去 rmdir。
+      return false;
     }
     let empty = true;
     for (const entry of entries) {
