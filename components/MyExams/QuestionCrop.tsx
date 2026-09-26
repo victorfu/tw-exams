@@ -3,6 +3,7 @@
 import { useState, type MouseEvent } from "react";
 import type { QuestionRegion, SourcePage } from "../../types/questionBank";
 import {
+  printRegionMaxWidth,
   printRegionWidthPercent,
   regionAspectRatio,
   regionImageStyle,
@@ -23,6 +24,7 @@ interface QuestionCropProps {
   layout: QuestionCropLayout;
   enhance?: boolean;
   onImageLoad?: (regionIndex: number) => void;
+  onImageError?: (regionIndex: number) => void;
   onRetry?: (storagePath: string) => void;
 }
 
@@ -49,15 +51,21 @@ export function QuestionCrop({
   layout,
   enhance = false,
   onImageLoad,
+  onImageError,
   onRetry,
 }: QuestionCropProps) {
   const [failedPaths, setFailedPaths] = useState<ReadonlySet<string>>(() => new Set());
 
-  const markFailed = (path: string) =>
+  const markFailed = (path: string) => {
     setFailedPaths((previous) => new Set(previous).add(path));
+    // 同一頁的其他區塊也會一起換成失敗狀態（不再有 <img>），要一併回報
+    regions.forEach((region, regionIndex) => {
+      if (pages[region.pageIndex]?.storagePath === path) onImageError?.(regionIndex);
+    });
+  };
 
   const retry = (event: MouseEvent<HTMLButtonElement>, path: string) => {
-    // 卡片外層可能是 <Link>，不要讓重試變成換頁
+    // 不要讓重試連帶觸發外層卡片的點擊（選取、換頁）
     event.preventDefault();
     event.stopPropagation();
     setFailedPaths((previous) => {
@@ -82,15 +90,22 @@ export function QuestionCrop({
           <div
             key={regionIndex}
             data-testid="question-crop-region"
-            className="relative overflow-hidden bg-white"
-            style={{ aspectRatio, width: regionWidth(layout, aspectRatio, region) }}
+            // 列印：題目比一頁長時，讓分頁落在區塊之間，而不是切過圖中的文字
+            className={`relative overflow-hidden bg-white ${layout.kind === "print" ? "break-inside-avoid" : ""}`}
+            style={{
+              aspectRatio,
+              width: regionWidth(layout, aspectRatio, region),
+              // 列印：比一頁還高的圖怎樣都會被切開，縮到剛好一頁高
+              maxWidth: layout.kind === "print" ? printRegionMaxWidth(aspectRatio) : undefined,
+            }}
           >
             {failed ? (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-base-200 text-xs text-base-content/70">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-base-200 text-xs text-base-content/70 print:bg-white print:text-black">
                 <span>圖片載入失敗</span>
+                {/* relative z-1：卡片可能用 ::after 撐滿點擊範圍（QuestionPicker、QuestionBankGrid），重試要疊在上面才按得到 */}
                 <button
                   type="button"
-                  className="btn btn-xs"
+                  className="btn btn-xs relative z-1 print:hidden"
                   onClick={(event) => retry(event, page.storagePath)}
                 >
                   重試
@@ -131,7 +146,7 @@ export function QuestionCrop({
                 </svg>
               </>
             ) : (
-              <div className="absolute inset-0 animate-pulse bg-base-200" />
+              <div className="absolute inset-0 animate-pulse bg-base-200 print:bg-white" />
             )}
           </div>
         );

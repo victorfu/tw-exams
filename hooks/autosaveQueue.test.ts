@@ -216,6 +216,48 @@ describe("AutosaveQueue", () => {
     expect(statuses.at(-1)).toBe("saved");
   });
 
+  it("clears the error once a failed batch leaves nothing to resend (in-flight delete)", async () => {
+    const { queue, commits, statuses, willCommit } = setup();
+    const inFlight = deferred();
+    willCommit(() => inFlight.promise);
+
+    queue.markUpsert("fresh");
+    await vi.advanceTimersByTimeAsync(1000);
+    queue.markDelete("fresh"); // deleted while its first save is still in flight
+    inFlight.reject(new Error("offline"));
+    await vi.advanceTimersByTimeAsync(0);
+    expect(statuses.at(-1)).toBe("error");
+    expect(queue.hasPending()).toBe(false);
+
+    // markDelete 排的那次儲存（或按「重試」）發現沒東西要送：不該一直停在錯誤
+    await vi.advanceTimersByTimeAsync(1000);
+    expect(statuses.at(-1)).toBe("saved");
+    expect(commits).toHaveLength(1);
+  });
+
+  it("lets retry clear the error when the unsaved question was deleted after the failure", async () => {
+    const { queue, commits, statuses, willCommit } = setup();
+    willCommit(async () => {
+      throw new Error("offline");
+    });
+    queue.markUpsert("a");
+    await vi.advanceTimersByTimeAsync(1000);
+    expect(statuses.at(-1)).toBe("error");
+
+    queue.markDelete("a");
+    queue.stop(); // 不靠計時器，直接按「重試」
+    await queue.flush();
+
+    expect(statuses.at(-1)).toBe("saved");
+    expect(commits).toHaveLength(1);
+  });
+
+  it("does not report saved for a flush with nothing to save when nothing failed", async () => {
+    const { queue, statuses } = setup();
+    await queue.flush();
+    expect(statuses).toEqual([]);
+  });
+
   it("synchronously throwing commit sets error status and keeps changes pending", async () => {
     const { queue, statuses } = setup();
     queue.markUpsert("a");

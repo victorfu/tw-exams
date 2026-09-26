@@ -6,6 +6,7 @@ import {
   isBoxTooSmall,
   moveBox,
   resizeBox,
+  resizeBoxBy,
   sameBox,
   toRelativePoint,
 } from "./boxGeometry";
@@ -104,6 +105,28 @@ describe("resizeBox", () => {
       w: 0.2,
       h: 0.2,
     });
+  });
+});
+
+describe("resizeBoxBy", () => {
+  const box: Box = { x: 0.2, y: 0.2, w: 0.4, h: 0.4 };
+
+  it("leaves the box unchanged when the corner did not move", () => {
+    for (const corner of ["nw", "ne", "sw", "se"] as const) {
+      expectBox(resizeBoxBy(box, corner, 0, 0), box);
+    }
+  });
+
+  it("moves the dragged corner by the offset and keeps the opposite corner fixed", () => {
+    expectBox(resizeBoxBy(box, "se", 0.1, 0.2), { x: 0.2, y: 0.2, w: 0.5, h: 0.6 });
+    expectBox(resizeBoxBy(box, "nw", -0.1, 0.1), { x: 0.1, y: 0.3, w: 0.5, h: 0.3 });
+    expectBox(resizeBoxBy(box, "ne", 0.1, -0.1), { x: 0.2, y: 0.1, w: 0.5, h: 0.5 });
+    expectBox(resizeBoxBy(box, "sw", 0.1, 0.1), { x: 0.3, y: 0.2, w: 0.3, h: 0.5 });
+  });
+
+  it("flips and clamps like resizeBox", () => {
+    expectBox(resizeBoxBy(box, "nw", 0.6, 0.6), { x: 0.6, y: 0.6, w: 0.2, h: 0.2 });
+    expectBox(resizeBoxBy(box, "se", 0.9, 0.9), { x: 0.2, y: 0.2, w: 0.8, h: 0.8 });
   });
 });
 

@@ -17,7 +17,9 @@ interface PrintPaperProps {
   enhance: boolean;
   includeAnswers: boolean;
   onImageLoad: (key: string) => void;
-  onRetryImage: (storagePath: string) => void;
+  onImageError: (key: string) => void;
+  /** 只重試這一題在該頁上的區塊：同一頁的其他題目仍維持失敗狀態，要各自按重試。 */
+  onRetryImage: (questionId: string, storagePath: string) => void;
 }
 
 /**
@@ -32,6 +34,7 @@ export function PrintPaper({
   enhance,
   includeAnswers,
   onImageLoad,
+  onImageError,
   onRetryImage,
 }: PrintPaperProps) {
   return (
@@ -60,7 +63,8 @@ export function PrintPaper({
                   layout={{ kind: "print", scale }}
                   enhance={enhance}
                   onImageLoad={(regionIndex) => onImageLoad(`${question.id}:${regionIndex}`)}
-                  onRetry={onRetryImage}
+                  onImageError={(regionIndex) => onImageError(`${question.id}:${regionIndex}`)}
+                  onRetry={(storagePath) => onRetryImage(question.id, storagePath)}
                 />
                 {spaceCm > 0 && (
                   <div aria-hidden="true" data-testid="answer-space" style={{ height: `${spaceCm}cm` }} />

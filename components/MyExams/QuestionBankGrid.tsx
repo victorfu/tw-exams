@@ -89,10 +89,9 @@ export function QuestionBankGrid({ sources, questions, onUpload }: QuestionBankG
           if (!source) return null;
           return (
             <li key={question.id}>
-              <Link
-                href={`/my-exams/sources/${source.id}?q=${question.id}`}
-                className="card h-full border border-base-300 bg-base-100 p-2 shadow-sm transition-colors hover:border-primary"
-              >
+              {/* 圖片載入失敗時 QuestionCrop 會放「重試」按鈕，<a> 裡不能放按鈕；
+                  連結只包文字，再用 ::after 撐滿整張卡片當點擊範圍 */}
+              <div className="card h-full border border-base-300 bg-base-100 p-2 shadow-sm transition-colors hover:border-primary">
                 <div className="flex justify-center">
                   <QuestionCrop
                     regions={question.regions}
@@ -103,11 +102,14 @@ export function QuestionBankGrid({ sources, questions, onUpload }: QuestionBankG
                     onRetry={(path) => void refresh(path)}
                   />
                 </div>
-                <div className="mt-2 flex items-center gap-2 text-xs">
+                <Link
+                  href={`/my-exams/sources/${source.id}?q=${question.id}`}
+                  className="mt-2 flex items-center gap-2 text-xs after:absolute after:inset-0 after:rounded-box focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-primary"
+                >
                   <span className="badge badge-ghost badge-sm">{BANK_SUBJECT_LABELS[question.subject]}</span>
                   <span className="truncate text-base-content/60">{source.title}</span>
-                </div>
-              </Link>
+                </Link>
+              </div>
             </li>
           );
         })}

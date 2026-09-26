@@ -12,11 +12,12 @@ import {
   type ResolvedTheme,
   type ThemePreference,
 } from "./ThemeContextType";
+import { DARK_QUERY, THEME_STORAGE_KEY } from "./themeInit";
 
-export const THEME_STORAGE_KEY = "ollie-theme";
-
-const DARK_QUERY = "(prefers-color-scheme: dark)";
 const preferenceListeners = new Set<() => void>();
+// The preference lives in memory and localStorage is only a best-effort copy,
+// so the toggle still works for the session when storage is blocked or full.
+let preference: ThemePreference | null = null;
 
 const readStoredPreference = (): ThemePreference => {
   try {
@@ -30,13 +31,23 @@ const readStoredPreference = (): ThemePreference => {
   return "system";
 };
 
+const getPreference = (): ThemePreference => {
+  if (preference === null) preference = readStoredPreference();
+  return preference;
+};
+
 const subscribePreference = (listener: () => void) => {
+  // Keep other tabs in sync. A null key means another tab cleared storage.
+  const onStorage = (event: StorageEvent) => {
+    if (event.key !== null && event.key !== THEME_STORAGE_KEY) return;
+    preference = readStoredPreference();
+    listener();
+  };
   preferenceListeners.add(listener);
-  // Keep other tabs in sync.
-  window.addEventListener("storage", listener);
+  window.addEventListener("storage", onStorage);
   return () => {
     preferenceListeners.delete(listener);
-    window.removeEventListener("storage", listener);
+    window.removeEventListener("storage", onStorage);
   };
 };
 
@@ -70,27 +81,12 @@ const applyResolvedTheme = (resolved: ResolvedTheme) => {
   );
 };
 
-/**
- * Runs before first paint (inlined in the root layout) so the saved theme
- * applies without a flash. Mirrors readStoredPreference + applyResolvedTheme.
- */
-export const THEME_INIT_SCRIPT = `(function () {
-  try {
-    var stored = localStorage.getItem("${THEME_STORAGE_KEY}");
-    var sysDark = window.matchMedia("${DARK_QUERY}").matches;
-    var isDark = stored === "dark" || ((stored === "system" || !stored) && sysDark);
-    var root = document.documentElement;
-    root.classList.toggle("dark", isDark);
-    root.setAttribute("data-theme", isDark ? "paopaodark" : "paopaolight");
-  } catch (e) {}
-})();`;
-
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   // Server snapshots are the defaults; the real values arrive right after
   // hydration, so server and client markup always match.
   const theme = useSyncExternalStore(
     subscribePreference,
-    readStoredPreference,
+    getPreference,
     () => "system" as const,
   );
   const systemDark = useSyncExternalStore(
@@ -108,6 +104,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   }, [resolvedTheme]);
 
   const setTheme = useCallback((next: ThemePreference) => {
+    preference = next;
     try {
       localStorage.setItem(THEME_STORAGE_KEY, next);
     } catch {
@@ -117,8 +114,12 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const toggleTheme = useCallback(() => {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark");
-  }, [resolvedTheme, setTheme]);
+    const next: ResolvedTheme = resolvedTheme === "dark" ? "light" : "dark";
+    // Toggling to the OS theme goes back to "system", so later OS changes are
+    // followed again; only a theme that differs from the OS is kept explicitly.
+    const systemTheme: ResolvedTheme = systemDark ? "dark" : "light";
+    setTheme(next === systemTheme ? "system" : next);
+  }, [resolvedTheme, systemDark, setTheme]);
 
   const value = useMemo(
     () => ({ theme, resolvedTheme, setTheme, toggleTheme }),

@@ -19,6 +19,8 @@ function render(overrides: Partial<Props> = {}): Props {
     onChange: vi.fn(),
     hasAnswers: true,
     missingCount: 0,
+    failedCount: 0,
+    largeScaleCapped: false,
     ...overrides,
   };
   act(() => root.render(<PrintToolbar {...props} />));
@@ -53,6 +55,24 @@ describe("PrintToolbar", () => {
   it("blocks printing until every image has loaded", () => {
     render({ loadedCount: 1, totalCount: 3 });
     expect(button("圖片載入中 1/3").disabled).toBe(true);
+  });
+
+  it("reports failed images instead of waiting for them, and still allows printing", () => {
+    const props = render({ loadedCount: 2, failedCount: 1, totalCount: 3 });
+    expect(container.textContent).not.toContain("圖片載入中");
+    expect(container.textContent).toContain("有 1 張圖片載入失敗");
+    act(() => button("列印").click());
+    expect(props.onPrint).toHaveBeenCalled();
+  });
+
+  it("explains when 大 cannot enlarge any question", () => {
+    render({ preferences: { ...DEFAULT_PRINT_PREFERENCES, scale: "large" }, largeScaleCapped: true });
+    expect(container.textContent).toContain("「大」印出來和「標準」一樣");
+  });
+
+  it("does not show the 大 hint when another size is selected", () => {
+    render({ largeScaleCapped: true });
+    expect(container.textContent).not.toContain("「大」印出來和「標準」一樣");
   });
 
   it("prints when ready", () => {

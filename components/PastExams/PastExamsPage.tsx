@@ -158,6 +158,7 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
         >
           <ExamPreview
             exam={selected}
+            collection={collection}
             hasPrevious={selectedIndex > 0}
             hasNext={selected !== null && selectedIndex < navigable.length - 1}
             onPrevious={() => step(-1)}

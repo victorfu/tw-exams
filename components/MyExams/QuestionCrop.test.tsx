@@ -71,6 +71,45 @@ describe("QuestionCrop", () => {
     expect(wrapper?.style.width).toBe("50%");
   });
 
+  it("limits print regions to one page height", () => {
+    const phone = makePage({ storagePath: "p0.jpg", width: 1080, height: 2340 });
+    render(
+      <QuestionCrop
+        regions={[{ pageIndex: 0, box: { x: 0, y: 0, w: 1, h: 1 } }]}
+        pages={[phone]}
+        urls={urls}
+        loading="eager"
+        layout={{ kind: "print", scale: 1 }}
+      />,
+    );
+    const wrapper = container.querySelector<HTMLElement>('[data-testid="question-crop-region"]');
+    expect(wrapper?.style.maxWidth).toBe("122.31mm");
+  });
+
+  it("keeps each print region on one page so a long question breaks between regions", () => {
+    render(<QuestionCrop regions={[region]} pages={[page]} urls={urls} loading="eager" layout={{ kind: "print", scale: 1 }} />);
+    const wrapper = container.querySelector<HTMLElement>('[data-testid="question-crop-region"]');
+    expect(wrapper?.className).toContain("break-inside-avoid");
+  });
+
+  it("reports a failed image so the print view does not wait for it forever", () => {
+    const onImageError = vi.fn();
+    render(
+      <QuestionCrop
+        regions={[region]}
+        pages={[page]}
+        urls={urls}
+        loading="eager"
+        layout={{ kind: "print", scale: 1 }}
+        onImageError={onImageError}
+      />,
+    );
+    act(() => {
+      image().dispatchEvent(new Event("error"));
+    });
+    expect(onImageError).toHaveBeenCalledWith(0);
+  });
+
   it("stacks multiple regions and reports each loaded image", () => {
     const onImageLoad = vi.fn();
     render(

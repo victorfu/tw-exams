@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ChevronDown, ChevronUp, Minus, Plus, Shuffle } from "lucide-react";
@@ -30,6 +30,16 @@ import {
   replaceAt,
   type SubjectCounts,
 } from "./sheetComposition";
+
+type RowAction = "replace" | "up" | "down" | "remove";
+
+// 列上的按鈕停用時改聚焦的按鈕：移到最上／最下時換成反方向，換一題停用時換成移除
+const FALLBACK_ROW_ACTION: Record<RowAction, RowAction> = {
+  replace: "remove",
+  up: "down",
+  down: "up",
+  remove: "remove",
+};
 
 interface SheetComposerFormProps {
   sheetId: string | null;
@@ -61,6 +71,8 @@ export function SheetComposerForm({
 
   const available = useMemo(() => countBySubject(bank), [bank]);
   const sourceById = useMemo(() => new Map(sources.map((source) => [source.id, source])), [sources]);
+  // 固定參照，打標題等不動清單的操作才不會讓（關著的）挑題視窗重排整個題庫
+  const excludeIds = useMemo(() => new Set(list.map((question) => question.id)), [list]);
   const total = BANK_SUBJECTS.reduce((sum, subject) => sum + (counts[subject] ?? 0), 0);
   const paths = list.flatMap((question) =>
     question.regions.flatMap((region) => {
@@ -69,6 +81,27 @@ export function SheetComposerForm({
     }),
   );
   const { urls, refresh } = useSignedPageUrls(paths);
+
+  const listRef = useRef<HTMLOListElement>(null);
+  const listHeadingRef = useRef<HTMLHeadingElement>(null);
+  // 換一題、移除會讓按下的按鈕跟著那一列卸載，焦點掉回 <body>；上移、下移到頭尾時按下的按鈕會停用，焦點也會掉。
+  // 記下焦點該去的列（換一題、移除是同一列，移除最後一列時是新的最後一列；上移、下移是題目的新位置），
+  // 清單更新後聚焦那一列的同一個按鈕，停用時改用 FALLBACK_ROW_ACTION，清單空了就移到標題
+  const pendingFocus = useRef<{ index: number; action: RowAction } | null>(null);
+  useEffect(() => {
+    const pending = pendingFocus.current;
+    if (!pending) return;
+    pendingFocus.current = null;
+    const rows = listRef.current?.children;
+    const row = rows?.[Math.min(pending.index, rows.length - 1)];
+    const target =
+      row?.querySelector<HTMLButtonElement>(`[data-row-action="${pending.action}"]:not(:disabled)`) ??
+      row?.querySelector<HTMLButtonElement>(
+        `[data-row-action="${FALLBACK_ROW_ACTION[pending.action]}"]:not(:disabled)`,
+      ) ??
+      listHeadingRef.current;
+    target?.focus();
+  }, [list]);
 
   const toggleSubject = (subject: BankSubject, checked: boolean) =>
     setCounts((previous) => {
@@ -204,11 +237,13 @@ export function SheetComposerForm({
       </section>
 
       <section className="space-y-3">
-        <h2 className="font-semibold">題目（{list.length}）</h2>
+        <h2 ref={listHeadingRef} tabIndex={-1} className="font-semibold">
+          題目（{list.length}）
+        </h2>
         {list.length === 0 ? (
           <p className="text-sm text-base-content/60">先設定科目與題數後按「隨機抽題」，或直接加入指定題目。</p>
         ) : (
-          <ol className="space-y-2">
+          <ol ref={listRef} className="space-y-2">
             {list.map((question, index) => {
               const source = sourceById.get(question.sourceId);
               const replaceable = canReplaceAt(list, index, bank);
@@ -236,34 +271,52 @@ export function SheetComposerForm({
                     <button
                       type="button"
                       className="btn btn-ghost btn-xs"
+                      data-row-action="replace"
+                      aria-label={`換一題（第 ${index + 1} 題）`}
                       disabled={!replaceable}
                       title={replaceable ? undefined : "沒有其他題目"}
-                      onClick={() => setList((previous) => replaceAt(previous, index, bank, rng))}
+                      onClick={() => {
+                        pendingFocus.current = { index, action: "replace" };
+                        setList((previous) => replaceAt(previous, index, bank, rng));
+                      }}
                     >
                       換一題
                     </button>
                     <button
                       type="button"
                       className="btn btn-ghost btn-xs"
-                      aria-label="上移"
+                      data-row-action="up"
+                      aria-label={`上移第 ${index + 1} 題`}
                       disabled={index === 0}
-                      onClick={() => setList((previous) => moveAt(previous, index, -1))}
+                      onClick={() => {
+                        pendingFocus.current = { index: index - 1, action: "up" };
+                        setList((previous) => moveAt(previous, index, -1));
+                      }}
                     >
                       <ChevronUp className="size-3.5" />
                     </button>
                     <button
                       type="button"
                       className="btn btn-ghost btn-xs"
-                      aria-label="下移"
+                      data-row-action="down"
+                      aria-label={`下移第 ${index + 1} 題`}
                       disabled={index === list.length - 1}
-                      onClick={() => setList((previous) => moveAt(previous, index, 1))}
+                      onClick={() => {
+                        pendingFocus.current = { index: index + 1, action: "down" };
+                        setList((previous) => moveAt(previous, index, 1));
+                      }}
                     >
                       <ChevronDown className="size-3.5" />
                     </button>
                     <button
                       type="button"
                       className="btn btn-ghost btn-xs text-error"
-                      onClick={() => setList((previous) => removeAt(previous, index))}
+                      data-row-action="remove"
+                      aria-label={`移除第 ${index + 1} 題`}
+                      onClick={() => {
+                        pendingFocus.current = { index, action: "remove" };
+                        setList((previous) => removeAt(previous, index));
+                      }}
                     >
                       移除
                     </button>
@@ -298,7 +351,7 @@ export function SheetComposerForm({
         isOpen={pickerOpen}
         bank={bank}
         sources={sources}
-        excludeIds={new Set(list.map((question) => question.id))}
+        excludeIds={excludeIds}
         onAdd={(questions) => {
           setList((previous) => appendUnique(previous, questions));
           setPickerOpen(false);

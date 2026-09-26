@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { makePage, makeQuestion, makeSource } from "../testing/questionBankFixtures";
 import { commitEditorChanges, listBankQuestions } from "./bankQuestionService";
 import { hasPageImage, mockStore, putPageImage, resetMockStore } from "./mockStore";
@@ -6,6 +6,7 @@ import {
   createQuestionSourcePath,
   createSource,
   deleteSource,
+  getPageImageUrls,
   getSource,
   listSources,
   newQuestionSourceId,
@@ -21,6 +22,10 @@ beforeEach(() => {
   resetMockStore();
 });
 
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
+
 describe("paths and ids", () => {
   it("builds the page image path", () => {
     expect(createQuestionSourcePath("public", "s1", 3)).toBe("question-bank/public/s1/page-3.jpg");
@@ -28,6 +33,15 @@ describe("paths and ids", () => {
 
   it("creates distinct ids", () => {
     expect(newQuestionSourceId()).not.toBe(newQuestionSourceId());
+  });
+
+  it("creates ids without crypto.randomUUID (plain-HTTP origins)", () => {
+    // randomUUID 只在安全來源（HTTPS、localhost）才有；用區網 IP 開啟時只剩 getRandomValues。
+    vi.stubGlobal("crypto", { getRandomValues: crypto.getRandomValues.bind(crypto) });
+
+    const id = newQuestionSourceId();
+    expect(id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
+    expect(newQuestionSourceId()).not.toBe(id);
   });
 });
 
@@ -97,6 +111,16 @@ describe("reading sources", () => {
 
   it("returns null for a missing source", async () => {
     expect(await getSource("nope")).toBeNull();
+  });
+});
+
+describe("getPageImageUrls", () => {
+  it("returns one url per stored page and leaves out missing ones", async () => {
+    const path = createQuestionSourcePath("public", "s1", 0);
+    putPageImage(path, new Blob(["jpeg"]));
+    expect(await getPageImageUrls([path, "question-bank/public/s1/page-9.jpg"])).toEqual({
+      [path]: "blob:page",
+    });
   });
 });
 

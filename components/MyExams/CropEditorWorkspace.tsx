@@ -9,7 +9,8 @@ import type { PendingChanges } from "../../hooks/autosaveQueue";
 import { useSignedPageUrls } from "../../hooks/useSignedPageUrls";
 import { changeOf, cropEditorReducer, type CropEditorAction } from "./cropEditorState";
 import { maskSelectionKey, parseSelectionKey, questionSelectionKey } from "./editorSelection";
-import { isEditableTarget } from "./editorKeyboard";
+import { isEditableTarget, keyboardBoxEdit } from "./editorKeyboard";
+import { sameBox } from "./boxGeometry";
 import { questionsOnPage, regionsOnPage, sortQuestionsInSource } from "./questionOrdering";
 import { CropCanvas, type CanvasBox } from "./CropCanvas";
 import { CropEditorToolbar } from "./CropEditorToolbar";
@@ -17,6 +18,9 @@ import { PageThumbnailStrip } from "./PageThumbnailStrip";
 import { QuestionCard } from "./QuestionCard";
 
 type EditorMode = "question" | "mask";
+
+/** 「新增框」放在頁面中央的預設框。 */
+const DEFAULT_NEW_BOX: Box = { x: 0.25, y: 0.4, w: 0.5, h: 0.2 };
 
 interface CropEditorWorkspaceProps {
   source: QuestionSource;
@@ -78,11 +82,19 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
     key: questionSelectionKey(entry.question.id, entry.regionIndex),
     box: entry.box,
     label: entry.isContinuation ? `${entry.number}（續）` : String(entry.number),
+    name: `第 ${entry.number} 題${entry.isContinuation ? "（續）" : ""}`,
   }));
-  const maskBoxes: CanvasBox[] = page.masks.map((box, index) => ({ key: maskSelectionKey(index), box }));
+  const maskBoxes: CanvasBox[] = page.masks.map((box, index) => ({
+    key: maskSelectionKey(index),
+    box,
+    name: `遮蓋 ${index + 1}`,
+  }));
   const cards = questionsOnPage(sorted, pageIndex);
   const selected = selectedKey ? parseSelectionKey(selectedKey) : null;
   const selectedQuestionId = selected?.kind === "question" ? selected.questionId : null;
+  // 題目框在遮蓋模式下、遮蓋框在框題目模式下都是被動的（不會顯示選取樣式），
+  // 選取沒有跟著切到目前模式時不能刪到它（I2 m4）。
+  const canDeleteSelection = selected !== null && (selected.kind === "mask") === (mode === "mask");
 
   const handleCreate = (box: Box) => {
     if (mode === "mask") {
@@ -123,11 +135,13 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
     }
   };
 
+  // 方向鍵調整的對象：目前模式、這一頁上選取中的框（別的模式的框是被動的，不動它）。
+  const selectedBox = canDeleteSelection
+    ? (mode === "mask" ? maskBoxes : questionBoxes).find((item) => item.key === selectedKey)
+    : undefined;
+
   const deleteSelection = () => {
-    if (!selected) return;
-    // 題目框在遮蓋模式下、遮蓋框在框題目模式下都是被動的（不會顯示選取樣式），
-    // 選取沒有跟著切到目前模式時，Delete/Backspace 不該動到它（I2 m4）。
-    if ((selected.kind === "mask") !== (mode === "mask")) return;
+    if (!selected || !canDeleteSelection) return;
     if (selected.kind === "mask") {
       apply({ type: "removeMask", pageIndex, maskIndex: selected.maskIndex });
     } else {
@@ -148,6 +162,15 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
   useEffect(() => {
     keyHandlerRef.current = (event: KeyboardEvent) => {
       if (isEditableTarget(event.target)) return;
+      if (selectedBox) {
+        const box = keyboardBoxEdit(selectedBox.box, event);
+        if (box) {
+          // 選取中的框才吃掉方向鍵；沒有選取時照常捲動頁面。
+          event.preventDefault();
+          if (!sameBox(box, selectedBox.box)) handleChange(selectedBox.key, box);
+          return;
+        }
+      }
       if (event.key === "Delete" || event.key === "Backspace") {
         if (!selected) return;
         event.preventDefault();
@@ -184,9 +207,10 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
         onModeChange={switchMode}
         status={autosave.status}
         onRetry={() => void autosave.flush()}
-        appendHint={
-          appendTargetId ? "新增區塊：在頁面上框出這一題的下一段（可以先切到別頁），按 Esc 取消。" : null
-        }
+        appendHint={appendTargetId ? "新增區塊：在頁面上框出這一題的下一段（可以先切到別頁）。" : null}
+        onCancelAppend={() => setAppendTargetId(null)}
+        onDeleteSelection={canDeleteSelection ? deleteSelection : null}
+        onAddBox={() => handleCreate(DEFAULT_NEW_BOX)}
       />
 
       <div className="grid gap-4 lg:grid-cols-[8rem_minmax(0,1fr)_20rem]">
@@ -230,7 +254,7 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
 
         <aside className="space-y-3">
           <h2 className="text-sm font-semibold text-base-content/70">這一頁的題目（{cards.length}）</h2>
-          {cards.length === 0 && <p className="text-sm text-base-content/60">在頁面上拖拉，框出一題。</p>}
+          {cards.length === 0 && <p className="text-sm text-base-content/60">在頁面上拖拉（或按「新增框」）框出一題。</p>}
           {cards.map(({ question, number, isContinuation }) => (
             <QuestionCard
               key={question.id}
@@ -257,9 +281,12 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
                 setSelectedKey(null);
                 setAppendTargetId(appendTargetId === question.id ? null : question.id);
               }}
-              onRemoveRegion={(regionIndex) =>
-                apply({ type: "removeRegion", questionId: question.id, regionIndex })
-              }
+              onRemoveRegion={(regionIndex) => {
+                apply({ type: "removeRegion", questionId: question.id, regionIndex });
+                // 選取記的是區塊索引，移除後後面的區塊會往前遞補：留著選取會讓
+                // Delete/Backspace 刪到另一個（可能在別頁、看不到的）區塊。
+                setSelectedKey(null);
+              }}
               onDelete={() => {
                 apply({ type: "deleteQuestion", questionId: question.id });
                 setSelectedKey(null);

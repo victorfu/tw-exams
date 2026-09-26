@@ -1,61 +1,104 @@
-# 自製考卷
+<p align="center">
+  <img src="app/icon.svg" alt="泡泡考卷 logo" width="144" />
+</p>
 
-上傳考卷或講義的照片、PDF，手動框出每一題存進題庫；已寫過的卷可以用白色遮蓋框蓋掉答案。再依科目隨機抽題組卷，印成 A4 考卷（可附答案頁）。
+<h1 align="center">泡泡考卷</h1>
 
-移植自 ollie-reader 的 `/my-exams` 功能，改成 Next.js 16（App Router）＋ Tailwind CSS v4 ＋ daisyUI 5。
+---
 
-## 目前限制
+<p align="center">
+  瀏覽國小考古題，或把手邊的考卷框成題庫，隨機組卷印出來。
+</p>
 
-- **不需登入**，大家共用同一份資料。
-- **上傳與儲存都是 mock**：頁面圖與題庫只存在瀏覽器記憶體，重新整理頁面就會清空。資料層在 `services/`（`mockStore.ts`），之後接真正的後端只要換掉這幾個檔案的內部實作。
+<p align="center">
+  Next.js 16 · Tailwind CSS v4 · daisyUI 5 · pdf.js
+</p>
 
-## 開發
+<p align="center">
+  <a href="#考古題">考古題</a> ·
+  <a href="#自製考卷">自製考卷</a> ·
+  <a href="#給開發者">開發</a> ·
+  <a href="#上線vercel私有-blob">上線</a>
+</p>
+
+泡泡考卷是給國小家長與老師用的考卷工具，分成兩個區塊：**考古題**可以依年級、學期、科目瀏覽整理好的歷屆考卷，直接在頁面上預覽 PDF；**自製考卷**可以上傳考卷或講義的照片、PDF，框出每一題存進題庫，再依科目隨機抽題，印成 A4 考卷（可附答案頁）。
+
+## 為什麼用泡泡考卷
+
+- 考古題集中瀏覽：依年級、學期、科目挑選資料集，再用縣市、學年度、期中／期末與關鍵字篩選
+- 頁面內預覽：PDF 用 pdf.js 直接畫在頁面上，可用 `←` `→` 切換上一份／下一份；Word 檔可下載
+- 題庫自己建：照片或 PDF 上傳後手動框題，跨欄、跨頁的題目可以由多個區塊組成
+- 考古題一鍵匯入：看到喜歡的考古題，直接匯入自製考卷開始框題
+- 蓋掉寫過的答案：用白色遮蓋框蓋住作答痕跡，印出來就是乾淨的題目
+- 一鍵組卷：依科目設定題數隨機抽題，可換題、排序、加入指定題目
+- 印得漂亮：A4 版面、三種字級、可附答案頁，長題目不會從圖片中間被切開
+- 手機、平板、鍵盤都能用：觸控可以捲動與框選，也能只用鍵盤新增、移動、縮放框
+
+## 使用方式
+
+### 考古題
+
+打開 `/past-exams`，先選年級、學期與科目，再用縣市、學年度、考試別或關鍵字（例如「台北 民權」）篩選。點左邊的考卷就能預覽，`←` `→` 切換；手機上預覽會以全螢幕開啟，按返回關閉。PDF 考卷可以按「匯入自製考卷」，直接變成自製考卷的題目來源並打開框題頁。
+
+目前收錄五年級上學期的國語（翰林）、數學（南一）、自然（康軒）、社會（翰林），共 521 份。考卷檔只提供給本站頁面，直接開網址或從其他網站連結都會被拒絕。
+
+### 自製考卷
+
+1. **上傳**：在 `/my-exams` 按「上傳題目」，選擇或直接拖進照片、PDF（一次最多 30 頁），填標題與科目。也可以在考古題的預覽按「匯入自製考卷」，標題與科目會自動帶入（Word 檔不能匯入）。
+2. **框題**：在頁面上拖拉框出一題，拉四個角調整大小；切到「遮蓋」可以蓋掉答案。每題可以設定答案與作答留白，全部自動儲存。
+3. **組卷**：按「組新考卷」，勾選科目與題數後隨機抽題，再換題、排序或加入指定題目。
+4. **列印**：選字級、要不要附答案頁，等圖片載入完就能列印。
+
+> **目前限制**：自製考卷還沒有接後端，不需登入，資料只存在目前這個分頁的記憶體。重新整理、用新分頁開啟「列印」「編輯」連結，或把網址傳給別人，都會看到空的題庫或「找不到這份資料」。
+
+## 給開發者
+
+需要 Node.js 24。
 
 ```sh
 npm install
-npm run dev     # http://localhost:6789
-npm test        # vitest（jsdom）
+npm run catalog   # 剛 clone 下來先跑一次，產生 data/pastExams.json
+npm run dev       # http://localhost:6789
+npm test          # vitest（jsdom）
 npm run lint
 npm run build
 ```
 
-## 頁面
+- `npm run dev`／`npm run build` 前會自動執行：
+  - `npm run catalog`：從 `output/` 產生 `data/pastExams.json`（不進 git）。catalog 有問題（`schema_version` 不是 1、`record_count` 不符、`record_id` 重複、JSON 壞掉、`relative_path` 跳出根目錄）就失敗，dev／build 跟著停。
+  - `npm run pdfjs-assets`：把 pdf.js 的 worker、cMaps、字型、wasm 從 `node_modules/pdfjs-dist` 複製到 `public/pdfjs/<版本>/`（不進 git），PDF 上傳與考古題預覽都從同源載入。
+- `npm run icons`：由 `app/icon.svg` 重新產生 favicon 與 apple icon。
+
+### 頁面
 
 | 路徑 | 用途 |
 |---|---|
+| `/` | 首頁，進入考古題或自製考卷 |
+| `/past-exams` | 考古題：挑選資料集、篩選、預覽 |
+| `/exams/[...path]` | 考卷檔（只接受本站頁面的請求） |
 | `/my-exams` | 題庫、上傳紀錄、考卷三個分頁 |
-| `/my-exams/sources/[id]` | 裁題：框題目、遮蓋、答案與作答留白（自動儲存） |
+| `/my-exams/sources/[id]` | 框題：框題目、遮蓋、答案與作答留白（自動儲存） |
 | `/my-exams/sheets/new`、`/my-exams/sheets/[id]/edit` | 組卷：隨機抽題、換題、排序、加入指定題目 |
 | `/my-exams/sheets/[id]/print` | 列印版面（不含頂部列） |
-| `/past-exams` | 考古題：依年級、學期、科目瀏覽，篩選後預覽 |
 
-## 程式結構
+### 程式結構
 
-- `app/`：路由與版面；`(app)` 群組有頂部列，`(print)` 群組是全螢幕列印頁。`globals.css` 是 daisyUI 主題（`paopaolight`／`paopaodark`）與設計 token。
-- `components/MyExams/`：功能元件與純函式（框的幾何、排序、抽題、列印設定）。
-- `services/`：來源、題目、考卷的資料存取（目前是記憶體 mock）。
+- `app/`：路由與版面。`(app)` 群組有頂部導覽，`(print)` 群組是全螢幕列印頁；`error.tsx`／`global-error.tsx` 是不重新載入整頁的錯誤畫面。`globals.css` 是 daisyUI 主題（`paopaolight`／`paopaodark`）與設計 token。
+- `components/common/`：頂部導覽、logo、主題切換、確認對話框。
+- `components/PastExams/`、`lib/pastExams/`：考古題頁面、pdf.js 預覽器，以及篩選、排序、網址狀態、檔案存取等純函式。
+- `components/MyExams/`：自製考卷的元件與純函式（框的幾何、排序、抽題、列印設定）。
+- `services/`：來源、題目、考卷的資料存取。元件與 hooks 只呼叫 `questionSourceService`、`bankQuestionService`、`examSheetService`；記憶體儲存集中在 `mockStore.ts`，之後接後端只要換掉這三個檔案的內部實作。頁圖網址由 `getPageImageUrls(paths, force)` 提供，改用會過期的 signed URL 時，快取與重簽都做在這裡。
 - `hooks/`：題庫載入、自動儲存、頁圖網址。
-- `utils/pageImageProcessor.ts`：照片與 PDF（pdf.js）轉成頁面 JPEG。
-- `components/PastExams/`、`lib/pastExams/`：考古題頁面、pdf.js 預覽器與純函式（篩選、排序、網址狀態、檔案存取）；`app/exams/[...path]/route.ts` 提供考卷檔；`scripts/` 是產生目錄與上傳的腳本。
+- `utils/`：照片與 PDF 轉成頁面 JPEG（`pageImageProcessor.ts`）、pdf.js 設定（`pdfConfig.ts`）。
+- `scripts/`：產生考古題目錄、複製 pdf.js 檔案、上傳考卷、產生圖示。
 
-## 考古題
+### 考古題資料
 
-`/past-exams` 用來瀏覽 cowork 整理好的考古題。cowork 直接把資料寫進這個 repo 的 `output/`；分類、驗證、搜尋正規化都以 cowork 的 `catalog-info.json` 與 `catalog.jsonl` 為準（格式見 `output/metadata-format.md`）。這邊只讀 `output/`，不修改它。
-
-### 資料
+cowork 直接把資料寫進這個 repo 的 `output/`；分類、驗證、搜尋正規化都以 cowork 的 `catalog-info.json` 與 `catalog.jsonl` 為準（格式見 [`output/metadata-format.md`](output/metadata-format.md)）。這邊只讀 `output/`，不修改它。
 
 - `output/` 只有 meta（`*.json`、`*.jsonl`、`*.md`）進 git；PDF、Word 等考卷檔只在本機（見 `.gitignore`）。
-- `npm run dev`／`npm run build` 前會自動執行 `npm run catalog`，從 `output/` 產生 `data/pastExams.json`（不進 git）。catalog 有問題（`schema_version` 不是 1、`record_count` 不符、`record_id` 重複、JSON 壞掉、`relative_path` 跳出根目錄）就失敗，dev／build 跟著停。
-- 剛 clone 下來先跑一次 `npm run catalog`，型別檢查才找得到 `data/pastExams.json`。
-
-### 考卷檔怎麼送到瀏覽器
-
-所有考卷檔都經過本站的 `/exams/<relative_path>`：
-
-- 只提供 catalog 裡已下載的考卷。
-- 只接受本站頁面發出的請求（`Sec-Fetch-Site: same-origin`，較舊的瀏覽器看 `Referer`）；直接輸入網址、貼到聊天軟體、其他網站的連結或嵌入都會得到 403。
+- 所有考卷檔都經過本站的 `/exams/<relative_path>`：只提供 catalog 裡已下載的考卷，只接受本站頁面發出的請求（`Sec-Fetch-Site: same-origin`，較舊的瀏覽器看 `Referer`），其他一律 403。
 - 來源由 `EXAMS_FILE_SOURCE` 決定：`.env.development` 是 `local`（讀 `output/`），`.env.production` 是 `blob`（讀私有 Vercel Blob 的 `exams/<relative_path>`）。
-- 預覽用 pdf.js 畫在頁面上；Word 只能下載。
 
 ### 上線（Vercel＋私有 Blob）
 
@@ -64,7 +107,7 @@ npm run build
 1. 在 Vercel 建一個 **Private** 的 Blob store，連到專案的 Production、Preview、Development（使用 OIDC，不用加 read-write token）。
 2. 本機執行 `npx vercel link` 與 `npx vercel env pull .env.local`（`.env.local` 不進 git；OIDC 憑證過期時重新執行 env pull）。
 3. Node 版本由 `package.json` 的 `engines`（24.x）決定。在 Vercel 上 build 時，如果 `EXAMS_FILE_SOURCE` 不是 `blob` 或 store 沒有連到專案，build 會失敗。
-4. Vercel 的 Build Command 要保持預設值（`npm run build`）；改成 `next build` 會跳過 `prebuild`，導致缺少 `data/pastExams.json` 而 build 失敗。
+4. Build Command 保持預設值（`npm run build`）；改成 `next build` 會跳過 `prebuild`，缺少 `data/pastExams.json` 與 pdf.js 檔案。
 
 新增或更新考卷：
 
@@ -80,3 +123,8 @@ git push                            # Vercel 自動 build
 - 想在本機測 Blob 模式：在 `.env.development.local` 寫 `EXAMS_FILE_SOURCE=blob`，重開 `npm run dev`；測完刪掉這行。
 
 免費方案（Hobby）的限制：Blob 儲存 1 GB、每月 2,000 次進階操作（每上傳一個檔案算一次，在後台瀏覽 store 也算）、每次開考卷經過函式轉送，吃 Blob 與 Fast Origin Transfer 各 10 GB／月。超過 Blob 額度時 store 會停用最多 30 天。Hobby 只能用在非商業用途。
+
+## 進一步了解
+
+- 考古題資料格式：[output/metadata-format.md](output/metadata-format.md)
+- 設計與實作計畫：[docs/plans/](docs/plans/)

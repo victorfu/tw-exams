@@ -9,7 +9,8 @@ export interface ThemeContextValue {
   /** The effective theme after resolving "system". */
   resolvedTheme: ResolvedTheme;
   setTheme: (theme: ThemePreference) => void;
-  /** Convenience toggle between light and dark based on the resolved theme. */
+  /** Convenience toggle between light and dark based on the resolved theme.
+   *  Toggling to the OS theme stores "system" so OS changes are followed again. */
   toggleTheme: () => void;
 }
 

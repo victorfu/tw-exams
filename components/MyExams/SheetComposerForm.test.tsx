@@ -13,10 +13,15 @@ vi.mock("../../services/examSheetService", () => ({
 vi.mock("../../hooks/useSignedPageUrls", () => ({
   useSignedPageUrls: () => ({ urls: {}, failed: false, refresh: vi.fn() }),
 }));
+vi.mock("./questionOrdering", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("./questionOrdering")>();
+  return { ...actual, orderBankQuestions: vi.fn(actual.orderBankQuestions) };
+});
 
 import { makeQuestion, makeSource } from "../../testing/questionBankFixtures";
 import { seededRng } from "../../testing/seededRng";
 import type { BankQuestion } from "../../types/questionBank";
+import { orderBankQuestions } from "./questionOrdering";
 import { SheetComposerForm } from "./SheetComposerForm";
 
 let container: HTMLDivElement;
@@ -123,7 +128,7 @@ describe("SheetComposerForm", () => {
     expect(rows()).toHaveLength(3);
 
     const beforeMove = rowIds();
-    act(() => button("下移", rows()[0]).click());
+    act(() => button("下移第 1 題", rows()[0]).click());
     expect(rowIds()).toEqual([beforeMove[1], beforeMove[0], beforeMove[2]]);
 
     const title = container.querySelector<HTMLInputElement>('input[aria-label="考卷標題"]');
@@ -149,6 +154,75 @@ describe("SheetComposerForm", () => {
       button("儲存並列印").click();
     });
     expect(mocks.updateSheet).toHaveBeenCalledWith("sheet-1", { title: "舊考卷", questionIds: ["m1", "c1"] });
+  });
+
+  it("names each row's actions after its position", () => {
+    renderForm({ initialQuestions: [bank[0], bank[1], bank[4]] });
+    const names = rows().map((row) =>
+      [...row.querySelectorAll("button")].map((item) => item.getAttribute("aria-label")),
+    );
+    expect(names).toEqual([1, 2, 3].map((number) => [
+      `換一題（第 ${number} 題）`,
+      `上移第 ${number} 題`,
+      `下移第 ${number} 題`,
+      `移除第 ${number} 題`,
+    ]));
+  });
+
+  it("keeps focus in the list after removing or replacing a question", () => {
+    renderForm({ initialQuestions: [bank[0], bank[1], bank[4]] });
+
+    const remove = button("移除第 2 題");
+    remove.focus();
+    act(() => remove.click());
+    expect(rowIds()).toEqual(["m1", "c1"]);
+    // 原本的第 3 題補上來，焦點停在它的「移除」
+    expect(document.activeElement).toBe(button("移除第 2 題"));
+
+    act(() => button("移除第 2 題").click());
+    expect(document.activeElement).toBe(button("移除第 1 題"));
+
+    act(() => button("換一題（第 1 題）").click());
+    expect(rowIds()).not.toEqual(["m1"]);
+    expect(document.activeElement).toBe(button("換一題（第 1 題）"));
+
+    act(() => button("移除第 1 題").click());
+    expect(rows()).toHaveLength(0);
+    expect(document.activeElement?.textContent).toBe("題目（0）");
+  });
+
+  it("keeps focus on a question's move buttons as it moves", () => {
+    renderForm({ initialQuestions: [bank[0], bank[1], bank[4]] });
+
+    const down = button("下移第 1 題");
+    down.focus();
+    act(() => down.click());
+    expect(rowIds()).toEqual(["m2", "m1", "c1"]);
+    // 焦點跟著題目走：m1 現在是第 2 題
+    expect(document.activeElement).toBe(button("下移第 2 題"));
+
+    act(() => button("下移第 2 題").click());
+    expect(rowIds()).toEqual(["m2", "c1", "m1"]);
+    // 到底了「下移」停用，改停在「上移」
+    expect(document.activeElement).toBe(button("上移第 3 題"));
+
+    act(() => button("上移第 3 題").click());
+    expect(document.activeElement).toBe(button("上移第 2 題"));
+    act(() => button("上移第 2 題").click());
+    expect(rowIds()).toEqual(["m1", "m2", "c1"]);
+    // 到頂了「上移」停用，改停在「下移」
+    expect(document.activeElement).toBe(button("下移第 1 題"));
+  });
+
+  it("does not re-sort the bank for the closed picker while typing the title", () => {
+    renderForm({ initialQuestions: [bank[0]] });
+    const title = container.querySelector<HTMLInputElement>('input[aria-label="考卷標題"]');
+    if (!title) throw new Error("title input missing");
+
+    vi.mocked(orderBankQuestions).mockClear();
+    typeInto(title, "期");
+    typeInto(title, "期中");
+    expect(orderBankQuestions).not.toHaveBeenCalled();
   });
 
   it("cannot save an empty sheet", () => {

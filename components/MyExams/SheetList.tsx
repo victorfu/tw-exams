@@ -1,22 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Pencil, Printer, Trash2 } from "lucide-react";
 import { ConfirmModal } from "../common/ConfirmModal";
 import { deleteSheet } from "../../services/examSheetService";
-import type { ExamSheet } from "../../types/questionBank";
+import type { BankQuestion, ExamSheet, QuestionSource } from "../../types/questionBank";
 import { logger } from "../../utils/logger";
 
 interface SheetListProps {
   sheets: readonly ExamSheet[];
+  questions: readonly BankQuestion[];
+  sources: readonly QuestionSource[];
   onDeleted: () => void;
 }
 
-export function SheetList({ sheets, onDeleted }: SheetListProps) {
+export function SheetList({ sheets, questions, sources, onDeleted }: SheetListProps) {
   const [target, setTarget] = useState<ExamSheet | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // 考卷存的 id 不會跟著題目刪除；跟列印、編輯一樣只算題庫裡還找得到（且來源還在）的題目
+  const availableIds = useMemo(() => {
+    const sourceIds = new Set(sources.map((source) => source.id));
+    return new Set(
+      questions.filter((question) => sourceIds.has(question.sourceId)).map((question) => question.id),
+    );
+  }, [questions, sources]);
+
+  const countLabel = (sheet: ExamSheet) => {
+    const count = sheet.questionIds.filter((id) => availableIds.has(id)).length;
+    const missingCount = sheet.questionIds.length - count;
+    return missingCount > 0 ? `${count} 題（${missingCount} 題已刪除）` : `${count} 題`;
+  };
 
   const confirmDelete = async () => {
     if (!target) return;
@@ -46,7 +62,7 @@ export function SheetList({ sheets, onDeleted }: SheetListProps) {
             <div className="min-w-0 flex-1">
               <p className="truncate font-medium">{sheet.title}</p>
               <p className="text-sm text-base-content/60">
-                {sheet.createdAt.toLocaleDateString("zh-TW")}・{sheet.questionIds.length} 題
+                {sheet.createdAt.toLocaleDateString("zh-TW")}・{countLabel(sheet)}
               </p>
             </div>
             <Link href={`/my-exams/sheets/${sheet.id}/print`} className="btn btn-sm">

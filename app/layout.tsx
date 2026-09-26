@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Huninn, Noto_Sans_TC } from "next/font/google";
-import { ThemeProvider, THEME_INIT_SCRIPT } from "@/contexts/ThemeContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import { THEME_INIT_SCRIPT } from "@/contexts/themeInit";
 import "./globals.css";
 
 // 兩套字都沒有中文 subset：不預載，瀏覽器依 unicode-range 只下載頁面用到的字。
@@ -30,11 +30,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${huninn.variable} ${notoSansTC.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        {/* A plain inline script runs while <head> is parsed, before first paint, so the
+            saved theme applies without a flash. (next/script's beforeInteractive only
+            queues inline code until the Next runtime has loaded.) */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body>
-        {/* Apply the saved theme before first paint to avoid a flash of the wrong theme. */}
-        <Script id="theme-init" strategy="beforeInteractive">
-          {THEME_INIT_SCRIPT}
-        </Script>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

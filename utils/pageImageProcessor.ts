@@ -3,6 +3,7 @@ import {
   MAX_UPLOAD_FILE_BYTES,
   PAGE_JPEG_QUALITY,
 } from "../constants/questionBank";
+import { logger } from "./logger";
 
 export type PageRotation = 0 | 90 | 180 | 270;
 
@@ -29,6 +30,8 @@ export interface FileReadError {
 }
 
 export const UNREADABLE_FILE_MESSAGE = "無法讀取，請轉成 JPG 或 PDF";
+/** PDF 讀取工具本身沒載入成功（例如改版後舊的程式碼檔不見了），跟檔案無關。 */
+export const PDF_ENGINE_FAILED_MESSAGE = "PDF 讀取工具載入失敗，請重新整理頁面後再試";
 
 const IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
@@ -67,16 +70,40 @@ function isPdf(file: File): boolean {
   return file.type === "application/pdf" || /\.pdf$/i.test(file.name);
 }
 
-function loadPdf(file: File): Promise<PdfDocument> {
-  let loading = pdfDocuments.get(file);
-  if (!loading) {
-    // pdfjs 只能在瀏覽器載入（伺服器端 render 時沒有 DOMMatrix 等 API），所以用到才載。
-    loading = Promise.all([file.arrayBuffer(), import("./pdfConfig")]).then(
-      ([data, { pdfjs, pdfDocumentOptions }]) =>
-        pdfjs.getDocument({ data, ...pdfDocumentOptions }).promise,
-    );
-    pdfDocuments.set(file, loading);
+class PdfEngineLoadError extends Error {
+  constructor(cause: unknown) {
+    super("pdf.js failed to load", { cause });
+    this.name = "PdfEngineLoadError";
   }
+}
+
+function loadPdfjs() {
+  // pdfjs 只能在瀏覽器載入（伺服器端 render 時沒有 DOMMatrix 等 API），所以用到才載。
+  return import("./pdfConfig").catch((error: unknown) => {
+    throw new PdfEngineLoadError(error);
+  });
+}
+
+function loadPdf(file: File): Promise<PdfDocument> {
+  const cached = pdfDocuments.get(file);
+  if (cached) return cached;
+  const loading = Promise.all([file.arrayBuffer(), loadPdfjs()]).then(
+    async ([data, { pdfjs, pdfDocumentOptions }]) => {
+      const task = pdfjs.getDocument({ data, ...pdfDocumentOptions });
+      try {
+        return await task.promise;
+      } catch (error) {
+        // 開檔失敗時 pdf.js 不會自己關掉 worker，要 destroy，否則 worker 和整份檔案會留到關分頁
+        await task.destroy().catch(() => {});
+        throw error;
+      }
+    },
+  );
+  pdfDocuments.set(file, loading);
+  // 失敗的結果不留在快取，再選一次同一個檔案會重新開
+  loading.catch(() => {
+    if (pdfDocuments.get(file) === loading) pdfDocuments.delete(file);
+  });
   return loading;
 }
 
@@ -103,8 +130,12 @@ export async function expandFilesToPages(
         for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
           pages.push({ key: nextKey(), file, kind: "pdf", pdfPageNumber: pageNumber, rotation: 0 });
         }
-      } catch {
-        errors.push({ fileName: file.name, message: UNREADABLE_FILE_MESSAGE });
+      } catch (error) {
+        logger.warn("[pageImageProcessor] PDF load failed", file.name, error);
+        errors.push({
+          fileName: file.name,
+          message: error instanceof PdfEngineLoadError ? PDF_ENGINE_FAILED_MESSAGE : UNREADABLE_FILE_MESSAGE,
+        });
       }
       continue;
     }
@@ -147,14 +178,42 @@ async function drawPdfPage(
   page.cleanup();
 }
 
+/** 照片依 EXIF 轉正後的尺寸。<img> 載入只會讀檔頭，不會解碼整張照片。 */
+function readImageSize(file: File): Promise<{ width: number; height: number }> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const image = new Image();
+    image.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve({ width: image.naturalWidth, height: image.naturalHeight });
+    };
+    image.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("image failed to load"));
+    };
+    image.src = url;
+  });
+}
+
 async function drawImageFile(
   canvas: HTMLCanvasElement,
   input: PageInput,
   maxLongEdge: number,
 ): Promise<void> {
-  const bitmap = await createImageBitmap(input.file, { imageOrientation: "from-image" });
+  const natural = await readImageSize(input.file);
+  const fitted = fitLongEdge(natural.width, natural.height, maxLongEdge);
+  // 點陣圖直接做成要畫的大小：沒給 resize 的話，連縮圖都會先配置一張原尺寸的點陣圖（2400 萬畫素約 98MB）。
+  // 不傳 imageOrientation：預設就會照 EXIF 轉正；Safari 17.1 以前不認得 "from-image"，傳了每張照片都會失敗。
+  const decode = (width: number, height: number) =>
+    createImageBitmap(input.file, { resizeWidth: width, resizeHeight: height, resizeQuality: "high" });
+  let bitmap = await decode(fitted.width, fitted.height);
+  // Chromium 131 以前把 resize 套在 EXIF 轉正前的像素軸上（回報的寬高是反的）：
+  // 畫面仍是正的，但長邊只剩部分取樣。反過來再解一次，套到原始軸上就是正確大小。
+  if (fitted.width !== fitted.height && bitmap.width === fitted.height && bitmap.height === fitted.width) {
+    bitmap.close();
+    bitmap = await decode(fitted.height, fitted.width);
+  }
   try {
-    const fitted = fitLongEdge(bitmap.width, bitmap.height, maxLongEdge);
     const size = rotatedSize(fitted.width, fitted.height, input.rotation);
     canvas.width = size.width;
     canvas.height = size.height;

@@ -2,7 +2,14 @@ import { QUESTION_BANK_STORAGE_FOLDER } from "../constants/questionBank";
 import type { BankSubject, QuestionSource, SourcePage } from "../types/questionBank";
 import type { RenderedPage } from "../utils/pageImageProcessor";
 import { deleteQuestionsForSource } from "./bankQuestionService";
-import { clone, mockStore, newMockId, putPageImage, removePageImages } from "./mockStore";
+import {
+  clone,
+  mockStore,
+  newMockId,
+  pageImageUrl,
+  putPageImage,
+  removePageImages,
+} from "./mockStore";
 import { requireCurrentUserId } from "./requireCurrentUserId";
 
 export function createQuestionSourcePath(
@@ -72,6 +79,26 @@ export async function getSource(sourceId: string): Promise<QuestionSource | null
   requireCurrentUserId();
   const source = mockStore.sources.get(sourceId);
   return source ? clone(source) : null;
+}
+
+/**
+ * 頁圖的顯示網址，取代原本的 Supabase signed URL：現在直接給記憶體裡的 object URL。
+ * 還沒存好（或已刪除）的路徑不放進結果，呼叫端視為「尚未取得」。
+ * `force` 是圖片載入失敗後的重試：接真正的後端時要略過快取重新簽；
+ * object URL 不會過期，所以這裡用不到。
+ */
+export async function getPageImageUrls(
+  paths: readonly string[],
+  force = false,
+): Promise<Record<string, string>> {
+  requireCurrentUserId();
+  void force;
+  const urls: Record<string, string> = {};
+  for (const path of paths) {
+    const url = pageImageUrl(path);
+    if (url) urls[path] = url;
+  }
+  return urls;
 }
 
 /** 先刪題目，再刪來源，最後刪頁圖（spec §10）。 */

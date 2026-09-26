@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import Link from "next/link";
 import { RotateCw, Trash2, Upload } from "lucide-react";
 import {
   ACCEPTED_UPLOAD_TYPES,
@@ -25,11 +26,14 @@ import {
 } from "../../utils/pageImageProcessor";
 import { createSource, newQuestionSourceId } from "../../services/questionSourceService";
 import { logger } from "../../utils/logger";
+import { carriesFiles } from "./FileDropGuard";
 
 interface PreviewPage {
   input: PageInput;
   thumbUrl: string | null;
   failed: boolean;
+  /** 預覽累計轉了幾度：只往上加，CSS 轉場才會一律順時針轉（從 270° 回到 0° 會倒轉一大圈）。 */
+  angle: number;
 }
 
 interface SourceUploadDialogProps {
@@ -53,8 +57,12 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
   const filesRef = useRef<File[]>([]);
   const thumbUrlsRef = useRef<string[]>([]);
   const sessionRef = useRef(0);
+  // handleFiles 等檔案展開時使用者還能刪頁，檢查頁數上限要看最新的清單
+  const pagesRef = useRef<PreviewPage[]>([]);
 
   const uploading = progress !== null;
+  // 讀檔中再加檔案會跟上一批搶著檢查頁數上限；上傳中加的檔案不會被上傳
+  const acceptsFiles = !uploading && !expanding;
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -62,6 +70,22 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
     if (isOpen && !dialog.open) dialog.showModal();
     if (!isOpen && dialog.open) dialog.close();
   }, [isOpen]);
+
+  useEffect(() => {
+    pagesRef.current = pages;
+  }, [pages]);
+
+  // 對話框開著時仍可能離開頁面（瀏覽器上一頁、iOS 滑動返回）：停掉縮圖與上傳，釋放縮圖網址與 PDF
+  useEffect(
+    () => () => {
+      sessionRef.current += 1;
+      thumbUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+      thumbUrlsRef.current = [];
+      void releasePdfFiles(filesRef.current);
+      filesRef.current = [];
+    },
+    [],
+  );
 
   const reset = () => {
     sessionRef.current += 1;
@@ -102,7 +126,9 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
 
       setFileErrors((previous) => [...previous, ...errors]);
 
-      if (pages.length + inputs.length > MAX_SOURCE_PAGES) {
+      // 讀不出來的頁不會上傳，不算進上限
+      const keptPages = pagesRef.current.filter((page) => !page.failed).length;
+      if (keptPages + inputs.length > MAX_SOURCE_PAGES) {
         setLimitError(`總頁數超過 ${MAX_SOURCE_PAGES} 頁，請拆開上傳`);
         void releasePdfFiles(files);
         return;
@@ -111,7 +137,7 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
       filesRef.current.push(...files);
       setPages((previous) => [
         ...previous,
-        ...inputs.map((input) => ({ input, thumbUrl: null, failed: false })),
+        ...inputs.map((input) => ({ input, thumbUrl: null, failed: false, angle: 0 })),
       ]);
 
       // 縮圖一張一張產生，避免一次解碼大量照片
@@ -151,7 +177,11 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
     setPages((previous) =>
       previous.map((page) =>
         page.input.key === key
-          ? { ...page, input: { ...page.input, rotation: nextRotation(page.input.rotation) } }
+          ? {
+              ...page,
+              input: { ...page.input, rotation: nextRotation(page.input.rotation) },
+              angle: page.angle + 90,
+            }
           : page,
       ),
     );
@@ -161,13 +191,21 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
 
   const uploadable = pages.filter((page) => !page.failed && page.thumbUrl !== null);
   const thumbnailsPending = pages.some((page) => !page.failed && page.thumbUrl === null);
+  // expanding：還有檔案在展開，這時上傳會漏掉它們
   const canUpload =
-    !uploading && title.trim() !== "" && subject !== "" && uploadable.length > 0 && !thumbnailsPending;
+    !uploading &&
+    !expanding &&
+    title.trim() !== "" &&
+    subject !== "" &&
+    uploadable.length > 0 &&
+    !thumbnailsPending;
 
   const handleUpload = async () => {
     if (!canUpload) return;
+    const session = sessionRef.current;
     const id = sourceId ?? newQuestionSourceId();
     const inputs = uploadable.map((page) => page.input);
+    let storedPages = 0;
     setSourceId(id);
     setUploadError(null);
     setProgress({ done: 0, total: inputs.length });
@@ -177,15 +215,30 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
         title: title.trim(),
         subject,
         pageCount: inputs.length,
-        renderPage: (index) => renderPage(inputs[index], PAGE_LONG_EDGE_PX),
-        onProgress: (done, total) => setProgress({ done, total }),
+        // 對話框卸載後就停：PDF 已經釋放，再 render 會重新開檔
+        renderPage: (index) =>
+          session === sessionRef.current
+            ? renderPage(inputs[index], PAGE_LONG_EDGE_PX)
+            : Promise.reject(new Error("upload dialog unmounted")),
+        onProgress: (done, total) => {
+          storedPages = done;
+          setProgress({ done, total });
+        },
       });
+      if (session !== sessionRef.current) return;
       reset();
       onUploaded(id);
     } catch (error) {
+      if (session !== sessionRef.current) return;
       logger.error("[SourceUploadDialog] upload failed", error);
       setProgress(null);
-      setUploadError("上傳失敗，請檢查網路後重試");
+      // 現在沒有網路步驟，會失敗的是在本機把某一頁轉成圖（解碼、canvas 記憶體不足）
+      const failedPage = uploadable[storedPages];
+      setUploadError(
+        failedPage
+          ? `第 ${pages.indexOf(failedPage) + 1} 頁處理失敗，請重試，或刪除這一頁再上傳`
+          : "上傳失敗，請重試",
+      );
     }
   };
 
@@ -194,8 +247,29 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
       ref={dialogRef}
       className="modal modal-bottom sm:modal-middle"
       aria-labelledby={headingId}
+      // 拖進對話框的檔案跟用「選擇照片或 PDF」挑的一樣處理；選檔按鈕停用時（讀檔中、上傳中）不收。
+      // 不管收不收都要取消預設行為，不然瀏覽器會在分頁裡打開檔案，記憶體裡的資料就全沒了
+      onDragOver={(event) => {
+        if (!carriesFiles(event)) return;
+        event.preventDefault();
+        event.dataTransfer.dropEffect = acceptsFiles ? "copy" : "none";
+      }}
+      onDrop={(event) => {
+        if (!carriesFiles(event)) return;
+        event.preventDefault();
+        if (acceptsFiles) void handleFiles(event.dataTransfer.files);
+      }}
       onCancel={(event) => {
         event.preventDefault();
+        handleClose();
+      }}
+      onClose={() => {
+        // 連按兩次 Esc 或 Android 返回鍵時，瀏覽器可以不理 preventDefault 直接關掉對話框
+        if (!isOpen) return;
+        if (uploading) {
+          dialogRef.current?.showModal();
+          return;
+        }
         handleClose();
       }}
     >
@@ -238,12 +312,13 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
         <label className={`btn btn-outline btn-sm mt-4 ${uploading || expanding ? "btn-disabled" : ""}`}>
           <Upload className="size-4" />
           選擇照片或 PDF
+          {/* 不用 hidden（display:none），鍵盤才 Tab 得到；聚焦外框由 daisyUI 的 .btn:has(:focus-visible) 畫 */}
           <input
             type="file"
-            className="hidden"
+            className="sr-only"
             accept={ACCEPTED_UPLOAD_TYPES}
             multiple
-            disabled={uploading || expanding}
+            disabled={!acceptsFiles}
             onChange={(event) => {
               void handleFiles(event.target.files);
               event.target.value = "";
@@ -251,7 +326,18 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
           />
         </label>
         <p className="mt-2 text-xs text-base-content/60">
-          建議用手機內建的「掃描文件」拍，會自動拉正、去陰影。一次最多 {MAX_SOURCE_PAGES} 頁。
+          也可以把檔案直接拖進來。建議用手機內建的「掃描文件」拍，會自動拉正、去陰影。一次最多 {MAX_SOURCE_PAGES} 頁。
+          {/* 站內換頁（不整頁重新載入），題庫才不會被清空；離開時對話框卸載，會自己釋放檔案。上傳中不給離開 */}
+          {!uploading && (
+            <>
+              {" "}
+              考古題的 PDF 可以
+              <Link href="/past-exams" className="link link-primary">
+                從考古題匯入
+              </Link>
+              。
+            </>
+          )}
         </p>
 
         {limitError && (
@@ -277,11 +363,17 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
                   {page.failed ? (
                     <span className="p-2 text-center text-xs text-error">{UNREADABLE_FILE_MESSAGE}</span>
                   ) : page.thumbUrl ? (
+                    // transform 不改變排版大小：轉 90°／270° 時先把圖縮進橫放的框（寬＝框高、高＝框寬），
+                    // 轉完才放得進 3:4 的框，不會被裁掉兩端
                     <img
                       src={page.thumbUrl}
                       alt={`第 ${index + 1} 頁`}
-                      className="max-h-full max-w-full transition-transform"
-                      style={{ transform: `rotate(${page.input.rotation}deg)` }}
+                      className={`transition-[transform,max-width,max-height] ${
+                        page.input.rotation % 180 === 0
+                          ? "max-h-full max-w-full"
+                          : "max-h-[75%] max-w-[calc(100%*4/3)]"
+                      }`}
+                      style={{ transform: `rotate(${page.angle}deg)` }}
                     />
                   ) : (
                     <span className="loading loading-spinner loading-sm" aria-label="產生縮圖中" />

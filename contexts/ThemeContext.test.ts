@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { THEME_INIT_SCRIPT } from "./ThemeContext";
+import { THEME_INIT_SCRIPT } from "./themeInit";
 
 function runInit(systemDark: boolean) {
   vi.stubGlobal("matchMedia", () => ({ matches: systemDark }));

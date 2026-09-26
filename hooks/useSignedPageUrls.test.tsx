@@ -2,16 +2,24 @@ import { act, useEffect } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { putPageImage, removePageImages, resetMockStore } from "../services/mockStore";
+import { getPageImageUrls } from "../services/questionSourceService";
 import { fetchSignedUrls, useSignedPageUrls } from "./useSignedPageUrls";
+
+// 保留真正的實作，只多記錄呼叫，確認 hook 是透過 services 取網址。
+vi.mock("../services/questionSourceService", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("../services/questionSourceService")>();
+  return { ...actual, getPageImageUrls: vi.fn(actual.getPageImageUrls) };
+});
 
 let urlSequence = 0;
 
 beforeEach(() => {
+  // 先清掉上一個測試留下的頁圖，它們的 revoke 才不會記在這次的 mock 上。
+  resetMockStore();
   urlSequence = 0;
   // jsdom 沒有 object URL；給每次建立一個可辨識的網址。
   URL.createObjectURL = vi.fn(() => `blob:page-${++urlSequence}`);
   URL.revokeObjectURL = vi.fn();
-  resetMockStore();
 });
 
 describe("fetchSignedUrls", () => {
@@ -27,6 +35,12 @@ describe("fetchSignedUrls", () => {
     expect(URL.createObjectURL).toHaveBeenCalledTimes(2);
   });
 
+  it("asks the services layer and passes force along", async () => {
+    putPageImage("a.jpg", new Blob(["a"]));
+    expect(await fetchSignedUrls(["a.jpg"], true)).toEqual({ "a.jpg": "blob:page-1" });
+    expect(getPageImageUrls).toHaveBeenLastCalledWith(["a.jpg"], true);
+  });
+
   it("leaves out pages that are not stored", async () => {
     putPageImage("a.jpg", new Blob(["a"]));
     expect(await fetchSignedUrls(["a.jpg", "missing.jpg"])).toEqual({ "a.jpg": "blob:page-1" });
@@ -37,11 +51,13 @@ describe("fetchSignedUrls", () => {
     await fetchSignedUrls(["a.jpg"]);
 
     putPageImage("a.jpg", new Blob(["v2"]));
-    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:page-1");
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1);
+    expect(URL.revokeObjectURL).toHaveBeenNthCalledWith(1, "blob:page-1");
     expect(await fetchSignedUrls(["a.jpg"])).toEqual({ "a.jpg": "blob:page-2" });
 
     removePageImages(["a.jpg"]);
-    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:page-2");
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(2);
+    expect(URL.revokeObjectURL).toHaveBeenNthCalledWith(2, "blob:page-2");
     expect(await fetchSignedUrls(["a.jpg"])).toEqual({});
   });
 });
@@ -83,6 +99,7 @@ describe("useSignedPageUrls", () => {
     await act(async () => {
       await latest?.refresh("a.jpg");
     });
+    expect(getPageImageUrls).toHaveBeenLastCalledWith(["a.jpg"], true);
     expect(latest?.urls["a.jpg"]).toBe("blob:page-3");
     expect(latest?.urls["b.jpg"]).toBe("blob:page-2");
   });
