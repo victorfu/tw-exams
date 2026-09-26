@@ -2,7 +2,9 @@
   "name": "tw-exams",
   "version": "0.1.0",
   "private": true,
-  "engines": { "node": "24.x" },
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "dev": "next dev -p 6789",
     "build": "next build",
@@ -15,6 +17,7 @@
     "icons": "node scripts/generate-icons.mjs"
   },
   "dependencies": {
+    "@vercel/blob": "^2.8.0",
     "daisyui": "^5.7.46",
     "lucide-react": "^0.575.0",
     "next": "16.3.6",
