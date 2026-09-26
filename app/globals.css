@@ -1,55 +1,50 @@
 @import "tailwindcss";
-/* exclude: DaisyUI's `glass` utility would win the cascade (utilities layer)
-   over our Liquid Glass `.glass` component below — over dark modal overlays it
-   renders as a transparent dark slab in light theme. */
-@plugin "daisyui" {
-  exclude: glass;
-}
+@plugin "daisyui";
 
 /* Drive Tailwind's `dark:` variant from the `.dark` class (set by ThemeContext)
    instead of the OS media query, so an explicit theme toggle flips everything. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ============================================================
-   DaisyUI v5 themes — macOS HIG "Liquid Glass" palette (OKLCH)
+   DaisyUI v5 themes — 泡泡考卷 sky-blue + mint palette (OKLCH)
    These drive every DaisyUI component (btn, card, modal, input,
    badge, menu, alert, dropdown, tabs, toggle…) app-wide.
    Switched via `data-theme` on <html>.
    ============================================================ */
 @plugin "daisyui/theme" {
-  name: "ollielight";
+  name: "paopaolight";
   default: true;
   prefersdark: false;
   color-scheme: light;
 
   --color-base-100: oklch(1 0 0);
-  --color-base-200: oklch(0.97 0 0);
-  --color-base-300: oklch(0.935 0 0);
-  --color-base-content: oklch(0.18 0.01 256);
+  --color-base-200: oklch(0.965 0.014 245);
+  --color-base-300: oklch(0.925 0.022 245);
+  --color-base-content: oklch(0.3 0.07 252);
 
-  --color-primary: oklch(0.6 0.2 250); /* macOS blue */
+  --color-primary: oklch(0.56 0.16 252);
   --color-primary-content: oklch(1 0 0);
-  --color-secondary: oklch(0.62 0.19 280);
-  --color-secondary-content: oklch(1 0 0);
-  --color-accent: oklch(0.6 0.2 250);
+  --color-secondary: oklch(0.72 0.13 172);
+  --color-secondary-content: oklch(0.25 0.06 175);
+  --color-accent: oklch(0.56 0.16 252);
   --color-accent-content: oklch(1 0 0);
-  --color-neutral: oklch(0.3 0.01 256);
-  --color-neutral-content: oklch(0.98 0 0);
+  --color-neutral: oklch(0.35 0.06 252);
+  --color-neutral-content: oklch(0.98 0.01 245);
 
-  --color-info: oklch(0.6 0.2 250);
+  --color-info: oklch(0.56 0.16 252);
   --color-info-content: oklch(1 0 0);
-  --color-success: oklch(0.65 0.2 145);
+  --color-success: oklch(0.62 0.15 155);
   --color-success-content: oklch(1 0 0);
   /* Amber deep enough to read as text on white (soft badges/buttons,
      text-warning) while staying warm as a solid background. */
-  --color-warning: oklch(0.68 0.17 70);
+  --color-warning: oklch(0.7 0.15 70);
   --color-warning-content: oklch(0.28 0.07 55);
-  --color-error: oklch(0.577 0.245 27.325);
+  --color-error: oklch(0.6 0.19 25);
   --color-error-content: oklch(1 0 0);
 
-  --radius-selector: 1rem; /* checkbox, toggle, badge */
-  --radius-field: 0.375rem; /* button, input, select, tab → 6px */
-  --radius-box: 0.625rem; /* card, modal, alert → 10px */
+  --radius-selector: 1rem;
+  --radius-field: 1rem;
+  --radius-box: 1rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
   --border: 1px;
@@ -58,37 +53,37 @@
 }
 
 @plugin "daisyui/theme" {
-  name: "olliedark";
+  name: "paopaodark";
   default: false;
   prefersdark: true;
   color-scheme: dark;
 
-  --color-base-100: oklch(0.18 0 0);
-  --color-base-200: oklch(0.15 0 0);
-  --color-base-300: oklch(0.225 0 0);
-  --color-base-content: oklch(0.96 0.004 256);
+  --color-base-100: oklch(0.24 0.035 255);
+  --color-base-200: oklch(0.21 0.03 255);
+  --color-base-300: oklch(0.3 0.04 255);
+  --color-base-content: oklch(0.95 0.015 245);
 
-  --color-primary: oklch(0.65 0.22 250); /* brighter blue for dark */
-  --color-primary-content: oklch(1 0 0);
-  --color-secondary: oklch(0.67 0.2 280);
-  --color-secondary-content: oklch(1 0 0);
-  --color-accent: oklch(0.65 0.22 250);
-  --color-accent-content: oklch(1 0 0);
-  --color-neutral: oklch(0.3 0.01 256);
-  --color-neutral-content: oklch(0.98 0 0);
+  --color-primary: oklch(0.7 0.14 248);
+  --color-primary-content: oklch(0.18 0.04 255);
+  --color-secondary: oklch(0.78 0.12 172);
+  --color-secondary-content: oklch(0.18 0.04 255);
+  --color-accent: oklch(0.7 0.14 248);
+  --color-accent-content: oklch(0.18 0.04 255);
+  --color-neutral: oklch(0.35 0.05 255);
+  --color-neutral-content: oklch(0.95 0.015 245);
 
-  --color-info: oklch(0.65 0.22 250);
-  --color-info-content: oklch(1 0 0);
-  --color-success: oklch(0.68 0.2 145);
-  --color-success-content: oklch(0.12 0 0);
-  --color-warning: oklch(0.75 0.18 75);
-  --color-warning-content: oklch(0.2 0.05 80);
-  --color-error: oklch(0.62 0.24 27);
-  --color-error-content: oklch(1 0 0);
+  --color-info: oklch(0.7 0.14 248);
+  --color-info-content: oklch(0.18 0.04 255);
+  --color-success: oklch(0.72 0.15 155);
+  --color-success-content: oklch(0.18 0.04 255);
+  --color-warning: oklch(0.8 0.14 75);
+  --color-warning-content: oklch(0.2 0.05 70);
+  --color-error: oklch(0.68 0.18 25);
+  --color-error-content: oklch(0.18 0.04 255);
 
   --radius-selector: 1rem;
-  --radius-field: 0.375rem;
-  --radius-box: 0.625rem;
+  --radius-field: 1rem;
+  --radius-box: 1rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
   --border: 1px;
@@ -97,34 +92,32 @@
 }
 
 /* ============================================================
-   Custom design tokens (Liquid Glass) — consumed by the app
-   shell, glass utilities and hand-polished screens.
-   Light values live in :root; dark overrides flip together
-   with DaisyUI via both `.dark` and `[data-theme="olliedark"]`.
+   Custom design tokens — consumed by the app shell, subject
+   colours and hand-polished screens. Light values live in
+   :root; dark overrides flip together with DaisyUI via both
+   `.dark` and `[data-theme="paopaodark"]`.
    ============================================================ */
 @layer base {
   :root {
-    --background: oklch(0.985 0 0);
-    --foreground: oklch(0.18 0.01 256);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.45 0.015 256);
-    --card: oklch(1 0 0 / 0.7);
-    --sidebar-bg: oklch(0.97 0 0 / 0.9);
+    --background: oklch(0.977 0.012 245); /* ≈#F1F8FF */
+    --foreground: oklch(0.3 0.07 252);
+    --muted-foreground: oklch(0.48 0.05 250);
+    --card: oklch(1 0 0);
 
-    --accent: oklch(0.6 0.2 250);
-    --accent-foreground: oklch(1 0 0);
-    --accent-tint: oklch(0.6 0.2 250 / 0.1);
-    --border-hairline: oklch(0 0 0 / 0.08);
+    --accent: oklch(0.56 0.16 252);
+    --accent-tint: oklch(0.56 0.16 252 / 0.1);
+    --border-hairline: oklch(0.45 0.08 250 / 0.12);
 
-    --destructive: oklch(0.577 0.245 27.325);
-    --success: oklch(0.65 0.2 145);
-    --warning: oklch(0.68 0.17 70);
+    --destructive: oklch(0.6 0.19 25);
+    --success: oklch(0.62 0.15 155);
+    --warning: oklch(0.7 0.15 70);
 
-    --shadow-soft: 0 1px 3px oklch(0 0 0 / 0.04), 0 1px 2px oklch(0 0 0 / 0.06);
-    --shadow-elevated: 0 4px 16px oklch(0 0 0 / 0.08),
-      0 2px 4px oklch(0 0 0 / 0.04);
-    --shadow-floating: 0 12px 40px oklch(0 0 0 / 0.12),
-      0 4px 12px oklch(0 0 0 / 0.08);
+    --shadow-soft: 0 1px 2px oklch(0.45 0.08 250 / 0.06),
+      0 2px 8px oklch(0.45 0.08 250 / 0.06);
+    --shadow-elevated: 0 6px 20px oklch(0.45 0.08 250 / 0.1),
+      0 2px 4px oklch(0.45 0.08 250 / 0.05);
+    --shadow-floating: 0 16px 40px oklch(0.45 0.08 250 / 0.16),
+      0 4px 12px oklch(0.45 0.08 250 / 0.08);
 
     --radius-sm: 6px;
     --radius-md: 8px;
@@ -137,41 +130,79 @@
     --duration-normal: 200ms;
     --duration-slow: 300ms;
 
-    --glass-saturate: 180%;
-    --glass-rim-top: oklch(1 0 0 / 0.4);
-    --glass-rim-bottom: oklch(1 0 0 / 0.1);
-    --glass-inner-glow: oklch(1 0 0 / 0.05);
+    /* 科目色：實色（選中按鈕）、其上文字、淡色底（標籤）、淡色底上的文字。 */
+    --subject-math: oklch(0.56 0.16 252);
+    --subject-math-content: oklch(1 0 0);
+    --subject-math-tint: oklch(0.94 0.035 250);
+    --subject-math-ink: oklch(0.4 0.12 252);
+
+    --subject-chinese: oklch(0.6 0.18 30);
+    --subject-chinese-content: oklch(1 0 0);
+    --subject-chinese-tint: oklch(0.94 0.035 30);
+    --subject-chinese-ink: oklch(0.45 0.15 30);
+
+    --subject-english: oklch(0.55 0.18 295);
+    --subject-english-content: oklch(1 0 0);
+    --subject-english-tint: oklch(0.94 0.035 295);
+    --subject-english-ink: oklch(0.42 0.16 295);
+
+    --subject-science: oklch(0.58 0.14 155);
+    --subject-science-content: oklch(1 0 0);
+    --subject-science-tint: oklch(0.94 0.04 155);
+    --subject-science-ink: oklch(0.42 0.11 155);
+
+    --subject-social-studies: oklch(0.76 0.15 75);
+    --subject-social-studies-content: oklch(0.3 0.07 60);
+    --subject-social-studies-tint: oklch(0.95 0.045 80);
+    --subject-social-studies-ink: oklch(0.48 0.11 65);
   }
 
   .dark,
-  [data-theme="olliedark"] {
+  [data-theme="paopaodark"] {
     color-scheme: dark;
-    --background: oklch(0.13 0 0);
-    --foreground: oklch(0.96 0.004 256);
-    --muted: oklch(0.2 0.005 256);
-    --muted-foreground: oklch(0.62 0.01 256);
-    --card: oklch(0.24 0 0 / 0.75);
-    --sidebar-bg: oklch(0.15 0 0 / 0.9);
+    --background: oklch(0.19 0.03 255);
+    --foreground: oklch(0.95 0.015 245);
+    --muted-foreground: oklch(0.72 0.03 245);
+    --card: oklch(0.24 0.035 255);
 
-    --accent: oklch(0.65 0.22 250);
-    --accent-foreground: oklch(1 0 0);
-    --accent-tint: oklch(0.65 0.22 250 / 0.14);
+    --accent: oklch(0.7 0.14 248);
+    --accent-tint: oklch(0.7 0.14 248 / 0.16);
     --border-hairline: oklch(1 0 0 / 0.08);
 
-    --destructive: oklch(0.62 0.24 27);
-    --success: oklch(0.68 0.2 145);
-    --warning: oklch(0.75 0.18 75);
+    --destructive: oklch(0.68 0.18 25);
+    --success: oklch(0.72 0.15 155);
+    --warning: oklch(0.8 0.14 75);
 
-    --shadow-soft: 0 1px 3px oklch(0 0 0 / 0.2), 0 1px 2px oklch(0 0 0 / 0.16);
-    --shadow-elevated: 0 4px 16px oklch(0 0 0 / 0.28),
-      0 2px 4px oklch(0 0 0 / 0.2);
-    --shadow-floating: 0 12px 40px oklch(0 0 0 / 0.4),
-      0 4px 12px oklch(0 0 0 / 0.28);
+    --shadow-soft: 0 1px 2px oklch(0 0 0 / 0.18), 0 2px 8px oklch(0 0 0 / 0.18);
+    --shadow-elevated: 0 6px 20px oklch(0 0 0 / 0.3),
+      0 2px 4px oklch(0 0 0 / 0.15);
+    --shadow-floating: 0 16px 40px oklch(0 0 0 / 0.48),
+      0 4px 12px oklch(0 0 0 / 0.24);
 
-    --glass-saturate: 120%;
-    --glass-rim-top: oklch(1 0 0 / 0.2);
-    --glass-rim-bottom: oklch(0 0 0 / 0.1);
-    --glass-inner-glow: oklch(1 0 0 / 0.03);
+    --subject-math: oklch(0.7 0.14 248);
+    --subject-math-content: oklch(0.18 0.04 255);
+    --subject-math-tint: oklch(0.32 0.07 252);
+    --subject-math-ink: oklch(0.88 0.06 248);
+
+    --subject-chinese: oklch(0.72 0.15 30);
+    --subject-chinese-content: oklch(0.18 0.04 255);
+    --subject-chinese-tint: oklch(0.33 0.07 30);
+    --subject-chinese-ink: oklch(0.88 0.06 30);
+
+    --subject-english: oklch(0.72 0.14 295);
+    --subject-english-content: oklch(0.18 0.04 255);
+    --subject-english-tint: oklch(0.33 0.08 295);
+    --subject-english-ink: oklch(0.88 0.06 295);
+
+    --subject-science: oklch(0.74 0.14 155);
+    --subject-science-content: oklch(0.18 0.04 255);
+    --subject-science-tint: oklch(0.33 0.06 155);
+    --subject-science-ink: oklch(0.88 0.07 155);
+
+    --subject-social-studies: oklch(0.8 0.14 75);
+    --subject-social-studies-content: oklch(0.18 0.04 255);
+    --subject-social-studies-tint: oklch(0.34 0.06 75);
+    --subject-social-studies-ink: oklch(0.9 0.07 80);
   }
 }
 
@@ -181,16 +212,14 @@
    (base, primary, secondary, accent, neutral, info, success,
    warning, error) so they compose rather than collide.
    → bg-background, text-foreground, text-muted-foreground,
-     bg-card, bg-sidebar-bg, bg-accent-tint, border-border-hairline,
+     bg-card, bg-accent-tint, border-border-hairline,
      shadow-soft / shadow-elevated / shadow-floating
    ============================================================ */
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-card: var(--card);
-  --color-sidebar-bg: var(--sidebar-bg);
   --color-accent-tint: var(--accent-tint);
   --color-border-hairline: var(--border-hairline);
 
@@ -204,6 +233,10 @@
   --radius-lg: 10px;
   --radius-xl: 12px;
   --radius-2xl: 16px;
+
+  --font-sans: var(--font-noto-tc), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-huninn), var(--font-noto-tc), ui-sans-serif,
+    sans-serif;
 }
 
 /* ============================================================
@@ -211,11 +244,17 @@
    ============================================================ */
 @layer base {
   :root {
-    font-family:
-      -apple-system, "SF Pro Text", "SF Pro Display", BlinkMacSystemFont,
-      "Segoe UI", system-ui, sans-serif;
+    font-family: var(--font-sans);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    /* 粉圓只有 400，禁止瀏覽器合成假粗體。 */
+    font-synthesis: none;
   }
 
   body {
@@ -235,7 +274,7 @@
       linear-gradient(
         180deg,
         var(--background),
-        color-mix(in oklab, var(--background) 98%, var(--muted))
+        color-mix(in oklab, var(--background) 98%, var(--card))
       );
     color: var(--foreground);
   }
@@ -247,65 +286,18 @@
 }
 
 /* ============================================================
-   Glass materials & component utilities (Liquid Glass).
+   Component utilities — solid, opaque surfaces.
    ============================================================ */
 @layer components {
-  .glass {
-    background: var(--card);
-    backdrop-filter: blur(24px) saturate(var(--glass-saturate));
-    border-top: 1px solid var(--glass-rim-top);
-    border-bottom: 1px solid var(--glass-rim-bottom);
-    border-left: 1px solid var(--border-hairline);
-    border-right: 1px solid var(--border-hairline);
-    box-shadow: var(--shadow-elevated), inset 0 0 20px var(--glass-inner-glow);
-  }
-
   .surface-card {
-    background: color-mix(in oklab, var(--card) 96%, transparent);
-    border-top: 1px solid var(--glass-rim-top);
-    border-bottom: 1px solid var(--glass-rim-bottom);
-    border-left: 1px solid var(--border-hairline);
-    border-right: 1px solid var(--border-hairline);
-    box-shadow: var(--shadow-soft), inset 0 0 12px var(--glass-inner-glow);
-    backdrop-filter: blur(16px) saturate(var(--glass-saturate));
+    background: var(--card);
+    border: 1px solid var(--border-hairline);
+    box-shadow: var(--shadow-soft);
   }
 
   .toolbar {
-    background: color-mix(in oklab, var(--card) 88%, transparent);
-    border-top: 1px solid var(--glass-rim-top);
-    border-bottom: 1px solid var(--glass-rim-bottom);
-    border-left: 1px solid var(--border-hairline);
-    border-right: 1px solid var(--border-hairline);
-    backdrop-filter: blur(20px) saturate(var(--glass-saturate));
-  }
-
-  .glass-panel {
-    background: color-mix(in oklab, var(--card) 94%, transparent);
-    border: 1px solid var(--border-hairline);
-    border-radius: 16px;
-    box-shadow: var(--shadow-elevated);
-    backdrop-filter: blur(20px) saturate(140%);
-    padding: 24px;
-  }
-
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    border-radius: var(--radius-full);
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.025em;
-    background: var(--accent-tint);
-    color: var(--foreground);
-    border: 1px solid var(--border-hairline);
-  }
-
-  .focus-ring {
-    outline: none;
-    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 50%, transparent),
-      0 0 0 5px color-mix(in oklab, var(--accent) 18%, transparent);
+    background: var(--card);
+    border-bottom: 1px solid var(--border-hairline);
   }
 }
 
@@ -313,14 +305,6 @@
    Utilities — helpers, grids, scrollbar.
    ============================================================ */
 @layer utilities {
-  .text-secondary {
-    color: var(--muted-foreground);
-  }
-
-  .backdrop-strong {
-    backdrop-filter: blur(28px) saturate(170%);
-  }
-
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -343,7 +327,7 @@
 
 /* Chrome 135+ customizable select(DaisyUI 5.5 對 .select 自動 opt-in):
    DaisyUI 的 ::picker(select) 用 background-color: inherit,
-   玻璃(半透明)觸發器會讓整個彈出清單跟著透明。
+   觸發器若有半透明背景，彈出清單會跟著透明。
    彈出層一律實色,不受觸發器背景影響。 */
 @supports (appearance: base-select) {
   select::picker(select) {

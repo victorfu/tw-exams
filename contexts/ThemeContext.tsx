@@ -66,7 +66,7 @@ const applyResolvedTheme = (resolved: ResolvedTheme) => {
   root.classList.toggle("dark", resolved === "dark");
   root.setAttribute(
     "data-theme",
-    resolved === "dark" ? "olliedark" : "ollielight",
+    resolved === "dark" ? "paopaodark" : "paopaolight",
   );
 };
 
@@ -81,7 +81,7 @@ export const THEME_INIT_SCRIPT = `(function () {
     var isDark = stored === "dark" || ((stored === "system" || !stored) && sysDark);
     var root = document.documentElement;
     root.classList.toggle("dark", isDark);
-    root.setAttribute("data-theme", isDark ? "olliedark" : "ollielight");
+    root.setAttribute("data-theme", isDark ? "paopaodark" : "paopaolight");
   } catch (e) {}
 })();`;
 
