@@ -19,10 +19,27 @@ export interface CanvasBox {
   label?: string;
 }
 
+/**
+ * 拖拉的共同欄位。startClient 是按下時的螢幕座標（CSS px）；指標離它超過 slop 之前
+ * current 不跟著動，點一下（手指難免晃幾 px）只會選取，不會移動或縮放後自動儲存。
+ */
+interface DragBase {
+  pointerId: number;
+  start: Point;
+  current: Point;
+  startClient: { x: number; y: number };
+  slop: number;
+  moved: boolean;
+}
+
 type Drag =
-  | { type: "draw"; pointerId: number; start: Point; current: Point }
-  | { type: "move"; pointerId: number; key: string; origin: Box; start: Point; current: Point }
-  | { type: "resize"; pointerId: number; key: string; corner: Corner; origin: Box; start: Point; current: Point };
+  | ({ type: "draw" } & DragBase)
+  | ({ type: "move"; key: string; origin: Box } & DragBase)
+  | ({ type: "resize"; key: string; corner: Corner; origin: Box } & DragBase);
+
+/** 點一下的容許晃動（CSS px）：滑鼠很準，手指／觸控筆放寬一些。 */
+const MOUSE_TAP_SLOP_PX = 3;
+const TOUCH_TAP_SLOP_PX = 8;
 
 interface CropCanvasProps {
   imageUrl: string | undefined;
@@ -112,6 +129,18 @@ export function CropCanvas({
     return rect ? toRelativePoint(event.clientX, event.clientY, rect) : { x: 0, y: 0 };
   };
 
+  const dragBase = (event: ReactPointerEvent): DragBase => {
+    const point = pointFrom(event);
+    return {
+      pointerId: event.pointerId,
+      start: point,
+      current: point,
+      startClient: { x: event.clientX, y: event.clientY },
+      slop: event.pointerType === "mouse" ? MOUSE_TAP_SLOP_PX : TOUCH_TAP_SLOP_PX,
+      moved: false,
+    };
+  };
+
   /**
    * 同時只跟一個指標：拖拉途中另一個指標按下（第二根手指捏合縮放、手掌）時，
    * 取消這次拖拉，也不開始新的，免得用兩個指標混在一起的座標建框或移框。
@@ -126,9 +155,9 @@ export function CropCanvas({
     if (event.button !== 0) return;
     if (rejectExtraPointer(event)) return;
     capturePointer(event);
-    onSelect(null);
-    const point = pointFrom(event);
-    setDrag({ type: "draw", pointerId: event.pointerId, start: point, current: point });
+    // 取消選取等到放開才做：觸控上下滑動會變成捲動頁面（pointercancel），
+    // 選取要留著，使用者才能捲去按工具列的「刪除」。
+    setDrag({ type: "draw", ...dragBase(event) });
   };
 
   const startMove = (item: CanvasBox) => (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -137,15 +166,7 @@ export function CropCanvas({
     if (rejectExtraPointer(event)) return;
     capturePointer(event);
     onSelect(item.key);
-    const point = pointFrom(event);
-    setDrag({
-      type: "move",
-      pointerId: event.pointerId,
-      key: item.key,
-      origin: item.box,
-      start: point,
-      current: point,
-    });
+    setDrag({ type: "move", key: item.key, origin: item.box, ...dragBase(event) });
   };
 
   const startResize =
@@ -154,27 +175,23 @@ export function CropCanvas({
       event.stopPropagation();
       if (rejectExtraPointer(event)) return;
       capturePointer(event);
-      const point = pointFrom(event);
-      setDrag({
-        type: "resize",
-        pointerId: event.pointerId,
-        key: item.key,
-        corner,
-        origin: item.box,
-        start: point,
-        current: point,
-      });
+      setDrag({ type: "resize", key: item.key, corner, origin: item.box, ...dragBase(event) });
     };
 
   const handleMove = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (!liveDrag || event.pointerId !== liveDrag.pointerId) return;
-    setDrag({ ...liveDrag, current: pointFrom(event) });
+    const moved =
+      liveDrag.moved ||
+      Math.hypot(event.clientX - liveDrag.startClient.x, event.clientY - liveDrag.startClient.y) > liveDrag.slop;
+    if (!moved) return;
+    setDrag({ ...liveDrag, moved, current: pointFrom(event) });
   };
 
   const handleUp = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (!drag || event.pointerId !== drag.pointerId) return;
     setDrag(null);
     if (!liveDrag) return;
+    if (liveDrag.type === "draw") onSelect(null);
     const box = dragResult(liveDrag);
     if (isBoxTooSmall(box)) return;
     if (liveDrag.type === "draw") {
@@ -191,16 +208,21 @@ export function CropCanvas({
   const drawPreview = liveDrag?.type === "draw" ? dragResult(liveDrag) : null;
 
   return (
-    <div className="relative select-none">
+    // overflow-x-clip：貼右邊的框，角落把手的點擊範圍會凸出圖片外；手機的左右邊距比它窄，
+    // 不裁掉的話選取時頁面會多出可以左右捲的寬度。只裁水平方向，上下不受影響。
+    <div className="relative select-none overflow-x-clip">
       {imageUrl ? (
         <img src={imageUrl} alt={imageAlt} draggable={false} className="block h-auto w-full" />
       ) : (
         <div className="aspect-[3/4] w-full animate-pulse bg-base-200" />
       )}
+      {/* 觸控：頁面圖片在手機／平板上常比螢幕高又佔滿寬度。空白處用 touch-pan-y，上下滑動
+          交給瀏覽器捲動（會送 pointercancel，不會建框），橫向起手才開始框選；框和把手設
+          touch-none，拖拉移動、縮放不會被捲動搶走。滑鼠不受 touch-action 影響。 */}
       <div
         ref={overlayRef}
         data-testid="crop-overlay"
-        className={`absolute inset-0 touch-none ${mode === "question" ? "cursor-crosshair" : "cursor-cell"}`}
+        className={`absolute inset-0 touch-pan-y touch-pinch-zoom ${mode === "question" ? "cursor-crosshair" : "cursor-cell"}`}
         onPointerDown={startDraw}
         onPointerMove={handleMove}
         onPointerUp={handleUp}
@@ -236,7 +258,7 @@ export function CropCanvas({
             <div
               key={item.key}
               data-box-key={item.key}
-              className={`absolute cursor-move border-2 ${look}${showHandles ? " z-10" : ""}`}
+              className={`absolute cursor-move touch-none border-2 ${look}${showHandles ? " z-10" : ""}`}
               style={boxStyle(box)}
               onPointerDown={startMove(item)}
             >

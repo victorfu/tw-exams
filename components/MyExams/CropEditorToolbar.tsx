@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Trash2 } from "lucide-react";
 import type { AutosaveStatus } from "../../hooks/autosaveQueue";
 
 type EditorMode = "question" | "mask";
@@ -15,6 +15,9 @@ interface CropEditorToolbarProps {
   status: AutosaveStatus;
   onRetry: () => void;
   appendHint: string | null;
+  onCancelAppend: () => void;
+  /** 目前模式下有選取的框時才有：觸控裝置沒有 Delete 鍵，要有看得到的刪除按鈕。 */
+  onDeleteSelection: (() => void) | null;
 }
 
 function SaveStatus({ status, onRetry }: { status: AutosaveStatus; onRetry: () => void }) {
@@ -41,6 +44,8 @@ export function CropEditorToolbar({
   status,
   onRetry,
   appendHint,
+  onCancelAppend,
+  onDeleteSelection,
 }: CropEditorToolbarProps) {
   const [draft, setDraft] = useState(title);
   // 開始編輯時的標題：欄位被清空時退回這個標題，不存空白標題。
@@ -99,13 +104,33 @@ export function CropEditorToolbar({
             遮蓋
           </button>
         </div>
+        {onDeleteSelection && (
+          <button
+            type="button"
+            className="btn btn-sm btn-outline btn-error"
+            aria-label="刪除選取的框"
+            onClick={onDeleteSelection}
+          >
+            <Trash2 className="size-4" />
+            刪除
+          </button>
+        )}
         <SaveStatus status={status} onRetry={onRetry} />
       </div>
-      {appendHint && <p className="rounded-md bg-primary/10 px-3 py-2 text-sm text-primary">{appendHint}</p>}
+      {appendHint && (
+        // 取消按鈕放在提示裡：切到別頁後目標題目的卡片（和它的「取消新增區塊」）不在畫面上，
+        // 觸控裝置又沒有 Esc 可按。
+        <div className="flex items-center justify-between gap-2 rounded-md bg-primary/10 px-3 py-2 text-sm text-primary">
+          <p>{appendHint}</p>
+          <button type="button" className="btn btn-ghost btn-xs shrink-0" onClick={onCancelAppend}>
+            取消
+          </button>
+        </div>
+      )}
       <p className="text-xs text-base-content/60">
         {mode === "question"
-          ? "在頁面上拖拉框出一題；點框可以移動，拉四個角調整大小。"
-          : "遮蓋模式：框出要蓋掉的答案或紅筆，印出來會是白色。"}
+          ? "在頁面上拖拉框出一題；點框可以移動，拉四個角調整大小。觸控時上下滑動會捲動頁面，橫向拖拉才會開始框選。"
+          : "遮蓋模式：框出要蓋掉的答案或紅筆，印出來會是白色；點選遮蓋框後可以按「刪除」移除。"}
       </p>
     </div>
   );

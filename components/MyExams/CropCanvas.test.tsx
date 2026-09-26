@@ -303,6 +303,81 @@ describe("CropCanvas", () => {
     expect(box.h).toBeCloseTo(0.4);
   });
 
+  it("does not move a box that is tapped with a little finger jitter", () => {
+    // 點框選取時手指的微小晃動不能當成移動存下來（#48）。
+    const props = renderCanvas({
+      questionBoxes: [{ key: "q:a:0", box: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 } }],
+    });
+    pointer("pointerdown", boxElement("q:a:0"), 40, 20);
+    pointer("pointermove", overlay(), 42, 23);
+    pointer("pointerup", overlay(), 42, 23);
+
+    expect(props.onSelect).toHaveBeenCalledWith("q:a:0");
+    expect(props.onChange).not.toHaveBeenCalled();
+  });
+
+  it("does not resize a box when its corner is tapped with a little finger jitter", () => {
+    const props = renderCanvas({
+      questionBoxes: [{ key: "q:a:0", box: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 } }],
+      selectedKey: "q:a:0",
+    });
+    pointer("pointerdown", cornerHandle("q:a:0", "se"), 60, 30);
+    pointer("pointermove", overlay(), 63, 32);
+    pointer("pointerup", overlay(), 63, 32);
+
+    expect(props.onChange).not.toHaveBeenCalled();
+  });
+
+  it("keeps the whole movement once the drag passes the tap slop", () => {
+    const props = renderCanvas({
+      questionBoxes: [{ key: "q:a:0", box: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 } }],
+    });
+    pointer("pointerdown", boxElement("q:a:0"), 40, 20);
+    pointer("pointermove", overlay(), 43, 20);
+    pointer("pointermove", overlay(), 60, 20);
+    pointer("pointermove", overlay(), 42, 20); // 過了門檻後，拉回起點附近也照算
+    pointer("pointerup", overlay(), 42, 20);
+
+    const [, box] = (props.onChange as ReturnType<typeof vi.fn>).mock.calls[0];
+    expect(box.x).toBeCloseTo(0.11);
+  });
+
+  it("keeps the selection when a touch on empty space turns into a page scroll", () => {
+    // 觸控上下滑動會交給瀏覽器捲動（pointercancel）：選取要留著，才能捲去按「刪除」。
+    const props = renderCanvas({ selectedKey: "q:a:0" });
+    pointer("pointerdown", overlay(), 20, 10);
+    act(() => {
+      overlay().dispatchEvent(new window.PointerEvent("pointercancel", { bubbles: true }));
+    });
+    expect(props.onSelect).not.toHaveBeenCalled();
+    expect(props.onCreate).not.toHaveBeenCalled();
+  });
+
+  it("clears the selection when empty space is tapped", () => {
+    const props = renderCanvas({ selectedKey: "q:a:0" });
+    pointer("pointerdown", overlay(), 20, 10);
+    pointer("pointerup", overlay(), 20, 10);
+    expect(props.onSelect).toHaveBeenCalledWith(null);
+  });
+
+  it("lets touch pan the page vertically from empty space, but not from the boxes", () => {
+    // 觸控：空白處可以上下捲動（橫向起手才開始框選），框和把手仍然只給拖拉用（#46）。
+    renderCanvas({
+      questionBoxes: [{ key: "q:a:0", box: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 } }],
+      selectedKey: "q:a:0",
+    });
+    expect(overlay().className).toContain("touch-pan-y");
+    expect(overlay().className).not.toContain("touch-none");
+    expect(boxElement("q:a:0").className).toContain("touch-none");
+  });
+
+  it("clips the corner handles horizontally so they cannot widen the page", () => {
+    // 貼右邊的框，把手點擊範圍會凸出圖片外，手機的邊距不夠時頁面會可以左右捲（#47）。
+    renderCanvas();
+    const root = overlay().parentElement;
+    expect(root?.className).toContain("overflow-x-clip");
+  });
+
   it("only lets the current mode's boxes be grabbed", () => {
     const props = renderCanvas({
       mode: "mask",

@@ -17,6 +17,8 @@ function render(overrides: Partial<Props> = {}): Props {
     status: "idle",
     onRetry: vi.fn(),
     appendHint: null,
+    onCancelAppend: vi.fn(),
+    onDeleteSelection: null,
     ...overrides,
   };
   act(() => root.render(<CropEditorToolbar {...props} />));

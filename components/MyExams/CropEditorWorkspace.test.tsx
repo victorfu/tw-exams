@@ -97,6 +97,12 @@ function titleInput(): HTMLInputElement {
   return input;
 }
 
+function buttonNamed(name: string): HTMLButtonElement | undefined {
+  return [...container.querySelectorAll("button")].find(
+    (button) => (button.getAttribute("aria-label") ?? button.textContent?.trim()) === name,
+  );
+}
+
 function boxElement(key: string): Element {
   const element = container.querySelector(`[data-box-key="${key}"]`);
   if (!element) throw new Error(`box ${key} missing`);
@@ -184,6 +190,44 @@ describe("CropEditorWorkspace", () => {
     });
     const [commit] = mocks.commitEditorChanges.mock.calls[0];
     expect(commit.source.pages[0].masks).toHaveLength(1);
+  });
+
+  it("deletes the selected mask with an on-screen button, for touch users without a keyboard", async () => {
+    renderWorkspace();
+    const maskButton = [...container.querySelectorAll("button")].find((button) => button.textContent === "遮蓋");
+    act(() => maskButton?.click());
+    expect(buttonNamed("刪除選取的框")).toBeUndefined();
+
+    draw(); // draws and selects a mask
+    const deleteButton = buttonNamed("刪除選取的框");
+    if (!deleteButton) throw new Error("delete button missing");
+    act(() => deleteButton.click());
+
+    expect(container.querySelector('[data-box-key="m:0"]')).toBeNull();
+    expect(buttonNamed("刪除選取的框")).toBeUndefined();
+    await flushAutosave();
+    const [commit] = mocks.commitEditorChanges.mock.calls[0];
+    expect(commit.source.pages[0].masks).toEqual([]);
+  });
+
+  it("offers a cancel button for 新增區塊 on another page, where the target card is not shown", () => {
+    renderWorkspace();
+    const appendButton = buttonNamed("新增區塊");
+    if (!appendButton) throw new Error("append button missing");
+    act(() => appendButton.click());
+
+    const nextPage = buttonNamed("下一頁");
+    act(() => nextPage?.click());
+    expect(buttonNamed("取消新增區塊")).toBeUndefined(); // 第 1 題的卡片不在這一頁
+    expect(container.textContent).not.toContain("Esc");
+
+    const cancel = buttonNamed("取消");
+    if (!cancel) throw new Error("cancel button missing");
+    act(() => cancel.click());
+    expect(container.textContent).not.toContain("新增區塊：");
+
+    draw();
+    expect(headings()).toEqual(["第 2 題", "第 3 題"]); // 畫的是新題目，不是接到第 1 題
   });
 
   it("does not delete a question card selected while in mask mode", () => {
