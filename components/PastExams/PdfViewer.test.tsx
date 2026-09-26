@@ -104,8 +104,8 @@ describe("PdfViewer", () => {
     expect(canvases().map((canvas) => canvas.getAttribute("aria-label"))).toEqual(["第 1 頁", "第 2 頁"]);
     expect(canvases()[0].style.width).toBe("600px");
     expect(canvases()[0].style.height).toBe("800px");
-    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1);
-    expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 600, 1);
+    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1, 0);
+    expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 600, 1, 0);
   });
 
   it("applies the first reported width immediately, without waiting for the resize debounce", async () => {
@@ -116,7 +116,7 @@ describe("PdfViewer", () => {
     act(() => resizeObservedElements(600));
 
     expect(canvases()[0].style.width).toBe("600px");
-    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1);
+    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1, 0);
   });
 
   it("does not render while the viewer has no width", async () => {
@@ -184,7 +184,7 @@ describe("PdfViewer", () => {
     act(() => button("放大").click());
     expect(fitButton().textContent).toBe("125%");
     expect(canvases()[0].style.width).toBe("750px");
-    expect(pdf.renderPage).toHaveBeenLastCalledWith(1, canvases()[0], 750, 1);
+    expect(pdf.renderPage).toHaveBeenLastCalledWith(1, canvases()[0], 750, 1, 0);
 
     act(() => fitButton().click());
     expect(canvases()[0].style.width).toBe("600px");
@@ -215,18 +215,18 @@ describe("PdfViewer", () => {
     await resolveLoad(0, pdf);
     setWidth(600);
 
-    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1);
-    expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 600, 1);
+    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1, 0);
+    expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 600, 1, 0);
 
     act(() => setIntersecting(canvases()[1], false));
     act(() => button("放大").click());
 
-    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 750, 1);
-    expect(pdf.renderPage).not.toHaveBeenCalledWith(2, canvases()[1], 750, 1);
+    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 750, 1, 0);
+    expect(pdf.renderPage).not.toHaveBeenCalledWith(2, canvases()[1], 750, 1, 0);
 
     act(() => setIntersecting(canvases()[1], true));
 
-    expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 750, 1);
+    expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 750, 1, 0);
   });
 
   it("does not observe or render pages before the container width is known", async () => {
@@ -239,7 +239,7 @@ describe("PdfViewer", () => {
 
     setWidth(600);
 
-    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1);
+    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1, 0);
   });
 
   it("redraws a page after a slow render is cancelled before it can update the last-rendered width", async () => {
@@ -262,12 +262,74 @@ describe("PdfViewer", () => {
 
     act(() => button("放大").click());
     expect(pdf.renderPage).toHaveBeenCalledTimes(2);
-    expect(pdf.renderPage).toHaveBeenLastCalledWith(1, canvases()[0], 750, 1);
+    expect(pdf.renderPage).toHaveBeenLastCalledWith(1, canvases()[0], 750, 1, 0);
 
     act(() => fitButton().click());
 
     expect(pdf.renderPage).toHaveBeenCalledTimes(3);
-    expect(pdf.renderPage).toHaveBeenLastCalledWith(1, canvases()[0], 600, 1);
+    expect(pdf.renderPage).toHaveBeenLastCalledWith(1, canvases()[0], 600, 1, 0);
+  });
+
+  it("rotates every page 90° clockwise per click and back after four", async () => {
+    render("/exams/a.pdf");
+    const pdf = fakePdf(2);
+    await resolveLoad(0, pdf);
+    setWidth(600);
+    const turn = () => act(() => button("順時針旋轉").click());
+
+    turn();
+
+    expect(canvases().map((canvas) => [canvas.style.width, canvas.style.height])).toEqual([
+      ["600px", "450px"],
+      ["600px", "450px"],
+    ]);
+    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1, 90);
+    expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 600, 1, 90);
+
+    turn();
+    expect(canvases()[0].style.height).toBe("800px");
+    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1, 180);
+
+    turn();
+    turn();
+    expect(pdf.renderPage).toHaveBeenLastCalledWith(2, canvases()[1], 600, 1, 0);
+    // 一開始 0° 畫 2 頁，之後每轉一次 2 頁都重畫。
+    expect(pdf.renderPage).toHaveBeenCalledTimes(10);
+  });
+
+  it("turns a single page on its own, on top of the whole-document rotation", async () => {
+    render("/exams/a.pdf");
+    const pdf = fakePdf(2);
+    await resolveLoad(0, pdf);
+    setWidth(600);
+
+    act(() => button("旋轉第 2 頁").click());
+
+    expect(canvases().map((canvas) => canvas.style.height)).toEqual(["800px", "450px"]);
+    expect(pdf.renderPage).toHaveBeenLastCalledWith(2, canvases()[1], 600, 1, 90);
+
+    act(() => button("順時針旋轉").click());
+
+    expect(canvases().map((canvas) => canvas.style.height)).toEqual(["450px", "800px"]);
+    expect(pdf.renderPage).toHaveBeenCalledWith(1, canvases()[0], 600, 1, 90);
+    expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 600, 1, 180);
+  });
+
+  it("starts the next file upright", async () => {
+    render("/exams/a.pdf");
+    await resolveLoad(0, fakePdf(1));
+    setWidth(600);
+    act(() => button("順時針旋轉").click());
+    act(() => button("旋轉第 1 頁").click());
+    expect(canvases()[0].style.height).toBe("800px");
+    expect(canvases()[0].getAttribute("data-rotation")).toBe("180");
+
+    render("/exams/b.pdf");
+    const b = fakePdf(1);
+    await resolveLoad(1, b);
+
+    expect(canvases()[0].getAttribute("data-rotation")).toBe("0");
+    expect(b.renderPage).toHaveBeenLastCalledWith(1, canvases()[0], 600, 1, 0);
   });
 
   it("keeps the zoom level when the exam changes", async () => {
@@ -284,7 +346,7 @@ describe("PdfViewer", () => {
 
     expect(fitButton().textContent).toBe("125%");
     expect(canvases()[0].style.width).toBe("750px");
-    expect(b.renderPage).toHaveBeenCalledWith(1, canvases()[0], 750, 1);
+    expect(b.renderPage).toHaveBeenCalledWith(1, canvases()[0], 750, 1, 0);
   });
 
   it("uses the newest intersection entry when a callback reports several for the same page", async () => {
@@ -295,11 +357,11 @@ describe("PdfViewer", () => {
 
     act(() => setIntersecting(canvases()[1], false));
     act(() => button("放大").click());
-    expect(pdf.renderPage).not.toHaveBeenCalledWith(2, canvases()[1], 750, 1);
+    expect(pdf.renderPage).not.toHaveBeenCalledWith(2, canvases()[1], 750, 1, 0);
 
     // 同一次 callback 回報「先離開又進入」：真正的最新狀態是最後一筆（進入畫面）。
     act(() => setIntersecting(canvases()[1], false, true));
 
-    expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 750, 1);
+    expect(pdf.renderPage).toHaveBeenCalledWith(2, canvases()[1], 750, 1, 0);
   });
 });

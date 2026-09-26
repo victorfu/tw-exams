@@ -13,6 +13,24 @@ export function pageDisplaySize(page: Size, containerWidth: number, zoom: number
   return { width, height: page.width > 0 ? Math.round((width * page.height) / page.width) : 0 };
 }
 
+/** 使用者另外加上的旋轉角度（順時針）。 */
+export type Rotation = 0 | 90 | 180 | 270;
+
+/** 兩個角度相加，轉滿一圈回到 0°。 */
+export function addRotation(a: Rotation, b: Rotation): Rotation {
+  return ((a + b) % 360) as Rotation;
+}
+
+/** 順時針再轉 90°。 */
+export function stepRotation(rotation: Rotation): Rotation {
+  return addRotation(rotation, 90);
+}
+
+/** 旋轉後的頁面尺寸：轉 90°／270° 時寬高互換。 */
+export function rotateSize(size: Size, rotation: Rotation): Size {
+  return rotation % 180 === 0 ? size : { width: size.height, height: size.width };
+}
+
 /** iOS/iPadOS Safari 無法配置超過此像素數的 canvas（實測約 16.7M），留一點餘裕。 */
 export const MAX_CANVAS_PIXELS = 16_000_000;
 

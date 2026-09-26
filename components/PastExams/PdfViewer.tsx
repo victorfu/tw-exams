@@ -1,10 +1,22 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ExternalLink, Minus, Plus, RotateCw } from "lucide-react";
+import { ExternalLink, Minus, Plus, RotateCw, RotateCwSquare } from "lucide-react";
 import { logger } from "../../utils/logger";
 import { loadPdfDocument, PdfLoadError, type LoadedPdf } from "./pdfDocument";
-import { MAX_ZOOM, MIN_ZOOM, pageDisplaySize, renderPixelRatio, stepZoom, zoomLabel, type Size } from "./pdfLayout";
+import {
+  MAX_ZOOM,
+  MIN_ZOOM,
+  addRotation,
+  pageDisplaySize,
+  renderPixelRatio,
+  rotateSize,
+  stepRotation,
+  stepZoom,
+  zoomLabel,
+  type Rotation,
+  type Size,
+} from "./pdfLayout";
 
 const RESIZE_DEBOUNCE_MS = 150;
 
@@ -23,11 +35,16 @@ export function pdfErrorMessage(error: unknown): string {
 /**
  * 用 pdf.js 把考卷畫在 canvas 上：所有頁由上而下，快捲進畫面才畫，可縮放。
  * 換網址時中斷上一份的下載並釋放文件；縮放倍率跨考卷保留。
+ * 可以整份一起轉，也可以單獨轉某一頁（掃描方向不一的考卷）；旋轉只屬於這個網址，換檔案就轉回正。
  */
 export function PdfViewer({ url, title }: { url: string; title: string }) {
   const [attempt, setAttempt] = useState(0);
   const [result, setResult] = useState<LoadResult | null>(null);
   const [zoom, setZoom] = useState(1);
+  // 記下是哪個網址轉的：換網址時直接視為沒轉，不必在 effect 裡重設。
+  const [turned, setTurned] = useState<Turned | null>(null);
+  const { all, pages } = turned?.url === url ? turned : NOT_TURNED;
+  const pageRotation = (index: number) => addRotation(all, pages[index] ?? 0);
   const [containerWidth, setContainerWidth] = useState(0);
   const [scroller, setScroller] = useState<HTMLDivElement | null>(null);
 
@@ -120,7 +137,11 @@ export function PdfViewer({ url, title }: { url: string; title: string }) {
                 pdf={current.pdf}
                 pageNumber={index + 1}
                 root={scroller}
-                display={pageDisplaySize(size, containerWidth, zoom)}
+                rotation={pageRotation(index)}
+                display={pageDisplaySize(rotateSize(size, pageRotation(index)), containerWidth, zoom)}
+                onRotate={() =>
+                  setTurned({ url, all, pages: { ...pages, [index]: stepRotation(pages[index] ?? 0) } })
+                }
               />
             ))}
           </div>
@@ -155,22 +176,44 @@ export function PdfViewer({ url, title }: { url: string; title: string }) {
           >
             <Plus className="size-4" aria-hidden="true" />
           </button>
+          <button
+            type="button"
+            className="btn join-item btn-sm"
+            aria-label="順時針旋轉"
+            title="順時針旋轉 90°"
+            onClick={() => setTurned({ url, all: stepRotation(all), pages })}
+          >
+            <RotateCwSquare className="size-4" aria-hidden="true" />
+          </button>
         </div>
       )}
     </div>
   );
 }
 
+interface Turned {
+  url: string;
+  /** 整份一起轉的角度。 */
+  all: Rotation;
+  /** 各頁另外加的角度（index 從 0 起算）；疊在 all 上。 */
+  pages: Readonly<Record<number, Rotation>>;
+}
+
+const NOT_TURNED: Omit<Turned, "url"> = { all: 0, pages: {} };
+
 interface PdfPageProps {
   pdf: LoadedPdf;
   pageNumber: number;
   display: Size;
+  rotation: Rotation;
   root: Element | null;
+  onRotate: () => void;
 }
 
-function PdfPage({ pdf, pageNumber, display, root }: PdfPageProps) {
+function PdfPage({ pdf, pageNumber, display, rotation, root, onRotate }: PdfPageProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const lastRenderedWidthRef = useRef<number | null>(null);
+  // 上次畫好的「寬度＠角度」；方形頁轉 90° 寬度不變，所以角度也要算進去。
+  const lastRenderedRef = useRef<string | null>(null);
   const [intersecting, setIntersecting] = useState(false);
   const hasWidth = display.width > 0;
 
@@ -189,19 +232,20 @@ function PdfPage({ pdf, pageNumber, display, root }: PdfPageProps) {
     return () => observer.disconnect();
   }, [root, hasWidth]);
 
-  // 進入畫面、且寬度（縮放）跟上次畫的不一樣時才重畫；離開畫面保留舊畫面，不清除。
+  // 進入畫面、且寬度（縮放）或角度跟上次畫的不一樣時才重畫；離開畫面保留舊畫面，不清除。
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || !intersecting || display.width === 0) return;
-    if (lastRenderedWidthRef.current === display.width) return;
+    const key = `${display.width}@${rotation}`;
+    if (lastRenderedRef.current === key) return;
     // 開始畫之前先清掉：pdf.js 會在 render() 裡先把 canvas resize（連帶清空畫面），
     // 如果這次被取消，不能讓 ref 停留在舊寬度，害之後切回舊寬度時誤判成「畫過了」而跳過重畫。
-    lastRenderedWidthRef.current = null;
+    lastRenderedRef.current = null;
     const pixelRatio = renderPixelRatio(window.devicePixelRatio, { width: display.width, height: display.height });
-    const handle = pdf.renderPage(pageNumber, canvas, display.width, pixelRatio);
+    const handle = pdf.renderPage(pageNumber, canvas, display.width, pixelRatio, rotation);
     handle.promise.then(
       () => {
-        lastRenderedWidthRef.current = display.width;
+        lastRenderedRef.current = key;
       },
       (error: unknown) => {
         if (!(error instanceof Error && error.name === "RenderingCancelledException")) {
@@ -210,15 +254,27 @@ function PdfPage({ pdf, pageNumber, display, root }: PdfPageProps) {
       },
     );
     return () => handle.cancel();
-  }, [pdf, pageNumber, intersecting, display.width, display.height]);
+  }, [pdf, pageNumber, intersecting, display.width, display.height, rotation]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      role="img"
-      aria-label={`第 ${pageNumber} 頁`}
-      className="block bg-white shadow-sm"
-      style={{ width: display.width, height: display.height }}
-    />
+    <div className="relative">
+      <canvas
+        ref={canvasRef}
+        role="img"
+        aria-label={`第 ${pageNumber} 頁`}
+        data-rotation={rotation}
+        className="block bg-white shadow-sm"
+        style={{ width: display.width, height: display.height }}
+      />
+      <button
+        type="button"
+        className="btn btn-square btn-xs absolute top-2 right-2 opacity-70 shadow-sm hover:opacity-100 focus-visible:opacity-100"
+        aria-label={`旋轉第 ${pageNumber} 頁`}
+        title="只轉這一頁"
+        onClick={onRotate}
+      >
+        <RotateCwSquare className="size-3.5" aria-hidden="true" />
+      </button>
+    </div>
   );
 }

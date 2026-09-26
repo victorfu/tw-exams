@@ -1,5 +1,5 @@
 import type { PDFDocumentProxy, RenderTask } from "pdfjs-dist";
-import type { Size } from "./pdfLayout";
+import type { Rotation, Size } from "./pdfLayout";
 
 export interface RenderHandle {
   promise: Promise<void>;
@@ -7,9 +7,16 @@ export interface RenderHandle {
 }
 
 export interface LoadedPdf {
-  /** 每頁原始尺寸（scale 1），順序同頁碼。 */
+  /** 每頁原始尺寸（scale 1，已套用 PDF 本身的旋轉），順序同頁碼。 */
   pageSizes: Size[];
-  renderPage(pageNumber: number, canvas: HTMLCanvasElement, cssWidth: number, pixelRatio: number): RenderHandle;
+  /** rotation 是使用者另外加上的角度，疊在 PDF 本身的旋轉上。 */
+  renderPage(
+    pageNumber: number,
+    canvas: HTMLCanvasElement,
+    cssWidth: number,
+    pixelRatio: number,
+    rotation: Rotation,
+  ): RenderHandle;
   destroy(): void;
 }
 
@@ -51,14 +58,16 @@ export async function loadPdfDocument(url: string, signal: AbortSignal): Promise
 
   return {
     pageSizes,
-    renderPage(pageNumber, canvas, cssWidth, pixelRatio) {
+    renderPage(pageNumber, canvas, cssWidth, pixelRatio, rotation) {
       let task: RenderTask | null = null;
       let cancelled = false;
       const promise = (async () => {
         const page = await pdf.getPage(pageNumber);
         if (cancelled) return;
-        const base = page.getViewport({ scale: 1 });
-        const viewport = page.getViewport({ scale: (cssWidth * pixelRatio) / base.width });
+        // 指定 rotation 會取代 PDF 本身的 /Rotate，所以要自己疊上去。
+        const pageRotation = (page.rotate + rotation) % 360;
+        const base = page.getViewport({ scale: 1, rotation: pageRotation });
+        const viewport = page.getViewport({ scale: (cssWidth * pixelRatio) / base.width, rotation: pageRotation });
         canvas.width = Math.round(viewport.width);
         canvas.height = Math.round(viewport.height);
         task = page.render({ canvas, viewport, background: "rgb(255,255,255)" });

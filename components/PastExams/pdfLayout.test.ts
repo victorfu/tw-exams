@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MAX_CANVAS_PIXELS, pageDisplaySize, renderPixelRatio, stepZoom, zoomLabel } from "./pdfLayout";
+import { MAX_CANVAS_PIXELS, pageDisplaySize, renderPixelRatio, addRotation, rotateSize, stepRotation, stepZoom, zoomLabel, type Rotation } from "./pdfLayout";
 
 describe("pageDisplaySize", () => {
   it("fits the page to the container width, keeping its aspect ratio", () => {
@@ -46,6 +46,26 @@ describe("stepZoom", () => {
     [0.5, -1, 0.5],
   ] as const)("%s stepped %s → %s", (zoom, direction, expected) => {
     expect(stepZoom(zoom, direction)).toBe(expected);
+  });
+});
+
+describe("rotation", () => {
+  it("turns 90° clockwise per step and wraps around", () => {
+    expect([0, 90, 180, 270].map((rotation) => stepRotation(rotation as Rotation))).toEqual([90, 180, 270, 0]);
+  });
+
+  it("adds two rotations, wrapping past a full turn", () => {
+    expect(addRotation(90, 90)).toBe(180);
+    expect(addRotation(270, 180)).toBe(90);
+    expect(addRotation(0, 0)).toBe(0);
+  });
+
+  it("swaps width and height for quarter turns", () => {
+    const page = { width: 600, height: 800 };
+    expect(rotateSize(page, 0)).toEqual(page);
+    expect(rotateSize(page, 90)).toEqual({ width: 800, height: 600 });
+    expect(rotateSize(page, 180)).toEqual(page);
+    expect(rotateSize(page, 270)).toEqual({ width: 800, height: 600 });
   });
 });
 
