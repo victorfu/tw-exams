@@ -31,7 +31,7 @@ export function PrintToolbar({
   const ready = loadedCount >= totalCount;
 
   return (
-    <div className="sticky top-0 z-10 mb-4 space-y-2 border-b border-base-300 bg-base-100/90 px-4 py-2 backdrop-blur-md print:hidden">
+    <div className="sticky top-0 z-10 mb-4 space-y-2 border-b border-base-300 bg-base-100 px-4 py-2 print:hidden">
       <div className="mx-auto flex max-w-4xl flex-wrap items-center gap-3">
         <button type="button" className="btn btn-ghost btn-sm" aria-label="返回" onClick={onBack}>
           <ArrowLeft className="size-4" />

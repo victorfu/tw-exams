@@ -31,7 +31,7 @@ npm run build
 
 ## 程式結構
 
-- `app/`：路由與版面；`(app)` 群組有頂部列，`(print)` 群組是全螢幕列印頁。`globals.css` 是 daisyUI 主題（`ollielight`／`olliedark`）與設計 token。
+- `app/`：路由與版面；`(app)` 群組有頂部列，`(print)` 群組是全螢幕列印頁。`globals.css` 是 daisyUI 主題（`paopaolight`／`paopaodark`）與設計 token。
 - `components/MyExams/`：功能元件與純函式（框的幾何、排序、抽題、列印設定）。
 - `services/`：來源、題目、考卷的資料存取（目前是記憶體 mock）。
 - `hooks/`：題庫載入、自動儲存、頁圖網址。

@@ -24,5 +24,8 @@ images.forEach((image, i) => {
 await writeFile(new URL("../app/favicon.ico", import.meta.url), Buffer.concat([header, ...images]));
 
 // iOS 會自己裁圓角：用直角滿版底色。
-const square = Buffer.from(svg.toString().replace('rx="14" ', ""));
+const svgText = svg.toString();
+const squareText = svgText.replace('rx="14" ', "");
+if (squareText === svgText) throw new Error('icon.svg no longer contains rx="14" — update generate-icons.mjs');
+const square = Buffer.from(squareText);
 await writeFile(new URL("../app/apple-icon.png", import.meta.url), await png(180, square));

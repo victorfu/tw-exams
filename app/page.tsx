@@ -15,7 +15,7 @@ export default function Home() {
             <Link
               key={section.href}
               href={section.href}
-              className="surface-card rounded-xl px-5 py-4 text-center text-base font-medium font-display transition-colors duration-200 hover:bg-accent-tint hover:text-accent"
+              className="surface-card rounded-xl px-5 py-4 text-center text-base font-display transition-colors duration-200 hover:bg-accent-tint hover:text-accent"
             >
               {section.label}
             </Link>
