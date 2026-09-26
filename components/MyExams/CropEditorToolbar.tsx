@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Trash2 } from "lucide-react";
+import { ArrowLeft, Plus, Trash2 } from "lucide-react";
 import type { AutosaveStatus } from "../../hooks/autosaveQueue";
 
 type EditorMode = "question" | "mask";
@@ -18,6 +18,8 @@ interface CropEditorToolbarProps {
   onCancelAppend: () => void;
   /** 目前模式下有選取的框時才有：觸控裝置沒有 Delete 鍵，要有看得到的刪除按鈕。 */
   onDeleteSelection: (() => void) | null;
+  /** 在頁面中央加一個預設大小的框（目前模式）：不用指標也能建框。 */
+  onAddBox: () => void;
 }
 
 function SaveStatus({ status, onRetry }: { status: AutosaveStatus; onRetry: () => void }) {
@@ -46,6 +48,7 @@ export function CropEditorToolbar({
   appendHint,
   onCancelAppend,
   onDeleteSelection,
+  onAddBox,
 }: CropEditorToolbarProps) {
   const [draft, setDraft] = useState(title);
   // 開始編輯時的標題：欄位被清空時退回這個標題，不存空白標題。
@@ -108,6 +111,10 @@ export function CropEditorToolbar({
             遮蓋
           </button>
         </div>
+        <button type="button" className="btn btn-sm btn-outline" onClick={onAddBox}>
+          <Plus className="size-4" />
+          新增框
+        </button>
         {onDeleteSelection && (
           <button
             type="button"
@@ -135,6 +142,8 @@ export function CropEditorToolbar({
         {mode === "question"
           ? "在頁面上拖拉框出一題；點框可以移動，拉四個角調整大小。觸控時上下滑動會捲動頁面，橫向拖拉才會開始框選。"
           : "遮蓋模式：框出要蓋掉的答案或紅筆，印出來會是白色；點選遮蓋框後可以按「刪除」移除。"}
+        {" "}
+        鍵盤：「新增框」或 Tab 選框，方向鍵移動（加 Shift 一次移多一點），Alt／Option＋方向鍵調整大小，Delete 刪除。
       </p>
     </div>
   );

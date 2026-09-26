@@ -19,6 +19,7 @@ function render(overrides: Partial<Props> = {}): Props {
     appendHint: null,
     onCancelAppend: vi.fn(),
     onDeleteSelection: null,
+    onAddBox: vi.fn(),
     ...overrides,
   };
   act(() => root.render(<CropEditorToolbar {...props} />));
@@ -103,5 +104,19 @@ describe("CropEditorToolbar", () => {
     const props = render();
     typeInto(titleInput(), "數學 2");
     expect(props.onRename).toHaveBeenCalledWith("數學 2");
+  });
+
+  it("adds a box without a pointer from the 新增框 button", () => {
+    const props = render();
+    const add = [...container.querySelectorAll("button")].find((button) => button.textContent?.trim() === "新增框");
+    if (!add) throw new Error("add button missing");
+    act(() => add.click());
+    expect(props.onAddBox).toHaveBeenCalledTimes(1);
+  });
+
+  it.each(["question", "mask"] as const)("mentions the keyboard keys in the %s mode hint", (mode) => {
+    render({ mode });
+    expect(container.textContent).toContain("方向鍵");
+    expect(container.textContent).toContain("Alt");
   });
 });

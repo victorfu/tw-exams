@@ -1,6 +1,12 @@
 "use client";
 
-import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import {
+  useRef,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import type { Box } from "../../types/questionBank";
 import {
   boxFromPoints,
@@ -17,6 +23,8 @@ export interface CanvasBox {
   key: string;
   box: Box;
   label?: string;
+  /** 螢幕閱讀器念的名稱（「第 1 題」「第 1 題（續）」「遮蓋 1」）；沒給時用 label。 */
+  name?: string;
 }
 
 /**
@@ -55,12 +63,40 @@ interface CropCanvasProps {
 
 const CORNERS: readonly Corner[] = ["nw", "ne", "sw", "se"];
 
+// 水平位置用 --handle-inset（見 handleInsetStyle），垂直照舊置中在角上。
 const CORNER_CLASS: Record<Corner, string> = {
-  nw: "left-0 top-0 cursor-nwse-resize",
-  ne: "left-full top-0 cursor-nesw-resize",
-  sw: "left-0 top-full cursor-nesw-resize",
-  se: "left-full top-full cursor-nwse-resize",
+  nw: "left-(--handle-inset) top-0 cursor-nwse-resize",
+  ne: "right-(--handle-inset) top-0 cursor-nesw-resize",
+  sw: "left-(--handle-inset) top-full cursor-nesw-resize",
+  se: "right-(--handle-inset) top-full cursor-nwse-resize",
 };
+
+const DOT_CLASS: Record<Corner, string> = {
+  nw: "left-(--dot-inset)",
+  ne: "right-(--dot-inset)",
+  sw: "left-(--dot-inset)",
+  se: "right-(--dot-inset)",
+};
+
+/** 把手點擊範圍（size-11 = 44px）與看得到的小方塊（size-3 = 12px）的一半。 */
+const HANDLE_HALF_PX = 22;
+const DOT_HALF_PX = 6;
+
+/**
+ * 角落把手的水平位置。有空間時置中在角上（凸出框外一半）；框貼近圖片左右邊時往內收，
+ * 最多凸出到圖片邊緣為止，才不會被外層的 overflow-x-clip 切掉、按不到。
+ * room 是框外到圖片邊緣的距離（頁寬比例），100cqw 是圖片寬度（overlay 是 @container）。
+ * --handle-inset 是點擊範圍相對框邊的 left／right；--dot-inset 是小方塊在點擊範圍裡的位置。
+ */
+function handleInsetStyle(box: Box, corner: Corner): CSSProperties {
+  const room = corner === "nw" || corner === "sw" ? box.x : 1 - box.x - box.w;
+  const limit = `-${Math.max(0, room) * 100}cqw`;
+  const hit = `max(-${HANDLE_HALF_PX}px, ${limit})`;
+  return {
+    "--handle-inset": hit,
+    "--dot-inset": `calc(max(-${DOT_HALF_PX}px, ${limit}) - ${hit})`,
+  } as CSSProperties;
+}
 
 function dragResult(drag: Drag): Box {
   switch (drag.type) {
@@ -205,11 +241,20 @@ export function CropCanvas({
     if (drag && event.pointerId === drag.pointerId) setDrag(null);
   };
 
+  // 鍵盤：Tab 到框上就選取它，Enter／空白鍵也可以（例如按 Esc 取消選取後再選回來）。
+  // 移動、縮放、刪除的按鍵由編輯器在 window 上處理，作用在選取中的框。
+  const selectWithKey = (item: CanvasBox) => (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    onSelect(item.key);
+  };
+
   const drawPreview = liveDrag?.type === "draw" ? dragResult(liveDrag) : null;
 
   return (
     // overflow-x-clip：貼右邊的框，角落把手的點擊範圍會凸出圖片外；手機的左右邊距比它窄，
     // 不裁掉的話選取時頁面會多出可以左右捲的寬度。只裁水平方向，上下不受影響。
+    // 貼邊的把手會往內收（handleInsetStyle），不會被裁掉一半。
     <div className="relative select-none overflow-x-clip">
       {imageUrl ? (
         <img src={imageUrl} alt={imageAlt} draggable={false} className="block h-auto w-full" />
@@ -222,7 +267,7 @@ export function CropCanvas({
       <div
         ref={overlayRef}
         data-testid="crop-overlay"
-        className={`absolute inset-0 touch-pan-y touch-pinch-zoom ${mode === "question" ? "cursor-crosshair" : "cursor-cell"}`}
+        className={`@container absolute inset-0 touch-pan-y touch-pinch-zoom ${mode === "question" ? "cursor-crosshair" : "cursor-cell"}`}
         onPointerDown={startDraw}
         onPointerMove={handleMove}
         onPointerUp={handleUp}
@@ -258,9 +303,15 @@ export function CropCanvas({
             <div
               key={item.key}
               data-box-key={item.key}
-              className={`absolute cursor-move touch-none border-2 ${look}${showHandles ? " z-10" : ""}`}
+              role="button"
+              tabIndex={0}
+              aria-label={item.name ?? item.label}
+              aria-pressed={selected}
+              className={`absolute cursor-move touch-none border-2 outline-offset-2 focus-visible:outline-2 focus-visible:outline-primary ${look}${showHandles ? " z-10" : ""}`}
               style={boxStyle(box)}
               onPointerDown={startMove(item)}
+              onFocus={() => onSelect(item.key)}
+              onKeyDown={selectWithKey(item)}
             >
               {item.label && (
                 <span className="pointer-events-none absolute left-0 top-0 rounded-br bg-primary px-1 text-xs font-semibold text-primary-content">
@@ -272,10 +323,13 @@ export function CropCanvas({
                   <div
                     key={corner}
                     data-corner={corner}
-                    className={`absolute flex size-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center ${CORNER_CLASS[corner]}`}
+                    className={`absolute size-11 -translate-y-1/2 ${CORNER_CLASS[corner]}`}
+                    style={handleInsetStyle(box, corner)}
                     onPointerDown={startResize(item, corner)}
                   >
-                    <span className="size-3 rounded-sm border-2 border-primary bg-white" />
+                    <span
+                      className={`absolute top-1/2 size-3 -translate-y-1/2 rounded-sm border-2 border-primary bg-white ${DOT_CLASS[corner]}`}
+                    />
                   </div>
                 ))}
             </div>

@@ -83,6 +83,14 @@ function pressKey(key: string, target: EventTarget = window): void {
   });
 }
 
+function pressKeyWith(init: KeyboardEventInit, target: EventTarget = window): KeyboardEvent {
+  const event = new KeyboardEvent("keydown", { bubbles: true, cancelable: true, ...init });
+  act(() => {
+    target.dispatchEvent(event);
+  });
+  return event;
+}
+
 function typeInto(input: HTMLInputElement, value: string): void {
   const setValue = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
   act(() => {
@@ -107,6 +115,11 @@ function boxElement(key: string): Element {
   const element = container.querySelector(`[data-box-key="${key}"]`);
   if (!element) throw new Error(`box ${key} missing`);
   return element;
+}
+
+function lastCommit() {
+  const [commit] = mocks.commitEditorChanges.mock.calls.at(-1) ?? [];
+  return commit;
 }
 
 async function flushAutosave(): Promise<void> {
@@ -212,13 +225,14 @@ describe("CropEditorWorkspace", () => {
 
   it("offers a cancel button for 新增區塊 on another page, where the target card is not shown", () => {
     renderWorkspace();
-    const appendButton = buttonNamed("新增區塊");
+    const appendButton = buttonNamed("新增區塊到第 1 題");
     if (!appendButton) throw new Error("append button missing");
     act(() => appendButton.click());
+    expect(buttonNamed("取消新增區塊到第 1 題")).toBeDefined();
 
     const nextPage = buttonNamed("下一頁");
     act(() => nextPage?.click());
-    expect(buttonNamed("取消新增區塊")).toBeUndefined(); // 第 1 題的卡片不在這一頁
+    expect(buttonNamed("取消新增區塊到第 1 題")).toBeUndefined(); // 第 1 題的卡片不在這一頁
     expect(container.textContent).not.toContain("Esc");
 
     const cancel = buttonNamed("取消");
@@ -408,4 +422,120 @@ describe("CropEditorWorkspace", () => {
       }
     },
   );
+
+  describe("keyboard", () => {
+    function clickButton(name: string): void {
+      const button = buttonNamed(name);
+      if (!button) throw new Error(`button ${name} missing`);
+      act(() => button.click());
+    }
+
+    it("adds a centred question box from the 新增框 button and selects it", async () => {
+      renderWorkspace();
+      clickButton("新增框");
+
+      expect(headings()).toEqual(["第 1 題", "第 3 題"]);
+      expect(boxElement("q:new-1:0").getAttribute("aria-pressed")).toBe("true");
+      await flushAutosave();
+      const box = lastCommit().upserts[0].regions[0].box;
+      expect(box.x + box.w / 2).toBeCloseTo(0.5);
+      expect(box.y + box.h / 2).toBeCloseTo(0.5);
+    });
+
+    it("adds a mask from the 新增框 button in mask mode", async () => {
+      renderWorkspace();
+      clickButton("遮蓋");
+      clickButton("新增框");
+
+      expect(boxElement("m:0").getAttribute("aria-pressed")).toBe("true");
+      await flushAutosave();
+      expect(lastCommit().source.pages[0].masks).toHaveLength(1);
+      expect(headings()).toEqual(["第 1 題"]);
+    });
+
+    it("appends a region to the 新增區塊 target from the 新增框 button", async () => {
+      renderWorkspace();
+      clickButton("新增區塊到第 1 題");
+      clickButton("新增框");
+
+      expect(headings()).toEqual(["第 1 題"]);
+      expect(boxElement("q:q1:1").getAttribute("aria-pressed")).toBe("true");
+      expect(container.textContent).not.toContain("新增區塊：");
+      await flushAutosave();
+      expect(lastCommit().upserts[0].regions).toHaveLength(2);
+    });
+
+    it("moves the selected box with the arrow keys and resizes it with Alt, autosaving the result", async () => {
+      renderWorkspace("/my-exams/sources/source-1?q=q1"); // q1：{ x: 0.1, y: 0.1, w: 0.3, h: 0.1 }
+      const right = pressKeyWith({ key: "ArrowRight" });
+      expect(right.defaultPrevented).toBe(true); // 不捲動頁面
+      pressKeyWith({ key: "ArrowDown", shiftKey: true });
+      pressKeyWith({ key: "ArrowRight", altKey: true });
+      await flushAutosave();
+
+      const box = lastCommit().upserts[0].regions[0].box;
+      expect(box.x).toBeCloseTo(0.105);
+      expect(box.y).toBeCloseTo(0.15);
+      expect(box.w).toBeCloseTo(0.305);
+      expect(box.h).toBeCloseTo(0.1);
+    });
+
+    it("moves the box focused with Tab", async () => {
+      renderWorkspace();
+      const box = boxElement("q:q1:0") as HTMLElement;
+      act(() => box.focus());
+      pressKeyWith({ key: "ArrowLeft" }, box);
+      await flushAutosave();
+      expect(lastCommit().upserts[0].regions[0].box.x).toBeCloseTo(0.095);
+    });
+
+    it("does not move the selected box while typing in a field or when nothing is selected", async () => {
+      renderWorkspace("/my-exams/sources/source-1?q=q1");
+      const answer = container.querySelector<HTMLInputElement>('input[placeholder^="例如"]');
+      if (!answer) throw new Error("answer input missing");
+      const inField = pressKeyWith({ key: "ArrowRight" }, answer);
+      expect(inField.defaultPrevented).toBe(false);
+
+      pressKey("Escape");
+      const unselected = pressKeyWith({ key: "ArrowRight" });
+      expect(unselected.defaultPrevented).toBe(false); // 沒有選取時照常捲動頁面
+      await flushAutosave();
+      expect(mocks.commitEditorChanges).not.toHaveBeenCalled();
+    });
+
+    it("does not move a question selected from its card while in mask mode", async () => {
+      renderWorkspace();
+      clickButton("遮蓋");
+      clickButton("第 1 題");
+      pressKeyWith({ key: "ArrowRight" });
+      await flushAutosave();
+      expect(mocks.commitEditorChanges).not.toHaveBeenCalled();
+    });
+
+    it("selects a question from a real button on its card", () => {
+      renderWorkspace();
+      const select = buttonNamed("第 1 題");
+      if (!select) throw new Error("select button missing");
+      expect(select.getAttribute("aria-pressed")).toBe("false");
+      act(() => select.click());
+      expect(buttonNamed("第 1 題")?.getAttribute("aria-pressed")).toBe("true");
+
+      pressKey("Backspace");
+      expect(headings()).toEqual([]);
+    });
+
+    it("names the card and its per-question buttons after the question", () => {
+      const regionA = { pageIndex: 0, box: { x: 0.1, y: 0.1, w: 0.3, h: 0.1 } };
+      const regionB = { pageIndex: 1, box: { x: 0.1, y: 0.1, w: 0.3, h: 0.1 } };
+      renderWorkspace(undefined, { questions: [makeQuestion({ id: "q1", regions: [regionA, regionB] })] });
+
+      expect(container.querySelector("article")?.getAttribute("aria-label")).toBe("第 1 題");
+      expect(buttonNamed("移除第 1 題的區塊 1")?.textContent).toBe("移除");
+      expect(buttonNamed("移除第 1 題的區塊 2")?.textContent).toBe("移除");
+      expect(buttonNamed("新增區塊到第 1 題")?.textContent).toBe("新增區塊");
+
+      act(() => buttonNamed("下一頁")?.click());
+      expect(container.querySelector("article")?.getAttribute("aria-label")).toBe("第 1 題（續）");
+    });
+  });
 });

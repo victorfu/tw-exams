@@ -378,6 +378,82 @@ describe("CropCanvas", () => {
     expect(root?.className).toContain("overflow-x-clip");
   });
 
+  it("keeps the corner handles of a box touching the page edges inside the clip area", () => {
+    // 畫框會夾到 0／1：貼邊的框，把手置中在角上會被 overflow-x-clip 切掉一半，
+    // 要往內收，看得到也按得到。
+    renderCanvas({
+      questionBoxes: [{ key: "q:a:0", box: { x: 0, y: 0.1, w: 1, h: 0.2 } }],
+      selectedKey: "q:a:0",
+    });
+    expect(overlay().className).toContain("@container");
+    for (const corner of ["nw", "sw"]) {
+      const handle = cornerHandle("q:a:0", corner);
+      expect(handle.className).toContain("left-(--handle-inset)");
+      expect(handle.className).not.toContain("-translate-x-1/2");
+      expect(handle.style.getPropertyValue("--handle-inset")).toBe("max(-22px, -0cqw)");
+    }
+    for (const corner of ["ne", "se"]) {
+      const handle = cornerHandle("q:a:0", corner);
+      expect(handle.className).toContain("right-(--handle-inset)");
+      expect(handle.style.getPropertyValue("--handle-inset")).toBe("max(-22px, -0cqw)");
+    }
+  });
+
+  it("centres the handles on the corners when there is room beside the box", () => {
+    renderCanvas({
+      questionBoxes: [{ key: "q:a:0", box: { x: 0.25, y: 0.1, w: 0.5, h: 0.2 } }],
+      selectedKey: "q:a:0",
+    });
+    expect(cornerHandle("q:a:0", "nw").style.getPropertyValue("--handle-inset")).toBe("max(-22px, -25cqw)");
+    expect(cornerHandle("q:a:0", "se").style.getPropertyValue("--handle-inset")).toBe("max(-22px, -25cqw)");
+    // 看得到的小方塊也一樣：有空間時置中在角上（-6px），貼邊時收進框內。
+    expect(cornerHandle("q:a:0", "nw").style.getPropertyValue("--dot-inset")).toBe(
+      "calc(max(-6px, -25cqw) - max(-22px, -25cqw))",
+    );
+  });
+
+  it("makes the current mode's boxes focusable buttons with a name and pressed state", () => {
+    renderCanvas({
+      questionBoxes: [
+        { key: "q:a:0", box: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 }, label: "1", name: "第 1 題" },
+        { key: "q:a:1", box: { x: 0.5, y: 0.5, w: 0.2, h: 0.2 }, label: "1（續）", name: "第 1 題（續）" },
+      ],
+      maskBoxes: [{ key: "m:0", box: { x: 0.1, y: 0.6, w: 0.2, h: 0.2 }, name: "遮蓋 1" }],
+      selectedKey: "q:a:1",
+    });
+    const first = boxElement("q:a:0");
+    expect(first.tabIndex).toBe(0);
+    expect(first.getAttribute("role")).toBe("button");
+    expect(first.getAttribute("aria-label")).toBe("第 1 題");
+    expect(first.getAttribute("aria-pressed")).toBe("false");
+    expect(boxElement("q:a:1").getAttribute("aria-label")).toBe("第 1 題（續）");
+    expect(boxElement("q:a:1").getAttribute("aria-pressed")).toBe("true");
+    // 另一個模式的框是被動的，不在 Tab 順序裡
+    expect(container.querySelector('[data-box-key="m:0"]')).toBeNull();
+  });
+
+  it("selects a box when it receives keyboard focus", () => {
+    const props = renderCanvas({
+      questionBoxes: [{ key: "q:a:0", box: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 }, name: "第 1 題" }],
+    });
+    act(() => boxElement("q:a:0").focus());
+    expect(props.onSelect).toHaveBeenCalledWith("q:a:0");
+  });
+
+  it.each(["Enter", " "])("selects the focused box with %j", (key) => {
+    const props = renderCanvas({
+      mode: "mask",
+      maskBoxes: [{ key: "m:0", box: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 }, name: "遮蓋 1" }],
+    });
+    const box = boxElement("m:0");
+    const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+    act(() => {
+      box.dispatchEvent(event);
+    });
+    expect(props.onSelect).toHaveBeenCalledWith("m:0");
+    expect(event.defaultPrevented).toBe(true); // 空白鍵不捲動頁面
+  });
+
   it("only lets the current mode's boxes be grabbed", () => {
     const props = renderCanvas({
       mode: "mask",

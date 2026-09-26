@@ -45,15 +45,26 @@ export function QuestionCard({
   onDelete,
   onRetryImage,
 }: QuestionCardProps) {
+  const title = `第 ${number} 題${isContinuation ? "（續）" : ""}`;
   return (
+    // 點卡片任何地方都能選取（滑鼠方便）；鍵盤與螢幕閱讀器用標題那顆按鈕。
     <article
+      aria-label={title}
       className={`card border bg-base-100 p-3 shadow-sm ${selected ? "border-primary" : "border-base-300"}`}
       onClick={onSelect}
     >
       <header className="flex items-center justify-between text-sm font-semibold">
-        <span>
-          第 {number} 題{isContinuation ? "（續）" : ""}
-        </span>
+        <button
+          type="button"
+          aria-pressed={selected}
+          className="-mx-1 rounded px-1 text-left hover:underline focus-visible:outline-2 focus-visible:outline-primary"
+          onClick={(event) => {
+            event.stopPropagation();
+            onSelect();
+          }}
+        >
+          <span>{title}</span>
+        </button>
         <button
           type="button"
           className="btn btn-ghost btn-xs text-error"
@@ -132,6 +143,7 @@ export function QuestionCard({
               <button
                 type="button"
                 className="btn btn-ghost btn-xs"
+                aria-label={`移除第 ${number} 題的區塊 ${regionIndex + 1}`}
                 onClick={(event) => {
                   event.stopPropagation();
                   onRemoveRegion(regionIndex);
@@ -147,6 +159,7 @@ export function QuestionCard({
       <button
         type="button"
         className={`btn btn-xs mt-2 ${appending ? "btn-primary" : "btn-outline"}`}
+        aria-label={`${appending ? "取消新增區塊" : "新增區塊"}到第 ${number} 題`}
         onClick={(event) => {
           event.stopPropagation();
           onToggleAppend();
