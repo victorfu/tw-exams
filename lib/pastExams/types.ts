@@ -3,6 +3,18 @@ export type PastExamFormat = "pdf" | "word";
 
 export type PastExamType = "midterm" | "final";
 
+/** 同一份考卷的哪個檔：題目卷或解答卷。 */
+export type ExamFileRole = "question" | "answer";
+
+/** 解答卷；只有 cowork 已下載並驗證過的才會出現。 */
+export interface PastExamAnswer {
+  /** 以 `output/` 為基準的相對路徑（`…/answers/…`）。 */
+  file: string;
+  format: PastExamFormat;
+  pages: number | null;
+  bytes: number | null;
+}
+
 /** 一個資料集：科目 × 年級 × 學期 × 版本。 */
 export interface PastExamCollection {
   id: string;
@@ -36,6 +48,8 @@ export interface PastExam {
   bytes: number | null;
   /** 檔案已下載，可以預覽或下載。 */
   available: boolean;
+  /** 解答卷；沒有或尚未下載時是 null。 */
+  answer: PastExamAnswer | null;
   /** cowork 已正規化過的搜尋字串（NFKC、小寫、臺→台、年級別名）。 */
   searchText: string;
 }

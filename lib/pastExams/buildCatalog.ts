@@ -1,7 +1,7 @@
 // 把 cowork 的 catalog（catalog-info.json＋catalog.jsonl，schema_version 1）精簡成頁面用的
 // data/pastExams.json。同步腳本（Node 直接跑 TS）與測試共用，所以只能用可被型別剝除的語法，
 // 也只能 `import type`。
-import type { PastExam, PastExamCatalog, PastExamCollection, PastExamFormat, PastExamType } from "./types";
+import type { PastExam, PastExamAnswer, PastExamCatalog, PastExamCollection, PastExamFormat, PastExamType } from "./types";
 
 export const SUPPORTED_SCHEMA_VERSION = 1;
 
@@ -45,7 +45,18 @@ export interface CatalogRecord {
     page_count: number | null;
     [key: string]: unknown;
   };
+  answer_file?: CatalogAnswerFile | null;
+  answer_downloaded?: boolean;
   search_text: string;
+  [key: string]: unknown;
+}
+
+export interface CatalogAnswerFile {
+  relative_path: string;
+  format: string;
+  downloaded: boolean;
+  bytes: number | null;
+  page_count: number | null;
   [key: string]: unknown;
 }
 
@@ -76,6 +87,18 @@ export function isSafeRelativePath(path: unknown): path is string {
   if (typeof path !== "string" || path === "") return false;
   if (path.includes("\\") || path.includes(":")) return false;
   return path.split("/").every((segment) => segment !== "" && segment !== "." && segment !== "..");
+}
+
+/** 只收 cowork 已下載並驗證過的解答卷；路徑與格式的檢查和題目卷相同。 */
+function buildAnswer(record: CatalogRecord, where: string): PastExamAnswer | null {
+  const answer = record.answer_file;
+  if (!answer || !answer.downloaded || record.answer_downloaded === false) return null;
+  if (!isSafeRelativePath(answer.relative_path)) {
+    throw new CatalogError(`${where} 的 answer_file relative_path ${JSON.stringify(answer.relative_path)} 會跳出根目錄`);
+  }
+  const format = FORMATS[answer.format];
+  if (!format) throw new CatalogError(`${where} 的 answer_file format ${JSON.stringify(answer.format)} 不支援`);
+  return { file: answer.relative_path, format, pages: answer.page_count, bytes: answer.bytes };
 }
 
 export function buildCatalog(info: CatalogInfo, records: readonly CatalogRecord[]): PastExamCatalog {
@@ -144,6 +167,7 @@ export function buildCatalog(info: CatalogInfo, records: readonly CatalogRecord[
       pages: file.page_count,
       bytes: file.bytes,
       available: file.downloaded,
+      answer: buildAnswer(record, where),
       // cowork 已經把「臺」寫成「台」；這裡再折疊一次，頁面搜尋就不必每次重做。
       searchText: record.search_text.replaceAll("臺", "台"),
     };

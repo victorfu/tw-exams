@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import { get } from "@vercel/blob";
-import { findAvailableExamByFile } from "@/lib/pastExams/catalog";
+import { findExamFile } from "@/lib/pastExams/catalog";
 import { handleExamFileRequest } from "@/lib/pastExams/examFileHandler";
 import { examFileSourceFromEnv } from "@/lib/pastExams/fileSources";
 
@@ -9,5 +9,5 @@ const source = examFileSourceFromEnv(process.env, { outputDir: join(process.cwd(
 
 export async function GET(request: Request, { params }: { params: Promise<{ path: string[] }> }): Promise<Response> {
   const { path } = await params;
-  return handleExamFileRequest(request, path, { findExam: findAvailableExamByFile, source });
+  return handleExamFileRequest(request, path, { findFile: findExamFile, source });
 }

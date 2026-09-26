@@ -27,6 +27,7 @@
 
 - 考古題集中瀏覽：依年級、學期、科目挑選資料集，再用縣市、學年度、期中／期末與關鍵字篩選
 - 頁面內預覽：PDF 用 pdf.js 直接畫在頁面上，可用 `←` `→` 切換上一份／下一份；Word 檔可下載
+- 解答卷：有解答的考卷在清單上標「解答」，預覽上方可切換「題目｜解答」
 - 題庫自己建：照片或 PDF 上傳後手動框題，跨欄、跨頁的題目可以由多個區塊組成
 - 考古題一鍵匯入：看到喜歡的考古題，直接匯入自製考卷開始框題
 - 蓋掉寫過的答案：用白色遮蓋框蓋住作答痕跡，印出來就是乾淨的題目
@@ -38,7 +39,7 @@
 
 ### 考古題
 
-打開 `/past-exams`，先選年級、學期與科目，再用縣市、學年度、考試別或關鍵字（例如「台北 民權」）篩選。點左邊的考卷就能預覽，`←` `→` 切換；手機上預覽會以全螢幕開啟，按返回關閉。PDF 考卷可以按「匯入自製考卷」，直接變成自製考卷的題目來源並打開框題頁。
+打開 `/past-exams`，先選年級、學期與科目，再用縣市、學年度、考試別或關鍵字（例如「台北 民權」）篩選。點左邊的考卷就能預覽，`←` `→` 切換；手機上預覽會以全螢幕開啟，按返回關閉。有解答卷的考卷可以在預覽上方切到「解答」，下載與「在新分頁開啟」都跟著目前看的那一份（網址會帶 `view=answer`，換一份考卷時回到題目）。PDF 考卷可以按「匯入自製考卷」，直接變成自製考卷的題目來源並打開框題頁。
 
 目前收錄五年級上學期的國語（翰林）、數學（南一）、自然（康軒）、社會（翰林），共 521 份。考卷檔只提供給本站頁面，直接開網址或從其他網站連結都會被拒絕。
 
@@ -97,7 +98,7 @@ npm run build
 cowork 直接把資料寫進這個 repo 的 `output/`；分類、驗證、搜尋正規化都以 cowork 的 `catalog-info.json` 與 `catalog.jsonl` 為準（格式見 [`output/metadata-format.md`](output/metadata-format.md)）。這邊只讀 `output/`，不修改它。
 
 - `output/` 只有 meta（`*.json`、`*.jsonl`、`*.md`）進 git；PDF、Word 等考卷檔只在本機（見 `.gitignore`）。
-- 所有考卷檔都經過本站的 `/exams/<relative_path>`：只提供 catalog 裡已下載的考卷，只接受本站頁面發出的請求（`Sec-Fetch-Site: same-origin`，較舊的瀏覽器看 `Referer`），其他一律 403。
+- 所有考卷檔都經過本站的 `/exams/<relative_path>`：只提供 catalog 裡已下載的題目卷與解答卷（`answer_file`），只接受本站頁面發出的請求（`Sec-Fetch-Site: same-origin`，較舊的瀏覽器看 `Referer`），其他一律 403。
 - 來源由 `EXAMS_FILE_SOURCE` 決定：`.env.development` 是 `local`（讀 `output/`），`.env.production` 是 `blob`（讀私有 Vercel Blob 的 `exams/<relative_path>`）。
 
 ### 上線（Vercel＋私有 Blob）
@@ -113,7 +114,7 @@ cowork 直接把資料寫進這個 repo 的 `output/`；分類、驗證、搜尋
 
 ```sh
 npm run upload:exams -- --dry-run   # 先看會上傳哪些檔案、預估用掉多少次操作
-npm run upload:exams                # 只上傳新的或大小不同的檔案
+npm run upload:exams                # 只上傳新的或大小不同的檔案（題目卷與解答卷）
 git add output && git commit        # 只會加入 meta
 git push                            # Vercel 自動 build
 ```

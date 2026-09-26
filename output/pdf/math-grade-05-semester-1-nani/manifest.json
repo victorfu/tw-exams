@@ -146,7 +146,14 @@
       },
       "bytes": 479511,
       "sha256": "ab843da1ed53d7e6028727c6467f22891f419a2e28fdef9e1a9d5713e6899715",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20002871a5148af7683e.pdf",
+        "downloaded": true,
+        "bytes": 527649,
+        "sha256": "4546b98920c03467eb20ba70b2f18e9cdcbb0b5b0ca9bc5762f0190535c8a660",
+        "pages": 4
+      }
     },
     {
       "id": "20003690",
@@ -262,7 +269,14 @@
       },
       "bytes": 301141,
       "sha256": "d18a760b69e5b5e7d3ab3fecbe6169f4e8ce9d6d8fc65e6371c065a56a8cd8ab",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20002848a5111a643e75.pdf",
+        "downloaded": true,
+        "bytes": 73766,
+        "sha256": "acfdecc110807e917a35af05639aa8075be2f5c7c959dd95bcd05fc1546254c0",
+        "pages": 1
+      }
     },
     {
       "id": "20002215",
@@ -291,7 +305,14 @@
       },
       "bytes": 175661,
       "sha256": "027d0d60bf6838c0771068e4adea51d83ddf495ee40316d279546f82f9c72fef",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20002215a51143ba1dc2.pdf",
+        "downloaded": true,
+        "bytes": 169006,
+        "sha256": "244c59ab35468ebfd4f0ee96a5b7f73cad8dff4ccdebb6f1d6f186c9a6ed0fe0",
+        "pages": 3
+      }
     },
     {
       "id": "20000962",
@@ -378,7 +399,14 @@
       },
       "bytes": 307828,
       "sha256": "12025d462a64cc127f054b936acbe64e959e94c30a7c49f793928a21fc7cfc25",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20002214a52409da3a51.pdf",
+        "downloaded": true,
+        "bytes": 321554,
+        "sha256": "90d91b471327f95690c0bbf64bcb9fd2535ab6bf4172362ce10b5a1ec4ac6b61",
+        "pages": 3
+      }
     },
     {
       "id": "20000940",
@@ -465,7 +493,14 @@
       },
       "bytes": 766532,
       "sha256": "97d13df59945efb725823570dfd9512d80bdeb5bc0ebad7d8345c76ae674e05b",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1002991673304910caa6.pdf",
+        "downloaded": true,
+        "bytes": 411779,
+        "sha256": "9d0a7469b212a48197d84dc2a3e950e5e17283b1451c1e85d91899f1b6992061",
+        "pages": 2
+      }
     },
     {
       "id": "18812",
@@ -494,7 +529,14 @@
       },
       "bytes": 284302,
       "sha256": "e2b8d407d650ae6ae29125fe5c7db0ca7b197de810913cb57a55c37b65b664d3",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029986732dfd81512d.pdf",
+        "downloaded": true,
+        "bytes": 1674018,
+        "sha256": "d602c08d281d9015d76c37883a67e07dd2acf1f42022f7509b47a7dde53c29ac",
+        "pages": 4
+      }
     },
     {
       "id": "18808",
@@ -523,7 +565,14 @@
       },
       "bytes": 250960,
       "sha256": "39d1d3629b66b86e91bb8b680ab88916d0ad1dc5dde4e72340606e8112ea8f6d",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100298967319cd09b484.pdf",
+        "downloaded": true,
+        "bytes": 431083,
+        "sha256": "c93190f10f1034b455a5da20714ef8d1c004a4d18b0d3dedb91828707818f623",
+        "pages": 3
+      }
     },
     {
       "id": "18742",
@@ -552,7 +601,14 @@
       },
       "bytes": 284117,
       "sha256": "ff49a418806675a89fb97c758eb9d3128c9fe25f2bce8330e0f85e7af72c8244",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1002958672c554f57c2a.pdf",
+        "downloaded": true,
+        "bytes": 190512,
+        "sha256": "31f2e0cb67346925c3c27ff1688fb84861481e5ea12271cf8257e8d111c4fb41",
+        "pages": 1
+      }
     },
     {
       "id": "20002700",
@@ -581,7 +637,14 @@
       },
       "bytes": 295384,
       "sha256": "6e7b10976cbe415b08c6ed2f21aaede3a7f7ba923582634789a263bcf35f5245",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20002700a5111c018009.pdf",
+        "downloaded": true,
+        "bytes": 502611,
+        "sha256": "70602fa02e6a28dd96762d68fd59e97f7e7e40f869e158d46886779d3138a582",
+        "pages": 3
+      }
     },
     {
       "id": "20002430",
@@ -639,7 +702,14 @@
       },
       "bytes": 509629,
       "sha256": "55660ea93dc0491337e8d3a1e4084673e4cadd77ec4d54f0f404bfbb9a920061",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100299565c1ab7b6de26.pdf",
+        "downloaded": true,
+        "bytes": 523293,
+        "sha256": "91331c084df14e3ac134d81cba1abb8228172024c95dec862d5aabaaa13ab913",
+        "pages": 3
+      }
     },
     {
       "id": "17516",
@@ -697,7 +767,14 @@
       },
       "bytes": 282896,
       "sha256": "4b5d84ef94462d28459040b3bc8fbde2622f41c9df59d03c4a6aadfa30aaf677",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100287665a78e82b246a.pdf",
+        "downloaded": true,
+        "bytes": 4838376,
+        "sha256": "a29f48abf0063c5587d513844169f280aef52aeff6e0441512dd7d9d175c2389",
+        "pages": 4
+      }
     },
     {
       "id": "17133",
@@ -726,7 +803,14 @@
       },
       "bytes": 186922,
       "sha256": "1311b820b09266dc39a91b2f12203ed9741a05baa542b0176db23f718fffa946",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100295865a5fabc649c9.pdf",
+        "downloaded": true,
+        "bytes": 194328,
+        "sha256": "e6d7dc3f9021e36924c6e337c5ded86c861292a784b1dcad8b38ced86cf6ef92",
+        "pages": 3
+      }
     },
     {
       "id": "17085",
@@ -813,7 +897,14 @@
       },
       "bytes": 287816,
       "sha256": "11ab8439b121e9fea1bec766bdc1b43c8f3561cce3d6958604abaf18e50c120d",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100298965a954a196e85.pdf",
+        "downloaded": true,
+        "bytes": 303807,
+        "sha256": "0be31a6822117aff29be971c28c9e5ac598134d6b18656cfd265c989ec029487",
+        "pages": 3
+      }
     },
     {
       "id": "16956",
@@ -842,7 +933,14 @@
       },
       "bytes": 167447,
       "sha256": "8e03dbef5e9a9cb5d2f1b32f70f0fde0113137e11da37177a08a527a0684a9c9",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1002989657475bc28695.pdf",
+        "downloaded": true,
+        "bytes": 188035,
+        "sha256": "8691009772cd46aad20c10c5a38c5a8208353396af2030d290b82a6c73494197",
+        "pages": 2
+      }
     },
     {
       "id": "20002699",
@@ -871,7 +969,14 @@
       },
       "bytes": 403144,
       "sha256": "813f36ca1ed03ff94c84e568af6b5d26de2e33d2829522892267b9c2952fd517",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20002699a5245d498813.pdf",
+        "downloaded": true,
+        "bytes": 594004,
+        "sha256": "015102d50ac7534e1da865afb0b31e82a7248c2458e425ded62d2e523258f925",
+        "pages": 2
+      }
     },
     {
       "id": "20002429",
@@ -958,7 +1063,14 @@
       },
       "bytes": 293424,
       "sha256": "4c34f2145c0bb277f513eebac325fd7a958134f27c439465da4d6bfcc8063d70",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100287665a78e82ad6b9.pdf",
+        "downloaded": true,
+        "bytes": 3657720,
+        "sha256": "dd77e2dc5feb2a54f553a0d02a3265dbd43894a8250704e97e65f66de4c54bbe",
+        "pages": 4
+      }
     },
     {
       "id": "17078",
@@ -1016,7 +1128,14 @@
       },
       "bytes": 619288,
       "sha256": "34d28c128c7fcf628863fa173d29292b87f88f6fe97ae2b0d559483bbf55e2db",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1002955656044f52b2c5.pdf",
+        "downloaded": true,
+        "bytes": 3052666,
+        "sha256": "b7f8276c89772a90ac8b922c8b1a9d2a878fd6986cd07a1bcb4dcd2e59cd71ff",
+        "pages": 3
+      }
     },
     {
       "id": "16830",
@@ -1045,7 +1164,14 @@
       },
       "bytes": 2309398,
       "sha256": "552338b1e66cabd30dcbb203c84c25d1653458817b440fc32ff5d54feeaadb2c",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029986554326b7b932.pdf",
+        "downloaded": true,
+        "bytes": 4119222,
+        "sha256": "a44c4d45aa1a51be477301c2a8a7f48b92872a099a54d0d1fbe3c454109c61fe",
+        "pages": 4
+      }
     },
     {
       "id": "16696",
@@ -1074,7 +1200,14 @@
       },
       "bytes": 863529,
       "sha256": "1d9da7623f47aad4b894ab208845471bae91778e5a89a97653f675c77cac78fe",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1005165654c2073a98a7.pdf",
+        "downloaded": true,
+        "bytes": 872432,
+        "sha256": "92d04f0217b9bafd51465fc60a1bd07f5d05bc16ebe5ea05f751029057197187",
+        "pages": 2
+      }
     },
     {
       "id": "16645",
@@ -1132,7 +1265,14 @@
       },
       "bytes": 1242255,
       "sha256": "977a12c21c9b561a4d8c2e171fb84c60608442ed9db26b39e8ae7522dc8121d3",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029586549b6092a343.pdf",
+        "downloaded": true,
+        "bytes": 244117,
+        "sha256": "8f946d9d03a306a8e089d772af61799c6ade64289e649d91a361f917efefa9b2",
+        "pages": 3
+      }
     },
     {
       "id": "16598",
@@ -1190,7 +1330,14 @@
       },
       "bytes": 203044,
       "sha256": "91eb31115e958c182682259e17f0eb33414ee89215613fd2f8df5712838ad034",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1002989653f64de43032.pdf",
+        "downloaded": true,
+        "bytes": 214022,
+        "sha256": "cb119c2a926a6054f7bf6ccf0b728d7d691a71407beb74a554e09e76f86ea24d",
+        "pages": 2
+      }
     },
     {
       "id": "20002040",
@@ -1219,7 +1366,14 @@
       },
       "bytes": 323653,
       "sha256": "4a2df80e832a035c978995641ee812ece638022d021b753d5ab156307c5104b3",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20002040a511110420d8.pdf",
+        "downloaded": true,
+        "bytes": 231619,
+        "sha256": "2fd594430c511b4fc283769ce709ca557c6b14c53f2bf74fd92c1e9940b985d4",
+        "pages": 3
+      }
     },
     {
       "id": "20001808",
@@ -1277,7 +1431,14 @@
       },
       "bytes": 252271,
       "sha256": "20263de0733bc6b11055ba54ba132fc5486e291612f0e0283f30999f2c0d6585",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100295863e455638907b.pdf",
+        "downloaded": true,
+        "bytes": 1089401,
+        "sha256": "c21a05a9eea099fcf9dcf17678d06fefbf6219b812cee21dd5c0bca0961662fa",
+        "pages": 2
+      }
     },
     {
       "id": "14826",
@@ -1335,7 +1496,14 @@
       },
       "bytes": 265677,
       "sha256": "21acf062c81b70933d33171624a66f31de0d0e995eb2fe952ec2fc1ac6373651",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100298663d769d0e2975.pdf",
+        "downloaded": true,
+        "bytes": 157756,
+        "sha256": "60c773cb947323a7253b35c68278988d1233fa4586ac31e7cff238f329db5c8c",
+        "pages": 1
+      }
     },
     {
       "id": "14776",
@@ -1422,7 +1590,14 @@
       },
       "bytes": 820721,
       "sha256": "1b24bf3f2587c89425c9d45d793b72a4d8563778673161af400e8a8d79a2beb8",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100299563c762a7a4fe4.pdf",
+        "downloaded": true,
+        "bytes": 820721,
+        "sha256": "1b24bf3f2587c89425c9d45d793b72a4d8563778673161af400e8a8d79a2beb8",
+        "pages": 2
+      }
     },
     {
       "id": "14675",
@@ -1480,7 +1655,14 @@
       },
       "bytes": 215998,
       "sha256": "b5f871fa6efc29220304b1526744de869be2350985bfd0931de970be84c61904",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100299863c6b9401c381.pdf",
+        "downloaded": true,
+        "bytes": 2231481,
+        "sha256": "0ee83a689566c46396cd37e126e0e99ef573a372b8dab2e8283878646b37f900",
+        "pages": 3
+      }
     },
     {
       "id": "14657",
@@ -1509,7 +1691,14 @@
       },
       "bytes": 224408,
       "sha256": "d03aa514b565c9a4634a2ce95ecf6cf7a51931cd28bd9c8d75a47333d47a31bf",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100287663c614e2cc3b7.pdf",
+        "downloaded": true,
+        "bytes": 247913,
+        "sha256": "0f92ba8fbf69756f296b1f85d50a92482c525eb1baf04ba53dc43a5a63d1e5a7",
+        "pages": 2
+      }
     },
     {
       "id": "14655",
@@ -1567,7 +1756,14 @@
       },
       "bytes": 382853,
       "sha256": "b3b86c3a80436bf15382b5f70bc0813b8b760ad5b44a533389c443a1ec3b8650",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100295563c4f9cb58553.pdf",
+        "downloaded": true,
+        "bytes": 386799,
+        "sha256": "afae4fc41cabd51398424c813b23e0ca500e94b3406394bc719bfd85acdb08a0",
+        "pages": 3
+      }
     },
     {
       "id": "15004",
@@ -1683,7 +1879,14 @@
       },
       "bytes": 595470,
       "sha256": "1687f2c0b1f104948b0ec85f88c06d4de8b36e937a7e1ccc4abca792c2e5acc3",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100298963c5e871eed29.pdf",
+        "downloaded": true,
+        "bytes": 543260,
+        "sha256": "6876c82d0da527a302ab01ad504b55773ddb1a06eaeb5a260810d47d7143796d",
+        "pages": 2
+      }
     },
     {
       "id": "14327",
@@ -1712,7 +1915,14 @@
       },
       "bytes": 527948,
       "sha256": "5e2f11ae202267978dbcd98ea23afa61a51327cfe51a83d6c21e03b614bb923d",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1002989638e9ca498d73.pdf",
+        "downloaded": true,
+        "bytes": 357638,
+        "sha256": "5e6d811c9ab1b0102a8e36200c25057256e39595966cbcbff319046bd1577ff3",
+        "pages": 2
+      }
     },
     {
       "id": "20002039",
@@ -1741,7 +1951,14 @@
       },
       "bytes": 450916,
       "sha256": "fb38bb6ebfccfdd3390cbe19a7a44e73a9e3b2cfca3b0f090b131af27bd13882",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20002039a524203aa3c2.pdf",
+        "downloaded": true,
+        "bytes": 387948,
+        "sha256": "0448d475beaef66b97478de830efffd7bff26c6822889e4bb400fa892e7ab5a8",
+        "pages": 3
+      }
     },
     {
       "id": "20001807",
@@ -1828,7 +2045,14 @@
       },
       "bytes": 362259,
       "sha256": "ec65a75089942d193f649ce19f40b445c23cf2ea9bc9f5cfe46b38a449f81d01",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100295563b4ef2179751.pdf",
+        "downloaded": true,
+        "bytes": 629490,
+        "sha256": "c5f3aecb1bbcd7b70b3b10d3907d573a1e7c1a348f1b232306e8a26f04c2e3c2",
+        "pages": 3
+      }
     },
     {
       "id": "14254",
@@ -1886,7 +2110,14 @@
       },
       "bytes": 197136,
       "sha256": "3fb87a43d69de68fc6e878327c098c007051294b25abb2146c440c3ab1aacf6c",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029586375e82a35baf.pdf",
+        "downloaded": true,
+        "bytes": 1558179,
+        "sha256": "8c9157419d646ee00e8c19b9e9890770be9e058c3ac14e6c6ce2b4ee06b085dd",
+        "pages": 2
+      }
     },
     {
       "id": "14206",
@@ -1915,7 +2146,14 @@
       },
       "bytes": 826753,
       "sha256": "589a97f79a67dd4896e2e58b35cf8e2ec808a9a0ffa253322eb532a816f9a1fb",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1002995637443eb964d3.pdf",
+        "downloaded": true,
+        "bytes": 826753,
+        "sha256": "589a97f79a67dd4896e2e58b35cf8e2ec808a9a0ffa253322eb532a816f9a1fb",
+        "pages": 4
+      }
     },
     {
       "id": "14154",
@@ -1944,7 +2182,14 @@
       },
       "bytes": 215884,
       "sha256": "dee1b17f15a44c6a8fb6e052429338e7c9581c08ec2c474a54b38243fc4fc1aa",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1002998636e286160ada.pdf",
+        "downloaded": true,
+        "bytes": 2354072,
+        "sha256": "6842eec029b967b7911f96c7c488a5c954bc4cb6a9e5e28999b4b8c6664f112b",
+        "pages": 4
+      }
     },
     {
       "id": "14105",
@@ -2031,7 +2276,14 @@
       },
       "bytes": 293271,
       "sha256": "5e69a08fd5c0f46d52a09f949165d8c5880a387c95fa59d8be08827065b7d414",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029866368c877d0e4b.pdf",
+        "downloaded": true,
+        "bytes": 216731,
+        "sha256": "b4b76320ee400761954a25344d557c68fe86ac504a1eb12b0b03aff5e9b6c23a",
+        "pages": 1
+      }
     },
     {
       "id": "14068",
@@ -2060,7 +2312,14 @@
       },
       "bytes": 518482,
       "sha256": "f48fe45f1da91db9e2b42f7dc04604022f4e7f4282454abff0d433bedf047689",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1002932636a00ea5cbdc.pdf",
+        "downloaded": true,
+        "bytes": 618810,
+        "sha256": "08d451a265d8b91ad0f1b812729d174e4412d7c030b375189a23357e22a32d7c",
+        "pages": 2
+      }
     },
     {
       "id": "14051",
@@ -2147,7 +2406,14 @@
       },
       "bytes": 293595,
       "sha256": "9b1020ed8c9f70cda5214c931d8117ae98b0f79339af98de04e45b1b0757ee04",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20002518a51148cbef35.pdf",
+        "downloaded": true,
+        "bytes": 139671,
+        "sha256": "e48b38bafb09cca7fd76524d64376aefb2b99c2ea6385a733c38a7f888b9ddd3",
+        "pages": 2
+      }
     },
     {
       "id": "20002280",
@@ -2176,7 +2442,14 @@
       },
       "bytes": 247784,
       "sha256": "5a766d7feeca6d05a0e6c0caa14107cec18649e5ffa699415d9a91d707499ce4",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20002280a51161b8c507.pdf",
+        "downloaded": true,
+        "bytes": 269348,
+        "sha256": "ab841949cedd2b2c29d4383cba1aa66b3df9fc79f8e1ba205138c043dc3a8c48",
+        "pages": 2
+      }
     },
     {
       "id": "20001959",
@@ -2205,7 +2478,14 @@
       },
       "bytes": 278976,
       "sha256": "0af810786167633cd294e64cd7114b892650f4776c7c96fc5c090c49e45c2033",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20001959a5111adafc1e.pdf",
+        "downloaded": true,
+        "bytes": 297639,
+        "sha256": "aa5760b7377f9774486f6bae89259929da01b636e27d5b5d23526235d22f5ff0",
+        "pages": 4
+      }
     },
     {
       "id": "20001717",
@@ -2350,7 +2630,14 @@
       },
       "bytes": 458972,
       "sha256": "a174ea05885d2336e8c30d0dc819d0ca78fa18667777542821228d11684ba1dc",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100503061eb6b008dbd4.pdf",
+        "downloaded": true,
+        "bytes": 475154,
+        "sha256": "8aea9be2d0f5cd96b67217426acbaaf700bad2ece0e24f04777333eb90fb767a",
+        "pages": 2
+      }
     },
     {
       "id": "11330",
@@ -2379,7 +2666,14 @@
       },
       "bytes": 186045,
       "sha256": "eae68533abf23793c0133894c3178bb5f42de3eebf71b3db4206afd6399d0e1a",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100295561e9112c070d1.pdf",
+        "downloaded": true,
+        "bytes": 189507,
+        "sha256": "6225a947a8260b9433b031a4fb2bfdc2ccf082e1744ecfba5b1d211e2d3672b2",
+        "pages": 2
+      }
     },
     {
       "id": "11249",
@@ -2408,7 +2702,14 @@
       },
       "bytes": 367766,
       "sha256": "ad8c065a0d2db4dfedb416821ea13de0e4f18a8ae94d9199e26a0b869a84663a",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100295861e78a72eaefa.pdf",
+        "downloaded": true,
+        "bytes": 179193,
+        "sha256": "fc5a106836261f45a9295eb963398662072b2a92ee0a3bf021005a5e2d59c9fc",
+        "pages": 1
+      }
     },
     {
       "id": "11225",
@@ -2437,7 +2738,14 @@
       },
       "bytes": 406646,
       "sha256": "46c16c8b7bce89b3c3e7a572a52ac65be4eb2aff01ce76a3d38bb756dcb0b59b",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100299561e76c8126d90.pdf",
+        "downloaded": true,
+        "bytes": 279242,
+        "sha256": "67f58d30875441b31767063c652712f92ccb00b5f31a608a4dcebf4e6b9db49f",
+        "pages": 3
+      }
     },
     {
       "id": "11211",
@@ -2553,7 +2861,14 @@
       },
       "bytes": 783887,
       "sha256": "e7b085e48859d873dafb9e3505883f95cb557ab3b1a5309362a162a183959f93",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100298961aea63817ccc.pdf",
+        "downloaded": true,
+        "bytes": 787359,
+        "sha256": "07bcdacfc063efbfde7651bcffcc720f7bf642df296417ba2a90b2f7018f49f4",
+        "pages": 3
+      }
     },
     {
       "id": "20002517",
@@ -2582,7 +2897,14 @@
       },
       "bytes": 367655,
       "sha256": "21e8e708f17282acaaae4bc64b45cf92a19bad097348a77ad55093c45eb5d53d",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20002517a5243865d44f.pdf",
+        "downloaded": true,
+        "bytes": 247904,
+        "sha256": "3c1dbb6e4bcfe45f1ca341e97ff2742789c5d8cea61ef8d2dfd6f9179ac5f1b7",
+        "pages": 2
+      }
     },
     {
       "id": "20002279",
@@ -2611,7 +2933,14 @@
       },
       "bytes": 209515,
       "sha256": "46e9e3da96286c0614efe7f57e3e6cd2e63b4e7ba12dd8a914debd2fffde3a84",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20002279a5146ebca129.pdf",
+        "downloaded": true,
+        "bytes": 464063,
+        "sha256": "d16dccd8dbd671716e8b52a48df6d803cf28189610f29efc6446b719cc138865",
+        "pages": 2
+      }
     },
     {
       "id": "20001958",
@@ -2640,7 +2969,14 @@
       },
       "bytes": 295583,
       "sha256": "4e614f31343115632b2a6fa284567f502037125877007e37d7ed1623db3853ee",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/20001958a5241f120a97.pdf",
+        "downloaded": true,
+        "bytes": 307464,
+        "sha256": "a728cf8ef5222762c00514cb9d0ecb5f5dc52628b67fed20bca7a12a83a0a69f",
+        "pages": 4
+      }
     },
     {
       "id": "20001716",
@@ -2727,7 +3063,14 @@
       },
       "bytes": 3009508,
       "sha256": "7d1e8069a56a697b2e9a0fa4b43344b1044b3b7f4d6bcab56e9986537c7dfa90",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100434962de62299342b.pdf",
+        "downloaded": true,
+        "bytes": 4898906,
+        "sha256": "f05af937088a05fad7b119ffc8b7cf405488a77efdf7159ce41e53a43e9fdcb5",
+        "pages": 3
+      }
     },
     {
       "id": "12506",
@@ -2756,7 +3099,14 @@
       },
       "bytes": 209060,
       "sha256": "1de264ebb03732d934b2701d316ef0c19ce125d119bbf8ffa1dc5a7735774400",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100298962466e68a3a7f.pdf",
+        "downloaded": true,
+        "bytes": 422178,
+        "sha256": "b2f92c157144d0e0b43854fe58cf5aac48e6f9289ffed51b4bb4831a4a316df7",
+        "pages": 2
+      }
     },
     {
       "id": "11429",
@@ -2785,7 +3135,14 @@
       },
       "bytes": 455031,
       "sha256": "9725cd6e67a6d9100967cd9de4ecb0b8299240727965673c11d36022287c4a11",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100503061eb6872dc57e.pdf",
+        "downloaded": true,
+        "bytes": 67850,
+        "sha256": "1c49149aed2128ab92d372660ef9c75621cab75cefc95920941f543cabf90c2c",
+        "pages": 1
+      }
     },
     {
       "id": "10861",
@@ -2843,7 +3200,14 @@
       },
       "bytes": 287454,
       "sha256": "dc7d73ec07ce08e802c91e7636ef3eefb0faa1e3b9e4acc2970cdf2801652986",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029586195c9ee016a8.pdf",
+        "downloaded": true,
+        "bytes": 500235,
+        "sha256": "5f3ffe479858d8b60db5c4ff8f9df6056654a7707d388d33a027bd68ce1c108e",
+        "pages": 1
+      }
     },
     {
       "id": "10825",
@@ -2930,7 +3294,14 @@
       },
       "bytes": 194593,
       "sha256": "efe8bf21fc64110646fb29af3d4560f95dc543abfc4624b415a770ee9d4dc698",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1002986618d0b0fc2ace.pdf",
+        "downloaded": true,
+        "bytes": 441194,
+        "sha256": "3198680b5c409107940f897fc7bc54196f103e98ba1109b85642db3be309846a",
+        "pages": 2
+      }
     },
     {
       "id": "10585",
@@ -2988,7 +3359,14 @@
       },
       "bytes": 241847,
       "sha256": "13f51579f806b5956aae4b26cbe8d7439d1b614710a288ee80e56b1fb65586c3",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100298961710798c0738.pdf",
+        "downloaded": true,
+        "bytes": 288239,
+        "sha256": "0b68efa24b5dcb821b5c87cc5bcf8398d7478f2ec469b4e6f3f0c18c96d5fe06",
+        "pages": 2
+      }
     },
     {
       "id": "13441",
@@ -3191,7 +3569,14 @@
       },
       "bytes": 380612,
       "sha256": "849bd74b86cdcf32082d713821b0ac9d15a36c9087f50a7d81fe4ec88eb82aef",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029656364c920ad5ca.pdf",
+        "downloaded": true,
+        "bytes": 1262911,
+        "sha256": "f609dc64ca5fe32f884aedcda147d2a829f9ecdf70665001aefd7f9946744cf2",
+        "pages": 3
+      }
     },
     {
       "id": "7903",
@@ -3220,7 +3605,14 @@
       },
       "bytes": 382645,
       "sha256": "b54830f456d6ebd7c4fe53c1590ee158b2e978b7d83813981afff1bb1d4fa3e0",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029866006809e325bb.pdf",
+        "downloaded": true,
+        "bytes": 297610,
+        "sha256": "b64eecf1c054909d42598555c23c6739613f9c09027f3a19b58fed318087e75d",
+        "pages": 2
+      }
     },
     {
       "id": "7773",
@@ -3307,7 +3699,14 @@
       },
       "bytes": 379415,
       "sha256": "ba9acd7016e7b0d7b93447d40039dee5ba433b431da065bf3868323835f71e7a",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10028936000e40935167.pdf",
+        "downloaded": true,
+        "bytes": 380911,
+        "sha256": "aa46bef12ffb85a84d91a75edeb3c5b5c5219a09a0f4be3c6bea8f161e8c94fb",
+        "pages": 3
+      }
     },
     {
       "id": "7668",
@@ -3394,7 +3793,14 @@
       },
       "bytes": 472458,
       "sha256": "9c1c12f59fbf4702b22cd15440d740ed4e765b13d906826f58f88c1e78a1dc07",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100298960053bfae0080.pdf",
+        "downloaded": true,
+        "bytes": 472458,
+        "sha256": "9c1c12f59fbf4702b22cd15440d740ed4e765b13d906826f58f88c1e78a1dc07",
+        "pages": 3
+      }
     },
     {
       "id": "8356",
@@ -3423,7 +3829,14 @@
       },
       "bytes": 371235,
       "sha256": "171c1aa3e9c79eeb20202cf6481bcba5b78eef670e0d5525fab6259b02e755cb",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100287460122b5372f5c.pdf",
+        "downloaded": true,
+        "bytes": 523666,
+        "sha256": "51645ef3931aa413a1baf9f7d71c9b09577b08a6edc9553be081a002d5bbc9af",
+        "pages": 3
+      }
     },
     {
       "id": "7909",
@@ -3452,7 +3865,14 @@
       },
       "bytes": 904286,
       "sha256": "06737d44a362e2430f4b6925ee71ccb3927b4b168ccf62c2ce139eff9d3b9629",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100299560069766110fa.pdf",
+        "downloaded": true,
+        "bytes": 904286,
+        "sha256": "06737d44a362e2430f4b6925ee71ccb3927b4b168ccf62c2ce139eff9d3b9629",
+        "pages": 4
+      }
     },
     {
       "id": "7413",
@@ -3481,7 +3901,14 @@
       },
       "bytes": 231301,
       "sha256": "073da9885c11ff6cf638189191226c9741f84089d71692e6826b0946943adeb8",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029895fc8548ba2904.pdf",
+        "downloaded": true,
+        "bytes": 236206,
+        "sha256": "2bea93342260f7eaf408e2ad241f15f54a27a3dfdc37a4c8b2ca9f3e8377ce6d",
+        "pages": 2
+      }
     },
     {
       "id": "7383",
@@ -3539,7 +3966,14 @@
       },
       "bytes": 1504989,
       "sha256": "806889511a2ae74ce6d01c15d26c3b7715d2ea7ce1ee803c1162df37dec8d1ce",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100434962de31e624def.pdf",
+        "downloaded": true,
+        "bytes": 4562566,
+        "sha256": "82b29b0f0c37cfac2a23d1d412c89da7424e94b4bf05dccacdee33f50ba306e0",
+        "pages": 3
+      }
     },
     {
       "id": "9635",
@@ -3597,7 +4031,14 @@
       },
       "bytes": 334714,
       "sha256": "706c4cab54705018c02972b595245de9f221269849ff0d96e5815af8c6f0503c",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1002958609e14a8d8e18.pdf",
+        "downloaded": true,
+        "bytes": 334714,
+        "sha256": "706c4cab54705018c02972b595245de9f221269849ff0d96e5815af8c6f0503c",
+        "pages": 2
+      }
     },
     {
       "id": "9081",
@@ -3655,7 +4096,14 @@
       },
       "bytes": 411907,
       "sha256": "35bac608d11707ee8fe5da58158b2688739b56a149608d50e1165d71495333bf",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/100287460122895609e4.pdf",
+        "downloaded": true,
+        "bytes": 461903,
+        "sha256": "562820b84faed83e15d0f58cdd58b7448b25843493b9056e7e2b581e3fab6963",
+        "pages": 3
+      }
     },
     {
       "id": "8224",
@@ -3684,7 +4132,14 @@
       },
       "bytes": 2265683,
       "sha256": "cdf39e48ccada73f4ab79373133dbd36c3c2ab476a2c4e8e5690c10377c99308",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1002901600fa1bf4d867.pdf",
+        "downloaded": true,
+        "bytes": 2388383,
+        "sha256": "15656838d0e87b66b5902c2d196d5a979a3a9c82c0a42ddbe0d26c5c87413e1f",
+        "pages": 2
+      }
     },
     {
       "id": "8177",
@@ -3713,7 +4168,14 @@
       },
       "bytes": 737126,
       "sha256": "c5d1b53502f477e103fc203d272f289ff9cd62d9dd8ea1b42a552433172799de",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/1005030600e67dcf25a1.pdf",
+        "downloaded": true,
+        "bytes": 747722,
+        "sha256": "1621e122590a6ef8e528ab7383331284fd832633737bd091e02750aa159a4fa8",
+        "pages": 2
+      }
     },
     {
       "id": "7348",
@@ -3800,7 +4262,14 @@
       },
       "bytes": 819758,
       "sha256": "ca7cbc84ab8497dec14992e51c3e2ffd2c96cb6a90af3f8094306ad4a0a71e95",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029955fb338c5e7573.pdf",
+        "downloaded": true,
+        "bytes": 819758,
+        "sha256": "ca7cbc84ab8497dec14992e51c3e2ffd2c96cb6a90af3f8094306ad4a0a71e95",
+        "pages": 3
+      }
     },
     {
       "id": "7109",
@@ -3887,7 +4356,14 @@
       },
       "bytes": 328634,
       "sha256": "81ce66766e57f394855f45d111d77955cd9c5e770eb91d4bf7250d5f5372a3c4",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10028935fa8da4b8f870.pdf",
+        "downloaded": true,
+        "bytes": 352081,
+        "sha256": "224daa41dbc9385849b49e2162eda998be6c8eb54d1bc98e7932031642f3faa9",
+        "pages": 1
+      }
     },
     {
       "id": "6995",
@@ -3945,7 +4421,14 @@
       },
       "bytes": 400721,
       "sha256": "98eeee4b6cd7c24e354ab02ccc047628b158b4018616788f98ce4c315eef2af3",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029656364ca17b976e.pdf",
+        "downloaded": true,
+        "bytes": 1284529,
+        "sha256": "909fed58fcdfce3d93307f37e2e1a1db4f97763ea770f7b66f8dd77214653d0f",
+        "pages": 3
+      }
     },
     {
       "id": "6928",
@@ -4003,7 +4486,14 @@
       },
       "bytes": 199404,
       "sha256": "f4c04ea8c34a69be08ab3429854ee7e33c68b33a7d882bf8bc60d570ece2d23f",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029715f961d59ca777.pdf",
+        "downloaded": true,
+        "bytes": 201308,
+        "sha256": "feb368fd5c3200cdbe495bda43fec4294e9c779350b445fff5b19072658cc828",
+        "pages": 2
+      }
     },
     {
       "id": "6669",
@@ -4090,7 +4580,14 @@
       },
       "bytes": 210303,
       "sha256": "87da82162f94bda9e66110c162d88ba1208ba2a96da06a636fd6af6eef7cd76b",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10030165f4bbbbc14572.pdf",
+        "downloaded": true,
+        "bytes": 210729,
+        "sha256": "115c93c7caef69b111d13ef4238536405ba7ba4695dae0f0fd36c9285074a01f",
+        "pages": 2
+      }
     },
     {
       "id": "3563",
@@ -4119,7 +4616,14 @@
       },
       "bytes": 333168,
       "sha256": "9b06fb5e32f1732feec3444360b9f27aeb9f76b8e182ac855da0183fca4a3f5e",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10052455e71e576d78bf.pdf",
+        "downloaded": true,
+        "bytes": 1489241,
+        "sha256": "2d1b76205ca2fea57d15d838d21268f55acbb9703208f73033eb6be6257d2f93",
+        "pages": 4
+      }
     },
     {
       "id": "3546",
@@ -4205,7 +4709,14 @@
       },
       "bytes": 804217,
       "sha256": "b5a047853cf7c09de9bf0538574ce83e228b8ef912417bbc4a30d90115bd12c2",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10043495e44bfc96e371.pdf",
+        "downloaded": true,
+        "bytes": 1186214,
+        "sha256": "3ad34a5573550aacef374be94b7c25fc622e2ad75cbcefe01a0f4dbb3cdf26cb",
+        "pages": 2
+      }
     },
     {
       "id": "2878",
@@ -4291,7 +4802,14 @@
       },
       "bytes": 272900,
       "sha256": "3e92b94f3d16def2d758e3640467d8ee3b7580e1160404fc7a93464502431261",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10028925e33853e736b7.pdf",
+        "downloaded": true,
+        "bytes": 1419794,
+        "sha256": "c0561ff3fa999905a1a9084ad5b9cb96c7c540c11611a8a5ad7fe64406cd163e",
+        "pages": 2
+      }
     },
     {
       "id": "2387",
@@ -4319,7 +4837,13 @@
         "collected_at": "2026-09-25T19:05:08.286054+08:00"
       },
       "bytes": 376320,
-      "sha256": "bd2aa5535a05bc75335ce6f126ee5a5834e9c7f2ddb0a51687f0f9ea64d25d3b"
+      "sha256": "bd2aa5535a05bc75335ce6f126ee5a5834e9c7f2ddb0a51687f0f9ea64d25d3b",
+      "answer_file": {
+        "relative_path": "doc/math-grade-05-semester-1-nani/answers/10029555e27fefe10b11.doc",
+        "downloaded": true,
+        "bytes": 918016,
+        "sha256": "2512ffc0fac5ce2038cca486f17476cb6be358c5199798623c9eaa7272f787cf"
+      }
     },
     {
       "id": "2232",
@@ -4348,7 +4872,14 @@
       },
       "bytes": 504518,
       "sha256": "21e4e2a896d708f176592b953aa14f5033928450e3dc9b4a25ef56314b2fe4bc",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10028655e26a20266497.pdf",
+        "downloaded": true,
+        "bytes": 135910,
+        "sha256": "afeaddcf2922a7bc8c8c68581116eac1041ccad225f740c47ebead18f2cb1629",
+        "pages": 2
+      }
     },
     {
       "id": "1971",
@@ -4406,7 +4937,13 @@
       },
       "bytes": 292494,
       "sha256": "906816c87487b34553979c5daee8396d1890e9677cc115b4280778a034fe5c94",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "doc/math-grade-05-semester-1-nani/answers/10029585e1ffb8070d04.doc",
+        "downloaded": true,
+        "bytes": 6210560,
+        "sha256": "bdf7197adc150e894f446414fb241c5c92b391166c36770303e9b32888f93409"
+      }
     },
     {
       "id": "1927",
@@ -4435,7 +4972,14 @@
       },
       "bytes": 258308,
       "sha256": "be23bf56202e701d76fadbd7bf9bebea2d0759c0660446f8ad9deb5442e58eee",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10028935e2004e642f92.pdf",
+        "downloaded": true,
+        "bytes": 371050,
+        "sha256": "3f7f13a20f07f5b9a3c5801be903301f6d9d5fea0230834b3e732ef4b9ac49b7",
+        "pages": 2
+      }
     },
     {
       "id": "1845",
@@ -4492,7 +5036,14 @@
       },
       "bytes": 350335,
       "sha256": "2c1149a21dc5fcf38a05e6c611f781f7fea78507e1c1975e84c9211cb7ea33d4",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10041475e3cc30c0794b.pdf",
+        "downloaded": true,
+        "bytes": 384370,
+        "sha256": "f9ee9ca3cc805ce442f1ff5349a2fcdc725dddeed102b6ebbebfb7928d628ec1",
+        "pages": 2
+      }
     },
     {
       "id": "2487",
@@ -4607,7 +5158,14 @@
       },
       "bytes": 273525,
       "sha256": "1048899a0b134a741a424564ec3457102eadbbab574131b97b74f7c2066f4311",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029895e1e779d0a2a2.pdf",
+        "downloaded": true,
+        "bytes": 183471,
+        "sha256": "dc1bbc616ad6cfb07292b1ef0c40e496fc8db8eefcade20a98d6c2df81a9c14c",
+        "pages": 1
+      }
     },
     {
       "id": "1754",
@@ -4693,7 +5251,14 @@
       },
       "bytes": 260148,
       "sha256": "38505419a2ca6c19f03b2258b6b3bd120be9c95a01da76119ecc6336615d8c08",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10041475e1548e0cfdf8.pdf",
+        "downloaded": true,
+        "bytes": 288295,
+        "sha256": "9f338525412285ea47b4ee640575767dca7cfb1c8637861f78716a7137027351",
+        "pages": 2
+      }
     },
     {
       "id": "1596",
@@ -4749,7 +5314,14 @@
         "collected_at": "2026-09-25T19:05:08.286054+08:00"
       },
       "bytes": 1754112,
-      "sha256": "af8bb0504a5def0ecd25c9b3c8a8818aa4c771c4e183611acab94399260e5e27"
+      "sha256": "af8bb0504a5def0ecd25c9b3c8a8818aa4c771c4e183611acab94399260e5e27",
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10035305df6fffcbe62e.pdf",
+        "downloaded": true,
+        "bytes": 1193309,
+        "sha256": "966991bf87e725cc73f0d573fe3f2be876e6a02c14f8ba4e7eccf03fc9b3098d",
+        "pages": 3
+      }
     },
     {
       "id": "1230",
@@ -4807,7 +5379,14 @@
       },
       "bytes": 356340,
       "sha256": "ceba116d05bbd633f5180bf6e3533150e333b8fdb03e489d9203d12b726a20ca",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029895de7402ec65c8.pdf",
+        "downloaded": true,
+        "bytes": 401538,
+        "sha256": "34b32ad9d0d08600464f626faa72c5d1041cf87552ae1f1a9d39768f8e9c2638",
+        "pages": 2
+      }
     },
     {
       "id": "6520",
@@ -4836,7 +5415,14 @@
       },
       "bytes": 758747,
       "sha256": "049e85cdc59ae92ef32d7eccf3ed10aeba6eb507d17ee2ea9964f753c78157ed",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10030165f4bbbbc11a0b.pdf",
+        "downloaded": true,
+        "bytes": 682587,
+        "sha256": "000a88d105c42fd8327b2237ae2fed9df3b7780de9c4ee0d36df86d49a197582",
+        "pages": 2
+      }
     },
     {
       "id": "5895",
@@ -4865,7 +5451,14 @@
       },
       "bytes": 439820,
       "sha256": "18565a1f3ae32d22f0441a0df7371d61a9cff04f1338051f2cdaffc66e58d20a",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10050305f19457da5c3f.pdf",
+        "downloaded": true,
+        "bytes": 450178,
+        "sha256": "08f35f1b939837cc77e83969192c0af981264784cbb58aeb3b3d2eb087eb178e",
+        "pages": 2
+      }
     },
     {
       "id": "3767",
@@ -4894,7 +5487,14 @@
       },
       "bytes": 644104,
       "sha256": "99ac5ffcbfdd3cf1422c8a37ddfbe85552880629d8bde6d23df4f7fee5479db9",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10030055e98203673806.pdf",
+        "downloaded": true,
+        "bytes": 644104,
+        "sha256": "99ac5ffcbfdd3cf1422c8a37ddfbe85552880629d8bde6d23df4f7fee5479db9",
+        "pages": 2
+      }
     },
     {
       "id": "3619",
@@ -4922,7 +5522,13 @@
         "collected_at": "2026-09-25T19:05:08.286054+08:00"
       },
       "bytes": 2682880,
-      "sha256": "c22ad13efe11ab81e6f2182108131959c4e559a1d5e9d176bd708399fd6a15c6"
+      "sha256": "c22ad13efe11ab81e6f2182108131959c4e559a1d5e9d176bd708399fd6a15c6",
+      "answer_file": {
+        "relative_path": "doc/math-grade-05-semester-1-nani/answers/10052675e8d42de90214.doc",
+        "downloaded": true,
+        "bytes": 2687488,
+        "sha256": "c98017b27f30082163d5d959613e77c32dea6e52a8e32be3969a2a41d68c3bcc"
+      }
     },
     {
       "id": "3509",
@@ -4979,7 +5585,14 @@
       },
       "bytes": 331354,
       "sha256": "8de5f0e32f99eab8a5862c144ec46f9ce1e6c50842342a6c68b95119ce3421fd",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10052455e7079bdde8ca.pdf",
+        "downloaded": true,
+        "bytes": 322355,
+        "sha256": "583958194778cdf3b628a10991dc76e08704c905c623cdd9ec8a2765f5864955",
+        "pages": 4
+      }
     },
     {
       "id": "3066",
@@ -5008,7 +5621,14 @@
       },
       "bytes": 488404,
       "sha256": "a2504218f0e96581948a427e13641686e902760823631556be46191492f79670",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10043495e43b3caa04af.pdf",
+        "downloaded": true,
+        "bytes": 2064860,
+        "sha256": "4451e510b861aa9c2534c821af44dbb2968b97b8a354e3cf040cf737f2de8ab1",
+        "pages": 3
+      }
     },
     {
       "id": "2879",
@@ -5151,7 +5771,14 @@
         "collected_at": "2026-09-25T19:05:08.286054+08:00"
       },
       "bytes": 1679872,
-      "sha256": "3c0cbd6a26bd8c9f4e4cd19b32fe7fae3d2f8804fda5277dd5fd149c3f0888f1"
+      "sha256": "3c0cbd6a26bd8c9f4e4cd19b32fe7fae3d2f8804fda5277dd5fd149c3f0888f1",
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029555df9dfe910793.pdf",
+        "downloaded": true,
+        "bytes": 1064185,
+        "sha256": "2f36607003fb4bce34350badb37d79a713f259c3d1a12e4813e178b957be826e",
+        "pages": 1
+      }
     },
     {
       "id": "1047",
@@ -5237,7 +5864,14 @@
       },
       "bytes": 322495,
       "sha256": "d10a4997d01015135caf81cfe24471588694dbdedf1a6ec1b08645db69ca6afd",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029585dccee16aa358.pdf",
+        "downloaded": true,
+        "bytes": 217359,
+        "sha256": "0345cb840455760afb2d558e78a291976178f48866fced41f9b8aa1ef63208aa",
+        "pages": 1
+      }
     },
     {
       "id": "820",
@@ -5465,7 +6099,14 @@
       },
       "bytes": 669046,
       "sha256": "a0b5daa2b33e059fffb3ad87f565e6bae7762f36d282b95b67fa4bf298a8f65c",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10029655dbfbcc4ceaa6.pdf",
+        "downloaded": true,
+        "bytes": 3559013,
+        "sha256": "5fe4011e2ca3d2c7bc44666b89d8c174274dea94648ebc55f555b4da7aac2329",
+        "pages": 3
+      }
     },
     {
       "id": "276",
@@ -5493,7 +6134,13 @@
         "collected_at": "2026-09-25T19:05:08.286054+08:00"
       },
       "bytes": 1067008,
-      "sha256": "63758a805e656d990f8d79ca70267368aba42322fde8efcab3d61ac65ade6825"
+      "sha256": "63758a805e656d990f8d79ca70267368aba42322fde8efcab3d61ac65ade6825",
+      "answer_file": {
+        "relative_path": "doc/math-grade-05-semester-1-nani/answers/10028725db8ec59ea963.doc",
+        "downloaded": true,
+        "bytes": 968192,
+        "sha256": "ed6577d47092f3b53b66a9c9fa3940c9d45f38446192963cbb6e131b87e09341"
+      }
     },
     {
       "id": "216",
@@ -5522,7 +6169,14 @@
       },
       "bytes": 472032,
       "sha256": "5f21ae2f8d5c428f2e274534b84ed6651e8f43df04c04ce79a4d8edcdb614cb5",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10028655db6a4cf71ec5.pdf",
+        "downloaded": true,
+        "bytes": 848151,
+        "sha256": "a03044c9c25b7944b97b22df776ce938cc14fda0036c6cfb8318dea9bd1c694c",
+        "pages": 2
+      }
     },
     {
       "id": "130",
@@ -5550,7 +6204,14 @@
         "collected_at": "2026-09-25T19:05:08.286054+08:00"
       },
       "bytes": 336896,
-      "sha256": "d747682f231cede6a7c3aab5bd2e6aab0e90a98219ec6a3e2f3b3b1559a1afa8"
+      "sha256": "d747682f231cede6a7c3aab5bd2e6aab0e90a98219ec6a3e2f3b3b1559a1afa8",
+      "answer_file": {
+        "relative_path": "pdf/math-grade-05-semester-1-nani/answers/10035305dad24edc3334.pdf",
+        "downloaded": true,
+        "bytes": 248857,
+        "sha256": "b2dafb15ec2c7a4bcdab4fd82fc287036adce4e8c17261f0b79da325b91cda1e",
+        "pages": 2
+      }
     },
     {
       "id": "78",
@@ -5580,5 +6241,18 @@
       "bytes": 2537472,
       "sha256": "30c8d62cfefac97277808a205ba909c7bd1fbe1efb6f30fcae8b02d48acf6c52"
     }
-  ]
+  ],
+  "answer_summary": {
+    "dataset": "math-grade-05-semester-1-nani",
+    "expected": 95,
+    "verified": 95,
+    "remaining": 0,
+    "skipped_no_source": 97,
+    "formats": {
+      ".pdf": 91,
+      ".doc": 4
+    },
+    "missing_filenames": [],
+    "issues": []
+  }
 }

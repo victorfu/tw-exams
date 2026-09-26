@@ -104,6 +104,7 @@ describe("buildCatalog", () => {
           pages: 4,
           bytes: 479511,
           available: true,
+          answer: null,
           searchText: "114上|新北市 安和國小|5年級數學|南一|期末2 五上",
         },
       ],
@@ -181,5 +182,57 @@ describe("parseCatalogJsonl", () => {
   it("reports the line number of a broken JSON line", () => {
     const text = `${JSON.stringify(makeRecord())}\n{"record_id": \n`;
     expect(() => parseCatalogJsonl(text)).toThrow(/第 2 行/);
+  });
+});
+
+describe("buildCatalog answer sheets", () => {
+  const answerFile = {
+    role: "answer",
+    original_filename: "20002871a5148af7683e.pdf",
+    relative_path: "pdf/math-grade-05-semester-1-nani/answers/20002871a5148af7683e.pdf",
+    format: "pdf",
+    downloaded: true,
+    bytes: 170159,
+    page_count: 1,
+  };
+
+  it("keeps a downloaded answer sheet", () => {
+    const catalog = buildCatalog(makeInfo(), [makeRecord({ answer_file: answerFile, answer_downloaded: true })]);
+    expect(catalog.exams[0].answer).toEqual({
+      file: "pdf/math-grade-05-semester-1-nani/answers/20002871a5148af7683e.pdf",
+      format: "pdf",
+      pages: 1,
+      bytes: 170159,
+    });
+  });
+
+  it.each(["doc", "docx"])("classifies a %s answer sheet as Word", (format) => {
+    const catalog = buildCatalog(makeInfo(), [
+      makeRecord(
+        { answer_file: { ...answerFile, format, relative_path: `doc/x/answers/a.${format}`, page_count: null }, answer_downloaded: true },
+      ),
+    ]);
+    expect(catalog.exams[0].answer).toMatchObject({ format: "word", pages: null });
+  });
+
+  it("leaves out an answer sheet that is missing or not downloaded", () => {
+    expect(buildCatalog(makeInfo(), [makeRecord({ answer_file: null })]).exams[0].answer).toBeNull();
+    expect(buildCatalog(makeInfo(), [makeRecord()]).exams[0].answer).toBeNull();
+    expect(
+      buildCatalog(makeInfo(), [makeRecord({ answer_file: { ...answerFile, downloaded: false }, answer_downloaded: false })])
+        .exams[0].answer,
+    ).toBeNull();
+  });
+
+  it("rejects an answer path that escapes the output root", () => {
+    expect(() =>
+      buildCatalog(makeInfo(), [makeRecord({ answer_file: { ...answerFile, relative_path: "../x.pdf" }, answer_downloaded: true })]),
+    ).toThrow(/answer_file.*relative_path/);
+  });
+
+  it("rejects an unknown answer format", () => {
+    expect(() =>
+      buildCatalog(makeInfo(), [makeRecord({ answer_file: { ...answerFile, format: "jpg" }, answer_downloaded: true })]),
+    ).toThrow(/answer_file.*format/);
   });
 });

@@ -233,7 +233,14 @@
       },
       "bytes": 1020946,
       "sha256": "20364e820c9c405f711781b180148c809d01a96049ad16174d8e228782abc46f",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/20003196a5111299ffaa.pdf",
+        "downloaded": true,
+        "bytes": 383526,
+        "sha256": "f577756b6e83f630e60a690d5de35cfeb249dd32a665b77f42b46508b12d8aa8",
+        "pages": 1
+      }
     },
     {
       "id": "20003120",
@@ -436,7 +443,14 @@
       },
       "bytes": 306003,
       "sha256": "5b0c61319f838877b2c69f6baeb7b6f24c4e0ff01d119e8ee649439a4de0c8f3",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/20000032a5144961ce1b.pdf",
+        "downloaded": true,
+        "bytes": 4099189,
+        "sha256": "826ed3182a6d1e2db16bd39ce8b82846fdc811d37206203e400ccb66aad0d7dd",
+        "pages": 3
+      }
     },
     {
       "id": "20000936",
@@ -639,7 +653,14 @@
       },
       "bytes": 272562,
       "sha256": "4dc61a1a78e11c87d32f6dca8afe63045d2bdd56f98e6115191c5b94312dc97d",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/20000008a51161c21b67.pdf",
+        "downloaded": true,
+        "bytes": 691468,
+        "sha256": "5984c582a1fd57d72786515d20af8d18309f522c98f2f3f9763a50613e47ee55",
+        "pages": 4
+      }
     },
     {
       "id": "18770",
@@ -668,7 +689,14 @@
       },
       "bytes": 978862,
       "sha256": "4d904adbb4553cb36f59edee33a26b3ae1bffbb432ae08ab10a3543ddef36f2d",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/1002991672db3669d537.pdf",
+        "downloaded": true,
+        "bytes": 966500,
+        "sha256": "41f4c71d1195e6ffea83050c17bcdc3826fdc2f16381e885ab052328288d4676",
+        "pages": 2
+      }
     },
     {
       "id": "18751",
@@ -697,7 +725,14 @@
       },
       "bytes": 959186,
       "sha256": "8b0915811fbe284a5802b689cc1aebd14b0285b71b7e56a2257410ba0ea54a92",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/1002958672af860a2890.pdf",
+        "downloaded": true,
+        "bytes": 2057995,
+        "sha256": "ec144996669b11fa2041b5249ca715401db07ec7ee88e7aa242287c3716702fd",
+        "pages": 3
+      }
     },
     {
       "id": "18703",
@@ -813,7 +848,14 @@
       },
       "bytes": 1005098,
       "sha256": "007073de7c4d40a6ce11d2b22f316b551a9355157a64e97e8d681c7b3be1a70f",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/100290165af2a3631bad.pdf",
+        "downloaded": true,
+        "bytes": 1856206,
+        "sha256": "ab9aaac819de1e503a9371424cb0e6c3ce8fd70f89711f52712b67b74921e8f4",
+        "pages": 2
+      }
     },
     {
       "id": "17138",
@@ -842,7 +884,14 @@
       },
       "bytes": 899582,
       "sha256": "bcc7b4caa88f3eb89b17536d751c6ba63f66e8f19f824a17d9b6b458ae81f5a6",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/100295865a7279e1eab9.pdf",
+        "downloaded": true,
+        "bytes": 2278468,
+        "sha256": "958e92de0178499a143e6cf0bef121f1016dacb5e36a405f557859c521a68081",
+        "pages": 4
+      }
     },
     {
       "id": "17124",
@@ -900,7 +949,14 @@
       },
       "bytes": 220120,
       "sha256": "f7e73fac45c852243259088449b8fb0083431579528cb6d6c9bdab97839c535f",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/100285865a0c53687e51.pdf",
+        "downloaded": true,
+        "bytes": 284000,
+        "sha256": "ef9945b8eebcc70f0f06abfccedea90ca2e617b1e5d1c78bace461d176b6715a",
+        "pages": 1
+      }
     },
     {
       "id": "17202",
@@ -929,7 +985,14 @@
       },
       "bytes": 558023,
       "sha256": "532f2f4c45ed2f1bc3956b96595d0b6d638f751372d0d2f1a990db4a591d4aaf",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/100299165aa141a38438.pdf",
+        "downloaded": true,
+        "bytes": 571322,
+        "sha256": "801c67511b4b9f3c0c64ac5187331f4c3f3e8168eed2ad35d89407290bfc2dec",
+        "pages": 4
+      }
     },
     {
       "id": "20001890",
@@ -1132,7 +1195,14 @@
       },
       "bytes": 307295,
       "sha256": "f9a5337ef36bf79cf2ce593f88204f1b2a7aa5bf86bac44f6e96799860ff1730",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/100514565644caa04b0b.pdf",
+        "downloaded": true,
+        "bytes": 218122,
+        "sha256": "2faf7fc3e65a4cb418344c59338866edc40ddd6e81640da41bcacd21830dcf77",
+        "pages": 1
+      }
     },
     {
       "id": "16664",
@@ -1219,7 +1289,14 @@
       },
       "bytes": 542451,
       "sha256": "568fa8c243242ce19a59431190e86f26ff7a6eb5abae45a7a6b16e195524e7aa",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10028766541f53d02559.pdf",
+        "downloaded": true,
+        "bytes": 62604,
+        "sha256": "3722a2165166623ff3f3ffcd4c7637341b402c2396f2e2bf5ae0d16157cb511a",
+        "pages": 1
+      }
     },
     {
       "id": "16422",
@@ -1248,7 +1325,14 @@
       },
       "bytes": 245437,
       "sha256": "141d7f898d013082dfb1eb0fee05d8724130182da0475af198e67d02cbc58b54",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029246531df53a44ad.pdf",
+        "downloaded": true,
+        "bytes": 146290,
+        "sha256": "452c1a03f7ded5e622121fac35e99a49e37a23055054991d1ee8c11c951b1efe",
+        "pages": 1
+      }
     },
     {
       "id": "20002358",
@@ -1306,7 +1390,14 @@
       },
       "bytes": 278726,
       "sha256": "cccc71b5486b8c102880b89ca228c5eaf8f5ed20197a0bb944516dcd474fa506",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/20001816a5115079a261.pdf",
+        "downloaded": true,
+        "bytes": 232543,
+        "sha256": "ce3989d04fda63328918dd8f26e83aafad9caf316c13bbf0791d220f2f447dad",
+        "pages": 2
+      }
     },
     {
       "id": "20001637",
@@ -1393,7 +1484,14 @@
       },
       "bytes": 2883732,
       "sha256": "2adaaf4e9befa3cb933778e3c64c23e23de0df6ae6da32df872dc1cf09925f59",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/100290163d87a1f1a72e.pdf",
+        "downloaded": true,
+        "bytes": 2948308,
+        "sha256": "a26ce092b3a40aca486166ca53d7b943e25867c95494d527664e94287224bca6",
+        "pages": 2
+      }
     },
     {
       "id": "14769",
@@ -1451,7 +1549,14 @@
       },
       "bytes": 302694,
       "sha256": "1c10d2adb41108032159c8aa958a141201016ceb9b011c96f2c21d0f58c99242",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/100287663c780867f0db.pdf",
+        "downloaded": true,
+        "bytes": 76226,
+        "sha256": "c6960566756b000c4659fbe237e957c96f536fc3a260ba3b7cfb9f76e70272f2",
+        "pages": 1
+      }
     },
     {
       "id": "14700",
@@ -1480,7 +1585,14 @@
       },
       "bytes": 200463,
       "sha256": "113b9443111df4f93fd60f6ac68ba3fa9c4b67ce7c901a5879a80dd773c7e301",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/100299563c762a7a3fa5.pdf",
+        "downloaded": true,
+        "bytes": 200463,
+        "sha256": "113b9443111df4f93fd60f6ac68ba3fa9c4b67ce7c901a5879a80dd773c7e301",
+        "pages": 3
+      }
     },
     {
       "id": "20002357",
@@ -1683,7 +1795,14 @@
       },
       "bytes": 194585,
       "sha256": "ec05ab7f80fac207bedff08892d577ff337e64ad7d44e2feb0dc4c0e1f46f8f6",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/1002995637443eb9572e.pdf",
+        "downloaded": true,
+        "bytes": 194585,
+        "sha256": "ec05ab7f80fac207bedff08892d577ff337e64ad7d44e2feb0dc4c0e1f46f8f6",
+        "pages": 3
+      }
     },
     {
       "id": "14176",
@@ -1770,7 +1889,14 @@
       },
       "bytes": 503392,
       "sha256": "d831f1f16a4a8db8d8497c4ae1a79ed426cf642a9774c5f6c329393a6e5c7c01",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10028766360bb35c2aef.pdf",
+        "downloaded": true,
+        "bytes": 445810,
+        "sha256": "f3c8676a36f7ca36ace0c2df64d0ec14d2c54fdd6f7f393be226caf365b57f87",
+        "pages": 4
+      }
     },
     {
       "id": "20002284",
@@ -1799,7 +1925,14 @@
       },
       "bytes": 319649,
       "sha256": "e347869abc2b45812353516ab7cc4b9032147e1f6d88975c0b461432c685be93",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/20002284a5114390a74d.pdf",
+        "downloaded": true,
+        "bytes": 1454063,
+        "sha256": "baa98f6ff4d24e31b872bba16a81f553b2356efdb72cbe36c58d9c1bc0cc841b",
+        "pages": 3
+      }
     },
     {
       "id": "20001725",
@@ -1915,7 +2048,14 @@
       },
       "bytes": 2958924,
       "sha256": "95a3e588e57738560e04a95c99989b4ae9ffabdbe4017e9a33853d54e8c04f6b",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029016205cb305815b.pdf",
+        "downloaded": true,
+        "bytes": 2869933,
+        "sha256": "068794718d4ee5fd3dfdebe92d42450273188c9b6461f6ea641cff9039eeadd6",
+        "pages": 2
+      }
     },
     {
       "id": "11786",
@@ -1973,7 +2113,14 @@
       },
       "bytes": 342496,
       "sha256": "23d30c5064e21deba547a498867ffd4dd2e5a597ffe7490c43eabedaaff5fbcc",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/100503061eb6b008e219.pdf",
+        "downloaded": true,
+        "bytes": 2851738,
+        "sha256": "4fc4f5a698351a0b4c2ad329161e241cdf2fb5410e26229873e81604a46d6b47",
+        "pages": 2
+      }
     },
     {
       "id": "11332",
@@ -2089,7 +2236,14 @@
       },
       "bytes": 398361,
       "sha256": "aee62bc2327a9ffe294657b529fbaa978d284b2825eeb03acad5b00164d8899b",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/20002283a5140af49f36.pdf",
+        "downloaded": true,
+        "bytes": 1514536,
+        "sha256": "d6c115e830a5b67f3f884b7d01d9c1db2e196506b91742f30160dc4b3c6b378f",
+        "pages": 4
+      }
     },
     {
       "id": "20001724",
@@ -2205,7 +2359,14 @@
       },
       "bytes": 2467131,
       "sha256": "186417b229c3d4a4474710408512b9e383273195ea46f44a55d7c025dc920926",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029016205c7ee527a0.pdf",
+        "downloaded": true,
+        "bytes": 2495215,
+        "sha256": "e9dcc7d82366f7a45e5e7fd0cbcbe1f23b5d0db95b783e3ec85bf40956ede4e8",
+        "pages": 2
+      }
     },
     {
       "id": "11428",
@@ -2234,7 +2395,14 @@
       },
       "bytes": 282093,
       "sha256": "fcfb6c43c70565168102b07fd436f1746b60178359e5d42b7e2a186ed55861c4",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/100503061eb6872dc9c7.pdf",
+        "downloaded": true,
+        "bytes": 287330,
+        "sha256": "37f39cb72f559b841d0f0f94f46f109771e30ad42c7ec9e99c0060ecb9fe6762",
+        "pages": 2
+      }
     },
     {
       "id": "10846",
@@ -2263,7 +2431,14 @@
       },
       "bytes": 501869,
       "sha256": "9aef3cbe51467e47ae8d482e03f0fd87d507078191fd0f8607025fbfadb29846",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10052456197095706792.pdf",
+        "downloaded": true,
+        "bytes": 1476179,
+        "sha256": "a5e9e732696727f4e066069852e2dac6276a82aa5a757aea2433d00e62639074",
+        "pages": 3
+      }
     },
     {
       "id": "10796",
@@ -2321,7 +2496,14 @@
       },
       "bytes": 301280,
       "sha256": "1a22b886f216e4866007648542689d3d2cd7dfff2b5b23a33a8b1a3b5a3e6f64",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029586191fa81dd83c.pdf",
+        "downloaded": true,
+        "bytes": 1249590,
+        "sha256": "5639ffd94301c3b67ada1f71256a42f5085c0cf27c6fbfa9049ff5d8546ae54e",
+        "pages": 2
+      }
     },
     {
       "id": "10608",
@@ -2379,7 +2561,14 @@
       },
       "bytes": 313526,
       "sha256": "61e6097682d202bd2ef34249daebf14fdd258f82f18b377b9271bf1db81357ae",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10028766180e05dd046c.pdf",
+        "downloaded": true,
+        "bytes": 73744,
+        "sha256": "2e4494ee15b9ce8213c0cc52327ceca9f71c2b686fed63fa41e0731733ff740e",
+        "pages": 1
+      }
     },
     {
       "id": "9650",
@@ -2437,7 +2626,14 @@
       },
       "bytes": 327416,
       "sha256": "fa4f383a563ecddad70ca0dbb5f1a391217aae1beef0b7cd0784203d98ced2ed",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/100524560657fad13deb.pdf",
+        "downloaded": true,
+        "bytes": 1661152,
+        "sha256": "87a05103491ffcf9d617b433e975dab052187426a471ab9da645c69860b3b062",
+        "pages": 4
+      }
     },
     {
       "id": "8515",
@@ -2466,7 +2662,14 @@
       },
       "bytes": 424310,
       "sha256": "5b5a04d012487a727cc4b5ae9687d858264d1112072bbc446675b9d06a95ce48",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/1001651601a0969175b3.pdf",
+        "downloaded": true,
+        "bytes": 430938,
+        "sha256": "bd8d8ac62cc926125fe4c275e708b1ef98e6b0c8214c47ec02f1bae03c36c909",
+        "pages": 4
+      }
     },
     {
       "id": "8474",
@@ -2582,7 +2785,14 @@
       },
       "bytes": 511902,
       "sha256": "c7f3d909dce4ad62ff73f84bedf6e480fd8375db9d0d3b082aa006eb44312e0c",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029586007a1f5ad7aa.pdf",
+        "downloaded": true,
+        "bytes": 524319,
+        "sha256": "ec8f610f93fec20507475b8a68d6b8b064bfbde7c5d708d89245f504ff961988",
+        "pages": 3
+      }
     },
     {
       "id": "7826",
@@ -2640,7 +2850,14 @@
       },
       "bytes": 355711,
       "sha256": "7fb854b9f3f46f900a36f6044cd6f1d345e4d341888fae2b1ef412bfedfa8325",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/100287460122b5374564.pdf",
+        "downloaded": true,
+        "bytes": 3533397,
+        "sha256": "4e1463f686572813a48ebe6cf50cbabc13d521fbfbc36496d7029cfc3618129d",
+        "pages": 3
+      }
     },
     {
       "id": "7910",
@@ -2698,7 +2915,14 @@
       },
       "bytes": 470865,
       "sha256": "a1673e59d7cd5e86e964cbdf345822d2de9430c893e5d538f99c9cb84b2b5bee",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/1001651617fd2ac25574.pdf",
+        "downloaded": true,
+        "bytes": 480653,
+        "sha256": "17e9f7bdebaaf5dd1871faf7f4659c99db4bedd56e4926e8a0ea1ed45e08b0f7",
+        "pages": 4
+      }
     },
     {
       "id": "9765",
@@ -2727,7 +2951,14 @@
       },
       "bytes": 320311,
       "sha256": "ca8d92081ccf45a488cff37537e24641ce6e292b88154c96e0cd6ba8c5520a34",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/100223560f7c9c5938a7.pdf",
+        "downloaded": true,
+        "bytes": 335138,
+        "sha256": "07347708979e8b85d44b3f9ab8b45a5c03418f401be5863a9f97b7cdc7c25e6b",
+        "pages": 2
+      }
     },
     {
       "id": "9619",
@@ -2785,7 +3016,14 @@
       },
       "bytes": 425030,
       "sha256": "609ddb21e0944d40ebe5d883887ec99f3664ea6834af15af48a06d6452e455b3",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10052456065777906876.pdf",
+        "downloaded": true,
+        "bytes": 1744932,
+        "sha256": "1ce792963fbade2a5e8d8efcb8558d7e7f129c60e51a37042431d06a9784e511",
+        "pages": 3
+      }
     },
     {
       "id": "8371",
@@ -2843,7 +3081,14 @@
       },
       "bytes": 413192,
       "sha256": "386f3e2284a9a2abf4baa461b8393c9a877ef706b5569f081b9d614af6451f4e",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10028746012289561c45.pdf",
+        "downloaded": true,
+        "bytes": 3852163,
+        "sha256": "b720009d6b72c17011514bc427c7aec0f3a783383487e810143dac77e1749262",
+        "pages": 4
+      }
     },
     {
       "id": "8222",
@@ -2872,7 +3117,14 @@
       },
       "bytes": 2408123,
       "sha256": "90718d50b568dc7426842fb12fec06c29ff0611fed2e818651bb1ccbde95a99c",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/1002901600fa1bf4f8a3.pdf",
+        "downloaded": true,
+        "bytes": 2483516,
+        "sha256": "eefa22e8cf4df68a6fb4b4f380e1f88a109cd2051146f475a15d5cb356addb0a",
+        "pages": 2
+      }
     },
     {
       "id": "8176",
@@ -2901,7 +3153,14 @@
       },
       "bytes": 686309,
       "sha256": "6a48dea3e56e5c53357e00f218a7ebd6860116da8696b2dba436ffa0c951d2ea",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/1005030600e67dcf2daf.pdf",
+        "downloaded": true,
+        "bytes": 719291,
+        "sha256": "538bfb16944b6e75fee0e74ca4e0a1f64c71d23465714d73b48ffee086bc8110",
+        "pages": 2
+      }
     },
     {
       "id": "7351",
@@ -2988,7 +3247,14 @@
       },
       "bytes": 166521,
       "sha256": "90cc2260d1f21cbb6236d299629706ce25fb549d778555912825d053cc8f7744",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029955fb338c5e653d.pdf",
+        "downloaded": true,
+        "bytes": 185071,
+        "sha256": "1bd0a15989171f86021d8b3a38ecfc501868e40e284dac01d34d588d66092b9b",
+        "pages": 3
+      }
     },
     {
       "id": "7231",
@@ -3017,7 +3283,14 @@
       },
       "bytes": 585053,
       "sha256": "cd9c9b7f747956e459716e641ac1e67c9d5b5a3ed91d6b0e5e769b5102aaaf86",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029585fae268d57021.pdf",
+        "downloaded": true,
+        "bytes": 589522,
+        "sha256": "afbdb83bb333a0704a7f41fce2394d8431e5460789a7018e690686c2d7d5e7ed",
+        "pages": 2
+      }
     },
     {
       "id": "7137",
@@ -3104,7 +3377,14 @@
       },
       "bytes": 530393,
       "sha256": "81a5185fdccf5cad83a46ffffc694e7d73dc451adb72ac583a6f1967cc6b1e81",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10016515f8963b709291.pdf",
+        "downloaded": true,
+        "bytes": 477351,
+        "sha256": "cf36cc759bbb47104adacabc727fb7c0f31313679faf186d551578fc324dcb63",
+        "pages": 1
+      }
     },
     {
       "id": "4312",
@@ -3132,7 +3412,14 @@
         "collected_at": "2026-09-26T12:10:30.905963+08:00"
       },
       "bytes": 838656,
-      "sha256": "9204d4d587c8bea13e25e3927de2ef6599af948d4c50c66018c6b6d4384cbd35"
+      "sha256": "9204d4d587c8bea13e25e3927de2ef6599af948d4c50c66018c6b6d4384cbd35",
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10048815eb4a8766fe8e.pdf",
+        "downloaded": true,
+        "bytes": 1142370,
+        "sha256": "ebc2e0cc3c7d1c0b13be42ff7629c3ab028c536808c9cd802e3f514e7ff9e73e",
+        "pages": 2
+      }
     },
     {
       "id": "3593",
@@ -3161,7 +3448,14 @@
       },
       "bytes": 198737,
       "sha256": "4251c3c5abeb0ebefa642f707e798ab3fad52c6f17cee530a068ed78103aea4c",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10051705e81a0c3d6966.pdf",
+        "downloaded": true,
+        "bytes": 294848,
+        "sha256": "f0808feaf83833ce577443096e101cd1beb5667bc80c25dad6ed9fa713397096",
+        "pages": 2
+      }
     },
     {
       "id": "3561",
@@ -3190,7 +3484,14 @@
       },
       "bytes": 378412,
       "sha256": "87332835a216bd8934dcd8198d7ce48b52af020c4afdf301841d06f60a4b50e6",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10052455e71e576d8abf.pdf",
+        "downloaded": true,
+        "bytes": 401463,
+        "sha256": "33d0d4c59118ef6b342cdad9e1eb8b1e33aed05fd01284150c02c326ec9f811d",
+        "pages": 3
+      }
     },
     {
       "id": "3123",
@@ -3306,7 +3607,14 @@
       },
       "bytes": 492369,
       "sha256": "e9d91d6272cf2dd7ddd7d30c78e346be8b1d25a6067799b2d62689ab352399a9",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10031795e339ce2b05d2.pdf",
+        "downloaded": true,
+        "bytes": 1567162,
+        "sha256": "db2046fd7ee18ed871e7210633f1b46b054fcbe678d5e964891962a268050855",
+        "pages": 2
+      }
     },
     {
       "id": "2578",
@@ -3334,7 +3642,13 @@
         "collected_at": "2026-09-26T12:10:30.905963+08:00"
       },
       "bytes": 226816,
-      "sha256": "36690f9f9d31bcdd4c37ce2eef7d6b7af7e08b2cd458de27f438cbc321e6b87d"
+      "sha256": "36690f9f9d31bcdd4c37ce2eef7d6b7af7e08b2cd458de27f438cbc321e6b87d",
+      "answer_file": {
+        "relative_path": "doc/science-grade-05-semester-1-kang-hsuan/answers/10028915e3391f968c7c.doc",
+        "downloaded": true,
+        "bytes": 229376,
+        "sha256": "848d3bab10b00a05f5f6dea0782751e028db7d4d193dbd384a50883401e0ce11"
+      }
     },
     {
       "id": "2531",
@@ -3363,7 +3677,14 @@
       },
       "bytes": 545377,
       "sha256": "1f21a500e1d2d6bafb2ac01c0525b63d34429f1b5ef9a80ba3d0537fefd42084",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10028925e33853e745f4.pdf",
+        "downloaded": true,
+        "bytes": 1941588,
+        "sha256": "8bc85e7f58c8167d4a5902dcb44920ae90f524ba53580c05e7c35f13de491054",
+        "pages": 2
+      }
     },
     {
       "id": "2455",
@@ -3421,7 +3742,14 @@
       },
       "bytes": 745642,
       "sha256": "fcc2a6ba7a4a5ddd3a1d2c345e5880802a2b1a0aea664940cf9d10e4fe600d6b",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029555e27fefe113a5.pdf",
+        "downloaded": true,
+        "bytes": 1022143,
+        "sha256": "ba290f9ce00d6919f70d639bcbb4c89056c377744ca861af4d5d6fcddf330ad4",
+        "pages": 3
+      }
     },
     {
       "id": "2251",
@@ -3507,7 +3835,14 @@
       },
       "bytes": 541569,
       "sha256": "c78eabafd29eda2df8e766d759fa55701f650de7e49630da20b62ddb92ef4614",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029585e1d6b5b80737.pdf",
+        "downloaded": true,
+        "bytes": 514167,
+        "sha256": "e6f42f36f77df7be6d7761f5f64ecacdeb5a549b5e0c86a5b5b3802592b4037a",
+        "pages": 3
+      }
     },
     {
       "id": "1750",
@@ -3535,7 +3870,14 @@
         "collected_at": "2026-09-26T12:10:30.905963+08:00"
       },
       "bytes": 540672,
-      "sha256": "bb36025c7df06ec50c67530d7bec5bc2b21d974e960d31a85fb1f450e25324f4"
+      "sha256": "bb36025c7df06ec50c67530d7bec5bc2b21d974e960d31a85fb1f450e25324f4",
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10028765e17f42d1c79d.pdf",
+        "downloaded": true,
+        "bytes": 1426400,
+        "sha256": "fbf3c45e27e9c3f2f51ac51ed01a0c98bf93c1bbcc36146003b30e12ef809d8e",
+        "pages": 2
+      }
     },
     {
       "id": "6137",
@@ -3564,7 +3906,14 @@
       },
       "bytes": 2369028,
       "sha256": "cf620a9b2465c6728aec901da249328f1ee21a7a3b20543db67696e8554f64c3",
-      "pages": 1
+      "pages": 1,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029325f20e846a9087.pdf",
+        "downloaded": true,
+        "bytes": 2369028,
+        "sha256": "a63187f781155feb48089973b87b22b6a94682da86bdca9110804d2ecf19eab7",
+        "pages": 1
+      }
     },
     {
       "id": "2908",
@@ -3593,7 +3942,14 @@
       },
       "bytes": 679716,
       "sha256": "5b2242e936df9cf8c4986dbad9d5a313675533f50959edf72682b2805f57d095",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10041475e3cc30c0993a.pdf",
+        "downloaded": true,
+        "bytes": 692668,
+        "sha256": "d639c842e8785e924a587844e023a18057154dac40ddaed53e8669ba41eab0d8",
+        "pages": 2
+      }
     },
     {
       "id": "1753",
@@ -3621,7 +3977,13 @@
         "collected_at": "2026-09-26T12:10:30.905963+08:00"
       },
       "bytes": 2744832,
-      "sha256": "afb0909970f1165ea9e5f96ebb7f88aa201ac585fc8595d736bd6d1290cea1bf"
+      "sha256": "afb0909970f1165ea9e5f96ebb7f88aa201ac585fc8595d736bd6d1290cea1bf",
+      "answer_file": {
+        "relative_path": "doc/science-grade-05-semester-1-kang-hsuan/answers/10029915e1c1e8c4ead9.doc",
+        "downloaded": true,
+        "bytes": 2742272,
+        "sha256": "0deccb5f154e44ca696882fa3bfa0cfbb98de996678806f15eeef93272e6c5f6"
+      }
     },
     {
       "id": "6124",
@@ -3650,7 +4012,14 @@
       },
       "bytes": 183595,
       "sha256": "5fa765c357bfb2d27a0631fe8c91f72daec52b58f7a330c8787ca4d0b6832a20",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029325f20e495b8cfa.pdf",
+        "downloaded": true,
+        "bytes": 426688,
+        "sha256": "5f2df70e7f929015a4ee0034dff9f130b9632b090b1c9b143ef0ec3ff5b5d162",
+        "pages": 1
+      }
     },
     {
       "id": "1710",
@@ -3679,7 +4048,14 @@
       },
       "bytes": 681168,
       "sha256": "f19cb3a66e7b80d09a4ab521c9682e08759b2ec2cfa0bda793f1cee2ffcf45b0",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10041475e1548e0dc2e5.pdf",
+        "downloaded": true,
+        "bytes": 699870,
+        "sha256": "55ea6af3abd486d1e76765104f4418fb3efa292cf2e22de68a93cf641b731339",
+        "pages": 2
+      }
     },
     {
       "id": "1400",
@@ -3707,7 +4083,14 @@
         "collected_at": "2026-09-26T12:10:30.905963+08:00"
       },
       "bytes": 2532803,
-      "sha256": "cf9de4702a795f77554c792ce921b057abd4c014270a7cd33c9d72c30853b17b"
+      "sha256": "cf9de4702a795f77554c792ce921b057abd4c014270a7cd33c9d72c30853b17b",
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10035305df6fffcc63ba.pdf",
+        "downloaded": true,
+        "bytes": 1913210,
+        "sha256": "7bc5d135472a30bedce516f9ab9c814f190a5456633fcb6122709edeed83964d",
+        "pages": 2
+      }
     },
     {
       "id": "6425",
@@ -3736,7 +4119,14 @@
       },
       "bytes": 620478,
       "sha256": "d4d887a28fb08a5a60a94e5525e81c41e58ff1b595a8a7a2bba6448070380ee1",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10016515f30f97f772d9.pdf",
+        "downloaded": true,
+        "bytes": 673047,
+        "sha256": "cd296a359251824a3dc8cdfed5499c87122d271cc0f5f87579762adcf0238aa0",
+        "pages": 4
+      }
     },
     {
       "id": "6119",
@@ -3765,7 +4155,14 @@
       },
       "bytes": 2120825,
       "sha256": "b6ed61ed471f7db530446fc2e64f96e439c01bff633af15f3531e4cbeb88e467",
-      "pages": 1
+      "pages": 1,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029325f20de8914c59.pdf",
+        "downloaded": true,
+        "bytes": 2063122,
+        "sha256": "180c970e635772fc167ff5b422ae0086e74466fc5d9ebde2ae8d781b53cabae0",
+        "pages": 1
+      }
     },
     {
       "id": "5913",
@@ -3794,7 +4191,14 @@
       },
       "bytes": 524228,
       "sha256": "0135add8b20d05f103d451156c0df09ebc025788d7ad5102e049bf524360ea69",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10050305f19457da73b2.pdf",
+        "downloaded": true,
+        "bytes": 2532659,
+        "sha256": "f210f35d23d931ccb22e5a0111a86ea9bbef5b82c15176ad26c6fcd7955250fb",
+        "pages": 2
+      }
     },
     {
       "id": "3507",
@@ -3966,7 +4370,14 @@
       },
       "bytes": 1799557,
       "sha256": "104a339481d8c83ad121299264204da0e024d195a1d9a10a667a7d0d23b54a7c",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10028925e338d14580f6.pdf",
+        "downloaded": true,
+        "bytes": 1845686,
+        "sha256": "36b1b68dcc67ac75476bcc8aebd04ac88b3a31d0e6ddfaf375e3b1c24f64aff5",
+        "pages": 2
+      }
     },
     {
       "id": "2408",
@@ -3995,7 +4406,14 @@
       },
       "bytes": 560503,
       "sha256": "909e1a7c6b6ed24b49deaad4a11eafc28bab58197683bcc8247025b76c550d0f",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10031795e2d4983d0282.pdf",
+        "downloaded": true,
+        "bytes": 354155,
+        "sha256": "afb9a3e3570fff326c69305a174e22dbf215c8fa22068ad6a7b751791870e178",
+        "pages": 2
+      }
     },
     {
       "id": "2162",
@@ -4080,7 +4498,14 @@
       },
       "bytes": 464565,
       "sha256": "1fc3a67cc2f2fcc30e56348903108e57e73c3db08c6de923f3b8410cb83bfeaa",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10051705e031b00105e7.pdf",
+        "downloaded": true,
+        "bytes": 480994,
+        "sha256": "2d57b3ea5e80352c290ac2ed3082d0154a26931dcbdb5792271156a4c1d07324",
+        "pages": 2
+      }
     },
     {
       "id": "1509",
@@ -4109,7 +4534,14 @@
       },
       "bytes": 763059,
       "sha256": "7562959b1cb8e28cf4f070d8fe61d21ffe3fe9d30f4047437ab0a8b223d2ea0d",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029555df9dfe91138f.pdf",
+        "downloaded": true,
+        "bytes": 1002767,
+        "sha256": "6d2205c268dcb95c2a2290eca7ca60e7ac6cbae967fc1d0e5f5f432e77f0630f",
+        "pages": 4
+      }
     },
     {
       "id": "1427",
@@ -4194,7 +4626,14 @@
       },
       "bytes": 3353597,
       "sha256": "b507fef19dfb0407c3645673f063a0e1c943e322d2d4d50580e9d0f35cdda8c2",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029015dd74a0ca9cdf.pdf",
+        "downloaded": true,
+        "bytes": 3380958,
+        "sha256": "66d43b7aa1e26f6d781347bb6a230c2e17bed1bbfa0e2fab7ab46f2a098c0243",
+        "pages": 2
+      }
     },
     {
       "id": "973",
@@ -4251,7 +4690,13 @@
         "collected_at": "2026-09-26T12:10:30.905963+08:00"
       },
       "bytes": 5833216,
-      "sha256": "d47d150571a338c9aa810a981a9d44ae83f4bf3a1df28a7137ac2ede1bce2ddc"
+      "sha256": "d47d150571a338c9aa810a981a9d44ae83f4bf3a1df28a7137ac2ede1bce2ddc",
+      "answer_file": {
+        "relative_path": "doc/science-grade-05-semester-1-kang-hsuan/answers/10028915dce7b75ed846.doc",
+        "downloaded": true,
+        "bytes": 5835776,
+        "sha256": "fd285a5c4f1af75c233107968d00d218513b75795c83bcbd10010b62d4b26c87"
+      }
     },
     {
       "id": "878",
@@ -4280,7 +4725,14 @@
       },
       "bytes": 711068,
       "sha256": "d05fdf49189ceb303cca69479bf26cd14c602d7fb3f05bd6e6cc46c683111283",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10041475dce593191388.pdf",
+        "downloaded": true,
+        "bytes": 724522,
+        "sha256": "ee0bf1155542d55da2b3a9c69c6abf58fec8f23ea8c3397fc8e1abc81ccfe473",
+        "pages": 2
+      }
     },
     {
       "id": "763",
@@ -4309,7 +4761,14 @@
       },
       "bytes": 410672,
       "sha256": "215a5929f44f855685f5046627b51bce2ffc16f32fda886f9ab6742696099a69",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10048815dc8c303365b4.pdf",
+        "downloaded": true,
+        "bytes": 411663,
+        "sha256": "1861c23c63153e6672030ecd60d8c4301399bd0bca847d756a03ee76b089ad4e",
+        "pages": 2
+      }
     },
     {
       "id": "601",
@@ -4337,7 +4796,14 @@
         "collected_at": "2026-09-26T12:10:30.905963+08:00"
       },
       "bytes": 5731328,
-      "sha256": "dcb7e51441272fc36095d312b385c055664d300aa919f87d2cf812e54cc6a6ff"
+      "sha256": "dcb7e51441272fc36095d312b385c055664d300aa919f87d2cf812e54cc6a6ff",
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10028765dc2434fab4b2.pdf",
+        "downloaded": true,
+        "bytes": 1286377,
+        "sha256": "f7b83612d5d5420b55ca6c5e14e69f1516a3bc08f9667c077a02ff5f47644351",
+        "pages": 2
+      }
     },
     {
       "id": "592",
@@ -4394,7 +4860,14 @@
       },
       "bytes": 576996,
       "sha256": "f9ec1fe589e473afe881ef1ce482a79544a0b1144d6df3e02f0aa084f300e672",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10029585dc2171a4054a.pdf",
+        "downloaded": true,
+        "bytes": 580122,
+        "sha256": "4308d571a4bc0ed35a96baabf17b47c345124fe482e3d3fd520e8b7605547648",
+        "pages": 2
+      }
     },
     {
       "id": "129",
@@ -4422,7 +4895,14 @@
         "collected_at": "2026-09-26T12:10:30.905963+08:00"
       },
       "bytes": 4829184,
-      "sha256": "51c7be92132dc05f381d0d7ce3ee3d5bd2f99cfd4629afda7ecc980a0898f18c"
+      "sha256": "51c7be92132dc05f381d0d7ce3ee3d5bd2f99cfd4629afda7ecc980a0898f18c",
+      "answer_file": {
+        "relative_path": "pdf/science-grade-05-semester-1-kang-hsuan/answers/10035305dad24edc4803.pdf",
+        "downloaded": true,
+        "bytes": 1866164,
+        "sha256": "759782329e3779870f8b2a298fbeabe00de5667de21fa908efdec7d6d47fbf35",
+        "pages": 2
+      }
     },
     {
       "id": "107",
@@ -4452,5 +4932,18 @@
       "bytes": 3748864,
       "sha256": "50c5f3ede81814d9ced5366eeb79b35edddb36d05cc62c60c26bb27062c0bcb8"
     }
-  ]
+  ],
+  "answer_summary": {
+    "dataset": "science-grade-05-semester-1-kang-hsuan",
+    "expected": 69,
+    "verified": 69,
+    "remaining": 0,
+    "skipped_no_source": 84,
+    "formats": {
+      ".pdf": 66,
+      ".doc": 3
+    },
+    "missing_filenames": [],
+    "issues": []
+  }
 }

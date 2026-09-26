@@ -3,7 +3,7 @@ import { readUrlState, writeUrlState } from "./searchParams";
 
 describe("readUrlState", () => {
   it("reads every filter from the query string", () => {
-    const params = new URLSearchParams("c=ds&year=114,112&type=final&city=臺北市&q=民權&id=tcool:1");
+    const params = new URLSearchParams("c=ds&year=114,112&type=final&city=臺北市&q=民權&id=tcool:1&view=answer");
     expect(readUrlState(params)).toEqual({
       collectionId: "ds",
       academicYears: [114, 112],
@@ -11,6 +11,7 @@ describe("readUrlState", () => {
       city: "臺北市",
       query: "民權",
       examId: "tcool:1",
+      showAnswer: true,
     });
   });
 
@@ -22,6 +23,7 @@ describe("readUrlState", () => {
       city: null,
       query: "",
       examId: null,
+      showAnswer: false,
     });
   });
 });
@@ -35,6 +37,7 @@ describe("writeUrlState", () => {
       city: null,
       query: "台北 民權",
       examId: "tcool:1",
+      showAnswer: false,
     };
     const query = writeUrlState(state);
 
@@ -44,7 +47,13 @@ describe("writeUrlState", () => {
 
   it("returns an empty string when nothing is set", () => {
     expect(
-      writeUrlState({ collectionId: null, academicYears: [], examType: null, city: null, query: "", examId: null }),
+      writeUrlState({ collectionId: null, academicYears: [], examType: null, city: null, query: "", examId: null, showAnswer: false }),
     ).toBe("");
+  });
+
+  it("writes view=answer only while an exam is open", () => {
+    const state = { collectionId: null, academicYears: [], examType: null, city: null, query: "", showAnswer: true };
+    expect(writeUrlState({ ...state, examId: "a" })).toBe("id=a&view=answer");
+    expect(writeUrlState({ ...state, examId: null })).toBe("");
   });
 });

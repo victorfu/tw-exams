@@ -11,6 +11,8 @@ export interface FakeExamFile {
   /** 覆寫 catalog 的 bytes（模擬大小不符）。 */
   bytes?: number | null;
   title?: string;
+  /** 解答卷；沒給就沒有解答。 */
+  answer?: { path: string; content?: string; bytes?: number | null };
 }
 
 /** 在 dir 建一份假的 cowork output：catalog-info.json、catalog.jsonl 與已下載的考卷檔。 */
@@ -39,6 +41,13 @@ export async function writeFakeOutput(
       await mkdir(dirname(target), { recursive: true });
       await writeFile(target, content);
     }
+    const answer = exam.answer;
+    const answerContent = answer?.content ?? `answer of ${exam.id}`;
+    if (answer) {
+      const target = join(dir, ...answer.path.split("/"));
+      await mkdir(dirname(target), { recursive: true });
+      await writeFile(target, answerContent);
+    }
     lines.push(
       JSON.stringify({
         schema_version: 1,
@@ -60,6 +69,16 @@ export async function writeFakeOutput(
           bytes: exam.bytes !== undefined ? exam.bytes : downloaded ? Buffer.byteLength(content) : null,
           page_count: 1,
         },
+        answer_file: answer
+          ? {
+              relative_path: answer.path,
+              format: answer.path.split(".").pop(),
+              downloaded: true,
+              bytes: answer.bytes !== undefined ? answer.bytes : Buffer.byteLength(answerContent),
+              page_count: 1,
+            }
+          : null,
+        answer_downloaded: Boolean(answer),
         search_text: exam.id,
       }),
     );

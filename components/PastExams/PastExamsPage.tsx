@@ -48,18 +48,21 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
   const navigable = exams.filter((exam) => exam.available);
   const selected = navigable.find((exam) => exam.id === url.examId) ?? null;
   const selectedIndex = selected ? navigable.indexOf(selected) : -1;
+  // 網址要看解答、但這份沒有解答卷時就看題目。
+  const showAnswer = url.showAnswer && selected?.answer != null;
 
   // pushState／replaceState 會同步到 useSearchParams，但不會向伺服器重新要頁面（連按 ← → 也不卡）。
   function update(patch: Partial<PastExamsUrlState>, { push = false } = {}) {
-    const query = writeUrlState({ ...url, collectionId: collection?.id ?? null, ...patch });
+    const query = writeUrlState({ ...url, showAnswer, collectionId: collection?.id ?? null, ...patch });
     const href = query ? `${pathname}?${query}` : pathname;
     if (push) window.history.pushState({ [PREVIEW_ENTRY]: true }, "", href);
     // 在預覽層裡換上一份／下一份時保留標記，關閉時才知道要返回。
     else window.history.replaceState(isPreviewEntry() ? { [PREVIEW_ENTRY]: true } : null, "", href);
   }
 
+  // 換一份考卷一律先看題目。
   function select(exam: PastExam | null) {
-    update({ examId: exam?.id ?? null }, { push: exam !== null && selected === null && !isDesktop() });
+    update({ examId: exam?.id ?? null, showAnswer: false }, { push: exam !== null && selected === null && !isDesktop() });
   }
 
   function closePreview() {
@@ -158,6 +161,8 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
         >
           <ExamPreview
             exam={selected}
+            view={showAnswer ? "answer" : "question"}
+            onViewChange={(view) => update({ showAnswer: view === "answer" })}
             collection={collection}
             hasPrevious={selectedIndex > 0}
             hasNext={selected !== null && selectedIndex < navigable.length - 1}

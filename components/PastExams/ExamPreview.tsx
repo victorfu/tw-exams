@@ -6,13 +6,17 @@ import { ChevronLeft, ChevronRight, Download, ExternalLink, FilePlus2, FileText,
 import { downloadFileName } from "../../lib/pastExams/fileResponse";
 import { examFileUrl } from "../../lib/pastExams/fileUrl";
 import { UNKNOWN } from "../../lib/pastExams/filters";
-import type { PastExam, PastExamCollection } from "../../lib/pastExams/types";
+import type { ExamFileRole, PastExam, PastExamCollection } from "../../lib/pastExams/types";
 import { logger } from "../../utils/logger";
 import { canImportPastExam, importPastExam, PastExamImportError } from "../MyExams/importPastExam";
 import { PdfViewer } from "./PdfViewer";
+import { SegmentButton } from "./SegmentButton";
 
 interface ExamPreviewProps {
   exam: PastExam | null;
+  /** 看題目卷或解答卷；沒有解答卷時一律是題目卷。 */
+  view: ExamFileRole;
+  onViewChange: (view: ExamFileRole) => void;
   /** 考卷所屬的資料集；匯入自製考卷時用它的科目。 */
   collection: PastExamCollection | null;
   hasPrevious: boolean;
@@ -22,8 +26,18 @@ interface ExamPreviewProps {
   onClose: () => void;
 }
 
-/** PDF 用 pdf.js 畫在頁面上（桌機、手機相同）；Word 只能下載。 */
-export function ExamPreview({ exam, collection, hasPrevious, hasNext, onPrevious, onNext, onClose }: ExamPreviewProps) {
+/** PDF 用 pdf.js 畫在頁面上（桌機、手機相同）；Word 只能下載。有解答卷時可切換題目／解答。 */
+export function ExamPreview({
+  exam,
+  view,
+  onViewChange,
+  collection,
+  hasPrevious,
+  hasNext,
+  onPrevious,
+  onNext,
+  onClose,
+}: ExamPreviewProps) {
   const pastExamImport = usePastExamImport(exam, collection);
 
   if (!exam) {
@@ -35,8 +49,11 @@ export function ExamPreview({ exam, collection, hasPrevious, hasNext, onPrevious
     );
   }
 
-  const url = examFileUrl(exam.file);
-  const downloadUrl = examFileUrl(exam.file, { download: true });
+  const role: ExamFileRole = view === "answer" && exam.answer ? "answer" : "question";
+  const shown = role === "answer" && exam.answer ? exam.answer : exam;
+  const url = examFileUrl(shown.file);
+  const downloadUrl = examFileUrl(shown.file, { download: true });
+  const fileName = downloadFileName(exam, role);
   const iconButton = "btn btn-ghost btn-sm btn-square";
 
   return (
@@ -52,7 +69,7 @@ export function ExamPreview({ exam, collection, hasPrevious, hasNext, onPrevious
           </h2>
           <p className="truncate text-xs text-base-content/60">
             {exam.academicYearLabel} {exam.periodLabel}
-            {exam.pages !== null && ` · ${exam.pages} 頁`}
+            {shown.pages !== null && ` · ${shown.pages} 頁`}
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-1">
@@ -62,7 +79,7 @@ export function ExamPreview({ exam, collection, hasPrevious, hasNext, onPrevious
           <button type="button" className={iconButton} aria-label="下一份" title="下一份（→）" disabled={!hasNext} onClick={onNext}>
             <ChevronRight className="size-5" aria-hidden="true" />
           </button>
-          {exam.format === "pdf" && (
+          {shown.format === "pdf" && (
             <a href={url} target="_blank" rel="noopener" className={iconButton} aria-label="在新分頁開啟" title="在新分頁開啟">
               <ExternalLink className="size-4" aria-hidden="true" />
             </a>
@@ -70,23 +87,31 @@ export function ExamPreview({ exam, collection, hasPrevious, hasNext, onPrevious
           {collection && canImportPastExam(exam, collection) && (
             <ImportButton progress={pastExamImport.progress} onClick={pastExamImport.start} />
           )}
-          <a href={downloadUrl} download={downloadFileName(exam)} className="btn btn-sm" title="下載">
+          <a href={downloadUrl} download={fileName} className="btn btn-sm" title={role === "answer" ? "下載解答" : "下載"}>
             <Download className="size-4" aria-hidden="true" />
             <span className="hidden sm:inline">下載</span>
           </a>
         </div>
       </header>
+      {exam.answer && (
+        <div className="flex items-center border-b border-border-hairline px-2 py-1.5 sm:px-3">
+          <div role="group" aria-label="題目或解答" className="join">
+            <SegmentButton label="題目" pressed={role === "question"} onClick={() => onViewChange("question")} />
+            <SegmentButton label="解答" pressed={role === "answer"} onClick={() => onViewChange("answer")} />
+          </div>
+        </div>
+      )}
       {pastExamImport.error && (
         <p role="alert" className="border-b border-border-hairline px-3 py-2 text-sm text-error">
           {pastExamImport.error}
         </p>
       )}
       <div className="min-h-0 flex-1 bg-base-200">
-        {exam.format === "pdf" ? (
-          <PdfViewer url={url} title={exam.title} />
+        {shown.format === "pdf" ? (
+          <PdfViewer url={url} title={role === "answer" ? `${exam.title}（解答）` : exam.title} />
         ) : (
           <FileNotice message="Word 檔無法在頁面內預覽，請下載後開啟。">
-            <a href={downloadUrl} download={downloadFileName(exam)} className="btn btn-primary btn-sm">
+            <a href={downloadUrl} download={fileName} className="btn btn-primary btn-sm">
               <Download className="size-4" aria-hidden="true" />
               下載 Word 檔
             </a>

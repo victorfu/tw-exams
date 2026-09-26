@@ -117,15 +117,18 @@ export async function uploadExams({
   const catalog = await readOutputCatalog(outputDir);
   const local = new Map<string, number>();
   const problems: string[] = [];
-  for (const exam of catalog.exams) {
-    if (!exam.available) continue;
-    const size = await fileSize(join(outputDir, ...exam.file.split("/")));
-    if (size === null) problems.push(`${exam.file}：本機沒有這個檔案`);
-    else if (exam.bytes !== null && size !== exam.bytes) problems.push(`${exam.file}：大小 ${size} 與 catalog 的 ${exam.bytes} 不符`);
-    else local.set(exam.file, size);
+  const files = catalog.exams.flatMap((exam) => [
+    ...(exam.available ? [{ file: exam.file, bytes: exam.bytes }] : []),
+    ...(exam.answer ? [{ file: exam.answer.file, bytes: exam.answer.bytes }] : []),
+  ]);
+  for (const { file, bytes } of files) {
+    const size = await fileSize(join(outputDir, ...file.split("/")));
+    if (size === null) problems.push(`${file}：本機沒有這個檔案`);
+    else if (bytes !== null && size !== bytes) problems.push(`${file}：大小 ${size} 與 catalog 的 ${bytes} 不符`);
+    else local.set(file, size);
   }
   if (problems.length > 0) {
-    throw new UploadError(`有 ${problems.length} 份考卷檔不完整，沒有上傳任何檔案：\n${problems.join("\n")}`);
+    throw new UploadError(`有 ${problems.length} 個檔案不完整，沒有上傳任何檔案：\n${problems.join("\n")}`);
   }
 
   let listed: { blobs: RemoteBlob[]; requests: number };

@@ -384,6 +384,98 @@ describe("PastExamsPage", () => {
     expect(tag.style.backgroundColor).toBe("var(--subject-math-tint)");
   });
 
+  describe("answer sheets", () => {
+    const withPdfAnswer = makeExam({
+      school: "光明國小",
+      answer: { file: "pdf/ds/answers/a.pdf", format: "pdf", pages: 2, bytes: 10 },
+    });
+    const withWordAnswer = makeExam({
+      school: "文化國小",
+      answer: { file: "doc/ds/answers/b.docx", format: "word", pages: null, bytes: 10 },
+    });
+    const wordWithPdfAnswer = makeExam({
+      school: "混合國小",
+      file: "doc/ds/c.doc",
+      format: "word",
+      answer: { file: "pdf/ds/answers/c.pdf", format: "pdf", pages: 1, bytes: 10 },
+    });
+    const noAnswer = makeExam({ school: "沒有國小" });
+    const answers = makeCatalog([withPdfAnswer, withWordAnswer, wordWithPdfAnswer, noAnswer]);
+
+    function renderAnswers(path: string) {
+      setLocation(path);
+      followHistory();
+      act(() => root.render(<PastExamsPage catalog={answers} />));
+    }
+
+    const open = (exam: { id: string }, view = "") =>
+      `/past-exams?id=${encodeURIComponent(exam.id)}${view ? `&view=${view}` : ""}`;
+
+    it("marks rows that have an answer sheet", () => {
+      renderAnswers("/past-exams");
+      expect(row("光明國小").textContent).toContain("解答");
+      expect(row("沒有國小").textContent).not.toContain("解答");
+    });
+
+    it("offers the 題目｜解答 switch only when the exam has an answer sheet", () => {
+      renderAnswers(open(noAnswer));
+      expect(container.querySelector('[aria-label="題目或解答"]')).toBeNull();
+
+      renderAnswers(open(withPdfAnswer));
+      expect(button("題目").getAttribute("aria-pressed")).toBe("true");
+      expect(button("解答").getAttribute("aria-pressed")).toBe("false");
+    });
+
+    it("shows the answer sheet, its download and new-tab links, and puts it in the URL", () => {
+      renderAnswers(open(withPdfAnswer));
+
+      act(() => button("解答").click());
+
+      expect(currentParams().get("view")).toBe("answer");
+      expect(viewer()?.getAttribute("data-pdf-viewer")).toBe("/exams/pdf/ds/answers/a.pdf");
+      const download = container.querySelector<HTMLAnchorElement>("a[download]")!;
+      expect(download.getAttribute("href")).toBe("/exams/pdf/ds/answers/a.pdf?download=1");
+      expect(download.getAttribute("download")).toBe(`${withPdfAnswer.title}（解答）.pdf`);
+      expect(container.querySelector('a[aria-label="在新分頁開啟"]')?.getAttribute("href")).toBe("/exams/pdf/ds/answers/a.pdf");
+
+      act(() => button("題目").click());
+      expect(currentParams().get("view")).toBeNull();
+      expect(viewer()?.getAttribute("data-pdf-viewer")).toBe(`/exams/${withPdfAnswer.file}`);
+    });
+
+    it("asks to download a Word answer sheet", () => {
+      renderAnswers(open(withWordAnswer, "answer"));
+
+      expect(viewer()).toBeNull();
+      expect(container.textContent).toContain("Word 檔無法在頁面內預覽");
+      expect(container.querySelector('a[aria-label="在新分頁開啟"]')).toBeNull();
+      expect(container.querySelector("a[download]")?.getAttribute("download")).toBe(`${withWordAnswer.title}（解答）.docx`);
+    });
+
+    it("previews a PDF answer sheet for a Word exam", () => {
+      renderAnswers(open(wordWithPdfAnswer));
+      expect(viewer()).toBeNull();
+
+      act(() => button("解答").click());
+
+      expect(viewer()?.getAttribute("data-pdf-viewer")).toBe("/exams/pdf/ds/answers/c.pdf");
+    });
+
+    it("goes back to 題目 when another exam is opened", () => {
+      renderAnswers(open(withPdfAnswer, "answer"));
+
+      act(() => row("文化國小").click());
+
+      expect(currentParams().get("view")).toBeNull();
+      expect(button("題目").getAttribute("aria-pressed")).toBe("true");
+    });
+
+    it("shows the question when the URL asks for an answer the exam does not have", () => {
+      renderAnswers(open(noAnswer, "answer"));
+      expect(viewer()?.getAttribute("data-pdf-viewer")).toBe(`/exams/${noAnswer.file}`);
+    });
+  });
+
   it("shows the empty state with npm run catalog instruction when no exams are available", () => {
     setLocation("/past-exams");
     followHistory();

@@ -23,6 +23,26 @@ describe("downloadFileName", () => {
   });
 });
 
+describe("answer sheet names", () => {
+  const exam = makeExam({
+    title: "考卷",
+    file: "doc/ds/a.doc",
+    format: "word",
+    answer: { file: "pdf/ds/answers/a.pdf", format: "pdf", pages: 1, bytes: 10 },
+  });
+
+  it("marks the answer sheet in the download name and uses its own extension", () => {
+    expect(downloadFileName(exam, "answer")).toBe("考卷（解答）.pdf");
+    expect(downloadFileName(exam)).toBe("考卷.doc");
+  });
+
+  it("uses the answer file for the ASCII fallback name", () => {
+    expect(contentDisposition(exam, true, "answer")).toBe(
+      `attachment; filename="a.pdf"; filename*=UTF-8''${encodeURIComponent("考卷（解答）.pdf")}`,
+    );
+  });
+});
+
 describe("contentDisposition", () => {
   const exam = makeExam({ title: "114上｜臺北市 民權國小｜期中1", file: "pdf/ds/20002871b5148af7683e.pdf" });
 

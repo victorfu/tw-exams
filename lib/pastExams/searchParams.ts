@@ -1,6 +1,6 @@
 import type { PastExamType } from "./types";
 
-/** `/past-exams` 的篩選狀態都放在網址：c、year、type、city、q、id。 */
+/** `/past-exams` 的篩選狀態都放在網址：c、year、type、city、q、id、view。 */
 export interface PastExamsUrlState {
   collectionId: string | null;
   academicYears: number[];
@@ -8,6 +8,8 @@ export interface PastExamsUrlState {
   city: string | null;
   query: string;
   examId: string | null;
+  /** 預覽看解答卷（`view=answer`）；否則看題目卷。 */
+  showAnswer: boolean;
 }
 
 interface ParamsLike {
@@ -26,6 +28,7 @@ export function readUrlState(params: ParamsLike): PastExamsUrlState {
     city: params.get("city") || null,
     query: params.get("q") ?? "",
     examId: params.get("id") || null,
+    showAnswer: params.get("view") === "answer",
   };
 }
 
@@ -38,5 +41,7 @@ export function writeUrlState(state: PastExamsUrlState): string {
   if (state.city) params.set("city", state.city);
   if (state.query) params.set("q", state.query);
   if (state.examId) params.set("id", state.examId);
+  // 沒開考卷時看哪一面沒有意義，不寫進網址。
+  if (state.examId && state.showAnswer) params.set("view", "answer");
   return params.toString();
 }

@@ -19,14 +19,15 @@
 | `title` | 字串 | 由分類欄位組成的顯示標題，不是逐字抄錄卷面標題 |
 | `question_file` | 物件 | 原始檔名、相對路徑、格式、MIME、下載狀態、大小、SHA-256、頁數及來源 URL |
 | `answer_available_from_source` | 布林 | API 是否提供答案檔名，不表示本機已有答案 |
-| `answer_downloaded` | 布林 | 是否已登錄本機答案檔；目前全部為 false |
-| `answer_source_url` | 字串或 null | 由來源答案檔名建立的網址，尚未以下載成功驗證 |
+| `answer_file` | 物件或 null | 答案的原始檔名、路徑、格式、下載狀態、大小、SHA-256、頁數與來源 URL；manifest 中以 `pages` 記錄 PDF 頁數 |
+| `answer_downloaded` | 布林 | 是否已下載並驗證本機答案檔 |
+| `answer_source_url` | 字串或 null | 由來源答案檔名建立的網址；下載狀態見 answer_downloaded |
 | `source` | 物件 | 來源、原始 ID、API、清單取得時間與 manifest 路徑 |
 | `source_metadata` | 物件 | 保留 API 回傳的原始欄位，便於追查與修正 |
 | `quality` | 物件 | metadata 依據、欄位一致性、檔案完整性、卷面分類核對狀態及缺值警示 |
 | `search_text` | 字串 | metadata 關鍵字索引；使用 NFKC、大小寫正規化，統一「臺／台」，並支援「五年級／5年級／五上」等別名 |
 
-`question_file.relative_path` 與 `source.manifest_path` 一律以 `output/` 為基準。不要依賴絕對路徑；資料夾日後搬遷只需更新 manifest 路徑並重新建索引。
+`question_file.relative_path`、`answer_file.relative_path` 與 `source.manifest_path` 一律以 `output/` 為基準。不要依賴絕對路徑；資料夾日後搬遷只需更新 manifest 路徑並重新建索引。
 
 每筆 manifest 記錄的 `provenance` 保存該筆來源與清單取得時間，建 catalog 時優先採用，缺少時才使用資料集的來源資訊。日後追加新資料時，保留舊記錄的 provenance，不把新批次時間套用到所有舊考卷。
 
@@ -38,7 +39,7 @@
 
 目前 `quality.document_classification_reviewed=false`；尚未逐份對照 PDF／Word 卷面，也未建立題目正文搜尋。PDF 內建 Title 可能沿用舊範本，不應直接拿來覆蓋 API 分類。
 
-答案檔來源可用性與本機下載狀態分開；未知資訊不猜填。之後若加入答案資產，需擴充資產登錄及驗證流程，才能把 `answer_downloaded` 設為 true。
+答案檔來源可用性與本機下載狀態分開；未知資訊不猜填。答案資產通過格式、大小與 SHA-256 驗證後，才將 `answer_downloaded` 設為 true。
 
 **更新與查詢**
 
@@ -51,8 +52,11 @@ python3 scripts/exam_catalog.py search '台北 民權'
 python3 scripts/exam_catalog.py search '五上 南一 期中'
 python3 scripts/exam_catalog.py search --format docx
 python3 scripts/exam_catalog.py search --has-answer
+python3 scripts/exam_catalog.py search --local-answer
 ```
 
 加上 `--json` 可輸出符合條件的完整 JSON 記錄。文字查詢以空白分隔，採用所有詞都符合的 metadata 搜尋；「台北 民權」與「臺北 民權」視為相同。需要查詢題目正文時，再另建文字擷取／OCR 索引，與這份分類 metadata 分開。
 
 建置會彙整 `output/` 下所有已宣告資料集資訊的 manifest；重複 ID、重複路徑、分類矛盾、檔案遺失或雜湊不符會中止建置，不會用有問題的資料覆寫既有 catalog。目前來源轉換器支援 TCOOL，新增其他來源時需另加對應轉換規則。
+
+答案使用 `pdf/<dataset-id>/answers/` 與 `doc/<dataset-id>/answers/`，並透過同一筆來源考卷 ID 對應題目。同步答案請執行 `python3 scripts/sync_exam_answers.py`，不會擴大原有題目範圍。

@@ -35,6 +35,7 @@ export function makeExam(overrides: Partial<PastExam> = {}): PastExam {
     pages: format === "pdf" ? 4 : null,
     bytes: 1000,
     available: true,
+    answer: null,
     // 與 cowork 的 search_text 一樣把「臺」寫成「台」。
     searchText: `${academicYear}上|${city ?? ""} ${school ?? ""}|5年級數學|南一 五上`.replaceAll("臺", "台"),
     ...overrides,

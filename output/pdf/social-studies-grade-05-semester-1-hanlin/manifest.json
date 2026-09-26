@@ -59,7 +59,14 @@
       },
       "bytes": 1004858,
       "sha256": "8578d9bf0e1325e93f69a4ceb7b08b1b29875ca98ba783de0af6a7c543c1a49c",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/50000172a514196af8b7.pdf",
+        "downloaded": true,
+        "bytes": 662742,
+        "sha256": "d5166e02c77eb60d9f1fd0d71562a7bdfe66bd6a6da440b4a8e40a3e2d7504b5",
+        "pages": 1
+      }
     },
     {
       "id": "20003378",
@@ -117,7 +124,14 @@
       },
       "bytes": 316680,
       "sha256": "921ee29d7fcdea83ce3557afc7b49fc71ca158dcb2cdfe89be1a74ccf3098479",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20003320a514932e0da2.pdf",
+        "downloaded": true,
+        "bytes": 331965,
+        "sha256": "0ecb29f4164515e54ffca8cba89400c4c4df92cda5b528c4616c9471b94a796b",
+        "pages": 2
+      }
     },
     {
       "id": "20003222",
@@ -175,7 +189,14 @@
       },
       "bytes": 595491,
       "sha256": "acf40fe250ca1f358cf4a9367631172717cb6a1f7abd9025bd1f0a70d99a5813",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20002771a51491c0ca15.pdf",
+        "downloaded": true,
+        "bytes": 598927,
+        "sha256": "b8ab9b23a256962b8c157e8e73da42f3a1bc6d33d278fe5fa1dedadaa7b5d149",
+        "pages": 3
+      }
     },
     {
       "id": "20003297",
@@ -204,7 +225,14 @@
       },
       "bytes": 1439285,
       "sha256": "3b010cbe59a64412423d5d149d90ad7e3810bf37197e471871a295d0f43989d1",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20003297a51128fe4ebf.pdf",
+        "downloaded": true,
+        "bytes": 1473402,
+        "sha256": "e4744af812375f4ca74b04c1dc0a6e40a398356ab705619ba02ab8672cb3879e",
+        "pages": 2
+      }
     },
     {
       "id": "20003195",
@@ -291,7 +319,14 @@
       },
       "bytes": 673360,
       "sha256": "3d06f8981f32b5307288c1ad289cfa822b51ce3e8905d4e22c019b995bad338f",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20002743a511376203f1.pdf",
+        "downloaded": true,
+        "bytes": 656033,
+        "sha256": "e5e6e45ed69a39d82ebf5da68ca9d267528a59ab0c3d7ff6a3f994aca9d2be09",
+        "pages": 3
+      }
     },
     {
       "id": "20002218",
@@ -320,7 +355,14 @@
       },
       "bytes": 536903,
       "sha256": "20be9931ce6f7f42fc9a95522e6b201e3be6daddbdf772e12b02efa699809999",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20002218a51140eaf351.pdf",
+        "downloaded": true,
+        "bytes": 503384,
+        "sha256": "5a328f91aaccc0ac937d632617ba053a57756853f7bd5a88b84f696ac3ffb006",
+        "pages": 4
+      }
     },
     {
       "id": "20000959",
@@ -407,7 +449,14 @@
       },
       "bytes": 711023,
       "sha256": "d15edb7966b89a4106e3d5481a394524f690b43ab13509a4422ec1b249f0eecc",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20000033a51450fe612e.pdf",
+        "downloaded": true,
+        "bytes": 1122089,
+        "sha256": "be67671ec0992f0b620b91271bdd01a218925f65dde6a8e3561e7e7566894ed5",
+        "pages": 2
+      }
     },
     {
       "id": "20002217",
@@ -436,7 +485,14 @@
       },
       "bytes": 299718,
       "sha256": "fc729eafc6498a5f6dca13c56377277d4c517d8874f36d2c95dc5e4b3c3b940a",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20002217a521697180b3.pdf",
+        "downloaded": true,
+        "bytes": 302989,
+        "sha256": "e320e2c99b8c1d773867a9e854c12ebbb147c40205dc9bc47addbf1a68d4d65a",
+        "pages": 2
+      }
     },
     {
       "id": "20000937",
@@ -494,7 +550,14 @@
       },
       "bytes": 3058442,
       "sha256": "e2ae799dc325b6580538f75ef9a8b21c9a16fce41c39b3dcdb27c2e726d3a103",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/100298967319cd09c7ec.pdf",
+        "downloaded": true,
+        "bytes": 3058919,
+        "sha256": "f4b5886ac7731c8292c8e8f4475dc7232f94c6508c80b05989d216355cfc0a02",
+        "pages": 3
+      }
     },
     {
       "id": "18760",
@@ -523,7 +586,14 @@
       },
       "bytes": 425002,
       "sha256": "a3cd816145a7e4e938587cb1340f44664785a93f26abf2d74f3ea9c035f79b27",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/1002958672c554f58248.pdf",
+        "downloaded": true,
+        "bytes": 138157,
+        "sha256": "d8ae86332fbde58b93af88b835460941d95fa940775aede5b9905546adb7ab8a",
+        "pages": 1
+      }
     },
     {
       "id": "20002434",
@@ -668,7 +738,14 @@
       },
       "bytes": 660433,
       "sha256": "0d839488b77bc5ee3a6bc5456ac0f18fdf026bb213e71c660dc5dc836d4c743f",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/100488165c09d8887593.pdf",
+        "downloaded": true,
+        "bytes": 480692,
+        "sha256": "5b0cdce5f0ca4916b35d588b29e8ab76bb2e603d192fb30dd68edfc31bd31bcb",
+        "pages": 4
+      }
     },
     {
       "id": "17436",
@@ -726,7 +803,14 @@
       },
       "bytes": 1897326,
       "sha256": "302eaa04f3e24860118506889f0ae9d416a5069e32218330cead3cf6744ce655",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/100290165af2a363080f.pdf",
+        "downloaded": true,
+        "bytes": 1905075,
+        "sha256": "4a37236673f87c9f4aa75694e80caa28afff66aed593f1d7e28ea56b5ae603b5",
+        "pages": 2
+      }
     },
     {
       "id": "17249",
@@ -755,7 +839,14 @@
       },
       "bytes": 244704,
       "sha256": "5cda6b8c3f91f9ca0d04c1b37dc0fde3fe9bd219d7fb691c743d9fc0ee36e6d9",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/1005165672b3cf100b43.pdf",
+        "downloaded": true,
+        "bytes": 244704,
+        "sha256": "5cda6b8c3f91f9ca0d04c1b37dc0fde3fe9bd219d7fb691c743d9fc0ee36e6d9",
+        "pages": 2
+      }
     },
     {
       "id": "17177",
@@ -784,7 +875,14 @@
       },
       "bytes": 277073,
       "sha256": "d2426c06567ca36ce4f3e625893ad9feb6aa5371a7a9c69baade057a2cc15b41",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/100298965a954a197489.pdf",
+        "downloaded": true,
+        "bytes": 282014,
+        "sha256": "ca51784799d3b512f89995a6c3a496ab38cf71b79669918d44e3c4869d2dee02",
+        "pages": 2
+      }
     },
     {
       "id": "16955",
@@ -813,7 +911,14 @@
       },
       "bytes": 238405,
       "sha256": "38434a13d666f7d238c26695ddf6ecb6329e909ec10c3422bca00fd5105defda",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/1002989657475bc28bee.pdf",
+        "downloaded": true,
+        "bytes": 243762,
+        "sha256": "d2a98edf7ecfdb31c43c68f52b9ddad4e85854e5df791e68dafa3f564bd7c8d5",
+        "pages": 2
+      }
     },
     {
       "id": "20002433",
@@ -929,7 +1034,14 @@
       },
       "bytes": 1821446,
       "sha256": "1f82b1ccfec62a30150642a73a9183baa37fa5f1721291b76802752eeea654aa",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/100290165af26e974970.pdf",
+        "downloaded": true,
+        "bytes": 1854128,
+        "sha256": "13780ef9b233d2f12980ecaf0ec87fe0819d2c969305d2952229d5bf40093a5a",
+        "pages": 2
+      }
     },
     {
       "id": "16976",
@@ -958,7 +1070,14 @@
       },
       "bytes": 467843,
       "sha256": "ec66c6e138d3d0d3ddb20a935c37e4b5bbd2afa3bd37b43a8501d6c450fe57cd",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/1001777657487c2456f5.pdf",
+        "downloaded": true,
+        "bytes": 473626,
+        "sha256": "1c37e1e352048886a46a1e64418a02dbe3f4733808f673fa013bca4260b3b95d",
+        "pages": 3
+      }
     },
     {
       "id": "16826",
@@ -1045,7 +1164,14 @@
       },
       "bytes": 255062,
       "sha256": "085e1ed76ca961d559c931d84a52a5353fdeb591d712cdcb096a04b67c408fc5",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/1005165654ae48cd144c.pdf",
+        "downloaded": true,
+        "bytes": 255062,
+        "sha256": "085e1ed76ca961d559c931d84a52a5353fdeb591d712cdcb096a04b67c408fc5",
+        "pages": 2
+      }
     },
     {
       "id": "16663",
@@ -1132,7 +1258,14 @@
       },
       "bytes": 241107,
       "sha256": "00de2f360f5bdd4568dc2a3b74fe3644d35ddcb7e9f27ad0cf7687b06aed8149",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/1002989653f64de43be9.pdf",
+        "downloaded": true,
+        "bytes": 244832,
+        "sha256": "a9cb90f0dcaa15337cedcf6680f4ca3071bc5e6f188ebdc549ba2babd9a74134",
+        "pages": 2
+      }
     },
     {
       "id": "20002618",
@@ -1161,7 +1294,14 @@
       },
       "bytes": 280336,
       "sha256": "f1b66f8ba1e24bdd3578d7c78d3495291d7c8838ef7979d5f49b55c3a3dc5173",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20002618a511382b51c5.pdf",
+        "downloaded": true,
+        "bytes": 1337724,
+        "sha256": "a4920ef78f3cce91a267e2969d3b61dbc6a0b85aa5148eebfbff77c938034980",
+        "pages": 3
+      }
     },
     {
       "id": "20002354",
@@ -1219,7 +1359,14 @@
       },
       "bytes": 256564,
       "sha256": "0aaa6dc702ccc9171d02e4257141d21a063be27dd33710c26ac27927688105ee",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20002044a51177945a95.pdf",
+        "downloaded": true,
+        "bytes": 78965,
+        "sha256": "975ee14ea9e1268e40507b8f120cbafff1e72ddef0c8c050a9cecbc297e13555",
+        "pages": 1
+      }
     },
     {
       "id": "20001812",
@@ -1306,7 +1453,14 @@
       },
       "bytes": 290440,
       "sha256": "471432ec95dfb81c78396e97c6b5c6d0d8c893a73bed54167fcd5e4d2333f48c",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/100295563c792993fba6.pdf",
+        "downloaded": true,
+        "bytes": 294527,
+        "sha256": "42de8140babc3b02b0d63154001de4728072948c9934e2c134e56b1252a2d042",
+        "pages": 3
+      }
     },
     {
       "id": "20002617",
@@ -1335,7 +1489,14 @@
       },
       "bytes": 414281,
       "sha256": "be7eedf54bae54c953a45a4dc6c3dc2f2c01d8977ecf8659837ee86a8aaf9770",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20002617a524698b4085.pdf",
+        "downloaded": true,
+        "bytes": 222053,
+        "sha256": "a692b8a301bd81b7c5d31ecc004dc4014596bb2e548f79317779af7d33a7e78e",
+        "pages": 2
+      }
     },
     {
       "id": "20002353",
@@ -1393,7 +1554,14 @@
       },
       "bytes": 481813,
       "sha256": "c9f2baef46571f7668b748e4a21d865f384759844239d03e3f7d9cc1832d9666",
-      "pages": 5
+      "pages": 5,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20002043a524436eb4c0.pdf",
+        "downloaded": true,
+        "bytes": 127980,
+        "sha256": "21adc71a29a55a70e1af93bfb609901b671c8b5fbc0572b57ad35e8e270b89dd",
+        "pages": 1
+      }
     },
     {
       "id": "20001811",
@@ -1480,7 +1648,14 @@
       },
       "bytes": 393219,
       "sha256": "3da7eda11e1961a9c47ccbd4e9a0149889da1d686d63f238ccb403c50e0e3209",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/100295563b4ef217a834.pdf",
+        "downloaded": true,
+        "bytes": 393256,
+        "sha256": "805de43cc85048f3dc016acaedb26e42f0d9560e6d59260e4883520a519b8411",
+        "pages": 3
+      }
     },
     {
       "id": "20002522",
@@ -1509,7 +1684,14 @@
       },
       "bytes": 530032,
       "sha256": "056838c3d2ad54900e5a7cb9995067cea8baa0ef6ffaec63b266652b09343da4",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20002522a51153cb9440.pdf",
+        "downloaded": true,
+        "bytes": 484028,
+        "sha256": "d1e839c080d6315792090ec0e5c2fdbeec6c6eb6eb4f20929f51bfb01072fdf7",
+        "pages": 4
+      }
     },
     {
       "id": "20002282",
@@ -1538,7 +1720,14 @@
       },
       "bytes": 274981,
       "sha256": "f1cd369a6f66baaba968dc9e78bfa69d3b0195d49a5575e35f41755469a29146",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20002282a5114e908de6.pdf",
+        "downloaded": true,
+        "bytes": 286345,
+        "sha256": "96dd43a7fd7ccf42ca576cd82ccf251647652add4377de2f7afbf2a12779746a",
+        "pages": 2
+      }
     },
     {
       "id": "20001963",
@@ -1567,7 +1756,14 @@
       },
       "bytes": 371211,
       "sha256": "fb73747fb85ab78cac28785c12df6de6e61a9f67f6ffa5d8d54be04291e5d073",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20001963a5115e646908.pdf",
+        "downloaded": true,
+        "bytes": 126084,
+        "sha256": "99b4021b26082be82f1a9a7748dc10adae477f61427f3b3b6975ddc372412502",
+        "pages": 1
+      }
     },
     {
       "id": "14875",
@@ -1625,7 +1821,14 @@
       },
       "bytes": 706120,
       "sha256": "8e4a14de400e0d9048bff1f48f077e39677e7ce727f41d4d0017b8dd542bcff8",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/100503061eb6b008f4ea.pdf",
+        "downloaded": true,
+        "bytes": 652983,
+        "sha256": "59fb51382e2b3bb6460340e0cb6f6f77d392f25b280d26404243cdab6cf6c117",
+        "pages": 4
+      }
     },
     {
       "id": "11248",
@@ -1654,7 +1857,14 @@
       },
       "bytes": 275661,
       "sha256": "1c6577b9316a7bfe289a73b587a87b70a8d9d81460829c3cdc6db61c2e120502",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/100295861e78a72eb39f.pdf",
+        "downloaded": true,
+        "bytes": 71996,
+        "sha256": "57d81c6283121329661e00f56969869945fbce2f12fbf8daed62abbdc154d59d",
+        "pages": 1
+      }
     },
     {
       "id": "11227",
@@ -1683,7 +1893,14 @@
       },
       "bytes": 279773,
       "sha256": "255e73c1ff5660de8fc8a552b163f02c27860b8395a44ab3f015aafe5de9ea17",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/100299561e76c8126282.pdf",
+        "downloaded": true,
+        "bytes": 282274,
+        "sha256": "0454f8535b89963479458891cbd0e622eda94a07e55178d57af238952726f80f",
+        "pages": 2
+      }
     },
     {
       "id": "20002521",
@@ -1712,7 +1929,14 @@
       },
       "bytes": 972980,
       "sha256": "7a11b886828285244646589a21f9976ea8153731136173973849c943b23a8b72",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20002521a5242c0e9806.pdf",
+        "downloaded": true,
+        "bytes": 458342,
+        "sha256": "714c84fa0db1a3c94abda463094c343bd0092eb12d6a7ac08f714af19bd9693f",
+        "pages": 4
+      }
     },
     {
       "id": "20002281",
@@ -1741,7 +1965,14 @@
       },
       "bytes": 254947,
       "sha256": "78250b1a1877b710d9b4ebdf9ac46575acac3bb1f7cec585e3559bd51376791a",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20002281a51446e7c2dd.pdf",
+        "downloaded": true,
+        "bytes": 71610,
+        "sha256": "7262678f15aa81b97d0b9f2336aa07fd0bdd7273130c1e8721ea6e40c56255f1",
+        "pages": 1
+      }
     },
     {
       "id": "20001962",
@@ -1770,7 +2001,14 @@
       },
       "bytes": 493902,
       "sha256": "11f31aa952cb38669e03b638280d676e195ea325d6b1d4e015bab004d9fad10e",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/20001962a5240dbcdc74.pdf",
+        "downloaded": true,
+        "bytes": 110500,
+        "sha256": "d9bda1eeca8bde41b4110d5baeb5080362eb8dca9271d421bd2745d8d74a2a62",
+        "pages": 1
+      }
     },
     {
       "id": "14859",
@@ -1857,7 +2095,14 @@
       },
       "bytes": 457563,
       "sha256": "110f00c035e30e33e8f9e18919ed94f62014816904a68853dff2c8c86db19c4b",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/100503061eb6872dd0f0.pdf",
+        "downloaded": true,
+        "bytes": 2340069,
+        "sha256": "8ebd286d599ebf917253b2e3e10afc1e1659cdbcbd1056f20978879f88902ca5",
+        "pages": 2
+      }
     },
     {
       "id": "10826",
@@ -1886,7 +2131,14 @@
       },
       "bytes": 332731,
       "sha256": "2eb405ca3223f6ce4701c0f1a1099a84f1a5bc253e861e201a5ca31aa3bf0a30",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/10029586195c9ee01e97.pdf",
+        "downloaded": true,
+        "bytes": 66732,
+        "sha256": "e7afdbc99dda9d987a50a8922405140c59d101694b833e1c941cb81dbf270e75",
+        "pages": 1
+      }
     },
     {
       "id": "10819",
@@ -2002,7 +2254,14 @@
       },
       "bytes": 369932,
       "sha256": "b0017ff6f7aea8e85102cea2b9c341a0dc2afb4fbd4ec762ab6e28c015eeea24",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/1002211601105bbe527b.pdf",
+        "downloaded": true,
+        "bytes": 551564,
+        "sha256": "4f5d91088723150a3d0e06b59fd6af81a67ff1ca539d8e71ea496942191f9cc8",
+        "pages": 2
+      }
     },
     {
       "id": "7801",
@@ -2031,7 +2290,14 @@
       },
       "bytes": 225990,
       "sha256": "0d8deed5d314dbbc404cbf47d431915dd1516fb04d3f7c759586468be33f5aaf",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/1002924600159dbe6557.pdf",
+        "downloaded": true,
+        "bytes": 226748,
+        "sha256": "1a6464497d504eb9714e17eca87e39e3ca5fac5ff283cb6b66764424efffd521",
+        "pages": 2
+      }
     },
     {
       "id": "7721",
@@ -2118,7 +2384,14 @@
       },
       "bytes": 260491,
       "sha256": "2180c0f1b61e4f7dd3ebd87a03675f1e9ecde2eae746ebe04553469e5b158525",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/10048815fc9ec437f31f.pdf",
+        "downloaded": true,
+        "bytes": 2819394,
+        "sha256": "6b62ed4db9330f102e9ebb8b513529a3c55771158770de92b8b011dedad2002d",
+        "pages": 2
+      }
     },
     {
       "id": "7334",
@@ -2147,7 +2420,14 @@
       },
       "bytes": 464662,
       "sha256": "99f6ecd9031512dc25897c7d757e40667989aa3c76c348ad498b365abbf96ab5",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/10022115fb77394a96d2.pdf",
+        "downloaded": true,
+        "bytes": 247894,
+        "sha256": "3fe40a75b109fbe260447a0d65dd669b43f99ea373a12eb69bf6996960f986bd",
+        "pages": 2
+      }
     },
     {
       "id": "7139",
@@ -2205,7 +2485,14 @@
       },
       "bytes": 316684,
       "sha256": "852dbd2ff657fa91451f844eb583ac98a4e06e2a7d514d413169eba9dbd21039",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/10048815eb4a8766f832.pdf",
+        "downloaded": true,
+        "bytes": 347033,
+        "sha256": "9968d3d4eaafd2a29034894a67d23b4729b19f8cac9f73099b6e2aad53fee769",
+        "pages": 2
+      }
     },
     {
       "id": "3314",
@@ -2234,7 +2521,14 @@
       },
       "bytes": 321613,
       "sha256": "b9d05b133f237ec1d90a8d2395ee34f4a1940c704534e3500c656eb7a760aa46",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/10017855e6214cba8871.pdf",
+        "downloaded": true,
+        "bytes": 341710,
+        "sha256": "5f3b188ee36f4cf79e976216303e59ad5dffdf69eda8a7ceed1b66a5af08e91a",
+        "pages": 3
+      }
     },
     {
       "id": "2512",
@@ -2263,7 +2557,14 @@
       },
       "bytes": 407133,
       "sha256": "8b40bd128ecd228801bae64dfbcfe7d8ba9467eeb1e5d2159cc4109c6202edd0",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/10028925f98d566c6392.pdf",
+        "downloaded": true,
+        "bytes": 267015,
+        "sha256": "da131ba7b6b0259aa80ab3489eb0a893b2da7e3b436f2c1bc76a3f4789b02074",
+        "pages": 2
+      }
     },
     {
       "id": "2385",
@@ -2291,7 +2592,13 @@
         "collected_at": "2026-09-26T11:29:13.568842+08:00"
       },
       "bytes": 157184,
-      "sha256": "a1fcaf11a2f075e7812ac4863a4fc641d49d7cb0c8f4281ebb2cbdf4fb19b591"
+      "sha256": "a1fcaf11a2f075e7812ac4863a4fc641d49d7cb0c8f4281ebb2cbdf4fb19b591",
+      "answer_file": {
+        "relative_path": "doc/social-studies-grade-05-semester-1-hanlin/answers/10029555e27fefe11ab3.doc",
+        "downloaded": true,
+        "bytes": 159232,
+        "sha256": "dec60a27d9365f6063d30adfb3cf0db9ba8cbeb8085fa5791c8ae051cfef516f"
+      }
     },
     {
       "id": "2302",
@@ -2377,7 +2684,13 @@
       },
       "bytes": 266622,
       "sha256": "6cd4f2bd95e2f44d0cf7be57cd5fff47972a411bd70189f0dccc3a994912323c",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "doc/social-studies-grade-05-semester-1-hanlin/answers/10029585e1ffb8073064.doc",
+        "downloaded": true,
+        "bytes": 6989312,
+        "sha256": "5674a289a58a2288dd8b5fe73d0bca4344315971db1e399bcc04b0f3a0b079f8"
+      }
     },
     {
       "id": "1767",
@@ -2405,7 +2718,14 @@
         "collected_at": "2026-09-26T11:29:13.568842+08:00"
       },
       "bytes": 177152,
-      "sha256": "d5e6eac916b4d8407d31eb7eaf6262528d9d29f01a7d0426b76ac00bccd09afc"
+      "sha256": "d5e6eac916b4d8407d31eb7eaf6262528d9d29f01a7d0426b76ac00bccd09afc",
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/10028765e1d07e4434fb.pdf",
+        "downloaded": true,
+        "bytes": 1181015,
+        "sha256": "d251261cc6690560e57691b799fb08a91ad374b991ce4030b5e74a981f77ada5",
+        "pages": 2
+      }
     },
     {
       "id": "1731",
@@ -2575,7 +2895,14 @@
       },
       "bytes": 273566,
       "sha256": "f198aa929b0b6e640caee8d2850d22b85d76fc6f6e48a9ffe3802e1579edec1f",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/10050305f19457da60af.pdf",
+        "downloaded": true,
+        "bytes": 271455,
+        "sha256": "3d3859c2ddb3a0e6f8f7211ed88feffb11d5582b3906b704a569cd1e80464189",
+        "pages": 2
+      }
     },
     {
       "id": "3508",
@@ -2774,7 +3101,14 @@
       },
       "bytes": 158426,
       "sha256": "814fd7eba7f1c7da43910c5621dcab01598fc1bc784215db77d1967f2b4f255d",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/10017855ded9cc725e00.pdf",
+        "downloaded": true,
+        "bytes": 171189,
+        "sha256": "13d863f0b286b07bb829a96cedbebcf5660c118810aa0746165547e07807f104",
+        "pages": 2
+      }
     },
     {
       "id": "968",
@@ -2830,7 +3164,13 @@
         "collected_at": "2026-09-26T11:29:13.568842+08:00"
       },
       "bytes": 225792,
-      "sha256": "7c413be14ae76a5e02fc36f1f6f7bedcbf3228259290df5ffa902940106db58a"
+      "sha256": "7c413be14ae76a5e02fc36f1f6f7bedcbf3228259290df5ffa902940106db58a",
+      "answer_file": {
+        "relative_path": "doc/social-studies-grade-05-semester-1-hanlin/answers/10029585dccee16aeed2.doc",
+        "downloaded": true,
+        "bytes": 227840,
+        "sha256": "407ee6b4d9b9f09fe21ce0b18d5592d232a04b0dfc8edc850175d41e64087a1b"
+      }
     },
     {
       "id": "782",
@@ -2859,7 +3199,14 @@
       },
       "bytes": 260722,
       "sha256": "9b645f86b780d06b54a01048b09e38d13a2898eafe38399fa46ecf1c9949d0af",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/social-studies-grade-05-semester-1-hanlin/answers/10048815dc8c30336a1a.pdf",
+        "downloaded": true,
+        "bytes": 267261,
+        "sha256": "89130d050417eff22a399e44fa06b738345428943f28bdcbd91067b66058aa38",
+        "pages": 3
+      }
     },
     {
       "id": "530",
@@ -2887,7 +3234,13 @@
         "collected_at": "2026-09-26T11:29:13.568842+08:00"
       },
       "bytes": 378880,
-      "sha256": "3eb0966800052b1dc7a8d87b09a6f65ae606d25767eca38fdb28d09cad8b8561"
+      "sha256": "3eb0966800052b1dc7a8d87b09a6f65ae606d25767eca38fdb28d09cad8b8561",
+      "answer_file": {
+        "relative_path": "doc/social-studies-grade-05-semester-1-hanlin/answers/10028765dc20c7933d6f.doc",
+        "downloaded": true,
+        "bytes": 381952,
+        "sha256": "816f9bf16387d09e21c871562e05582b07d76b0dd9a85bdf2891319b437a1706"
+      }
     },
     {
       "id": "451",
@@ -3002,5 +3355,18 @@
       "bytes": 232448,
       "sha256": "db91a7730ab061d7f664207548531f3edc4483d1b0dcec602f8a69668183e7d3"
     }
-  ]
+  ],
+  "answer_summary": {
+    "dataset": "social-studies-grade-05-semester-1-hanlin",
+    "expected": 51,
+    "verified": 51,
+    "remaining": 0,
+    "skipped_no_source": 52,
+    "formats": {
+      ".pdf": 47,
+      ".doc": 4
+    },
+    "missing_filenames": [],
+    "issues": []
+  }
 }

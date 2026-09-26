@@ -6,33 +6,38 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { readOutputCatalog } from "../../scripts/examCatalog";
 import { writeFakeOutput } from "../../testing/fakeExamOutput";
 import { FORBIDDEN_MESSAGE, handleExamFileRequest, type ExamFileHandlerDeps } from "./examFileHandler";
-import { createAvailableExamLookup } from "./examIndex";
+import { createExamFileLookup, type ExamFileEntry } from "./examIndex";
 import { blobExamFileSource, examFileSourceFromEnv, localExamFileSource, type GetPrivateBlob } from "./fileSources";
-import type { PastExam } from "./types";
 
 const ORIGIN = "http://localhost:6789";
 let root: string;
 let outputDir: string;
-let findExam: (file: string) => PastExam | undefined;
+let findFile: (file: string) => ExamFileEntry | undefined;
 
 function request(path: string, headers: Record<string, string> = { "sec-fetch-site": "same-origin" }): Request {
   return new Request(`${ORIGIN}/exams/${path}`, { headers });
 }
 
 function localDeps(): ExamFileHandlerDeps {
-  return { findExam, source: localExamFileSource(outputDir) };
+  return { findFile, source: localExamFileSource(outputDir) };
 }
 
 beforeEach(async () => {
   root = await mkdtemp(join(tmpdir(), "exam-files-"));
   outputDir = join(root, "output");
   await writeFakeOutput(outputDir, [
-    { id: "a", path: "pdf/ds/a.pdf", title: "114上｜臺北市 民權國小｜期中1", content: "%PDF-a" },
+    {
+      id: "a",
+      path: "pdf/ds/a.pdf",
+      title: "114上｜臺北市 民權國小｜期中1",
+      content: "%PDF-a",
+      answer: { path: "pdf/ds/answers/a.pdf", content: "%PDF-answer" },
+    },
     { id: "b", path: "pdf/ds/b.pdf", downloaded: false },
     { id: "c", path: "doc/ds/c.docx", content: "docx" },
     { id: "d", path: "pdf/ds/考卷 1.pdf", content: "%PDF-d" },
   ]);
-  findExam = createAvailableExamLookup((await readOutputCatalog(outputDir)).exams);
+  findFile = createExamFileLookup((await readOutputCatalog(outputDir)).exams);
 });
 
 afterEach(async () => {
@@ -54,6 +59,20 @@ describe("handleExamFileRequest with output/", () => {
     expect(response.headers.get("cross-origin-resource-policy")).toBe("same-origin");
     expect(response.headers.get("x-robots-tag")).toBe("noindex, nofollow");
     expect([...response.headers.keys()].some((key) => key.startsWith("access-control"))).toBe(false);
+  });
+
+  it("serves the answer sheet with 解答 in its download name", async () => {
+    const response = await handleExamFileRequest(
+      request("pdf/ds/answers/a.pdf?download=1"),
+      ["pdf", "ds", "answers", "a.pdf"],
+      localDeps(),
+    );
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe("%PDF-answer");
+    expect(response.headers.get("content-disposition")).toBe(
+      `attachment; filename="a.pdf"; filename*=UTF-8''${encodeURIComponent("114上｜臺北市 民權國小｜期中1（解答）.pdf")}`,
+    );
   });
 
   it("sends an attachment for ?download=1", async () => {
@@ -100,7 +119,7 @@ describe("handleExamFileRequest with output/", () => {
   ])("refuses requests that do not come from the site's own pages (%o)", async (headers) => {
     const read = vi.fn();
     const response = await handleExamFileRequest(request("pdf/ds/a.pdf", headers), ["pdf", "ds", "a.pdf"], {
-      findExam,
+      findFile,
       source: { cacheControl: "no-store", read },
     });
 
@@ -112,7 +131,7 @@ describe("handleExamFileRequest with output/", () => {
 
 describe("handleExamFileRequest with private Blob", () => {
   function blobDeps(getBlob: GetPrivateBlob): ExamFileHandlerDeps {
-    return { findExam, source: blobExamFileSource(getBlob) };
+    return { findFile, source: blobExamFileSource(getBlob) };
   }
 
   it("streams the blob stored at exams/<relative_path>", async () => {

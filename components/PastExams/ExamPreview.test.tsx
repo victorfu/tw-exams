@@ -44,6 +44,8 @@ function render(exam: PastExam | null, collection: PastExamCollection = MATH_5A)
     root.render(
       <ExamPreview
         exam={exam}
+        view="question"
+        onViewChange={() => {}}
         collection={collection}
         hasPrevious={false}
         hasNext={false}

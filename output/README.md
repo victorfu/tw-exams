@@ -16,3 +16,13 @@
 - [layout-plan.md](layout-plan.md)：後續擴充規劃。
 
 目前各資料集使用 `pdf/<dataset-id>/` 與 `doc/<dataset-id>/`；分類根據來源 API，卷面核對狀態保存在 metadata。
+
+<!-- answer-status -->
+**答案卷下載進度**
+
+| 資料集 | 來源有答案 | 已驗證 | 剩餘 |
+|---|---:|---:|---:|
+| [數學・南一](pdf/math-grade-05-semester-1-nani/exam-index.md) | 95 | 95 | 0 |
+| [國語・翰林](pdf/chinese-grade-05-semester-1-hanlin/exam-index.md) | 38 | 38 | 0 |
+| [社會・翰林](pdf/social-studies-grade-05-semester-1-hanlin/exam-index.md) | 51 | 51 | 0 |
+| [自然・康軒](pdf/science-grade-05-semester-1-kang-hsuan/exam-index.md) | 69 | 69 | 0 |

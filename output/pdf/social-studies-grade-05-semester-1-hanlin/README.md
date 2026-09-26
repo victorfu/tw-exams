@@ -8,4 +8,9 @@
 - [manifest.json](manifest.json)：來源欄位、路徑、大小、SHA-256 及 PDF 頁數。
 - [Word 原始檔](../../doc/social-studies-grade-05-semester-1-hanlin/)。
 
-保留網站原始格式，以正常 Chrome 下載流程取得，不產生 ZIP。分類依來源 API，尚未逐份人工核對卷面。來源答案檔名保存在 metadata，答案檔並未列入本次題目下載。
+保留網站原始格式，以正常 Chrome 下載流程取得，不產生 ZIP。分類依來源 API，尚未逐份人工核對卷面。
+
+<!-- answer-status -->
+**答案卷**
+
+既有題目中，來源提供 51 份答案，已驗證 51 份，剩餘 0 份；未提供答案者跳過。答案放在對應 PDF／Word 資料集的 `answers/` 子資料夾，配對及驗證資訊記錄於 `manifest.json` 與統一搜尋 metadata。

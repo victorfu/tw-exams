@@ -111,6 +111,29 @@ describe("uploadExams", () => {
     expect(puts).toEqual([]);
   });
 
+  it("uploads answer sheets and keeps them when pruning", async () => {
+    await writeFakeOutput(outputDir, [
+      { id: "a", path: "pdf/ds/a.pdf", content: "aaaa", answer: { path: "pdf/ds/answers/a.pdf", content: "ans" } },
+    ]);
+    const { client, puts, deleted } = fakeClient([blob("exams/pdf/ds/a.pdf", 4), blob("exams/pdf/ds/answers/a.pdf", 1)]);
+
+    const summary = await uploadExams({ outputDir, client, prune: true, log: quiet });
+
+    expect(puts).toEqual([{ pathname: "exams/pdf/ds/answers/a.pdf", body: "ans", contentType: "application/pdf" }]);
+    expect(summary.planned.stale).toEqual([]);
+    expect(deleted).toEqual([]);
+  });
+
+  it("uploads nothing when an answer sheet does not match the catalog size", async () => {
+    await writeFakeOutput(outputDir, [
+      { id: "a", path: "pdf/ds/a.pdf", content: "aaaa", answer: { path: "pdf/ds/answers/a.pdf", content: "ans", bytes: 7 } },
+    ]);
+    const { client, puts } = fakeClient();
+
+    await expect(uploadExams({ outputDir, client, log: quiet })).rejects.toThrow(/answers\/a\.pdf.*7/);
+    expect(puts).toEqual([]);
+  });
+
   it("explains how to refresh credentials when the store cannot be read", async () => {
     const { client } = fakeClient();
     vi.mocked(client.listAll).mockRejectedValueOnce(new Error("Access denied, please provide a valid token"));

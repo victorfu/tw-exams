@@ -31,3 +31,8 @@ PDF 位於 pdf/math-grade-05-semester-1-nani/，Word 位於 doc/math-grade-05-se
 完整下載時間：2026-09-25T20:58:53.512797+08:00
 
 索引與說明更新時間：2026-09-25T21:29:02.412792+08:00
+
+<!-- answer-status -->
+**答案卷**
+
+既有題目中，來源提供 95 份答案，已驗證 95 份，剩餘 0 份；未提供答案者跳過。答案放在對應 PDF／Word 資料集的 `answers/` 子資料夾，配對及驗證資訊記錄於 `manifest.json` 與統一搜尋 metadata。

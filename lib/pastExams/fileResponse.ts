@@ -1,4 +1,4 @@
-import type { PastExam } from "./types";
+import type { ExamFileRole, PastExam } from "./types";
 
 const CONTENT_TYPES: Record<string, string> = {
   pdf: "application/pdf",
@@ -16,15 +16,22 @@ export function contentTypeFor(file: string): string {
   return CONTENT_TYPES[extensionOf(file)?.toLowerCase() ?? ""] ?? "application/octet-stream";
 }
 
-/** 下載檔名：考卷標題＋副檔名；檔名沒有副檔名時依格式補上。 */
-export function downloadFileName(exam: PastExam): string {
-  return `${exam.title}.${extensionOf(exam.file) ?? (exam.format === "pdf" ? "pdf" : "doc")}`;
+/** 題目卷或解答卷的檔案與格式；沒有解答卷時退回題目卷。 */
+function fileOf(exam: PastExam, role: ExamFileRole): Pick<PastExam, "file" | "format"> {
+  return role === "answer" && exam.answer ? exam.answer : exam;
+}
+
+/** 下載檔名：考卷標題（解答卷加「（解答）」）＋副檔名；檔名沒有副檔名時依格式補上。 */
+export function downloadFileName(exam: PastExam, role: ExamFileRole = "question"): string {
+  const { file, format } = fileOf(exam, role);
+  const title = role === "answer" ? `${exam.title}（解答）` : exam.title;
+  return `${title}.${extensionOf(file) ?? (format === "pdf" ? "pdf" : "doc")}`;
 }
 
 /** RFC 6266：ASCII 後備檔名（原始檔名）加上 UTF-8 的中文標題。 */
-export function contentDisposition(exam: PastExam, download: boolean): string {
-  const fallback = (exam.file.split("/").pop() ?? "exam").replace(/[^\x20-\x7e]|["\\]/g, "_");
-  const encoded = encodeURIComponent(downloadFileName(exam)).replace(
+export function contentDisposition(exam: PastExam, download: boolean, role: ExamFileRole = "question"): string {
+  const fallback = (fileOf(exam, role).file.split("/").pop() ?? "exam").replace(/[^\x20-\x7e]|["\\]/g, "_");
+  const encoded = encodeURIComponent(downloadFileName(exam, role)).replace(
     /['()*]/g,
     (character) => `%${character.charCodeAt(0).toString(16).toUpperCase()}`,
   );

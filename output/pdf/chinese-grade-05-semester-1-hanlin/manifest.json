@@ -59,7 +59,14 @@
       },
       "bytes": 633871,
       "sha256": "0e8911bbda4fa426fb324cf0c95b6a25d7ff9d377b7c87011f0cc7f658dbd3c8",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/20003318a51484b25849.pdf",
+        "downloaded": true,
+        "bytes": 64481,
+        "sha256": "8b5def74b7bb5db92f1feba700e063f3012e100123a8f1496e9f5241d724d275",
+        "pages": 1
+      }
     },
     {
       "id": "20003220",
@@ -88,7 +95,14 @@
       },
       "bytes": 387140,
       "sha256": "0393b38389eeb6cb9a877918e103f4e8218a774ad771da983db9e98a6417d0ae",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/20003220a514a113a2bc.pdf",
+        "downloaded": true,
+        "bytes": 170159,
+        "sha256": "edd924ae3bd0a7f6cff74d70fc0040695d14f28039ffb336868b497edc97d9a2",
+        "pages": 1
+      }
     },
     {
       "id": "20002960",
@@ -175,7 +189,14 @@
       },
       "bytes": 1908980,
       "sha256": "4b9b7ae9e5b00b45407b235bf6e5c28d92c4635db73c6824c169de01b8f41e31",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/20003295a5111903edf1.pdf",
+        "downloaded": true,
+        "bytes": 435352,
+        "sha256": "1399f598872583d64d51c1ff22b500c824f91d5ecbe70f5dbd37313b3ec5bc7c",
+        "pages": 1
+      }
     },
     {
       "id": "20003193",
@@ -204,7 +225,14 @@
       },
       "bytes": 402834,
       "sha256": "6e74baaff0a212ba9edfaa5a985c85d6055768330e7dff380f1f746d1d26a4bb",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/20003193a511308dedbd.pdf",
+        "downloaded": true,
+        "bytes": 171005,
+        "sha256": "72b528fd90cce2842400012b59371e67c22bfe97ae5f032f5e9d874e8afd3c8a",
+        "pages": 1
+      }
     },
     {
       "id": "20002936",
@@ -291,7 +319,14 @@
       },
       "bytes": 402825,
       "sha256": "580871413d239cb8ddcad231a906c112847ecc9f058a3acc2c3da34320e39eb5",
-      "pages": 6
+      "pages": 6,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/20002211a5117b6179ad.pdf",
+        "downloaded": true,
+        "bytes": 407467,
+        "sha256": "c9fcc6b818980a2af72cde8dddc62cd6d37d9716ab7cabbec97f114985f4b7e8",
+        "pages": 6
+      }
     },
     {
       "id": "20001060",
@@ -407,7 +442,14 @@
       },
       "bytes": 183596,
       "sha256": "76bf57b2f0687026ed5f9595a519448ccab4a31c136c15d4792c736dcc43d8d5",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/20002210a4244ace9055.pdf",
+        "downloaded": true,
+        "bytes": 1121811,
+        "sha256": "8be5489f8b8e9bfd7937a6b7509891c420dd420b9d2368cc9e70a4d3e9a4f806",
+        "pages": 4
+      }
     },
     {
       "id": "20001032",
@@ -523,7 +565,14 @@
       },
       "bytes": 378331,
       "sha256": "a40ec300559970a761807edfadc96a3455949bbabf179d565743872e03e4d85b",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/10029986732dfd7c632a.pdf",
+        "downloaded": true,
+        "bytes": 2159536,
+        "sha256": "0835efd50449aadf922a7b7511eb0f0de6bf342397f8849b6a6ab4086c209c09",
+        "pages": 4
+      }
     },
     {
       "id": "18743",
@@ -552,7 +601,14 @@
       },
       "bytes": 256622,
       "sha256": "2fd49e739a3d6cbb7c5b985c2dc6bd8e6d9115db0510ab824bc0cf2ebd58d0ab",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/1002958672c554f37521.pdf",
+        "downloaded": true,
+        "bytes": 93808,
+        "sha256": "959650577a31ff3a1fe900a49de7a398fb70f0e8edf9b611e4297c849c7d1042",
+        "pages": 1
+      }
     },
     {
       "id": "20000688",
@@ -581,7 +637,14 @@
       },
       "bytes": 650674,
       "sha256": "9715ce37a9e2480026d353e7dcc2a8f2592399adb080e9e974d87a857e90b56f",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/20000688a5145be20faa.pdf",
+        "downloaded": true,
+        "bytes": 610028,
+        "sha256": "d460d8eebcfde2cfe1de9a0b2c5b870704f13d43a825b0437c749a33f4098d14",
+        "pages": 1
+      }
     },
     {
       "id": "17517",
@@ -610,7 +673,14 @@
       },
       "bytes": 726568,
       "sha256": "f985d38f9687bdfafdb6c95b750c3a2d863f8bb012ad03aab131d61538485db5",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/100295565c047e6059fe.pdf",
+        "downloaded": true,
+        "bytes": 1516349,
+        "sha256": "e7a1c140a5d4581bf2b87790029325fb06fa5a587e8b69e0a03143cc577ebd23",
+        "pages": 4
+      }
     },
     {
       "id": "17469",
@@ -639,7 +709,14 @@
       },
       "bytes": 279605,
       "sha256": "955fd9f8b5415557efe84f3734382ff3ca2871ffaafad5193a723a5539771db5",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/100488165c09458e63ee.pdf",
+        "downloaded": true,
+        "bytes": 288741,
+        "sha256": "d20377e084b1030e57f562761727c19d1e37bae8a20a60c0a1e280b818007e6e",
+        "pages": 2
+      }
     },
     {
       "id": "17134",
@@ -668,7 +745,14 @@
       },
       "bytes": 314743,
       "sha256": "5fe0f0386afe7dc0a0772ac3d7bd52006f71686a54d214c36b0040aa29def262",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/100295865a5fabc61ae2.pdf",
+        "downloaded": true,
+        "bytes": 342062,
+        "sha256": "5a32d50f440bd8151114433d4266f327f4025030f8950faf9e7a1b800a045430",
+        "pages": 3
+      }
     },
     {
       "id": "20000664",
@@ -697,7 +781,14 @@
       },
       "bytes": 2487364,
       "sha256": "881cd1ffc6e3087ea57019000f5b58736e300baf2f5a90a5b07e0b350c4c544d",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/20000664a5116150ee5b.pdf",
+        "downloaded": true,
+        "bytes": 620087,
+        "sha256": "c11b8f4b670e1ca04d0924259ddd310e26d7c5c314e2db2675c21ca666cfb1b9",
+        "pages": 1
+      }
     },
     {
       "id": "17501",
@@ -726,7 +817,14 @@
       },
       "bytes": 265118,
       "sha256": "268d2f1e87ae27e76c37cca25a9668cb2bf478bd0b0a3aebbdb50fe8e113d97d",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/100488165c1d061783cd.pdf",
+        "downloaded": true,
+        "bytes": 234932,
+        "sha256": "ea0d994b6205b5ec372727f871b51561c182708faad8a93be4bca5056a77cadd",
+        "pages": 2
+      }
     },
     {
       "id": "16874",
@@ -784,7 +882,14 @@
       },
       "bytes": 483624,
       "sha256": "cf5eed005f2845f8d3a791e34b7129c0bc78c4682b06d996e7cc6dfb419ab283",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/100295565605d991f4f8.pdf",
+        "downloaded": true,
+        "bytes": 2099202,
+        "sha256": "5defc5428fa667650eedf2c83a8ca30e1403dbb2e2a41c8aa693a898c1ee86f0",
+        "pages": 3
+      }
     },
     {
       "id": "16608",
@@ -813,7 +918,14 @@
       },
       "bytes": 350534,
       "sha256": "9c8c2100bff06b736c263ee06d135498749c19128a2050cd2550a0b3cc78cd12",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/10029586549b60966125.pdf",
+        "downloaded": true,
+        "bytes": 355025,
+        "sha256": "14e3717209d76607b6f117a072b6535dc599eb65b209e42f8f150de2440e8bd7",
+        "pages": 2
+      }
     },
     {
       "id": "20001459",
@@ -871,7 +983,14 @@
       },
       "bytes": 297919,
       "sha256": "a74f11aab6a66892e227e48ce9ad8157dc4789914f1d53a8960a53642d340a75",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/100295863e45d2e90b94.pdf",
+        "downloaded": true,
+        "bytes": 2239294,
+        "sha256": "2c93e9a0d18ec6aa8a950184b2c15cc56383c7dbab44cd5ae40b20ecb57873df",
+        "pages": 2
+      }
     },
     {
       "id": "14713",
@@ -900,7 +1019,14 @@
       },
       "bytes": 335498,
       "sha256": "89a77f6221de565e63fbc6023298427a9d6db15f3e9d739bb5e5657e70a3dae6",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/100295563c792993f751.pdf",
+        "downloaded": true,
+        "bytes": 30626,
+        "sha256": "81914b223fdf1368f8ced2ccd85d9cd3ea3b9ca8cd5c6db44b3f253e146eadde",
+        "pages": 1
+      }
     },
     {
       "id": "14699",
@@ -929,7 +1055,14 @@
       },
       "bytes": 491877,
       "sha256": "a58ae67eb1ff091a5888e3a2befad741a5ae422a2ef8a39d7ddc341b88e466be",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/100299563c762a7a4672.pdf",
+        "downloaded": true,
+        "bytes": 491877,
+        "sha256": "a58ae67eb1ff091a5888e3a2befad741a5ae422a2ef8a39d7ddc341b88e466be",
+        "pages": 3
+      }
     },
     {
       "id": "20001458",
@@ -1016,7 +1149,14 @@
       },
       "bytes": 1389929,
       "sha256": "5cdeb1e0b8160ef7dad58bf5cda898654d0c1a7183cdded39f1ffecf11f170aa",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/10029586375dae7e8947.pdf",
+        "downloaded": true,
+        "bytes": 1389929,
+        "sha256": "5cdeb1e0b8160ef7dad58bf5cda898654d0c1a7183cdded39f1ffecf11f170aa",
+        "pages": 2
+      }
     },
     {
       "id": "14214",
@@ -1045,7 +1185,14 @@
       },
       "bytes": 410196,
       "sha256": "782d41d3335034fe1b40d5b165a30781faee70567c835b1227489491156ddf90",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/10029956374427ab76d4.pdf",
+        "downloaded": true,
+        "bytes": 410196,
+        "sha256": "782d41d3335034fe1b40d5b165a30781faee70567c835b1227489491156ddf90",
+        "pages": 3
+      }
     },
     {
       "id": "14029",
@@ -1074,7 +1221,14 @@
       },
       "bytes": 330177,
       "sha256": "2e59accd6ec702a2c0c3fc2e84601775b8fe10adc3fc5f396e9740b7ae897efd",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/10028586360c08981589.pdf",
+        "downloaded": true,
+        "bytes": 230586,
+        "sha256": "85066d5af449f1074aef7186b14ce6f5cc8c03b2ddcbdd40d1c79ebc73e402bd",
+        "pages": 1
+      }
     },
     {
       "id": "20002514",
@@ -1103,7 +1257,14 @@
       },
       "bytes": 437111,
       "sha256": "140437058ed0df9e0429c335e495417a74386e8dcd52fd46a6c021a736a62ff6",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/20002514a5112cb3ece9.pdf",
+        "downloaded": true,
+        "bytes": 700650,
+        "sha256": "61be6dcc03b44ee4aae7750ca1c695ff38d1a898f953a66ad6d1973e1e809b9b",
+        "pages": 2
+      }
     },
     {
       "id": "20002278",
@@ -1132,7 +1293,14 @@
       },
       "bytes": 266520,
       "sha256": "75da4cbe7474b6fc08af7054ff37b6bed85ee15c5a3f07bc2aefa2a3651a696a",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/20002278a5115ed303e6.pdf",
+        "downloaded": true,
+        "bytes": 276200,
+        "sha256": "f4b4f0a561160d3e56016cbe412c18c6830d545601461db57dbe4ce5539f2ccf",
+        "pages": 3
+      }
     },
     {
       "id": "20001713",
@@ -1219,7 +1387,14 @@
       },
       "bytes": 450166,
       "sha256": "577efb333a82eec26b4ccf956e15671927b9de7363ea65a8d78e203143512637",
-      "pages": 5
+      "pages": 5,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/100295561e9112c075b4.pdf",
+        "downloaded": true,
+        "bytes": 2439734,
+        "sha256": "946c43892cebeac51e80496f7940c9d0d66f2711455d0329d685c2c831cda5a3",
+        "pages": 4
+      }
     },
     {
       "id": "11250",
@@ -1248,7 +1423,14 @@
       },
       "bytes": 248325,
       "sha256": "5a7cb810608f54414e388197adfdc3cf4d7283aabeaf1bf1c34bc70725fbd72c",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/100295861e78a72eaa10.pdf",
+        "downloaded": true,
+        "bytes": 103876,
+        "sha256": "c80746f625eb817990e2be694051a903284656cdc3c8d473afa122e3616da909",
+        "pages": 1
+      }
     },
     {
       "id": "11170",
@@ -1306,7 +1488,14 @@
       },
       "bytes": 393004,
       "sha256": "ca8f258654f6fdf492bc52c76d73b445c7af2a999f3d83ae85bd6e9bca368a46",
-      "pages": 4
+      "pages": 4,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/20002513a4244db00a08.pdf",
+        "downloaded": true,
+        "bytes": 787288,
+        "sha256": "16a5e58c92bafaaaaae2b81a731f6d690615679c1179026c12f87f5146cad4ed",
+        "pages": 4
+      }
     },
     {
       "id": "20002277",
@@ -1335,7 +1524,14 @@
       },
       "bytes": 201686,
       "sha256": "3e0cd4f79bd2577d698a1bfa12e153f3cb4fc63668c5d871089cd796d7d5037b",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/20002277a41447593674.pdf",
+        "downloaded": true,
+        "bytes": 606441,
+        "sha256": "5aa31faaa3417a6c71af5d4ad0e689bb5f8e2b8f675dbbc7d37b6f89826cd241",
+        "pages": 2
+      }
     },
     {
       "id": "20001712",
@@ -1451,7 +1647,14 @@
       },
       "bytes": 225262,
       "sha256": "6a947a761cf71f4b5c0a06f5d77ff54ea929dedac7b00ae38369c622c462d45d",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/10029586195c9ee00e1e.pdf",
+        "downloaded": true,
+        "bytes": 550042,
+        "sha256": "437885b07ab9625a76a4eb5b478bec01db5a415b2e7c0005374275ac0f01566f",
+        "pages": 2
+      }
     },
     {
       "id": "8477",
@@ -1567,7 +1770,14 @@
       },
       "bytes": 316328,
       "sha256": "09d7d18ad50d189a59959f640eee2874f771a03b6c987cdc44975c81a1150750",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/10028585fab12f7224ee.pdf",
+        "downloaded": true,
+        "bytes": 230540,
+        "sha256": "038de739baa3a312125fa594217f7beb0b20aec3cedbc7393bb6ab0119f4c37c",
+        "pages": 2
+      }
     },
     {
       "id": "3630",
@@ -1596,7 +1806,14 @@
       },
       "bytes": 109931,
       "sha256": "088157e8d42f73a6bf4521d8f8a6c8892d2965220f1757fd2d6bf3f956872c34",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/10028655e8e92de68806.pdf",
+        "downloaded": true,
+        "bytes": 109931,
+        "sha256": "088157e8d42f73a6bf4521d8f8a6c8892d2965220f1757fd2d6bf3f956872c34",
+        "pages": 2
+      }
     },
     {
       "id": "3028",
@@ -1654,7 +1871,14 @@
       },
       "bytes": 669572,
       "sha256": "324caddc51efa8839be9a9f292da8c9592c6b014cf0ba6bfd5c1f06353ad185a",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/10031795e40d06b03de9.pdf",
+        "downloaded": true,
+        "bytes": 1803267,
+        "sha256": "cc7bdb223ec089ac4c4ede95a73e6e358841401661fb34bfc2cbb73a29207c63",
+        "pages": 2
+      }
     },
     {
       "id": "2880",
@@ -1711,7 +1935,13 @@
         "collected_at": "2026-09-26T10:25:49.561807+08:00"
       },
       "bytes": 66478,
-      "sha256": "d4df4f63d36e9f21b3f65b566ad51891cfdcca113d125266c0ebb85b3912da95"
+      "sha256": "d4df4f63d36e9f21b3f65b566ad51891cfdcca113d125266c0ebb85b3912da95",
+      "answer_file": {
+        "relative_path": "doc/chinese-grade-05-semester-1-hanlin/answers/10029555e27fefe10044.docx",
+        "downloaded": true,
+        "bytes": 138928,
+        "sha256": "2b16943d02d52e294732b6b3b51673e03c58075e3835cd71bf3498b4dce4c0fd"
+      }
     },
     {
       "id": "1931",
@@ -1740,7 +1970,13 @@
       },
       "bytes": 268516,
       "sha256": "fc7a2d33caa07364dcc69d3cc1b702c6e4f8fdf5125b6a2c56188183870aa1b7",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "doc/chinese-grade-05-semester-1-hanlin/answers/10029585e1ffb806a407.doc",
+        "downloaded": true,
+        "bytes": 6811648,
+        "sha256": "11e2f232ffa816f3c9feefe5c06283e8bd0c59d217fa4f2af16303a16938fafd"
+      }
     },
     {
       "id": "1735",
@@ -1885,7 +2121,14 @@
       },
       "bytes": 505351,
       "sha256": "738fcbd6626d85ec4f562c598f6acde0facf20231a060d3592e9aab921fb2e84",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/10031795e40d06b0387c.pdf",
+        "downloaded": true,
+        "bytes": 219398,
+        "sha256": "e6641e16e3c6b0e3d40c892dfd3a460723d8712ed127c843fedd434e8bea2a65",
+        "pages": 2
+      }
     },
     {
       "id": "2881",
@@ -1943,7 +2186,13 @@
       },
       "bytes": 586794,
       "sha256": "1fd271fa25df3458372a27c6c4ec165ec1810c52d4efa3a6b1a64944c3da30b3",
-      "pages": 3
+      "pages": 3,
+      "answer_file": {
+        "relative_path": "doc/chinese-grade-05-semester-1-hanlin/answers/10029555df9dfe90b7ca.doc",
+        "downloaded": true,
+        "bytes": 351744,
+        "sha256": "05c85a2e2704d3e7e997ab4a2d9319e14b156495386334c3b8543516d68a35c1"
+      }
     },
     {
       "id": "833",
@@ -1972,7 +2221,13 @@
       },
       "bytes": 235580,
       "sha256": "b6bc452295d510cefb07ecf44d5bff2153a02db7eec796ea30d5b15f77329c5b",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "doc/chinese-grade-05-semester-1-hanlin/answers/10029585dccee16a9755.doc",
+        "downloaded": true,
+        "bytes": 126976,
+        "sha256": "27223151ca753b135067da08b0e6b2946e6ac50b2f1167bc5608706c11af3ddc"
+      }
     },
     {
       "id": "810",
@@ -2115,7 +2370,14 @@
       },
       "bytes": 1126586,
       "sha256": "89214a8cd42cac85d582fc6e787203f2ee133c9fb0b3a5ec48c3fb5a4b915bc0",
-      "pages": 2
+      "pages": 2,
+      "answer_file": {
+        "relative_path": "pdf/chinese-grade-05-semester-1-hanlin/answers/10028655db6a4cf70d62.pdf",
+        "downloaded": true,
+        "bytes": 1244122,
+        "sha256": "2964c5ee7174b0546e7682fba9ea4a457775382cc8377e98a8d75cd502200836",
+        "pages": 2
+      }
     },
     {
       "id": "1",
@@ -2146,5 +2408,19 @@
       "sha256": "396bbef00269fce445f0eabdccc8fc98aaafa38927585b0368d5676023f4c35e",
       "pages": 2
     }
-  ]
+  ],
+  "answer_summary": {
+    "dataset": "chinese-grade-05-semester-1-hanlin",
+    "expected": 38,
+    "verified": 38,
+    "remaining": 0,
+    "skipped_no_source": 35,
+    "formats": {
+      ".pdf": 34,
+      ".docx": 1,
+      ".doc": 3
+    },
+    "missing_filenames": [],
+    "issues": []
+  }
 }

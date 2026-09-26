@@ -59,6 +59,11 @@ export function ExamList({ groups, selectedId, onSelect }: ExamListProps) {
                       </span>
                     </span>
                     <span className="badge badge-ghost badge-sm shrink-0">{exam.periodLabel}</span>
+                    {exam.answer && (
+                      <span className="badge badge-soft badge-success badge-sm shrink-0" title="有解答卷">
+                        解答
+                      </span>
+                    )}
                     <FormatBadge exam={exam} />
                   </button>
                 </li>
