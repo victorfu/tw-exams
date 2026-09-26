@@ -15,7 +15,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <Logo className="size-9" />
         </Link>
         <MainNav variant="rail" />
-        <ThemeToggle className="mt-auto" />
+        <nav aria-label="網站資訊" className="mt-auto flex flex-col items-center gap-1 text-[11px] text-muted-foreground">
+          <Link href="/privacy" className="hover:text-accent">
+            隱私
+          </Link>
+          <Link href="/terms" className="hover:text-accent">
+            條款
+          </Link>
+        </nav>
+        <ThemeToggle />
       </aside>
       <header className="toolbar sticky top-0 z-30 flex h-12 items-center justify-between gap-3 px-3 md:hidden">
         <div className="flex min-w-0 items-center gap-3">

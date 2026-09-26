@@ -237,6 +237,18 @@
   --font-sans: var(--font-noto-tc), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-huninn), var(--font-noto-tc), ui-sans-serif,
     sans-serif;
+
+  /* 首頁插圖的泡泡：慢慢上下飄（只在 motion-safe 時用）。 */
+  --animate-float: float 6s ease-in-out infinite;
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
 }
 
 /* ============================================================
