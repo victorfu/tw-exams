@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { collectionOptions, pickCollection, type CollectionChoice } from "../../lib/pastExams/collections";
 import { GRADES, gradeLabel, gradeNumeral, SEMESTERS, semesterLabel, SUBJECTS, subjectLabel } from "../../lib/pastExams/labels";
+import { subjectColors } from "../../lib/pastExams/subjectColors";
 import type { PastExamCollection } from "../../lib/pastExams/types";
 import { NOT_COLLECTED, SegmentButton } from "./SegmentButton";
 
@@ -62,6 +63,7 @@ export function CollectionPicker({ datasets, current, onSelect }: CollectionPick
             label={subjectLabel(subject, datasets)}
             pressed={current?.subject === subject}
             enabled={options.subjects.includes(subject)}
+            colors={subjectColors(subject)}
             onClick={() => choose({ subject })}
           />
         ))}

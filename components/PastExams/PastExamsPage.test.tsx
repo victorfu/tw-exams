@@ -332,4 +332,18 @@ describe("PastExamsPage", () => {
     expect(historyEntries).toHaveLength(1);
     expect(currentParams().get("id")).toBe(minquan.id);
   });
+
+  it("paints the selected subject and the heading tag in the subject colour", () => {
+    renderPage();
+    const pressed = [...container.querySelectorAll<HTMLButtonElement>('button[aria-pressed="true"]')].find(
+      (button) => button.textContent === "數學",
+    )!;
+    expect(pressed.style.getPropertyValue("--btn-color")).toBe("var(--subject-math)");
+    expect(pressed.style.getPropertyValue("--btn-fg")).toBe("var(--subject-math-content)");
+    expect(pressed.className).not.toContain("btn-primary");
+
+    const tag = container.querySelector<HTMLElement>("header [data-subject-tag]")!;
+    expect(tag.textContent).toBe("數學");
+    expect(tag.style.backgroundColor).toBe("var(--subject-math-tint)");
+  });
 });

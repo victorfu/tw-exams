@@ -6,6 +6,7 @@ import { isEditableTarget } from "../MyExams/editorKeyboard";
 import { facetValues, filterExams, groupByAcademicYear, sortExams } from "../../lib/pastExams/filters";
 import { subjectLabel, termLabel } from "../../lib/pastExams/labels";
 import { readUrlState, writeUrlState, type PastExamsUrlState } from "../../lib/pastExams/searchParams";
+import { subjectColors } from "../../lib/pastExams/subjectColors";
 import type { PastExam, PastExamCatalog } from "../../lib/pastExams/types";
 import { CollectionPicker } from "./CollectionPicker";
 import { ExamFilters, type FilterPatch } from "./ExamFilters";
@@ -108,13 +109,22 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
     unavailable: exams.length - navigable.length,
   };
 
+  const colors = subjectColors(collection.subject);
+
   return (
     <div className="mx-auto max-w-7xl space-y-4">
       <header>
         <h1 className="text-3xl font-semibold tracking-tight">考古題</h1>
-        <p className="text-sm text-base-content/60">
-          {termLabel(collection.grade, collection.semester)} {subjectLabel(collection.subject, catalog.datasets)}（
-          {collection.publisherLabel}），共 {collectionExams.length} 份
+        <p className="flex flex-wrap items-center gap-1.5 text-sm text-base-content/60">
+          <span>{termLabel(collection.grade, collection.semester)}</span>
+          <span
+            data-subject-tag
+            className="rounded-full px-2 py-0.5 text-xs font-medium"
+            style={{ backgroundColor: colors.tint, color: colors.ink }}
+          >
+            {subjectLabel(collection.subject, catalog.datasets)}
+          </span>
+          <span>（{collection.publisherLabel}），共 {collectionExams.length} 份</span>
         </p>
       </header>
 
