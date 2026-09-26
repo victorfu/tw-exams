@@ -14,7 +14,8 @@
     "catalog": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-exam-catalog.ts",
     "predev": "npm run catalog",
     "prebuild": "npm run catalog",
-    "icons": "node scripts/generate-icons.mjs"
+    "icons": "node scripts/generate-icons.mjs",
+    "upload:exams": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file-if-exists=.env.local scripts/upload-exams.ts"
   },
   "dependencies": {
     "@vercel/blob": "^2.8.0",
