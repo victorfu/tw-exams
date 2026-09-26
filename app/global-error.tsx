@@ -5,7 +5,7 @@ import { DARK_QUERY, THEME_STORAGE_KEY } from "@/contexts/themeInit";
 import RouteError from "./error";
 import "./globals.css";
 
-type DaisyTheme = "ollielight" | "olliedark";
+type DaisyTheme = "paopaolight" | "paopaodark";
 
 const subscribeNothing = () => () => {};
 
@@ -15,9 +15,9 @@ const readSavedTheme = (): DaisyTheme => {
     const stored = localStorage.getItem(THEME_STORAGE_KEY);
     const sysDark = window.matchMedia(DARK_QUERY).matches;
     const isDark = stored === "dark" || ((stored === "system" || !stored) && sysDark);
-    return isDark ? "olliedark" : "ollielight";
+    return isDark ? "paopaodark" : "paopaolight";
   } catch {
-    return "ollielight";
+    return "paopaolight";
   }
 };
 
@@ -33,10 +33,10 @@ export default function GlobalError({
   retry: () => void;
 }) {
   // 伺服器與 hydration 時用預設的淺色，之後才換成儲存的主題，兩邊 markup 才對得上。
-  const theme = useSyncExternalStore(subscribeNothing, readSavedTheme, () => "ollielight" as const);
+  const theme = useSyncExternalStore(subscribeNothing, readSavedTheme, () => "paopaolight" as const);
 
   return (
-    <html lang="zh-Hant" data-theme={theme} className={theme === "olliedark" ? "dark" : undefined}>
+    <html lang="zh-Hant" data-theme={theme} className={theme === "paopaodark" ? "dark" : undefined}>
       <body>
         <title>發生錯誤 · 自製考卷</title>
         <RouteError error={error} retry={retry} />

@@ -43,7 +43,7 @@ describe("GlobalError", () => {
     const doc = new DOMParser().parseFromString(`<!DOCTYPE html>${html}`, "text/html");
 
     expect(doc.documentElement.getAttribute("lang")).toBe("zh-Hant");
-    expect(doc.documentElement.getAttribute("data-theme")).toBe("ollielight");
+    expect(doc.documentElement.getAttribute("data-theme")).toBe("paopaolight");
     expect(doc.body.querySelector('[role="alert"]')?.textContent).toContain("發生錯誤");
   });
 
@@ -56,7 +56,7 @@ describe("GlobalError", () => {
     root = createRoot(document);
     act(() => root?.render(<GlobalError error={new Error("boom")} retry={retry} />));
 
-    expect(document.documentElement.getAttribute("data-theme")).toBe("olliedark");
+    expect(document.documentElement.getAttribute("data-theme")).toBe("paopaodark");
     expect(document.documentElement.classList.contains("dark")).toBe(true);
     expect(document.querySelector("form")).toBeNull();
     expect(document.querySelector('a[href="/my-exams"]')?.textContent).toBe("返回自製考卷");

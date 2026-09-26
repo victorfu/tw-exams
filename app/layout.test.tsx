@@ -1,5 +1,12 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+// next/font 只在 Next 的編譯流程裡能用；測試只需要它回傳的 CSS 變數 class。
+vi.mock("next/font/google", () => {
+  const font = () => ({ variable: "font-variable" });
+  return { Huninn: font, Noto_Sans_TC: font };
+});
+
 import RootLayout from "./layout";
 
 function renderLayout(): Document {

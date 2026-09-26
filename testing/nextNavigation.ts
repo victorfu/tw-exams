@@ -68,6 +68,10 @@ export function followHistory(): void {
 /** 只轉送呼叫端真的有傳的參數，讓只給 href 的呼叫仍能用 toHaveBeenCalledWith(href) 比對。 */
 type NavigateArgs = [href: string, options?: { scroll?: boolean }];
 
+// 伺服器端 render（renderToStaticMarkup）也用同一個值。
+const getPathname = () => navigation.url.pathname;
+const getSearchParams = () => searchParams;
+
 const router = {
   push: (...args: NavigateArgs) => navigation.push(...args),
   replace: (...args: NavigateArgs) => navigation.replace(...args),
@@ -80,6 +84,6 @@ const router = {
 export const nextNavigationModule = {
   useRouter: () => router,
   useParams: () => navigation.params,
-  usePathname: () => useSyncExternalStore(subscribe, () => navigation.url.pathname),
-  useSearchParams: () => useSyncExternalStore(subscribe, () => searchParams),
+  usePathname: () => useSyncExternalStore(subscribe, getPathname, getPathname),
+  useSearchParams: () => useSyncExternalStore(subscribe, getSearchParams, getSearchParams),
 };
