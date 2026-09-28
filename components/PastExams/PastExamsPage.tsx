@@ -66,12 +66,13 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
   const exams = filterExams(historyExams, url);
   const navigable = exams.filter((exam) => exam.available);
   const selected = navigable.find((exam) => exam.id === url.examId) ?? null;
+  const selectedId = selected?.id ?? null;
   const selectedIndex = selected ? navigable.indexOf(selected) : -1;
   const showAnswer = url.showAnswer && selected?.answer != null;
 
   useEffect(() => {
-    if (selected) history.markViewed(selected.id);
-  }, [selected?.id, history.markViewed]);
+    if (selectedId) history.markViewed(selectedId);
+  }, [selectedId, history.markViewed]);
 
   function update(patch: Partial<PastExamsUrlState>, { push = false } = {}) {
     const query = writeUrlState({ ...url, showAnswer, collectionId: collection?.id ?? null, ...patch });
