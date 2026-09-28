@@ -1,21 +1,31 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { Star } from "lucide-react";
 import { UNKNOWN, type AcademicYearGroup } from "../../lib/pastExams/filters";
 import type { PastExam } from "../../lib/pastExams/types";
 
 interface ExamListProps {
   groups: readonly AcademicYearGroup[];
   selectedId: string | null;
+  favoriteIds: ReadonlySet<string>;
+  recentIds: ReadonlySet<string>;
   onSelect: (exam: PastExam) => void;
+  onToggleFavorite: (examId: string) => void;
 }
 
 /** 依學年度分段的考卷清單；選中的那列會捲進畫面。 */
-export function ExamList({ groups, selectedId, onSelect }: ExamListProps) {
+export function ExamList({
+  groups,
+  selectedId,
+  favoriteIds,
+  recentIds,
+  onSelect,
+  onToggleFavorite,
+}: ExamListProps) {
   const selectedRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    // jsdom 沒有 scrollIntoView。
     selectedRef.current?.scrollIntoView?.({ block: "nearest" });
   }, [selectedId]);
 
@@ -36,8 +46,19 @@ export function ExamList({ groups, selectedId, onSelect }: ExamListProps) {
           <ul className="surface-card divide-y divide-border-hairline overflow-hidden rounded-xl">
             {group.exams.map((exam) => {
               const selected = exam.id === selectedId;
+              const favorite = favoriteIds.has(exam.id);
               return (
-                <li key={exam.id}>
+                <li key={exam.id} className={`flex items-stretch ${selected ? "bg-accent-tint" : ""}`}>
+                  <button
+                    type="button"
+                    className="btn btn-ghost btn-sm btn-square my-auto ml-1 shrink-0"
+                    aria-label={favorite ? `取消收藏 ${exam.school ?? UNKNOWN}` : `收藏 ${exam.school ?? UNKNOWN}`}
+                    aria-pressed={favorite}
+                    title={favorite ? "取消收藏" : "收藏"}
+                    onClick={() => onToggleFavorite(exam.id)}
+                  >
+                    <Star className={`size-4 ${favorite ? "fill-current text-warning" : ""}`} aria-hidden="true" />
+                  </button>
                   <button
                     ref={selected ? selectedRef : undefined}
                     type="button"
@@ -45,8 +66,8 @@ export function ExamList({ groups, selectedId, onSelect }: ExamListProps) {
                     aria-current={selected ? "true" : undefined}
                     disabled={!exam.available}
                     onClick={() => onSelect(exam)}
-                    className={`flex w-full scroll-mt-14 items-center gap-2 px-3 py-2.5 text-left transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-45 ${
-                      selected ? "bg-accent-tint" : "enabled:hover:bg-base-200"
+                    className={`flex min-w-0 flex-1 scroll-mt-14 items-center gap-2 px-2 py-2.5 text-left transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-45 ${
+                      selected ? "" : "enabled:hover:bg-base-200"
                     }`}
                   >
                     <span className="min-w-0 flex-1">
@@ -58,6 +79,9 @@ export function ExamList({ groups, selectedId, onSelect }: ExamListProps) {
                         {exam.pages !== null && ` · ${exam.pages} 頁`}
                       </span>
                     </span>
+                    {recentIds.has(exam.id) && (
+                      <span className="badge badge-ghost badge-sm shrink-0">最近</span>
+                    )}
                     <span className="badge badge-ghost badge-sm shrink-0">{exam.periodLabel}</span>
                     {exam.answer && (
                       <span className="badge badge-soft badge-success badge-sm shrink-0" title="有解答卷">
