@@ -48,6 +48,8 @@ export function usePastExamHistory() {
   }, []);
 
   return {
+    favorites,
+    recent,
     favoriteIds: useMemo(() => new Set(favorites), [favorites]),
     recentIds: useMemo(() => new Set(recent), [recent]),
     favoriteCount: favorites.length,
