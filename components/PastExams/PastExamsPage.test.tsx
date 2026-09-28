@@ -82,6 +82,7 @@ function stubViewport(desktop: boolean) {
 
 beforeEach(() => {
   resetNavigation();
+  window.localStorage.clear();
   installObserverStubs();
   (globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
   container = document.createElement("div");
@@ -203,6 +204,43 @@ describe("PastExamsPage", () => {
     expect(container.querySelector("a[download]")?.getAttribute("download")).toBe(`${noExtension.title}.pdf`);
   });
 
+  it("stores favorites locally and can show only favorites", () => {
+    renderPage();
+
+    act(() => button("收藏 民權國小").click());
+    expect(JSON.parse(window.localStorage.getItem("tw-exams:past-exams:favorites") ?? "[]")).toEqual([minquan.id]);
+    expect(button("收藏 1")).toBeTruthy();
+
+    act(() => button("收藏 1").click());
+    expect(listedSchools()).toEqual(["民權國小"]);
+    expect(button("取消收藏 民權國小").getAttribute("aria-pressed")).toBe("true");
+  });
+
+  it("tracks recently viewed exams with the newest first", () => {
+    renderPage();
+
+    act(() => row("民權國小").click());
+    act(() => row("大同國小").click());
+    expect(JSON.parse(window.localStorage.getItem("tw-exams:past-exams:recent") ?? "[]")).toEqual([datong.id, minquan.id]);
+
+    act(() => button("最近看過 2").click());
+    expect(listedSchools()).toEqual(["大同國小", "民權國小"]);
+  });
+
+  it("builds a practice-sheet link from the current collection and filters", () => {
+    renderPage();
+    act(() => button("期中").click());
+    act(() => button("114上").click());
+
+    const link = [...container.querySelectorAll<HTMLAnchorElement>("a")].find((item) => item.textContent?.includes("出一份練習卷"))!;
+    const url = new URL(link.href);
+    expect(url.pathname).toBe("/my-exams/sheets/new");
+    expect(url.searchParams.get("practice")).toBe("1");
+    expect(url.searchParams.get("datasetId")).toBe(MATH_5A.id);
+    expect(url.searchParams.get("type")).toBe("midterm");
+    expect(url.searchParams.get("year")).toBe("114");
+    expect(url.searchParams.get("count")).toBe("20");
+  });
   it("previews a PDF when its row is clicked", () => {
     renderPage();
     expect(container.textContent).toContain("點左邊的考卷開始瀏覽");
