@@ -17,7 +17,11 @@ function readIds(key: string): string[] {
 }
 
 function writeIds(key: string, ids: readonly string[]) {
-  window.localStorage.setItem(key, JSON.stringify(ids));
+  try {
+    window.localStorage.setItem(key, JSON.stringify(ids));
+  } catch {
+    // Storage 被瀏覽器停用或額度不足時，功能仍可在本次分頁內使用。
+  }
 }
 
 export function usePastExamHistory() {
