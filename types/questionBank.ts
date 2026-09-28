@@ -42,6 +42,14 @@ export interface SourcePage {
   masks: Box[];
 }
 
+/** 從考古題匯入時保留的來源資訊，供「幫我出練習卷」依篩選條件抽題。 */
+export interface PastExamSourceMeta {
+  examId: string;
+  datasetId: string;
+  examType: "midterm" | "final";
+  academicYear: number;
+}
+
 /** 一次上傳一筆。 */
 export interface QuestionSource {
   id: string;
@@ -50,6 +58,8 @@ export interface QuestionSource {
   /** 該來源題目的預設科目。 */
   subject: BankSubject;
   pages: SourcePage[];
+  /** 一般上傳沒有；只有從考古題匯入才有。 */
+  pastExam?: PastExamSourceMeta;
   createdAt: Date;
   updatedAt: Date;
 }
