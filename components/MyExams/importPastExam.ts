@@ -102,6 +102,12 @@ export async function importPastExam({ exam, collection, onProgress, signal }: I
       title: pastExamSourceTitle(exam),
       subject,
       pageCount: pages.length,
+      pastExam: {
+        examId: exam.id,
+        datasetId: exam.datasetId,
+        examType: exam.examType,
+        academicYear: exam.academicYear,
+      },
       renderPage: (index) =>
         signal?.aborted ? Promise.reject(abortReason(signal)) : renderPage(pages[index], PAGE_LONG_EDGE_PX),
       onProgress: (done, total) => {
