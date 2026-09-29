@@ -35,8 +35,10 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [historyView, setHistoryView] = useState<HistoryView>("all");
+  const [recentOrder, setRecentOrder] = useState<string[]>([]);
   const [practiceCount, setPracticeCount] = useState(20);
   const history = usePastExamHistory();
+  const { markViewed } = history;
   const urlState = readUrlState(searchParams);
   const collection =
     catalog.datasets.find((dataset) => dataset.id === urlState.collectionId) ?? defaultCollection(catalog.datasets);
@@ -56,13 +58,13 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
     if (historyView === "favorites") return collectionExams.filter((exam) => history.favoriteIds.has(exam.id));
     if (historyView === "recent") {
       const byId = new Map(collectionExams.map((exam) => [exam.id, exam]));
-      return history.recent.flatMap((id) => {
+      return recentOrder.flatMap((id) => {
         const exam = byId.get(id);
         return exam ? [exam] : [];
       });
     }
     return collectionExams;
-  }, [collectionExams, history.favoriteIds, history.recent, historyView]);
+  }, [collectionExams, history.favoriteIds, recentOrder, historyView]);
   const exams = filterExams(historyExams, url);
   const navigable = exams.filter((exam) => exam.available);
   const selected = navigable.find((exam) => exam.id === url.examId) ?? null;
@@ -71,8 +73,8 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
   const showAnswer = url.showAnswer && selected?.answer != null;
 
   useEffect(() => {
-    if (selectedId) history.markViewed(selectedId);
-  }, [selectedId, history.markViewed]);
+    if (selectedId) markViewed(selectedId);
+  }, [selectedId, markViewed]);
 
   function update(patch: Partial<PastExamsUrlState>, { push = false } = {}) {
     const query = writeUrlState({ ...url, showAnswer, collectionId: collection?.id ?? null, ...patch });
@@ -197,7 +199,11 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
               <Star className="size-4" aria-hidden="true" />
               收藏 {currentFavoriteCount}
             </button>
-            <button type="button" className={`btn btn-sm ${historyView === "recent" ? "btn-primary" : "btn-ghost"}`} onClick={() => setHistoryView("recent")}>
+            <button type="button" className={`btn btn-sm ${historyView === "recent" ? "btn-primary" : "btn-ghost"}`} onClick={() => {
+              // 開啟清單時固定順序，預覽仍更新瀏覽紀錄，但不改變上一份／下一份的位置。
+              setRecentOrder(history.recent);
+              setHistoryView("recent");
+            }}>
               <Clock3 className="size-4" aria-hidden="true" />
               最近看過 {currentRecentCount}
             </button>
