@@ -1,5 +1,5 @@
 import { QUESTION_BANK_STORAGE_FOLDER } from "../constants/questionBank";
-import type { BankSubject, QuestionSource, SourcePage } from "../types/questionBank";
+import type { BankSubject, PastExamSourceMeta, QuestionSource, SourcePage } from "../types/questionBank";
 import type { RenderedPage } from "../utils/pageImageProcessor";
 import { deleteQuestionsForSource } from "./bankQuestionService";
 import {
@@ -30,6 +30,8 @@ export interface CreateSourceInput {
   title: string;
   subject: BankSubject;
   pageCount: number;
+  /** 從考古題匯入時保留來源 metadata；一般上傳不帶。 */
+  pastExam?: PastExamSourceMeta;
   /** 依序呼叫：前一頁存好才會要求下一頁，一次只有一頁在記憶體。 */
   renderPage: (pageIndex: number) => Promise<RenderedPage>;
   onProgress?: (uploaded: number, total: number) => void;
@@ -61,6 +63,7 @@ export async function createSource(input: CreateSourceInput): Promise<QuestionSo
     title: input.title,
     subject: input.subject,
     pages,
+    ...(input.pastExam ? { pastExam: clone(input.pastExam) } : {}),
     createdAt: now,
     updatedAt: now,
   };

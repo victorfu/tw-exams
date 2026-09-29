@@ -115,7 +115,18 @@ describe("importPastExam", () => {
     expect(files[0].name).toMatch(/\.pdf$/);
 
     const input = mocks.createSource.mock.calls[0][0] as CreateSourceInput;
-    expect(input).toMatchObject({ sourceId: "new-source", title: "114上 臺北市 民權國小 期中1", subject: "math", pageCount: 3 });
+    expect(input).toMatchObject({
+      sourceId: "new-source",
+      title: "114上 臺北市 民權國小 期中1",
+      subject: "math",
+      pageCount: 3,
+      pastExam: {
+        examId: exam.id,
+        datasetId: exam.datasetId,
+        examType: exam.examType,
+        academicYear: exam.academicYear,
+      },
+    });
     expect(mocks.renderPage.mock.calls.map(([page, size]) => [(page as PageInput).pdfPageNumber, size])).toEqual([
       [1, PAGE_LONG_EDGE_PX],
       [2, PAGE_LONG_EDGE_PX],

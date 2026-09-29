@@ -2,16 +2,18 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useQuestionBank } from "../../hooks/useQuestionBank";
+import { pickRandomQuestions } from "./pickRandomQuestions";
+import { practiceQuestionPool, readPracticeSheetRequest } from "./practiceSheet";
 import { resolveSheetQuestions } from "./sheetComposition";
 import { SheetComposerForm } from "./SheetComposerForm";
 
 export default function SheetComposerPage() {
   const { id } = useParams<{ id?: string }>();
+  const searchParams = useSearchParams();
   const bank = useQuestionBank();
 
-  // 來源已刪除的題目不應存在，保險起見仍排除
   const validBank = useMemo(() => {
     const sourceIds = new Set(bank.sources.map((source) => source.id));
     return bank.questions.filter((question) => sourceIds.has(question.sourceId));
@@ -37,6 +39,36 @@ export default function SheetComposerPage() {
   }
 
   if (!id) {
+    const practice = readPracticeSheetRequest(searchParams);
+    if (practice) {
+      const pool = practiceQuestionPool(bank.sources, validBank, practice);
+      const initialQuestions = pickRandomQuestions(pool.questions, practice.count);
+      return (
+        <div className="space-y-4">
+          {pool.questions.length < practice.count && (
+            <div role="status" className="alert alert-warning mx-auto max-w-3xl">
+              <span>
+                目前符合條件、已框好的題目只有 {pool.questions.length} 題
+                {pool.questions.length > 0
+                  ? `，先用這 ${pool.questions.length} 題組卷。`
+                  : "。請先從考古題匯入並框出題目。"}
+              </span>
+              <Link href="/past-exams" className="btn btn-sm">回考古題</Link>
+            </div>
+          )}
+          <SheetComposerForm
+            key={`practice-${practice.datasetId}-${practice.examType ?? "all"}-${practice.academicYears.join("-")}-${practice.count}`}
+            sheetId={null}
+            initialTitle={practice.title}
+            initialQuestions={initialQuestions}
+            missingCount={0}
+            bank={pool.questions}
+            sources={pool.sources}
+          />
+        </div>
+      );
+    }
+
     return (
       <SheetComposerForm
         key="new"
