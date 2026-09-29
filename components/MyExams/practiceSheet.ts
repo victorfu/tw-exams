@@ -14,6 +14,7 @@ export interface PracticeSheetRequest {
 }
 
 function parseCount(value: string | null): number {
+  if (value === null || value.trim() === "") return 20;
   const count = Number(value);
   return Number.isFinite(count) ? Math.min(100, Math.max(1, Math.floor(count))) : 20;
 }

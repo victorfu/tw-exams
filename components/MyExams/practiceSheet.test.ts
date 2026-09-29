@@ -59,6 +59,33 @@ describe("readPracticeSheetRequest", () => {
     expect(readPracticeSheetRequest(params({ datasetId: "x" }))).toBeNull();
     expect(readPracticeSheetRequest(params({ practice: "1" }))).toBeNull();
   });
+
+  it.each([undefined, "", "   ", "\t\n", "invalid", "NaN", "Infinity"])(
+    "defaults to 20 questions when count is %j",
+    (count) => {
+      const query = params({ practice: "1", datasetId: "math-5a-nani" });
+      if (count !== undefined) query.set("count", count);
+
+      expect(readPracticeSheetRequest(query)?.count).toBe(20);
+    },
+  );
+
+  it.each([
+    ["0", 1],
+    ["-5", 1],
+    ["1", 1],
+    ["10", 10],
+    ["20", 20],
+    [" 30 ", 30],
+    ["40", 40],
+    ["10.9", 10],
+    ["100", 100],
+    ["101", 100],
+  ])("normalizes an explicit count of %s to %i", (count, expected) => {
+    const query = params({ practice: "1", datasetId: "math-5a-nani", count });
+
+    expect(readPracticeSheetRequest(query)?.count).toBe(expected);
+  });
 });
 
 describe("practiceQuestionPool", () => {
