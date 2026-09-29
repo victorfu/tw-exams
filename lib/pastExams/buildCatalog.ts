@@ -176,5 +176,28 @@ export function buildCatalog(info: CatalogInfo, records: readonly CatalogRecord[
     };
   });
 
+  // 在完整目錄上判斷，避免篩選只留下部分考卷時，段考名稱跟著改變。
+  // 學校可能逐年改制，各資料集（含年級、學期）也必須分開判斷。
+  const schoolTermKey = (exam: PastExam) => JSON.stringify([
+    exam.datasetId, exam.academicYear, exam.city, exam.school,
+  ]);
+  const hasThreeRounds = (exam: PastExam) =>
+    exam.examRound === 3 || (exam.examType === "midterm" && exam.examRound === 2);
+  const threeRoundTerms = new Set(
+    exams.filter((exam) => exam.school && hasThreeRounds(exam)).map(schoolTermKey),
+  );
+  const roundLabels: Record<number, string> = { 1: "第一次段考", 2: "第二次段考", 3: "第三次段考" };
+  for (const exam of exams) {
+    const numbered = hasThreeRounds(exam) || (exam.school && threeRoundTerms.has(schoolTermKey(exam)));
+    const label = numbered
+      ? roundLabels[exam.examRound] ?? `第${exam.examRound}次段考`
+      : exam.examType === "midterm" ? "期中考" : "期末考";
+    if (exam.periodLabel) {
+      exam.title = exam.title.replaceAll(exam.periodLabel, label);
+      exam.searchText = exam.searchText.replaceAll(exam.periodLabel, label);
+    }
+    exam.periodLabel = label;
+  }
+
   return { generatedAt: info.generated_at, datasets, exams };
 }

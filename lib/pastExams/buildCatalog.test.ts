@@ -96,17 +96,17 @@ describe("buildCatalog", () => {
           examType: "final",
           examTypeLabel: "期末考",
           examRound: 2,
-          periodLabel: "期末2",
+          periodLabel: "期末考",
           city: "新北市",
           school: "安和國小",
-          title: "114上｜新北市 安和國小｜5年級數學｜南一｜期末2",
+          title: "114上｜新北市 安和國小｜5年級數學｜南一｜期末考",
           file: "pdf/math-grade-05-semester-1-nani/20002871b5148af7683e.pdf",
           format: "pdf",
           pages: 4,
           bytes: 479511,
           available: true,
           answer: null,
-          searchText: "114上|新北市 安和國小|5年級數學|南一|期末2 五上",
+          searchText: "114上|新北市 安和國小|5年級數學|南一|期末考 五上",
         },
       ],
     });
@@ -171,6 +171,67 @@ describe("buildCatalog", () => {
   it("folds 臺 into 台 in the search text, in case cowork ever spells it", () => {
     const catalog = buildCatalog(makeInfo(), [makeRecord({ search_text: "114上|臺中市 忠孝國小" })]);
     expect(catalog.exams[0].searchText).toBe("114上|台中市 忠孝國小");
+  });
+});
+
+describe("buildCatalog period labels", () => {
+  function round(examRound: number, examType: string, overrides: Partial<CatalogRecord> = {}) {
+    const label = `${examType === "midterm" ? "期中" : "期末"}${examRound}`;
+    return makeRecord({
+      record_id: `round-${examRound}`,
+      exam_round: examRound,
+      exam_type: examType,
+      period_label: label,
+      title: `114上｜安和國小｜${label}`,
+      search_text: `安和國小 ${label}`,
+      ...overrides,
+    });
+  }
+
+  function build(records: CatalogRecord[]) {
+    return buildCatalog(makeInfo({ record_count: records.length }), records).exams;
+  }
+
+  it("removes round numbers for schools with only midterm and final exams", () => {
+    const exams = build([round(1, "midterm"), round(2, "final")]);
+    expect(exams.map((exam) => exam.periodLabel)).toEqual(["期中考", "期末考"]);
+    expect(exams.map((exam) => exam.examRound)).toEqual([1, 2]);
+  });
+
+  it("uses three numbered exams in labels, titles and search text regardless of record order", () => {
+    const exams = build([round(3, "final"), round(1, "midterm"), round(2, "midterm")]);
+    expect(exams.map((exam) => exam.periodLabel)).toEqual(["第三次段考", "第一次段考", "第二次段考"]);
+    for (const exam of exams) {
+      expect(exam.title).toBe(`114上｜安和國小｜${exam.periodLabel}`);
+      expect(exam.searchText).toBe(`安和國小 ${exam.periodLabel}`);
+    }
+  });
+
+  it("recognizes three rounds even when the second or final exam is missing", () => {
+    expect(build([round(1, "midterm"), round(3, "final")]).map((exam) => exam.periodLabel))
+      .toEqual(["第一次段考", "第三次段考"]);
+    expect(build([round(1, "midterm"), round(2, "midterm")]).map((exam) => exam.periodLabel))
+      .toEqual(["第一次段考", "第二次段考"]);
+  });
+
+  it.each([
+    { school: "民權國小" },
+    { city: "臺北市" },
+    { academic_year_roc: 113 },
+  ])("does not apply another school or year's exam schedule: %j", (overrides) => {
+    expect(build([round(3, "final"), round(1, "midterm", overrides)])[1].periodLabel).toBe("期中考");
+  });
+
+  it("keeps each dataset's schedule separate", () => {
+    const other = { ...DATASET, id: "math-grade-05-semester-2-nani", semester: 2 };
+    const records = [round(3, "final"), round(1, "midterm", { dataset_id: other.id })];
+    const catalog = buildCatalog(makeInfo({ record_count: 2, datasets: [DATASET, other] }), records);
+    expect(catalog.exams[1].periodLabel).toBe("期中考");
+  });
+
+  it("does not combine unidentified schools into one school", () => {
+    const exams = build([round(3, "final", { school: null }), round(1, "midterm", { school: null })]);
+    expect(exams.map((exam) => exam.periodLabel)).toEqual(["第三次段考", "期中考"]);
   });
 });
 

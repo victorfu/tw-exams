@@ -29,7 +29,7 @@ export function canImportPastExam(exam: PastExam, collection: PastExamCollection
   return exam.format === "pdf" && bankSubjectOf(collection.subject) !== null;
 }
 
-/** 題庫卡片與框題工具列上顯示的標題，例如「114上 臺北市 民權國小 期中1」。 */
+/** 題庫卡片與框題工具列上顯示的標題，例如「114上 臺北市 民權國小 期中考」。 */
 export function pastExamSourceTitle(exam: PastExam): string {
   return [exam.academicYearLabel, exam.city, exam.school, exam.periodLabel].filter(Boolean).join(" ");
 }

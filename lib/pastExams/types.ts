@@ -38,7 +38,7 @@ export interface PastExam {
   examType: PastExamType;
   examTypeLabel: string;
   examRound: number;
-  /** 例如「期末2」。 */
+  /** 顯示名稱：期中考／期末考，或三次段考制的「第一次段考」等。 */
   periodLabel: string;
   city: string | null;
   school: string | null;
