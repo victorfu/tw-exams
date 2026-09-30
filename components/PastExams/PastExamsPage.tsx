@@ -35,7 +35,7 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [historyView, setHistoryView] = useState<HistoryView>("all");
-  const [recentOrder, setRecentOrder] = useState<string[]>([]);
+  const [recentOrder, setRecentOrder] = useState<readonly string[]>([]);
   const [practiceCount, setPracticeCount] = useState(20);
   const history = usePastExamHistory();
   const { markViewed } = history;

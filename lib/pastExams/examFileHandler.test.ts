@@ -53,7 +53,7 @@ describe("handleExamFileRequest with output/", () => {
     expect(response.headers.get("content-type")).toBe("application/pdf");
     expect(response.headers.get("content-length")).toBe("6");
     expect(response.headers.get("content-disposition")).toBe(
-      `inline; filename="a.pdf"; filename*=UTF-8''${encodeURIComponent("114上｜臺北市 民權國小｜期中1.pdf")}`,
+      `inline; filename="a.pdf"; filename*=UTF-8''${encodeURIComponent("114上｜臺北市 民權國小｜期中考.pdf")}`,
     );
     expect(response.headers.get("cache-control")).toBe("no-store");
     expect(response.headers.get("cross-origin-resource-policy")).toBe("same-origin");
@@ -71,7 +71,7 @@ describe("handleExamFileRequest with output/", () => {
     expect(response.status).toBe(200);
     expect(await response.text()).toBe("%PDF-answer");
     expect(response.headers.get("content-disposition")).toBe(
-      `attachment; filename="a.pdf"; filename*=UTF-8''${encodeURIComponent("114上｜臺北市 民權國小｜期中1（解答）.pdf")}`,
+      `attachment; filename="a.pdf"; filename*=UTF-8''${encodeURIComponent("114上｜臺北市 民權國小｜期中考（解答）.pdf")}`,
     );
   });
 
