@@ -15,20 +15,28 @@ import {
 } from "lucide-react";
 import type { CatalogStats } from "../../lib/pastExams/stats";
 import { CONTACT_EMAIL } from "../../lib/site";
+import { faqItems } from "./faq";
 import { HeroIllustration } from "./HeroIllustration";
 
 const primaryButton = "btn btn-primary rounded-full px-6 shadow-elevated";
 const secondaryButton = "btn rounded-full border-border-hairline bg-card px-6 shadow-soft hover:bg-accent-tint";
 
 /** 首頁：說明泡泡考卷能做什麼，帶人進考古題或自製考卷。全部免費，所以沒有收費區塊。 */
-export function Landing({ stats }: { stats: CatalogStats }) {
+/** 各資料集落地頁的連結，例如「五上英語（康軒）」。 */
+export interface CollectionLink {
+  href: string;
+  label: string;
+  count: number;
+}
+
+export function Landing({ stats, collections = [] }: { stats: CatalogStats; collections?: CollectionLink[] }) {
   const terms = stats.terms.join("、") || "尚未收錄";
   return (
     <>
       <Hero stats={stats} terms={terms} />
       <Features />
       <Steps />
-      <Subjects stats={stats} terms={terms} />
+      <Subjects stats={stats} terms={terms} collections={collections} />
       <Promises />
       <Faq terms={terms} />
       <ClosingCall />
@@ -202,7 +210,7 @@ function Steps() {
   );
 }
 
-function Subjects({ stats, terms }: { stats: CatalogStats; terms: string }) {
+function Subjects({ stats, terms, collections }: { stats: CatalogStats; terms: string; collections: CollectionLink[] }) {
   return (
     <Section id="subjects" eyebrow="收錄內容" title="各科考古題，持續增加中" intro={`目前收錄${terms}，同一科有多個出版社時可以切換版本。`}>
       <ul className="mx-auto flex max-w-3xl flex-wrap justify-center gap-3">
@@ -217,6 +225,21 @@ function Subjects({ stats, terms }: { stats: CatalogStats; terms: string }) {
           </li>
         ))}
       </ul>
+      {collections.length > 0 && (
+        <nav aria-label="依版本瀏覽考古題" className="mx-auto mt-8 max-w-3xl text-center">
+          <p className="text-sm text-muted-foreground">依版本瀏覽</p>
+          <ul className="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm">
+            {collections.map(({ href, label, count }) => (
+              <li key={href}>
+                <Link href={href} className="text-accent hover:underline">
+                  {label}
+                </Link>
+                <span className="ml-1 text-muted-foreground">{count} 份</span>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
     </Section>
   );
 }
@@ -248,28 +271,7 @@ function Promises() {
 }
 
 function Faq({ terms }: { terms: string }) {
-  const items: { question: string; answer: ReactNode }[] = [
-    { question: "要付費嗎？", answer: "不用。考古題與自製考卷的所有功能都免費，也沒有廣告。" },
-    { question: "需要註冊或登入嗎？", answer: "不需要，打開網頁就能直接使用。" },
-    {
-      question: "我上傳的照片和 PDF 會存到哪裡？",
-      answer:
-        "只在你目前這個瀏覽器分頁裡處理，不會上傳到伺服器。也因為這樣，重新整理或關閉分頁後題庫就會清空，組好的考卷記得先印出來。",
-    },
-    {
-      question: "考古題是從哪裡來的？",
-      answer: (
-        <>
-          整理自網路上公開的各校段考考卷，著作權屬於原學校與出題老師，僅供個人學習與教學使用。如果你是權利人、希望下架，或發現分類有誤，請來信{" "}
-          <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent hover:underline">
-            {CONTACT_EMAIL}
-          </a>
-          。
-        </>
-      ),
-    },
-    { question: "會收錄其他年級嗎？", answer: `目前收錄${terms}，其他年級與學期整理好後會陸續加入。` },
-  ];
+  const items = faqItems(terms);
   return (
     <Section id="faq" eyebrow="常見問題" title="還有疑問嗎？">
       <div className="mx-auto max-w-3xl space-y-3">
@@ -279,11 +281,26 @@ function Faq({ terms }: { terms: string }) {
               {question}
               <ChevronDown className="size-5 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180" aria-hidden="true" />
             </summary>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{answer}</p>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{withContactLink(answer)}</p>
           </details>
         ))}
       </div>
     </Section>
+  );
+}
+
+/** 答案裡的聯絡信箱換成 mailto 連結。 */
+function withContactLink(text: string): ReactNode {
+  const [before, ...rest] = text.split(CONTACT_EMAIL);
+  if (rest.length === 0) return text;
+  return (
+    <>
+      {before}
+      <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent hover:underline">
+        {CONTACT_EMAIL}
+      </a>
+      {rest.join(CONTACT_EMAIL)}
+    </>
   );
 }
 

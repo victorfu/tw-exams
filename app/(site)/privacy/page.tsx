@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { ContactLink, LegalDocument } from "@/components/Site/LegalDocument";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "隱私權政策",
   description: "泡泡考卷不需要註冊、不蒐集個人資料，自製考卷的檔案只在你的瀏覽器裡處理。",
-} satisfies Metadata;
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (

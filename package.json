@@ -14,7 +14,7 @@
     "catalog": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-exam-catalog.ts",
     "predev": "npm run catalog && npm run pdfjs-assets",
     "prebuild": "npm run catalog && npm run pdfjs-assets",
-    "icons": "node scripts/generate-icons.mjs",
+    "icons": "node scripts/generate-icons.mjs && node scripts/generate-og-image.mjs",
     "upload:exams": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file-if-exists=.env.local scripts/upload-exams.ts",
     "pdfjs-assets": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/copy-pdfjs-assets.ts"
   },

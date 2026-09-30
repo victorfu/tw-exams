@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Huninn, Noto_Sans_TC } from "next/font/google";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { THEME_INIT_SCRIPT } from "@/contexts/themeInit";
+import { OG_IMAGE } from "@/lib/seo";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 // 兩套字都沒有中文 subset：不預載，瀏覽器依 unicode-range 只下載頁面用到的字。
@@ -21,9 +23,14 @@ const notoSansTC = Noto_Sans_TC({
   display: "swap",
 });
 
+// canonical 不放這裡：子頁會繼承，全站都會指回首頁。每頁自己設 alternates.canonical。
 export const metadata: Metadata = {
-  title: { default: "泡泡考卷", template: "%s｜泡泡考卷" },
-  description: "瀏覽國小考古題，或上傳考卷照片、PDF 框出題目，隨機組卷印出來。",
+  metadataBase: SITE_URL,
+  title: { default: `${SITE_NAME}｜國小考古題與自製考卷`, template: `%s｜${SITE_NAME}` },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  openGraph: { type: "website", locale: "zh_TW", siteName: SITE_NAME, images: [OG_IMAGE] },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

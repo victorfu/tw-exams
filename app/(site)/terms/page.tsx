@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { ContactLink, LegalDocument } from "@/components/Site/LegalDocument";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "服務條款",
   description: "使用泡泡考卷前請閱讀的條款：免費提供、考古題僅供個人學習與教學的非商業用途。",
-} satisfies Metadata;
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (
