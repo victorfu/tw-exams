@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { safeReturnTo } from "./workspaceState";
 import type { BankQuestion, Box, QuestionSource } from "../../types/questionBank";
 import { commitEditorChanges, newBankQuestionId } from "../../services/bankQuestionService";
 import { useAutosave } from "../../hooks/useAutosave";
@@ -201,6 +202,7 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
   return (
     <div className="space-y-3">
       <CropEditorToolbar
+        returnTo={safeReturnTo(searchParams.get("returnTo"))}
         title={state.source.title}
         onRename={(title) => apply({ type: "renameSource", title })}
         mode={mode}

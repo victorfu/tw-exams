@@ -49,6 +49,8 @@ interface SheetComposerFormProps {
   bank: readonly BankQuestion[];
   sources: readonly QuestionSource[];
   rng?: Rng;
+  returnTo?: string;
+  onSaved?: () => void;
 }
 
 export function SheetComposerForm({
@@ -59,6 +61,8 @@ export function SheetComposerForm({
   bank,
   sources,
   rng = Math.random,
+  returnTo = "/my-exams?tab=sheets",
+  onSaved,
 }: SheetComposerFormProps) {
   const router = useRouter();
   const [title, setTitle] = useState(initialTitle);
@@ -144,6 +148,7 @@ export function SheetComposerForm({
       } else {
         id = (await createSheet(input)).id;
       }
+      onSaved?.();
       router.push(`/my-exams/sheets/${id}/print`);
     } catch (saveError) {
       logger.error("[SheetComposerForm] save failed", saveError);
@@ -155,7 +160,7 @@ export function SheetComposerForm({
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <header className="flex items-center gap-2">
-        <Link href="/my-exams?tab=sheets" className="btn btn-ghost btn-sm" aria-label="返回自製考卷">
+        <Link href={returnTo} scroll={false} className="btn btn-ghost btn-sm" aria-label="返回自製考卷">
           <ArrowLeft className="size-4" />
         </Link>
         <h1 className="text-2xl font-semibold tracking-tight">{sheetId ? "編輯考卷" : "組新考卷"}</h1>

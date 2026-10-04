@@ -31,7 +31,7 @@ export function SheetList({ sheets, questions, sources, onDeleted }: SheetListPr
   const countLabel = (sheet: ExamSheet) => {
     const count = sheet.questionIds.filter((id) => availableIds.has(id)).length;
     const missingCount = sheet.questionIds.length - count;
-    return missingCount > 0 ? `${count} 題（${missingCount} 題已刪除）` : `${count} 題`;
+    return { count, missingCount };
   };
 
   const confirmDelete = async () => {
@@ -51,7 +51,10 @@ export function SheetList({ sheets, questions, sources, onDeleted }: SheetListPr
   };
 
   if (sheets.length === 0) {
-    return <p className="py-10 text-center text-base-content/60">還沒有考卷。按右上角「組新考卷」開始。</p>;
+    return <div className="rounded-2xl border border-dashed border-base-300 p-10 text-center">
+      <p className="text-base-content/65">還沒有考卷。從題庫挑選題目，或設定科目隨機抽題。</p>
+      <Link href="/my-exams/sheets/new" className="btn btn-primary mt-4">組第一份考卷</Link>
+    </div>;
   }
 
   return (
@@ -62,8 +65,9 @@ export function SheetList({ sheets, questions, sources, onDeleted }: SheetListPr
             <div className="min-w-0 flex-1">
               <p className="truncate font-medium">{sheet.title}</p>
               <p className="text-sm text-base-content/60">
-                {sheet.createdAt.toLocaleDateString("zh-TW")}・{countLabel(sheet)}
+                {sheet.createdAt.toLocaleDateString("zh-TW")}・{countLabel(sheet).count} 題
               </p>
+              {countLabel(sheet).missingCount > 0 && <span className="badge badge-warning badge-sm mt-2">{countLabel(sheet).missingCount} 題已刪除</span>}
             </div>
             <Link href={`/my-exams/sheets/${sheet.id}/print`} className="btn btn-sm">
               <Printer className="size-4" />
@@ -71,7 +75,7 @@ export function SheetList({ sheets, questions, sources, onDeleted }: SheetListPr
             </Link>
             <Link href={`/my-exams/sheets/${sheet.id}/edit`} className="btn btn-ghost btn-sm">
               <Pencil className="size-4" />
-              編輯
+              {countLabel(sheet).missingCount > 0 ? "編輯補題" : "編輯"}
             </Link>
             <button
               type="button"

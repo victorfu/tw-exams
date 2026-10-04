@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { getSource } from "../../services/questionSourceService";
 import { listQuestionsForSource } from "../../services/bankQuestionService";
 import type { BankQuestion, QuestionSource } from "../../types/questionBank";
+import { safeReturnTo } from "./workspaceState";
 import { logger } from "../../utils/logger";
 import { CropEditorWorkspace } from "./CropEditorWorkspace";
 
@@ -16,6 +17,8 @@ type LoadState =
   | { status: "ready"; source: QuestionSource; questions: BankQuestion[] };
 
 export default function SourceCropEditor() {
+  const searchParams = useSearchParams();
+  const returnTo = safeReturnTo(searchParams.get("returnTo"));
   const { id = "" } = useParams<{ id: string }>();
   const [state, setState] = useState<LoadState>({ status: "loading" });
   const [attempt, setAttempt] = useState(0);
@@ -48,7 +51,7 @@ export default function SourceCropEditor() {
     return (
       <div className="py-16 text-center">
         <p className="text-base-content/70">找不到這份資料。</p>
-        <Link href="/my-exams" className="btn btn-sm mt-4">
+        <Link href={returnTo} scroll={false} className="btn btn-sm mt-4">
           返回自製考卷
         </Link>
       </div>

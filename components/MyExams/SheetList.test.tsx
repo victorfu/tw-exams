@@ -85,7 +85,9 @@ describe("SheetList", () => {
         <SheetList sheets={[sheet]} questions={remaining} sources={sources} onDeleted={vi.fn()} />,
       ),
     );
-    expect(container.textContent).toContain("1 題（2 題已刪除）");
+    expect(container.textContent).toContain("1 題");
+    expect(container.querySelector(".badge-warning")?.textContent).toBe("2 題已刪除");
+    expect(container.textContent).toContain("編輯補題");
   });
 
   it("deletes after confirmation", async () => {

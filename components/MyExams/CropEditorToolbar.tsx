@@ -9,6 +9,7 @@ type EditorMode = "question" | "mask";
 
 interface CropEditorToolbarProps {
   title: string;
+  returnTo?: string;
   onRename: (title: string) => void;
   mode: EditorMode;
   onModeChange: (mode: EditorMode) => void;
@@ -40,6 +41,7 @@ function SaveStatus({ status, onRetry }: { status: AutosaveStatus; onRetry: () =
 
 export function CropEditorToolbar({
   title,
+  returnTo = "/my-exams",
   onRename,
   mode,
   onModeChange,
@@ -67,7 +69,7 @@ export function CropEditorToolbar({
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap items-center gap-2">
-        <Link href="/my-exams" className="btn btn-ghost btn-sm" aria-label="返回自製考卷">
+        <Link href={returnTo} scroll={false} className="btn btn-ghost btn-sm" aria-label="返回自製考卷">
           <ArrowLeft className="size-4" />
         </Link>
         <input

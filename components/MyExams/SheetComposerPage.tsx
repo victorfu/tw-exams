@@ -7,6 +7,7 @@ import { useQuestionBank } from "../../hooks/useQuestionBank";
 import { pickRandomQuestions } from "./pickRandomQuestions";
 import { practiceQuestionPool, readPracticeSheetRequest } from "./practiceSheet";
 import { resolveSheetQuestions } from "./sheetComposition";
+import { completeSelectionDraft, readSelectionDraft } from "./workspaceState";
 import { SheetComposerForm } from "./SheetComposerForm";
 
 export default function SheetComposerPage() {
@@ -39,6 +40,20 @@ export default function SheetComposerPage() {
   }
 
   if (!id) {
+    if (searchParams.has("selection")) {
+      const token = searchParams.get("selection") ?? "";
+      const draft = readSelectionDraft(token);
+      const resolved = resolveSheetQuestions(draft?.ids ?? [], validBank);
+      if (!draft || resolved.questions.length === 0) {
+        return <div className="mx-auto max-w-3xl rounded-2xl border border-base-300 p-8 text-center">
+          <p role="status">{draft ? "選取的題目已不存在，請回題庫重新選題。" : "這次選題已失效，請回題庫重新選題。"}</p>
+          <Link href={draft?.returnTo ?? "/my-exams"} scroll={false} className="btn btn-primary mt-4">返回題庫</Link>
+        </div>;
+      }
+      return <SheetComposerForm key={token} sheetId={null} initialTitle="" initialQuestions={resolved.questions}
+        missingCount={resolved.missingCount} bank={validBank} sources={bank.sources} returnTo={draft.returnTo}
+        onSaved={() => completeSelectionDraft(token)} />;
+    }
     const practice = readPracticeSheetRequest(searchParams);
     if (practice) {
       const pool = practiceQuestionPool(bank.sources, validBank, practice);
