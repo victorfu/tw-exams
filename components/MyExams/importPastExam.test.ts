@@ -23,6 +23,7 @@ vi.mock("../../services/questionSourceService", () => ({
 import { MAX_SOURCE_PAGES, PAGE_LONG_EDGE_PX } from "../../constants/questionBank";
 import type { PastExamCollection } from "../../lib/pastExams/types";
 import type { CreateSourceInput } from "../../services/questionSourceService";
+import { hasPageImage, mockStore, resetMockStore } from "../../services/mockStore";
 import { makeExam, MATH_5A } from "../../testing/pastExamsFixtures";
 import { logger } from "../../utils/logger";
 import { PDF_ENGINE_FAILED_MESSAGE, UNREADABLE_FILE_MESSAGE } from "../../utils/pageImageProcessor";
@@ -50,6 +51,7 @@ function rendered(size: number): RenderedPage {
 let fetchMock: ReturnType<typeof vi.fn>;
 
 beforeEach(() => {
+  resetMockStore();
   fetchMock = vi.fn(async () => new Response(new Blob(["%PDF-1.7"], { type: "application/pdf" })));
   vi.stubGlobal("fetch", fetchMock);
   mocks.expandFilesToPages.mockReset().mockImplementation(async (files: File[]) => pdfPages(files[0], 3));
@@ -67,6 +69,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  resetMockStore();
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
 });
@@ -99,6 +102,30 @@ describe("pastExamSourceTitle", () => {
 });
 
 describe("importPastExam", () => {
+  it.each([1, 3])("rolls back a %i-page import aborted during the final render", async (count) => {
+    const { createSource, createQuestionSourcePath } = await vi.importActual<typeof import("../../services/questionSourceService")>(
+      "../../services/questionSourceService",
+    );
+    mocks.createSource.mockImplementation(createSource);
+    mocks.expandFilesToPages.mockImplementation(async (files: File[]) => pdfPages(files[0], count));
+    const controller = new AbortController();
+    mocks.renderPage.mockImplementation(async (input: PageInput, size: number) => {
+      if (input.pdfPageNumber === count) controller.abort();
+      return rendered(size);
+    });
+
+    await expect(importPastExam({ exam, collection: MATH_5A, signal: controller.signal })).rejects.toMatchObject({
+      name: "AbortError",
+    });
+
+    expect(mockStore.sources.size).toBe(0);
+    for (let index = 0; index < count; index += 1) {
+      expect(hasPageImage(createQuestionSourcePath("public", "new-source", index))).toBe(false);
+    }
+    expect(mocks.renderPage).toHaveBeenCalledTimes(count);
+    expect(mocks.releasePdfFiles).toHaveBeenCalledTimes(1);
+  });
+
   it("downloads the PDF and stores every page as a new source", async () => {
     const onProgress = vi.fn();
 
