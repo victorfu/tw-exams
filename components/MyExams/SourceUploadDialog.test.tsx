@@ -24,6 +24,7 @@ vi.mock("../../services/questionSourceService", () => ({
 
 import { MAX_SOURCE_PAGES, PAGE_LONG_EDGE_PX, THUMBNAIL_LONG_EDGE_PX } from "../../constants/questionBank";
 import type { CreateSourceInput } from "../../services/questionSourceService";
+import { hasPageImage, mockStore, resetMockStore } from "../../services/mockStore";
 import { logger } from "../../utils/logger";
 import { SourceUploadDialog } from "./SourceUploadDialog";
 
@@ -87,6 +88,7 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
+  resetMockStore();
   (globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean })
     .IS_REACT_ACT_ENVIRONMENT = true;
   mocks.expandFilesToPages.mockReset().mockImplementation(async (files: File[]) => pagesOf(files));
@@ -116,6 +118,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  resetMockStore();
   act(() => root.unmount());
   container.remove();
   vi.restoreAllMocks();
@@ -258,6 +261,37 @@ describe("SourceUploadDialog", () => {
     expect(mocks.releasePdfFiles).toHaveBeenCalledWith(files);
     expect(mocks.renderPage).toHaveBeenCalledTimes(2);
     // afterEach 還會再 unmount 一次
+    root = createRoot(container);
+  });
+
+  it.each([1, 2])("rolls back a %i-page upload unmounted during the final render", async (count) => {
+    const { createSource, createQuestionSourcePath } = await vi.importActual<typeof import("../../services/questionSourceService")>(
+      "../../services/questionSourceService",
+    );
+    mocks.createSource.mockImplementation(createSource);
+    renderDialog();
+    await pick(photos("p", count));
+    fillForm();
+    const finalPage = deferred<RenderedPage>();
+    mocks.renderPage.mockImplementation((input: PageInput, size: number) =>
+      size === PAGE_LONG_EDGE_PX && input.file.name === `p${count}.jpg`
+        ? finalPage.promise
+        : Promise.resolve(rendered(size)),
+    );
+
+    act(() => uploadButton().click());
+    await settle();
+    expect(fullSizeRenders()).toBe(count);
+    act(() => root.unmount());
+    finalPage.resolve(rendered(PAGE_LONG_EDGE_PX));
+    await settle();
+
+    expect(mockStore.sources.size).toBe(0);
+    for (let index = 0; index < count; index += 1) {
+      expect(hasPageImage(createQuestionSourcePath("public", "new-source", index))).toBe(false);
+    }
+    expect(onUploaded).not.toHaveBeenCalled();
+    expect(logger.error).not.toHaveBeenCalled();
     root = createRoot(container);
   });
 

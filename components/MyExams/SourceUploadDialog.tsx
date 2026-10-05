@@ -216,10 +216,13 @@ export function SourceUploadDialog({ isOpen, onClose, onUploaded }: SourceUpload
         subject,
         pageCount: inputs.length,
         // 對話框卸載後就停：PDF 已經釋放，再 render 會重新開檔
-        renderPage: (index) =>
-          session === sessionRef.current
-            ? renderPage(inputs[index], PAGE_LONG_EDGE_PX)
-            : Promise.reject(new Error("upload dialog unmounted")),
+        renderPage: async (index) => {
+          if (session !== sessionRef.current) throw new Error("upload dialog unmounted");
+          const rendered = await renderPage(inputs[index], PAGE_LONG_EDGE_PX);
+          // 最後一頁轉圖時離開，也要讓 createSource 清掉已存頁圖。
+          if (session !== sessionRef.current) throw new Error("upload dialog unmounted");
+          return rendered;
+        },
         onProgress: (done, total) => {
           storedPages = done;
           setProgress({ done, total });

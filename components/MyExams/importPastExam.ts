@@ -108,8 +108,13 @@ export async function importPastExam({ exam, collection, onProgress, signal }: I
         examType: exam.examType,
         academicYear: exam.academicYear,
       },
-      renderPage: (index) =>
-        signal?.aborted ? Promise.reject(abortReason(signal)) : renderPage(pages[index], PAGE_LONG_EDGE_PX),
+      renderPage: async (index) => {
+        if (signal?.aborted) throw abortReason(signal);
+        const rendered = await renderPage(pages[index], PAGE_LONG_EDGE_PX);
+        // 轉圖途中也可能取消；最後一頁沒有下一輪檢查，必須在保存前攔住。
+        if (signal?.aborted) throw abortReason(signal);
+        return rendered;
+      },
       onProgress: (done, total) => {
         storedPages = done;
         onProgress?.(done, total);
