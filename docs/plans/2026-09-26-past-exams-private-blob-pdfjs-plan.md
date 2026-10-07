@@ -1,3 +1,5 @@
+> 2026-10-06 更新：本文件保留原始設計紀錄。現行 `/exams/...` 已改為 catalog 白名單內的公開直連，取消同源來源檢查；目前行為以 README 與程式碼為準。
+
 # 考古題：output 進 repo、私有 Vercel Blob、pdf.js 預覽 Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.

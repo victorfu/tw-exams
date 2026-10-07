@@ -1,7 +1,7 @@
 import { MAX_SOURCE_PAGES, MAX_UPLOAD_FILE_BYTES, PAGE_LONG_EDGE_PX } from "../../constants/questionBank";
 import { examFileUrl } from "../../lib/pastExams/fileUrl";
 import type { PastExam, PastExamCollection } from "../../lib/pastExams/types";
-import { createSource, newQuestionSourceId } from "../../services/questionSourceService";
+import { createSource, listSources, newQuestionSourceId } from "../../services/questionSourceService";
 import type { BankSubject } from "../../types/questionBank";
 import { logger } from "../../utils/logger";
 import {
@@ -129,4 +129,11 @@ export async function importPastExam({ exam, collection, onProgress, signal }: I
   } finally {
     void releasePdfFiles([file]);
   }
+}
+
+/** 原頁框題優先重用既有來源；排序加 ID 讓相同時間的結果穩定。 */
+export async function findPastExamSource(exam: PastExam) {
+  return (await listSources())
+    .filter((source) => source.pastExam?.examId === exam.id && source.pastExam.datasetId === exam.datasetId)
+    .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime() || a.id.localeCompare(b.id))[0] ?? null;
 }

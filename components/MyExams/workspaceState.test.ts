@@ -26,3 +26,10 @@ describe("workspace navigation and selection drafts", () => {
     expect(readSelectionDraft(other)?.ids).toEqual(["c"]);
   });
 });
+
+it("restores only recognized past exam filters and preview state", () => {
+  expect(safeReturnTo("/past-exams?c=math&year=114,113&type=midterm&city=臺北市&q=school&id=abc&view=answer&bad=x"))
+    .toBe("/past-exams?c=math&year=114%2C113&type=midterm&city=%E8%87%BA%E5%8C%97%E5%B8%82&q=school&id=abc&view=answer");
+  for (const path of ["//evil.test/past-exams", "/past-exams/other", "/past-exams?x=1#bad", "/past-exams?x=\\evil", "/past-exams/../other"])
+    expect(safeReturnTo(path)).toBe("/my-exams");
+});

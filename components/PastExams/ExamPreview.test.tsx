@@ -1,8 +1,9 @@
-import { act } from "react";
+import { act, createRef } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
+  flush: vi.fn(async () => true),
   imports: [] as {
     examId: string;
     onProgress?: (done: number, total: number) => void;
@@ -30,7 +31,18 @@ import { navigation, resetNavigation } from "../../testing/nextNavigation";
 import { makeExam, MATH_5A } from "../../testing/pastExamsFixtures";
 import { logger } from "../../utils/logger";
 import { PastExamImportError } from "../MyExams/importPastExam";
-import { ExamPreview } from "./ExamPreview";
+import { ExamPreview, type ExamPreviewHandle } from "./ExamPreview";
+import { makeSource } from "../../testing/questionBankFixtures";
+import { mockStore, resetMockStore } from "../../services/mockStore";
+import { resetPastExamSelection } from "./selectionState";
+vi.mock("../MyExams/CropEditorWorkspace", async () => {
+  const { useImperativeHandle } = await import("react");
+  return { CropEditorWorkspace: ({ ref, source }: { ref: import("react").Ref<{ flush: () => Promise<boolean> }>; source: { id: string } }) => {
+    useImperativeHandle(ref, () => ({ flush: mocks.flush }));
+    return <div data-editor={source.id} />;
+  } };
+});
+const previewRef = createRef<ExamPreviewHandle>();
 
 const pdfExam = makeExam({ school: "民權國小" });
 const otherPdf = makeExam({ school: "大同國小" });
@@ -43,6 +55,7 @@ function render(exam: PastExam | null, collection: PastExamCollection = MATH_5A)
   act(() =>
     root.render(
       <ExamPreview
+        ref={previewRef}
         exam={exam}
         view="question"
         onViewChange={() => {}}
@@ -73,6 +86,9 @@ async function settle() {
 
 beforeEach(() => {
   resetNavigation();
+  resetMockStore();
+  resetPastExamSelection();
+  mocks.flush.mockReset().mockResolvedValue(true);
   mocks.imports.length = 0;
   (globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
   container = document.createElement("div");
@@ -87,9 +103,9 @@ afterEach(() => {
 });
 
 describe("ExamPreview import", () => {
-  it("offers 匯入自製考卷 for PDF exams", () => {
+  it("offers 框選題目 for PDF exams", () => {
     render(pdfExam);
-    expect(importButton()?.getAttribute("aria-label")).toBe("匯入自製考卷");
+    expect(importButton()?.getAttribute("aria-label")).toBe("框選題目");
     expect(importButton()?.disabled).toBe(false);
   });
 
@@ -100,26 +116,58 @@ describe("ExamPreview import", () => {
     expect(importButton()).toBeNull();
   });
 
-  it("shows progress, ignores a second click, and opens the new source when done", async () => {
+  it("prepares pages and opens the embedded editor without navigating", async () => {
     render(pdfExam);
     act(() => importButton()!.click());
-    act(() => importButton()!.click());
+    await settle();
     expect(mocks.imports).toHaveLength(1);
-    expect(importButton()!.disabled).toBe(true);
-    expect(importButton()!.textContent).toContain("匯入中");
-
     act(() => mocks.imports[0].onProgress?.(2, 5));
-    expect(importButton()!.getAttribute("aria-label")).toBe("匯入中 2/5");
-    expect(importButton()!.textContent).toContain("2/5");
-
+    expect(importButton()!.getAttribute("aria-label")).toBe("準備中 2/5・取消");
+    mockStore.sources.set("source-1", makeSource());
     mocks.imports[0].resolve("source-1");
     await settle();
-    expect(navigation.push).toHaveBeenCalledWith("/my-exams/sources/source-1");
+    expect(container.querySelector("[data-editor]")?.getAttribute("data-editor")).toBe("source-1");
+    expect(navigation.push).not.toHaveBeenCalled();
+  });
+
+  it("reuses the newest matching source and waits for save before browsing", async () => {
+    const meta = { examId: pdfExam.id, datasetId: pdfExam.datasetId, examType: pdfExam.examType, academicYear: pdfExam.academicYear };
+    mockStore.sources.set("old", makeSource({ id: "old", pastExam: meta }));
+    mockStore.sources.set("new", makeSource({ id: "new", pastExam: meta, updatedAt: new Date("2030-01-01") }));
+    render(pdfExam);
+    act(() => importButton()!.click());
+    await settle();
+    expect(mocks.imports).toHaveLength(0);
+    expect(container.querySelector("[data-editor]")?.getAttribute("data-editor")).toBe("new");
+    mocks.flush.mockResolvedValue(false);
+    act(() => importButton()!.click());
+    await settle();
+    expect(container.querySelector("[data-editor]")).not.toBeNull();
+    expect(alertText()).toContain("儲存失敗");
+    mocks.flush.mockResolvedValue(true);
+    act(() => importButton()!.click());
+    await settle();
+    expect(container.querySelector("[data-editor]")).toBeNull();
+    expect(container.querySelector("[data-pdf-viewer]")).not.toBeNull();
+  });
+
+  it("cancels preparation and ignores a late completion", async () => {
+    render(pdfExam);
+    act(() => importButton()!.click());
+    await settle();
+    act(() => importButton()!.click());
+    await settle();
+    expect(mocks.imports[0].signal?.aborted).toBe(true);
+    mocks.imports[0].resolve("late");
+    await settle();
+    expect(importButton()?.getAttribute("aria-label")).toBe("框選題目");
+    expect(container.querySelector("[data-editor]")).toBeNull();
   });
 
   it("shows the error next to the header and lets the user retry", async () => {
     render(pdfExam);
     act(() => importButton()!.click());
+    await settle();
     mocks.imports[0].reject(new PastExamImportError("下載考卷失敗（HTTP 403），請稍後再試"));
     await settle();
 
@@ -129,6 +177,7 @@ describe("ExamPreview import", () => {
     expect(importButton()!.disabled).toBe(false);
 
     act(() => importButton()!.click());
+    await settle();
     expect(alertText()).toBe("");
     expect(mocks.imports).toHaveLength(2);
   });
@@ -137,20 +186,22 @@ describe("ExamPreview import", () => {
     vi.spyOn(logger, "error").mockImplementation(() => {});
     render(pdfExam);
     act(() => importButton()!.click());
+    await settle();
     mocks.imports[0].reject(new Error("boom"));
     await settle();
-    expect(alertText()).toBe("匯入失敗，請重試");
+    expect(alertText()).toBe("準備失敗，請重試");
     expect(logger.error).toHaveBeenCalled();
   });
 
   it("drops an import when another exam is opened", async () => {
     render(pdfExam);
     act(() => importButton()!.click());
+    await settle();
     render(otherPdf);
 
     expect(mocks.imports[0].signal?.aborted).toBe(true);
     expect(importButton()!.disabled).toBe(false);
-    expect(importButton()!.getAttribute("aria-label")).toBe("匯入自製考卷");
+    expect(importButton()!.getAttribute("aria-label")).toBe("框選題目");
 
     mocks.imports[0].resolve("stale");
     await settle();
@@ -165,6 +216,7 @@ describe("ExamPreview import", () => {
   it("does not navigate once the preview has unmounted", async () => {
     render(pdfExam);
     act(() => importButton()!.click());
+    await settle();
     act(() => root.unmount());
 
     expect(mocks.imports[0].signal?.aborted).toBe(true);

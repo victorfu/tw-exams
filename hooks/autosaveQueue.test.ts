@@ -271,3 +271,23 @@ describe("AutosaveQueue", () => {
     expect(queue.hasPending()).toBe(true);
   });
 });
+
+
+it("flushAndWait drains edits made during an in-flight save and reports failures", async () => {
+  const { queue, commits, willCommit } = setup();
+  const flight = deferred();
+  willCommit(() => flight.promise);
+  queue.markUpsert("a");
+  const saving = queue.flushAndWait();
+  queue.markUpsert("b");
+  flight.resolve();
+  expect(await saving).toBe(true);
+  expect(commits).toHaveLength(2);
+  willCommit(async () => { throw new Error("offline"); });
+  queue.markUpsert("c");
+  expect(await queue.flushAndWait()).toBe(false);
+  expect(queue.hasPending()).toBe(true);
+  willCommit(async () => {});
+  expect(await queue.flushAndWait()).toBe(true);
+  expect(queue.hasPending()).toBe(false);
+});

@@ -38,7 +38,7 @@ export function contentDisposition(exam: PastExam, download: boolean, role: Exam
   return `${download ? "attachment" : "inline"}; filename="${fallback}"; filename*=UTF-8''${encoded}`;
 }
 
-/** 只讓本站嵌入與讀取、不被搜尋引擎收錄；刻意不送任何 Access-Control-* header。 */
+/** 允許公開直連，但只讓本站嵌入、不被搜尋引擎收錄；刻意不送任何 Access-Control-* header。 */
 export const EXAM_FILE_SECURITY_HEADERS: Readonly<Record<string, string>> = {
   "X-Content-Type-Options": "nosniff",
   "Cross-Origin-Resource-Policy": "same-origin",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { useCallback, useEffect, useImperativeHandle, useMemo, useReducer, useRef, useState, type Ref } from "react";
 import { useSearchParams } from "next/navigation";
 import { safeReturnTo } from "./workspaceState";
 import type { BankQuestion, Box, QuestionSource } from "../../types/questionBank";
@@ -23,12 +23,20 @@ type EditorMode = "question" | "mask";
 /** 「新增框」放在頁面中央的預設框。 */
 const DEFAULT_NEW_BOX: Box = { x: 0.25, y: 0.4, w: 0.5, h: 0.2 };
 
+export interface CropEditorHandle { flush: () => Promise<boolean> }
+
 interface CropEditorWorkspaceProps {
+  ref?: Ref<CropEditorHandle>;
+  embedded?: boolean;
+  selectedIds?: readonly string[];
+  onPick?: (question: BankQuestion, source: QuestionSource) => void;
+  onQuestionCreated?: (question: BankQuestion, source: QuestionSource) => void;
+  onQuestionsChange?: (source: QuestionSource, questions: readonly BankQuestion[]) => void;
   source: QuestionSource;
   initialQuestions: readonly BankQuestion[];
 }
 
-export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWorkspaceProps) {
+export function CropEditorWorkspace({ source, initialQuestions, ref, embedded = false, selectedIds, onPick, onQuestionCreated, onQuestionsChange }: CropEditorWorkspaceProps) {
   const searchParams = useSearchParams();
   const [state, dispatch] = useReducer(cropEditorReducer, {
     source,
@@ -66,8 +74,20 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
   const [persistedIds] = useState(() => initialQuestions.map((question) => question.id));
   const autosave = useAutosave({ commit, persistedIds });
 
+  const interactionLocked = useRef(false);
+  const { flushAndWait } = autosave;
+  useImperativeHandle(ref, () => ({ flush: async () => {
+    interactionLocked.current = true;
+    try { return await flushAndWait(); }
+    finally { interactionLocked.current = false; }
+  } }), [flushAndWait]);
+  useEffect(() => { onQuestionsChange?.(state.source, state.questions); }, [state.source, state.questions, onQuestionsChange]);
+
   const apply = (action: CropEditorAction) => {
+    if (interactionLocked.current) return;
+    stateRef.current = cropEditorReducer(stateRef.current, action);
     dispatch(action);
+    if (action.type === "createQuestion") onQuestionCreated?.(action.question, stateRef.current.source);
     const change = changeOf(action);
     if (change.kind === "upsert") autosave.markUpsert(change.id);
     else if (change.kind === "delete") autosave.markDelete(change.id);
@@ -162,7 +182,7 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
   const keyHandlerRef = useRef<(event: KeyboardEvent) => void>(() => {});
   useEffect(() => {
     keyHandlerRef.current = (event: KeyboardEvent) => {
-      if (isEditableTarget(event.target)) return;
+      if (interactionLocked.current || event.defaultPrevented || document.querySelector("dialog[open]") || isEditableTarget(event.target)) return;
       if (selectedBox) {
         const box = keyboardBoxEdit(selectedBox.box, event);
         if (box) {
@@ -202,6 +222,7 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
   return (
     <div className="space-y-3">
       <CropEditorToolbar
+        embedded={embedded}
         returnTo={safeReturnTo(searchParams.get("returnTo"))}
         title={state.source.title}
         onRename={(title) => apply({ type: "renameSource", title })}
@@ -215,17 +236,17 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
         onAddBox={() => handleCreate(DEFAULT_NEW_BOX)}
       />
 
-      <div className="grid gap-4 lg:grid-cols-[8rem_minmax(0,1fr)_20rem]">
-        <PageThumbnailStrip
+      <div className={embedded ? "grid gap-4 2xl:grid-cols-[minmax(0,1fr)_16rem]" : "grid gap-4 lg:grid-cols-[8rem_minmax(0,1fr)_20rem]"}>
+        {!embedded && <PageThumbnailStrip
           pages={pages}
           urls={urls}
           currentIndex={pageIndex}
           onSelect={goToPage}
           className="hidden lg:flex"
-        />
+        />}
 
         <div className="min-w-0 space-y-2">
-          <div className="flex items-center justify-between lg:hidden">
+          <div className={`flex items-center justify-between ${embedded ? "" : "lg:hidden"}`}>
             <button type="button" className="btn btn-sm" disabled={pageIndex === 0} onClick={() => goToPage(pageIndex - 1)}>
               上一頁
             </button>
@@ -258,8 +279,9 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
           <h2 className="text-sm font-semibold text-base-content/70">這一頁的題目（{cards.length}）</h2>
           {cards.length === 0 && <p className="text-sm text-base-content/60">在頁面上拖拉（或按「新增框」）框出一題。</p>}
           {cards.map(({ question, number, isContinuation }) => (
+            <div key={question.id} className="space-y-2">
+            {onPick && <button type="button" className="btn btn-sm w-full" aria-pressed={selectedIds?.includes(question.id) ?? false} onClick={() => onPick(question, state.source)}>{selectedIds?.includes(question.id) ? "移出本次選題" : "加入本次選題"} · 第 {number} 題</button>}
             <QuestionCard
-              key={question.id}
               question={question}
               number={number}
               isContinuation={isContinuation}
@@ -296,6 +318,7 @@ export function CropEditorWorkspace({ source, initialQuestions }: CropEditorWork
               }}
               onRetryImage={(path) => void refresh(path)}
             />
+            </div>
           ))}
         </aside>
       </div>

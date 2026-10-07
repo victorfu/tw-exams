@@ -160,7 +160,7 @@ export function SheetComposerForm({
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <header className="flex items-center gap-2">
-        <Link href={returnTo} scroll={false} className="btn btn-ghost btn-sm" aria-label="返回自製考卷">
+        <Link href={returnTo} scroll={false} className="btn btn-ghost btn-sm" aria-label={returnTo.startsWith("/past-exams") ? "返回考古題" : "返回自製考卷"}>
           <ArrowLeft className="size-4" />
         </Link>
         <h1 className="text-2xl font-semibold tracking-tight">{sheetId ? "編輯考卷" : "組新考卷"}</h1>

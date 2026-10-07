@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Clock3, Sparkles, Star } from "lucide-react";
 import { isEditableTarget } from "../MyExams/editorKeyboard";
 import { defaultCollection } from "../../lib/pastExams/collections";
@@ -15,7 +15,11 @@ import type { PastExam, PastExamCatalog } from "../../lib/pastExams/types";
 import { CollectionPicker } from "./CollectionPicker";
 import { ExamFilters, type FilterPatch } from "./ExamFilters";
 import { ExamList } from "./ExamList";
-import { ExamPreview } from "./ExamPreview";
+import { createSelectionDraft } from "../MyExams/workspaceState";
+import { clearExams, selectExams, toggleExam, usePastExamSelection } from "./selectionState";
+import { ChatGPTHandoff } from "./ChatGPTHandoff";
+import { QuestionBasket } from "./QuestionBasket";
+import { ExamPreview, type ExamPreviewHandle } from "./ExamPreview";
 import { usePastExamHistory } from "./usePastExamHistory";
 import { isDesktop } from "./viewport";
 
@@ -30,9 +34,34 @@ function isPreviewEntry(): boolean {
   return typeof state === "object" && state !== null && (state as Record<string, unknown>)[PREVIEW_ENTRY] === true;
 }
 
-/** 考古題瀏覽：選擇列 → 篩選列 → 清單＋預覽。狀態全部放在網址（見 searchParams.ts）。 */
+/** 考古題瀏覽：選擇列 → 篩選列 → 清單＋預覽。篩選與預覽放在網址，多選保留於分頁記憶體。 */
 export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const selection = usePastExamSelection();
+  const [handoffOpen, setHandoffOpen] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [leaving, setLeaving] = useState(false);
+  const leavingRef = useRef(false);
+  const previewRef = useRef<ExamPreviewHandle>(null);
+  const selectedExams = selection.examIds.flatMap((id) => {
+    const exam = catalog.exams.find((item) => item.id === id && item.available);
+    return exam ? [exam] : [];
+  });
+  function guard(action: () => void) {
+    if (leavingRef.current) return;
+    if (!editing) { action(); return; }
+    leavingRef.current = true;
+    setLeaving(true);
+    void (async () => {
+      try { if (await previewRef.current?.flush()) action(); }
+      finally { leavingRef.current = false; setLeaving(false); }
+    })();
+  }
+  const compose = () => guard(() => {
+    const token = createSelectionDraft(selection.questions.map((item) => item.question.id), `${pathname}?${searchParams}`);
+    router.push(`/my-exams/sheets/new?selection=${encodeURIComponent(token)}`);
+  });
   const searchParams = useSearchParams();
   const [historyView, setHistoryView] = useState<HistoryView>("all");
   const [recentOrder, setRecentOrder] = useState<readonly string[]>([]);
@@ -76,11 +105,15 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
     if (selectedId) markViewed(selectedId);
   }, [selectedId, markViewed]);
 
-  function update(patch: Partial<PastExamsUrlState>, { push = false } = {}) {
+  function updateUrl(patch: Partial<PastExamsUrlState>, { push = false } = {}) {
     const query = writeUrlState({ ...url, showAnswer, collectionId: collection?.id ?? null, ...patch });
     const href = query ? `${pathname}?${query}` : pathname;
     if (push) window.history.pushState({ [PREVIEW_ENTRY]: true }, "", href);
     else window.history.replaceState(isPreviewEntry() ? { [PREVIEW_ENTRY]: true } : null, "", href);
+  }
+
+  function update(patch: Partial<PastExamsUrlState>, options = {}) {
+    guard(() => updateUrl(patch, options));
   }
 
   function select(exam: PastExam | null) {
@@ -88,7 +121,7 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
   }
 
   function closePreview() {
-    if (isPreviewEntry()) window.history.back();
+    if (isPreviewEntry()) guard(() => window.history.back());
     else select(null);
   }
 
@@ -105,6 +138,7 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
   const keyHandlerRef = useRef<(event: KeyboardEvent) => void>(() => {});
   useEffect(() => {
     keyHandlerRef.current = (event: KeyboardEvent) => {
+      if (editing || leavingRef.current || handoffOpen) return;
       if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
       if (isEditableTarget(event.target)) return;
       const delta = event.key === "ArrowRight" || event.key === "j" ? 1 : event.key === "ArrowLeft" || event.key === "k" ? -1 : 0;
@@ -118,6 +152,41 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
     window.addEventListener("keydown", listener);
     return () => window.removeEventListener("keydown", listener);
   }, []);
+
+  const navigationRef = useRef({ editing, guard, href: `${pathname}?${searchParams}`, state: null as unknown });
+  useEffect(() => { navigationRef.current = { editing, guard, href: `${pathname}?${searchParams}`, state: window.history.state }; });
+  useEffect(() => {
+    let replaying = false;
+    const click = (event: MouseEvent) => {
+      if (!navigationRef.current.editing || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const anchor = (event.target as Element)?.closest?.("a");
+      if (!anchor || anchor.target === "_blank" || anchor.hasAttribute("download")) return;
+      const target = new URL(anchor.href, window.location.href);
+      if (target.origin !== window.location.origin) return;
+      event.preventDefault();
+      event.stopPropagation();
+      navigationRef.current.guard(() => router.push(target.pathname + target.search + target.hash));
+    };
+    const pop = (event: PopStateEvent) => {
+      if (replaying || !navigationRef.current.editing) return;
+      event.stopImmediatePropagation();
+      const target = window.location.href;
+      const targetState = event.state;
+      window.history.replaceState(navigationRef.current.state, "", navigationRef.current.href);
+      navigationRef.current.guard(() => {
+        window.history.replaceState(targetState, "", target);
+        replaying = true;
+        window.dispatchEvent(new PopStateEvent("popstate", { state: targetState }));
+        replaying = false;
+      });
+    };
+    document.addEventListener("click", click, true);
+    window.addEventListener("popstate", pop, true);
+    return () => {
+      document.removeEventListener("click", click, true);
+      window.removeEventListener("popstate", pop, true);
+    };
+  }, [router]);
 
   if (!collection) {
     return (
@@ -152,7 +221,7 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
   if (url.academicYears.length > 0) practiceParams.set("year", url.academicYears.join(","));
 
   return (
-    <div className="mx-auto max-w-screen-2xl space-y-4 md:grid md:h-[calc(100dvh-2rem)] md:grid-cols-[20rem_minmax(0,1fr)] md:gap-4 md:space-y-0 xl:grid-cols-[24rem_minmax(0,1fr)]">
+    <div inert={leaving} aria-busy={leaving} className="mx-auto max-w-screen-2xl space-y-4 md:grid md:h-[calc(100dvh-2rem)] md:grid-cols-[20rem_minmax(0,1fr)] md:gap-4 md:space-y-0 xl:grid-cols-[24rem_minmax(0,1fr)]">
       <div className="space-y-3 md:-mx-1 md:min-h-0 md:overflow-y-auto md:px-1 md:pb-1">
         <header>
           <h1 className="text-2xl font-semibold tracking-tight">考古題</h1>
@@ -172,10 +241,10 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
         <CollectionPicker
           datasets={catalog.datasets}
           current={collection}
-          onSelect={(collectionId) => {
+          onSelect={(collectionId) => guard(() => {
             setHistoryView("all");
-            update({ collectionId, ...CLEARED_FILTERS, examId: null });
-          }}
+            updateUrl({ collectionId, ...CLEARED_FILTERS, examId: null });
+          })}
         />
 
         <ExamFilters
@@ -192,18 +261,18 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
 
         <section className="surface-card space-y-3 rounded-xl px-3 py-3 sm:px-4" aria-label="收藏與練習卷">
           <div className="flex flex-wrap gap-2">
-            <button type="button" className={`btn btn-sm ${historyView === "all" ? "btn-primary" : "btn-ghost"}`} onClick={() => setHistoryView("all")}>
+            <button type="button" className={`btn btn-sm ${historyView === "all" ? "btn-primary" : "btn-ghost"}`} onClick={() => guard(() => setHistoryView("all"))}>
               全部
             </button>
-            <button type="button" className={`btn btn-sm ${historyView === "favorites" ? "btn-primary" : "btn-ghost"}`} onClick={() => setHistoryView("favorites")}>
+            <button type="button" className={`btn btn-sm ${historyView === "favorites" ? "btn-primary" : "btn-ghost"}`} onClick={() => guard(() => setHistoryView("favorites"))}>
               <Star className="size-4" aria-hidden="true" />
               收藏 {currentFavoriteCount}
             </button>
-            <button type="button" className={`btn btn-sm ${historyView === "recent" ? "btn-primary" : "btn-ghost"}`} onClick={() => {
+            <button type="button" className={`btn btn-sm ${historyView === "recent" ? "btn-primary" : "btn-ghost"}`} onClick={() => guard(() => {
               // 開啟清單時固定順序，預覽仍更新瀏覽紀錄，但不改變上一份／下一份的位置。
               setRecentOrder(history.recent);
               setHistoryView("recent");
-            }}>
+            })}>
               <Clock3 className="size-4" aria-hidden="true" />
               最近看過 {currentRecentCount}
             </button>
@@ -221,13 +290,26 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
           </div>
         </section>
 
+        <section className="surface-card space-y-2 rounded-xl p-3" aria-label="多選考卷">
+          <div className="flex flex-wrap gap-2">
+            <button className="btn btn-sm" disabled={!navigable.length} onClick={() => selectExams(navigable.map((exam) => exam.id))}>全選目前結果</button>
+            <button className="btn btn-primary btn-sm" disabled={!selectedExams.length} onClick={() => setHandoffOpen(true)}>交給 ChatGPT（{selectedExams.length}）</button>
+          </div>
+          {selectedExams.length > 0 && <details><summary className="cursor-pointer text-sm">已選 {selectedExams.length} 份考卷</summary>
+            <ul className="mt-2 max-h-48 space-y-2 overflow-auto text-sm">{selectedExams.map((exam) => <li key={exam.id} className="flex items-center gap-2"><span className="min-w-0 flex-1">{exam.title}</span><button className="btn btn-ghost btn-xs" aria-label={`移除考卷 ${exam.title}`} onClick={() => toggleExam(exam.id)}>移除</button></li>)}</ul>
+            <button className="btn btn-ghost btn-xs" onClick={clearExams}>清空考卷選取</button>
+          </details>}
+        </section>
+        <QuestionBasket onCompose={compose} />
         <ExamList
+          checkedIds={selection.examIds}
+          onToggleChecked={toggleExam}
           groups={groups}
           selectedId={selected?.id ?? null}
           favoriteIds={history.favoriteIds}
           recentIds={history.recentIds}
           onSelect={select}
-          onToggleFavorite={history.toggleFavorite}
+          onToggleFavorite={(id) => guard(() => history.toggleFavorite(id))}
         />
       </div>
 
@@ -236,6 +318,8 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
         className={`${selected ? "fixed inset-0 z-40 flex bg-background" : "hidden"} flex-col md:static md:z-auto md:flex md:min-h-0 md:bg-transparent`}
       >
         <ExamPreview
+          ref={previewRef}
+          onEditingChange={setEditing}
           exam={selected}
           view={showAnswer ? "answer" : "question"}
           onViewChange={(view) => update({ showAnswer: view === "answer" })}
@@ -246,7 +330,9 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
           onNext={() => step(1)}
           onClose={closePreview}
         />
+        {selected && <div className="max-h-[35dvh] shrink-0 overflow-auto md:hidden"><QuestionBasket onCompose={compose} /></div>}
       </section>
+      {handoffOpen && <ChatGPTHandoff exams={selectedExams} collections={catalog.datasets} onClose={() => setHandoffOpen(false)} />}
     </div>
   );
 }

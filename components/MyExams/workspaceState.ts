@@ -1,3 +1,5 @@
+import { readUrlState, writeUrlState } from "../../lib/pastExams/searchParams";
+import { clearPickedQuestions } from "../PastExams/selectionState";
 import { useSyncExternalStore } from "react";
 import { newMockId } from "../../services/mockStore";
 import { isBankSubject, type QuestionSource } from "../../types/questionBank";
@@ -9,6 +11,12 @@ export function listHref(params: URLSearchParams): string {
 
 /** Only a local list route is a valid return destination. Never navigate arbitrary input. */
 export function safeReturnTo(value: string | null | undefined, fallback = "/my-exams"): string {
+  if (value && /^\/past-exams(?:\?|$)/.test(value) && !/[\\\r\n]/.test(value)) {
+    const url = new URL(value, "https://local.invalid");
+    if (url.pathname !== "/past-exams" || url.hash) return fallback;
+    const query = writeUrlState(readUrlState(url.searchParams));
+    return `/past-exams${query ? `?${query}` : ""}`;
+  }
   if (!value || !/^\/my-exams(?:\?|$)/.test(value) || /[\\\r\n]/.test(value)) return fallback;
   const url = new URL(value, "https://local.invalid");
   if (url.pathname !== "/my-exams" || url.hash) return fallback;
@@ -64,8 +72,10 @@ export function createSelectionDraft(ids: readonly string[], returnTo: string): 
 }
 export function readSelectionDraft(token: string): SelectionDraft | undefined { return drafts.get(token); }
 export function completeSelectionDraft(token: string) {
+  const draft = drafts.get(token);
   drafts.delete(token);
-  exitSelection();
+  if (draft?.returnTo.startsWith("/past-exams")) clearPickedQuestions();
+  else exitSelection();
 }
 export const listScrollPositions = new Map<string, number>();
 

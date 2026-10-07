@@ -10,6 +10,7 @@ vi.mock("next/navigation", async () => (await import("../../testing/nextNavigati
 import { followHistory, historyEntries, navigation, resetNavigation, setLocation } from "../../testing/nextNavigation";
 import { installObserverStubs } from "../../testing/observers";
 import { makeCatalog, makeExam, MATH_5A } from "../../testing/pastExamsFixtures";
+import { resetPastExamSelection } from "./selectionState";
 import PastExamsPage from "./PastExamsPage";
 
 const minquan = makeExam({ academicYear: 114, examType: "midterm", city: "臺北市", school: "民權國小", searchText: "114上|台北市 民權國小" });
@@ -82,6 +83,7 @@ function stubViewport(desktop: boolean) {
 
 beforeEach(() => {
   resetNavigation();
+  resetPastExamSelection();
   window.localStorage.clear();
   installObserverStubs();
   (globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -646,5 +648,26 @@ describe("PastExamsPage", () => {
 
     expect(container.textContent).toContain("npm run catalog");
     expect(container.textContent).not.toContain("sync:exams");
+  });
+});
+
+
+describe("exam multi-selection", () => {
+  it("keeps checkboxes separate from preview and retains hidden selections", () => {
+    renderPage();
+    const checked = () => [...container.querySelectorAll<HTMLInputElement>('input[type="checkbox"][aria-label^="選取考卷"]')];
+    act(() => checked()[0].click());
+    expect(currentParams().get("id")).toBeNull();
+    expect(button("交給 ChatGPT（1）").disabled).toBe(false);
+    act(() => row("大同國小").click());
+    expect(checked()[0].checked).toBe(true);
+    expect(checked()[1].disabled).toBe(true);
+    typeInto(searchBox(), "中正");
+    act(() => button("全選目前結果").click());
+    expect(button("交給 ChatGPT（2）").disabled).toBe(false);
+    act(() => button("清除篩選").click());
+    expect(checked().filter((input) => input.checked)).toHaveLength(2);
+    act(() => button("清空考卷選取").click());
+    expect(button("交給 ChatGPT（0）").disabled).toBe(true);
   });
 });

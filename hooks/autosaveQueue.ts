@@ -144,6 +144,15 @@ export class AutosaveQueue {
     }
   };
 
+  /** 導航前送完所有版本；失敗時保留待存內容並回報 false。 */
+  flushAndWait = async (): Promise<boolean> => {
+    do {
+      await this.flush();
+      if (this.failed) return false;
+    } while (this.hasPending() || this.inFlight);
+    return true;
+  };
+
   private schedule(): void {
     if (!this.active) return;
     this.clearTimer();

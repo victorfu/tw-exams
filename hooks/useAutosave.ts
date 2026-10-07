@@ -58,5 +58,6 @@ export function useAutosave({
     markDelete: queue.markDelete,
     markSourceDirty: queue.markSourceDirty,
     flush: queue.flush,
+    flushAndWait: queue.flushAndWait,
   };
 }

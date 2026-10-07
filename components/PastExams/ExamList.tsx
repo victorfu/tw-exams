@@ -7,6 +7,8 @@ import type { PastExam } from "../../lib/pastExams/types";
 
 interface ExamListProps {
   groups: readonly AcademicYearGroup[];
+  checkedIds?: readonly string[];
+  onToggleChecked?: (examId: string) => void;
   selectedId: string | null;
   favoriteIds: ReadonlySet<string>;
   recentIds: ReadonlySet<string>;
@@ -17,6 +19,8 @@ interface ExamListProps {
 /** 依學年度分段的考卷清單；選中的那列會捲進畫面。 */
 export function ExamList({
   groups,
+  checkedIds = [],
+  onToggleChecked,
   selectedId,
   favoriteIds,
   recentIds,
@@ -49,6 +53,9 @@ export function ExamList({
               const favorite = favoriteIds.has(exam.id);
               return (
                 <li key={exam.id} className={`flex items-stretch ${selected ? "bg-accent-tint" : ""}`}>
+                  {onToggleChecked && <input type="checkbox" className="checkbox checkbox-sm my-auto ml-3 shrink-0"
+                    aria-label={`選取考卷 ${exam.title}`} checked={checkedIds.includes(exam.id)} disabled={!exam.available}
+                    onChange={() => onToggleChecked(exam.id)} />}
                   <button
                     type="button"
                     className="btn btn-ghost btn-sm btn-square my-auto ml-1 shrink-0"

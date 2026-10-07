@@ -1,5 +1,4 @@
 import { isSafeRelativePath } from "./buildCatalog";
-import { isSameOriginRequest } from "./fileAccess";
 import { contentDisposition, contentTypeFor, EXAM_FILE_SECURITY_HEADERS } from "./fileResponse";
 import type { ExamFileEntry } from "./examIndex";
 
@@ -19,8 +18,6 @@ export interface ExamFileHandlerDeps {
   source: ExamFileSource;
 }
 
-export const FORBIDDEN_MESSAGE = "請從考古題頁面開啟這份考卷。";
-
 function textResponse(status: number, text: string): Response {
   return new Response(text, {
     status,
@@ -28,7 +25,7 @@ function textResponse(status: number, text: string): Response {
   });
 }
 
-/** /exams/<relative_path>：只提供 catalog 裡已下載的題目卷與解答卷，而且只給本站頁面。 */
+/** /exams/<relative_path>：只提供 catalog 裡已下載的題目卷與解答卷，允許公開直連。 */
 export async function handleExamFileRequest(
   request: Request,
   segments: readonly string[],
@@ -38,7 +35,6 @@ export async function handleExamFileRequest(
   if (!isSafeRelativePath(file)) return textResponse(404, "找不到這份考卷。");
   const entry = findFile(file);
   if (!entry) return textResponse(404, "找不到這份考卷。");
-  if (!isSameOriginRequest(request.headers, request.url)) return textResponse(403, FORBIDDEN_MESSAGE);
 
   const result = await source.read(file, request.headers.get("if-none-match"));
   if (result.status === 404) return textResponse(404, "找不到這份考卷。");

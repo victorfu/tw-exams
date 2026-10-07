@@ -9,6 +9,7 @@ type EditorMode = "question" | "mask";
 
 interface CropEditorToolbarProps {
   title: string;
+  embedded?: boolean;
   returnTo?: string;
   onRename: (title: string) => void;
   mode: EditorMode;
@@ -41,6 +42,7 @@ function SaveStatus({ status, onRetry }: { status: AutosaveStatus; onRetry: () =
 
 export function CropEditorToolbar({
   title,
+  embedded = false,
   returnTo = "/my-exams",
   onRename,
   mode,
@@ -69,11 +71,11 @@ export function CropEditorToolbar({
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap items-center gap-2">
-        <Link href={returnTo} scroll={false} className="btn btn-ghost btn-sm" aria-label="返回自製考卷">
+        {!embedded && <Link href={returnTo} scroll={false} className="btn btn-ghost btn-sm" aria-label="返回自製考卷">
           <ArrowLeft className="size-4" />
-        </Link>
+        </Link>}
         <input
-          className="input input-sm min-w-0 flex-1 font-semibold"
+          className={`input input-sm min-w-0 font-semibold ${embedded ? "w-full flex-none" : "flex-1"}`}
           aria-label="來源標題"
           value={draft}
           onFocus={() => {

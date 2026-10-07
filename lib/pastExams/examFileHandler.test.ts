@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { readOutputCatalog } from "../../scripts/examCatalog";
 import { writeFakeOutput } from "../../testing/fakeExamOutput";
-import { FORBIDDEN_MESSAGE, handleExamFileRequest, type ExamFileHandlerDeps } from "./examFileHandler";
+import { handleExamFileRequest, type ExamFileHandlerDeps } from "./examFileHandler";
 import { createExamFileLookup, type ExamFileEntry } from "./examIndex";
 import { blobExamFileSource, examFileSourceFromEnv, localExamFileSource, type GetPrivateBlob } from "./fileSources";
 
@@ -116,16 +116,14 @@ describe("handleExamFileRequest with output/", () => {
     [{ "sec-fetch-site": "none" }],
     [{ referer: "https://evil.example/page" }],
     [{}],
-  ])("refuses requests that do not come from the site's own pages (%o)", async (headers) => {
-    const read = vi.fn();
-    const response = await handleExamFileRequest(request("pdf/ds/a.pdf", headers), ["pdf", "ds", "a.pdf"], {
-      findFile,
-      source: { cacheControl: "no-store", read },
-    });
-
-    expect(response.status).toBe(403);
-    expect(await response.text()).toBe(FORBIDDEN_MESSAGE);
-    expect(read).not.toHaveBeenCalled();
+  ])("serves catalogued files for external and direct requests (%o)", async (headers) => {
+    for (const segments of [["pdf", "ds", "a.pdf"], ["pdf", "ds", "answers", "a.pdf"]]) {
+      const response = await handleExamFileRequest(request(segments.join("/"), headers), segments, localDeps());
+      expect(response.status).toBe(200);
+      expect(await response.text()).toMatch(/^%PDF-/);
+      expect(response.headers.get("x-robots-tag")).toBe("noindex, nofollow");
+      expect(response.headers.get("access-control-allow-origin")).toBeNull();
+    }
   });
 });
 

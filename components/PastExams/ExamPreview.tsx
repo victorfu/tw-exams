@@ -1,18 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight, Download, ExternalLink, FilePlus2, FileText, X } from "lucide-react";
+import { useCallback, useEffect, useImperativeHandle, useRef, useState, type ReactNode, type Ref } from "react";
+import { ChevronLeft, ChevronRight, Download, ExternalLink, ScanLine, FileText, X } from "lucide-react";
 import { downloadFileName } from "../../lib/pastExams/fileResponse";
 import { examFileUrl } from "../../lib/pastExams/fileUrl";
 import { UNKNOWN } from "../../lib/pastExams/filters";
 import type { ExamFileRole, PastExam, PastExamCollection } from "../../lib/pastExams/types";
 import { logger } from "../../utils/logger";
-import { canImportPastExam, importPastExam, PastExamImportError } from "../MyExams/importPastExam";
+import { canImportPastExam, findPastExamSource, importPastExam, PastExamImportError } from "../MyExams/importPastExam";
+import { getSource } from "../../services/questionSourceService";
+import { listQuestionsForSource } from "../../services/bankQuestionService";
+import type { BankQuestion, QuestionSource } from "../../types/questionBank";
+import { CropEditorWorkspace, type CropEditorHandle } from "../MyExams/CropEditorWorkspace";
+import { addPickedQuestion, removePickedQuestion, syncPickedQuestions, usePastExamSelection } from "./selectionState";
 import { PdfViewer } from "./PdfViewer";
 import { SegmentButton } from "./SegmentButton";
 
+export interface ExamPreviewHandle { flush: () => Promise<boolean> }
+
 interface ExamPreviewProps {
+  ref?: Ref<ExamPreviewHandle>;
+  onEditingChange?: (editing: boolean) => void;
   exam: PastExam | null;
   /** 看題目卷或解答卷；沒有解答卷時一律是題目卷。 */
   view: ExamFileRole;
@@ -28,6 +36,8 @@ interface ExamPreviewProps {
 
 /** PDF 用 pdf.js 畫在頁面上（桌機、手機相同）；Word 只能下載。有解答卷時可切換題目／解答。 */
 export function ExamPreview({
+  ref,
+  onEditingChange,
   exam,
   view,
   onViewChange,
@@ -38,7 +48,24 @@ export function ExamPreview({
   onNext,
   onClose,
 }: ExamPreviewProps) {
+  const editor = useRef<CropEditorHandle>(null);
+  const selection = usePastExamSelection();
   const pastExamImport = usePastExamImport(exam, collection);
+  const [saveError, setSaveError] = useState(false);
+  const editing = pastExamImport.editing;
+  useEffect(() => { onEditingChange?.(editing); }, [editing, onEditingChange]);
+  const flush = useCallback(async () => {
+    const ok = await (editor.current?.flush() ?? Promise.resolve(true));
+    setSaveError(!ok);
+    return ok;
+  }, []);
+  useImperativeHandle(ref, () => ({ flush }), [flush]);
+  const syncQuestions = useCallback((source: QuestionSource, questions: readonly BankQuestion[]) => {
+    syncPickedQuestions(source.id, questions, source.title);
+  }, []);
+  const browse = async () => {
+    if (await flush()) pastExamImport.stop();
+  };
 
   if (!exam) {
     return (
@@ -49,7 +76,7 @@ export function ExamPreview({
     );
   }
 
-  const role: ExamFileRole = view === "answer" && exam.answer ? "answer" : "question";
+  const role: ExamFileRole = !editing && view === "answer" && exam.answer ? "answer" : "question";
   const shown = role === "answer" && exam.answer ? exam.answer : exam;
   const url = examFileUrl(shown.file);
   const downloadUrl = examFileUrl(shown.file, { download: true });
@@ -58,7 +85,7 @@ export function ExamPreview({
 
   return (
     <div className="surface-card flex h-full flex-col overflow-hidden md:rounded-xl">
-      <header className="flex items-center gap-2 border-b border-border-hairline px-2 py-2 sm:px-3">
+      <header className="flex flex-wrap items-center gap-2 border-b border-border-hairline px-2 py-2 sm:px-3">
         <button type="button" className={`${iconButton} md:hidden`} aria-label="關閉預覽" onClick={onClose}>
           <X className="size-5" aria-hidden="true" />
         </button>
@@ -72,7 +99,7 @@ export function ExamPreview({
             {shown.pages !== null && ` · ${shown.pages} 頁`}
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-1">
+        <div className="flex w-full shrink-0 items-center justify-end gap-1 xl:w-auto">
           <button type="button" className={iconButton} aria-label="上一份" title="上一份（←）" disabled={!hasPrevious} onClick={onPrevious}>
             <ChevronLeft className="size-5" aria-hidden="true" />
           </button>
@@ -85,7 +112,7 @@ export function ExamPreview({
             </a>
           )}
           {collection && canImportPastExam(exam, collection) && (
-            <ImportButton progress={pastExamImport.progress} onClick={pastExamImport.start} />
+            <ImportButton progress={pastExamImport.progress} editing={editing} onClick={editing ? () => void browse() : pastExamImport.start} />
           )}
           <a href={downloadUrl} download={fileName} className="btn btn-sm" title={role === "answer" ? "下載解答" : "下載"}>
             <Download className="size-4" aria-hidden="true" />
@@ -93,7 +120,7 @@ export function ExamPreview({
           </a>
         </div>
       </header>
-      {exam.answer && (
+      {exam.answer && !editing && (
         <div className="flex items-center border-b border-border-hairline px-2 py-1.5 sm:px-3">
           <div role="group" aria-label="題目或解答" className="join">
             <SegmentButton label="題目" pressed={role === "question"} onClick={() => onViewChange("question")} />
@@ -106,7 +133,20 @@ export function ExamPreview({
           {pastExamImport.error}
         </p>
       )}
-      <div className="min-h-0 flex-1 bg-base-200">
+      {saveError && <p role="alert" className="p-3 text-sm text-error">儲存失敗，請重試後再離開。<button className="btn btn-xs ml-2" onClick={() => void flush()}>重試保存</button></p>}
+      <div className="min-h-0 flex-1 overflow-auto bg-base-200">
+        {editing && pastExamImport.ready ? <div className="p-3"><CropEditorWorkspace
+          key={pastExamImport.ready.source.id}
+          ref={editor}
+          embedded
+          source={pastExamImport.ready.source}
+          initialQuestions={pastExamImport.ready.questions}
+          selectedIds={selection.questions.map((item) => item.question.id)}
+          onQuestionCreated={(question, source) => addPickedQuestion(question, source.title)}
+          onQuestionsChange={syncQuestions}
+          onPick={(question, source) => selection.questions.some((item) => item.question.id === question.id)
+            ? removePickedQuestion(question.id) : addPickedQuestion(question, source.title)}
+        /></div> : <>
         {shown.format === "pdf" ? (
           <PdfViewer url={url} title={role === "answer" ? `${exam.title}（解答）` : exam.title} />
         ) : (
@@ -117,6 +157,7 @@ export function ExamPreview({
             </a>
           </FileNotice>
         )}
+        </>}
       </div>
     </div>
   );
@@ -132,83 +173,65 @@ interface ImportState {
   examId: string;
   progress: ImportProgress | null;
   error: string | null;
+  ready: { source: QuestionSource; questions: BankQuestion[] } | null;
 }
 
-/**
- * 把目前這份考卷匯入自製考卷，完成後跳到框題頁。
- * 換考卷或卸載時中斷進行中的匯入：不再跳頁，也不顯示它的結果。
- * 自製考卷的資料只在這個分頁的記憶體裡，所以一定要用 router.push，不能整頁重新載入。
- */
+/** 準備資料時仍留在原頁；換卷、取消、卸載後不套用舊結果。 */
 function usePastExamImport(exam: PastExam | null, collection: PastExamCollection | null) {
-  const router = useRouter();
   const [state, setState] = useState<ImportState | null>(null);
   const controllerRef = useRef<AbortController | null>(null);
   const examId = exam?.id ?? null;
+  useEffect(() => () => {
+    controllerRef.current?.abort();
+    controllerRef.current = null;
+    setState(null);
+  }, [examId]);
 
-  useEffect(
-    () => () => {
-      controllerRef.current?.abort();
-      controllerRef.current = null;
-      setState(null);
-    },
-    [examId],
-  );
-
+  const stop = () => {
+    controllerRef.current?.abort();
+    controllerRef.current = null;
+    setState(null);
+  };
   const start = async () => {
-    // ref 同步更新，連點兩下也只會匯入一次
     if (!exam || !collection || controllerRef.current) return;
     const controller = new AbortController();
     controllerRef.current = controller;
     const update = (next: Omit<ImportState, "examId">) => {
       if (!controller.signal.aborted) setState({ examId: exam.id, ...next });
     };
-    update({ progress: { done: 0, total: 0 }, error: null });
+    update({ progress: { done: 0, total: 0 }, error: null, ready: null });
     try {
-      const sourceId = await importPastExam({
-        exam,
-        collection,
-        signal: controller.signal,
-        onProgress: (done, total) => update({ progress: { done, total }, error: null }),
+      const existing = await findPastExamSource(exam);
+      if (controller.signal.aborted) return;
+      const sourceId = existing?.id ?? await importPastExam({
+        exam, collection, signal: controller.signal,
+        onProgress: (done, total) => update({ progress: { done, total }, error: null, ready: null }),
       });
       if (controller.signal.aborted) return;
-      router.push(`/my-exams/sources/${sourceId}`);
+      const source = existing ?? await getSource(sourceId);
+      const questions = await listQuestionsForSource(sourceId);
+      if (!source) throw new Error("Missing prepared source");
+      update({ progress: null, error: null, ready: { source, questions } });
     } catch (error) {
       if (controller.signal.aborted) return;
-      if (!(error instanceof PastExamImportError)) logger.error("[ExamPreview] import failed", error);
-      update({ progress: null, error: error instanceof PastExamImportError ? error.message : "匯入失敗，請重試" });
+      if (!(error instanceof PastExamImportError)) logger.error("[ExamPreview] preparation failed", error);
+      update({ progress: null, error: error instanceof PastExamImportError ? error.message : "準備失敗，請重試", ready: null });
     } finally {
       if (controllerRef.current === controller) controllerRef.current = null;
     }
   };
-
   const current = state?.examId === examId ? state : null;
-  return { progress: current?.progress ?? null, error: current?.error ?? null, start: () => void start() };
+  return { progress: current?.progress ?? null, error: current?.error ?? null, ready: current?.ready ?? null,
+    editing: !!(current?.ready || current?.progress), start: () => void start(), stop };
 }
 
-function ImportButton({ progress, onClick }: { progress: ImportProgress | null; onClick: () => void }) {
+function ImportButton({ progress, editing, onClick }: { progress: ImportProgress | null; editing: boolean; onClick: () => void }) {
   const counter = progress && progress.total > 0 ? `${progress.done}/${progress.total}` : "";
-  const label = progress ? `匯入中${counter ? ` ${counter}` : "…"}` : "匯入自製考卷";
-  return (
-    <button
-      type="button"
-      data-import-exam
-      className="btn btn-sm"
-      aria-label={label}
-      title={progress ? label : "匯入自製考卷，框出題目後就能組卷"}
-      aria-busy={progress !== null}
-      disabled={progress !== null}
-      onClick={onClick}
-    >
-      {progress ? (
-        <span className="loading loading-spinner loading-xs" aria-hidden="true" />
-      ) : (
-        <FilePlus2 className="size-4" aria-hidden="true" />
-      )}
-      {/* 手機上只留圖示；匯入中仍顯示頁數進度 */}
-      {progress && counter && <span className="sm:hidden">{counter}</span>}
-      <span className="hidden sm:inline">{label}</span>
-    </button>
-  );
+  const label = progress ? `準備中${counter ? ` ${counter}` : "…"}・取消` : editing ? "返回瀏覽" : "框選題目";
+  return <button type="button" data-import-exam className="btn btn-sm" aria-label={label} aria-pressed={editing} onClick={onClick}>
+    {progress ? <span className="loading loading-spinner loading-xs" aria-hidden="true" /> : <ScanLine className="size-4" aria-hidden="true" />}
+    <span>{label}</span>
+  </button>;
 }
 
 function FileNotice({ message, children }: { message: string; children: ReactNode }) {
