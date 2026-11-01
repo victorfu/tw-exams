@@ -11,6 +11,7 @@
     "start": "next start -p 6789",
     "lint": "eslint",
     "test": "vitest run",
+    "test:seo": "node scripts/check-seo.mjs",
     "catalog": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-exam-catalog.ts",
     "predev": "npm run catalog && npm run pdfjs-assets",
     "prebuild": "npm run catalog && npm run pdfjs-assets",

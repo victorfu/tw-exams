@@ -22,6 +22,7 @@ export function pageMetadata({ title, description, path }: PageSeo): Metadata {
     description,
     alternates: { canonical: path },
     openGraph: { type: "website", locale: "zh_TW", siteName: SITE_NAME, title, description, url: path, images: [OG_IMAGE] },
+    twitter: { card: "summary_large_image", title, description, images: [OG_IMAGE] },
   };
 }
 

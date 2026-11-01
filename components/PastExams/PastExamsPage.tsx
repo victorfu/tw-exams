@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { collectionPath } from "../../lib/pastExams/collectionPage";
+import { examPath } from "../../lib/pastExams/examPage";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Clock3, Sparkles, Star } from "lucide-react";
 import { isEditableTarget } from "../MyExams/editorKeyboard";
@@ -236,6 +238,11 @@ export default function PastExamsPage({ catalog }: { catalog: PastExamCatalog })
             </span>
             <span>（{collection.publisherLabel}），共 {collectionExams.length} 份</span>
           </p>
+          <nav aria-label="考古題資料與說明" className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-accent">
+            <Link href={collectionPath(collection)} className="hover:underline">本版本完整目錄</Link>
+            {selected && <Link prefetch={false} href={examPath(selected)} className="hover:underline">本卷詳情與來源</Link>}
+            <Link href="/guides/practice-sheets" className="hover:underline">使用指南</Link>
+          </nav>
         </header>
 
         <CollectionPicker

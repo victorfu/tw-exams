@@ -54,6 +54,8 @@ export interface PastExam {
   answer: PastExamAnswer | null;
   /** cowork 已正規化過的搜尋字串（NFKC、小寫、臺→台、年級別名）。 */
   searchText: string;
+  /** 原始目錄的出處；不把收錄時間當成考卷出版或更新日期。 */
+  source?: { url: string | null; provider: string | null; collectedAt: string | null };
 }
 
 /** `data/pastExams.json` 的內容。 */

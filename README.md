@@ -46,7 +46,7 @@
 
 **保存範圍：** 題庫、頁圖、框題、自製考卷與本次選取都只存在目前分頁記憶體；重新整理或另開分頁即清除，不會跨裝置保存。
 
-目前收錄五年級上學期的國語（翰林）、數學（南一）、英語（康軒、翰林、何嘉仁、南一）、自然（康軒）、社會（翰林），共 852 份。考卷檔只提供給本站頁面，直接開網址或從其他網站連結都會被拒絕。
+目前收錄五年級上學期的國語（翰林）、數學（南一）、英語（康軒、翰林、何嘉仁、南一）、自然（康軒）、社會（翰林），共 852 份。各考卷都有可分享的公開詳情頁，列出來源、收錄日期、解答狀態與下載連結；考卷檔可公開直連，但限 catalog 白名單中的檔案。
 
 ### 自製考卷
 
@@ -83,6 +83,9 @@ npm run build
 | `/privacy` | 隱私權政策 |
 | `/terms` | 服務條款 |
 | `/past-exams` | 考古題：挑選資料集、篩選、預覽 |
+| `/past-exams/[collection]` | 可索引的版本分類目錄 |
+| `/past-exams/[collection]/[exam]` | 可索引的考卷詳情、來源與下載（exam 是含 provider 前綴的 record ID） |
+| `/guides/practice-sheets` | 找考卷、解答與自製練習卷指南 |
 | `/exams/[...path]` | 公開考卷直連（catalog 白名單） |
 | `/my-exams` | 題庫、上傳紀錄、考卷三個分頁 |
 | `/my-exams/sources/[id]` | 框題：框題目、遮蓋、答案與作答留白（自動儲存） |
@@ -137,3 +140,4 @@ git push                            # Vercel 自動 build
 
 - 考古題資料格式：[output/metadata-format.md](output/metadata-format.md)
 - 設計與實作計畫：[docs/plans/](docs/plans/)
+- SEO／GEO 索引規則與部署驗證：[docs/seo-geo.md](docs/seo-geo.md)

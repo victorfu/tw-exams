@@ -7,6 +7,7 @@ describe("pageMetadata", () => {
       title: "考古題",
       description: "說明",
       alternates: { canonical: "/past-exams" },
+      twitter: { card: "summary_large_image", title: "考古題", description: "說明", images: [OG_IMAGE] },
       openGraph: {
         type: "website",
         locale: "zh_TW",

@@ -10,6 +10,7 @@ import {
   summarizeCollection,
 } from "@/lib/pastExams/collectionPage";
 import { gradeLabel } from "@/lib/pastExams/labels";
+import { examHeading, examPath } from "@/lib/pastExams/examPage";
 import { pageMetadata } from "@/lib/seo";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
 
@@ -51,7 +52,13 @@ export default async function Page({ params }: PageProps<"/past-exams/[collectio
         educationalLevel: `國小${gradeLabel(collection.grade)}`,
         audience: { "@type": "EducationalAudience", educationalRole: ["student", "parent", "teacher"] },
         isAccessibleForFree: true,
-        mainEntity: { "@type": "ItemList", name: heading, numberOfItems: exams.length },
+        mainEntity: {
+          "@type": "ItemList", name: heading, numberOfItems: exams.length,
+          itemListElement: exams.map((exam, index) => ({
+            "@type": "ListItem", position: index + 1,
+            name: examHeading(exam, collection), url: absoluteUrl(examPath(exam)),
+          })),
+        },
       },
       {
         "@type": "BreadcrumbList",

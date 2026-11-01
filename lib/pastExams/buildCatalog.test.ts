@@ -72,6 +72,16 @@ function makeRecord(
 }
 
 describe("buildCatalog", () => {
+  it("preserves source provenance without inventing publication dates", () => {
+    const result = buildCatalog(makeInfo(), [makeRecord({ source: { provider: "tcool", collected_at: "2026-09-26T10:25:49+08:00" } })]);
+    expect(result.exams[0].source).toEqual({ url: "https://tcool.cc/d/q/20002871b5148af7683e.pdf", provider: "tcool", collectedAt: "2026-09-26T02:25:49.000Z" });
+  });
+
+  it.each(["javascript:alert(1)", "data:text/html,x", "/relative.pdf", "https://user:pass@example.com/x", "broken"])("does not publish unsafe source URLs: %s", (url) => {
+    const exam = buildCatalog(makeInfo(), [makeRecord({ source: { collected_at: "not a date" } }, { source_url: url })]).exams[0];
+    expect(exam.source).toEqual({ url: null, provider: null, collectedAt: null });
+  });
+
   it("keeps only the fields the page needs", () => {
     expect(buildCatalog(makeInfo(), [makeRecord()])).toEqual({
       generatedAt: "2026-09-25T21:28:57.830696+08:00",
@@ -107,6 +117,7 @@ describe("buildCatalog", () => {
           available: true,
           answer: null,
           searchText: "114上|新北市 安和國小|5年級數學|南一|期末考 五上",
+          source: { url: "https://tcool.cc/d/q/20002871b5148af7683e.pdf", provider: "tcool", collectedAt: null },
         },
       ],
     });
