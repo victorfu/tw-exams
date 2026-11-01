@@ -4,8 +4,8 @@ import { writeUrlState, type PastExamsUrlState } from "./searchParams";
 import type { PastExam, PastExamCatalog, PastExamCollection } from "./types";
 
 /**
- * 資料集的落地頁（`/past-exams/[collection]`）：給搜尋引擎看的靜態清單，
- * 每份考卷連到 `/past-exams` 的預覽。
+ * 資料集的落地頁（`/past-exams/[collection]`）：可索引的靜態清單，
+ * 每份考卷連到公開詳情，也能直接進 `/past-exams` 預覽。
  */
 export function collectionPath(collection: Pick<PastExamCollection, "id">): string {
   return `/past-exams/${collection.id}`;

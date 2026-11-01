@@ -48,6 +48,7 @@ export interface CatalogRecord {
   answer_file?: CatalogAnswerFile | null;
   answer_downloaded?: boolean;
   search_text: string;
+  source?: { provider?: string; collected_at?: string; [key: string]: unknown };
   [key: string]: unknown;
 }
 
@@ -66,6 +67,17 @@ export class CatalogError extends Error {
 
 const FORMATS: Record<string, PastExamFormat> = { pdf: "pdf", doc: "word", docx: "word" };
 const EXAM_TYPES: readonly string[] = ["midterm", "final"] satisfies PastExamType[];
+
+/** 出處會成為公開連結；不接受執行腳本、相對路徑或含帳密的網址。 */
+function sourceUrl(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  try {
+    const url = new URL(value);
+    return ["https:", "http:"].includes(url.protocol) && !url.username && !url.password ? url.href : null;
+  } catch {
+    return null;
+  }
+}
 
 /** 每行一筆 JSON；空行略過。解析失敗時報出行號（從 1 起算）。 */
 export function parseCatalogJsonl(text: string): CatalogRecord[] {
@@ -173,6 +185,12 @@ export function buildCatalog(info: CatalogInfo, records: readonly CatalogRecord[
       answer: buildAnswer(record, where),
       // cowork 已經把「臺」寫成「台」；這裡再折疊一次，頁面搜尋就不必每次重做。
       searchText: record.search_text.replaceAll("臺", "台"),
+      source: {
+        url: sourceUrl(file.source_url),
+        provider: typeof record.source?.provider === "string" ? record.source.provider : null,
+        collectedAt: record.source?.collected_at && Number.isFinite(Date.parse(record.source.collected_at))
+          ? new Date(record.source.collected_at).toISOString() : null,
+      },
     };
   });
 

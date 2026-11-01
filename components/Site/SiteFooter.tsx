@@ -14,6 +14,9 @@ export function SiteFooter() {
           <span>・免費的國小考卷工具</span>
         </div>
         <nav aria-label="網站資訊" className="flex flex-wrap gap-x-5 gap-y-2">
+          <Link href="/guides/practice-sheets" className={link}>
+            使用指南
+          </Link>
           <Link href="/privacy" className={link}>
             隱私權政策
           </Link>

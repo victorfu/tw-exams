@@ -7,10 +7,11 @@ import {
   type CollectionSummary,
 } from "../../lib/pastExams/collectionPage";
 import { UNKNOWN } from "../../lib/pastExams/filters";
+import { examPath } from "../../lib/pastExams/examPage";
 
 /**
  * 資料集落地頁：整份清單直接畫成 HTML（搜尋引擎、AI 摘要讀得到），
- * 點考卷才進 `/past-exams` 的預覽工具。
+ * 考卷詳情與直接預覽都有一般連結，不需 JavaScript 才能發現。
  */
 export function CollectionLanding({ summary }: { summary: CollectionSummary }) {
   const { collection, heading, exams, groups, answers, schools, cities, academicYears, related } = summary;
@@ -45,7 +46,7 @@ export function CollectionLanding({ summary }: { summary: CollectionSummary }) {
         <h1 className="text-3xl leading-tight sm:text-4xl">{heading}</h1>
         <p className="mt-4 max-w-3xl leading-relaxed text-muted-foreground">
           整理 {academicYears.join("、") || "歷年"} 學年度各縣市國小的{collection.subjectLabel}段考考卷，
-          使用{collection.publisherLabel}版教材的班級都適用。點考卷就能在網頁上預覽 PDF、切換解答、下載，
+          可供使用{collection.publisherLabel}版教材的班級參考，練習前請核對學校的考試範圍。點考卷可查看來源與檔案資訊，再預覽 PDF、切換解答、下載，
           或匯入自製考卷重新組一份練習卷。
         </p>
         <dl className="mt-6 grid max-w-xl grid-cols-4 gap-4">
@@ -93,10 +94,11 @@ export function CollectionLanding({ summary }: { summary: CollectionSummary }) {
           </h2>
           <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {group.exams.map((exam) => (
-              <li key={exam.id}>
+              <li key={exam.id} className="flex flex-col">
                 <Link
-                  href={pastExamsToolHref(collection, { examId: exam.id })}
-                  className="surface-card flex h-full flex-col gap-1 rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-accent-tint"
+                  href={examPath(exam)}
+                  prefetch={false}
+                  className="surface-card flex flex-1 flex-col gap-1 rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-accent-tint"
                 >
                   <span className="font-medium">
                     {exam.city ?? UNKNOWN} {exam.school ?? ""}
@@ -107,6 +109,14 @@ export function CollectionLanding({ summary }: { summary: CollectionSummary }) {
                     {exam.format === "word" ? "・Word" : ""}
                     {exam.answer ? "・附解答" : ""}
                   </span>
+                </Link>
+                <Link
+                  prefetch={false}
+                  href={pastExamsToolHref(collection, { examId: exam.id })}
+                  className="mt-1 inline-block px-4 text-sm text-accent hover:underline"
+                  aria-label={`${exam.title}：${exam.format === "pdf" ? "直接預覽" : "開啟工具"}`}
+                >
+                  {exam.format === "pdf" ? "直接預覽" : "開啟工具"}
                 </Link>
               </li>
             ))}
