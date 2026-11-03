@@ -52,13 +52,13 @@ export function ExamList({
               const selected = exam.id === selectedId;
               const favorite = favoriteIds.has(exam.id);
               return (
-                <li key={exam.id} className={`flex items-stretch ${selected ? "bg-accent-tint" : ""}`}>
-                  {onToggleChecked && <input type="checkbox" className="checkbox checkbox-sm my-auto ml-3 shrink-0"
+                <li key={exam.id} className={`flex items-start ${selected ? "bg-accent-tint" : ""}`}>
+                  {onToggleChecked && <input type="checkbox" className="checkbox checkbox-sm mt-3.5 ml-3 shrink-0"
                     aria-label={`選取考卷 ${exam.title}`} checked={checkedIds.includes(exam.id)} disabled={!exam.available}
                     onChange={() => onToggleChecked(exam.id)} />}
                   <button
                     type="button"
-                    className="btn btn-ghost btn-sm btn-square my-auto ml-1 shrink-0"
+                    className="btn btn-ghost btn-sm btn-square mt-2 ml-1 shrink-0"
                     aria-label={favorite ? `取消收藏 ${exam.school ?? UNKNOWN}` : `收藏 ${exam.school ?? UNKNOWN}`}
                     aria-pressed={favorite}
                     title={favorite ? "取消收藏" : "收藏"}
@@ -73,29 +73,32 @@ export function ExamList({
                     aria-current={selected ? "true" : undefined}
                     disabled={!exam.available}
                     onClick={() => onSelect(exam)}
-                    className={`flex min-w-0 flex-1 scroll-mt-14 items-center gap-2 px-2 py-2.5 text-left transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-45 ${
+                    className={`flex min-w-0 flex-1 scroll-mt-14 flex-col items-stretch gap-2 px-2 py-3 text-left transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-45 ${
                       selected ? "" : "enabled:hover:bg-base-200"
                     }`}
                   >
-                    <span className="min-w-0 flex-1">
-                      <span data-school className={`block truncate font-medium ${selected ? "text-accent" : ""}`}>
+                    <span className="min-w-0">
+                      <span data-school className={`block wrap-anywhere font-medium ${selected ? "text-accent" : ""}`}>
                         {exam.school ?? UNKNOWN}
                       </span>
-                      <span className="block truncate text-xs text-base-content/60">
+                      <span className="block wrap-anywhere text-xs text-base-content/60">
                         {exam.city ?? UNKNOWN}
                         {exam.pages !== null && ` · ${exam.pages} 頁`}
                       </span>
                     </span>
-                    {recentIds.has(exam.id) && (
-                      <span className="badge badge-ghost badge-sm shrink-0">最近</span>
-                    )}
-                    <span className="badge badge-ghost badge-sm shrink-0">{exam.periodLabel}</span>
-                    {exam.answer && (
-                      <span className="badge badge-soft badge-success badge-sm shrink-0" title="有解答卷">
-                        解答
-                      </span>
-                    )}
-                    <FormatBadge exam={exam} />
+                    {/* 桌面側欄也很窄：標籤另起一排，依清單可用寬度換行。 */}
+                    <span className="flex min-w-0 flex-wrap items-center gap-1.5">
+                      {recentIds.has(exam.id) && (
+                        <span className="badge badge-ghost badge-sm shrink-0">最近</span>
+                      )}
+                      <span className="badge badge-ghost badge-sm shrink-0">{exam.periodLabel}</span>
+                      {exam.answer && (
+                        <span className="badge badge-soft badge-success badge-sm shrink-0" title="有解答卷">
+                          解答
+                        </span>
+                      )}
+                      <FormatBadge exam={exam} />
+                    </span>
                   </button>
                 </li>
               );
